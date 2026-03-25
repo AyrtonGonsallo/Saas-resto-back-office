@@ -1,0 +1,10 @@
+<div class="container-fluid email-wrap bookmark-wrap">
+    <div class="row">
+        <div class="col-xl-3 box-col-6">
+            <app-bookmark-sidemenu (activeTabValue)="getTab($event)" />
+        </div>
+        <div class="col-xl-9 col-md-12 box-col-12">
+            <app-bookmark-data [activeTab]="activeTab" />
+        </div>
+    </div>
+</div>

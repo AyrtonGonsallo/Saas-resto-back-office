@@ -1,0 +1,20 @@
+<div class="card">
+    <div class="card-header pb-0">
+        <h4>Different tag accordion</h4>
+        <p class="desc mb-0 mt-1">
+            <span>you can also use a link with the href
+                attribute</span><code>(role=&quot;button&quot;), data-bs-toggle=&quot;collapse&quot;</code><span>is
+                required.
+            </span>
+        </p>
+    </div>
+    <div class="card-body">
+        <p class="mb-2 common-flex"><a class="btn btn-info" (click)="toggle()">Link with href</a>
+            <button class="btn btn-info" type="button" (click)="open()">Button with data-bs-target</button>
+        </p>
+        <div class="collapse" [class.show]="togglecollpese">
+            <div class="card card-body default-border mb-0">Some placeholder content for the collapse component. This
+                panel is hidden by default but revealed when the user activates the relevant trigger.</div>
+        </div>
+    </div>
+</div>

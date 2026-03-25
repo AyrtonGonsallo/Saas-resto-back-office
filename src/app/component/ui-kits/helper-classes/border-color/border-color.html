@@ -1,0 +1,17 @@
+<div class="card">
+    <div class="card-header pb-0">
+        <h4>Border color</h4>
+        <p class="desc mb-0 mt-1"><span>Use all direction</span><code>.b-t-*/ .b-b-*/ .b-l-*/ .b-r-*</code><span>border
+                components.</span></p>
+    </div>
+    <div class="card-body">
+        <div class="gradient-border">
+            @for(color of borderColorData; track color ){
+            <div class="helper-common-box">
+                <div class="helper-box {{color.class}} solid-border fill-wrapper"></div>
+                <span>{{color.title}}</span>
+            </div>
+            }
+        </div>
+    </div>
+</div>

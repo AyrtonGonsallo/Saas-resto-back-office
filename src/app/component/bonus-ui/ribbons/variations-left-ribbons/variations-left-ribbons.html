@@ -1,0 +1,28 @@
+<div class="card">
+    <div class="card-header pb-0">
+        <h4>Variations Of Left Ribbons</h4>
+        <p class="desc mb-0 mt-1"><span>Use the class
+                of</span><code> .ribbon-* / [.ribbon-*] </code><span>[ribbon-space-bottom/ribbon-clip/ribbon-vertical-left/ribbon-bookmark/ribbon-clip-bottom/ribbon-vertical-left]
+                through create ribbons and all ribbon colors are available.</span>
+        </p>
+    </div>
+    <div class="card-body">
+        <div class="row g-3">
+            @for(leftribbonsitem of leftRibbonsData; track leftribbonsitem){
+            <div class="col-sm-6 col-xl-4">
+                <div class="{{leftribbonsitem.class}}">
+                    <div class="{{leftribbonsitem.color}}">
+                        @if(leftribbonsitem.icon){
+                        <svg class="ticket-star-icon">
+                            <use attr.xlink:href="assets/svg/iconly-sprite.svg#{{leftribbonsitem.icon}}"></use>
+                        </svg>
+                        }
+                        {{leftribbonsitem.info}}
+                    </div>
+                    <p [innerHTML]="leftribbonsitem.dis"></p>
+                </div>
+            </div>
+            }
+        </div>
+    </div>
+</div>

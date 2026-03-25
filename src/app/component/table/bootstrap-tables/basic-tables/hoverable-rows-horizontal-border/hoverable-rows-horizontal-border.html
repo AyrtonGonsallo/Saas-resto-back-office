@@ -1,0 +1,39 @@
+<div class="card">
+    <div class="card-header">
+        <h4>Hoverable Rows With Horizontal Border</h4>
+        <p class="desc mb-0 mt-1"><span>Hoverable row use a
+                class</span><code>table-hover-*.table-border-horizontal-*.border-solid-*</code><span>class.</span></p>
+    </div>
+    <div class="table-responsive signal-table">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Signal Name </th>
+                    <th scope="col">Security</th>
+                    <th scope="col">Stage</th>
+                    <th scope="col">Schedule</th>
+                    <th scope="col">Team Lead</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for( table of hoverble; track table){
+                <tr>
+                    <th scope="row">{{table.id}}</th>
+                    <td class="d-flex align-items-center gap-2">
+                        <app-feather-icon [icon]="table.icon"
+                            class="bg-light-{{table.class}} font-{{table.class}}" />
+                        <span class="font-{{table.class}}">{{table.status}}</span>
+                    </td>
+                    <td>{{table.signal}}</td>
+                    <td>{{table.security}}</td>
+                    <td>{{table.stage}}</td>
+                    <td>{{table.schedule}} </td>
+                    <td>{{table.teamLead}}</td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

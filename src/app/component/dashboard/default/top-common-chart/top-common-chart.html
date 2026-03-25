@@ -1,0 +1,30 @@
+<div class="card client-card card-hover">
+  <div class="card-body">
+    <div class="row">
+      <div class="col-6 custom-width-1">
+        <h3 class="font-{{data()?.class}}">{{data()?.number}}</h3>
+        <h5 class="f-w-600">{{data()?.title}}</h5>
+      </div>
+      <div class="col-6 custom-width-2">
+        <div class="client">
+          <apx-chart
+            [series]="data()?.series ?? []"
+            [chart]="data()?.chart ?? { type: 'line', height: 50 }"
+            [stroke]="data()?.stroke ?? {}"
+            [colors]="data()?.colors ?? []"
+            [fill]="data()?.fill ?? {}"
+            [plotOptions]="data()?.plotOptions ?? {}"
+            [dataLabels]="data()?.dataLabels ?? {}"
+            [markers]="data()?.markers ?? {}"
+            [legend]="data()?.legend ?? {}"
+            [grid]="data()?.grid ?? {}"
+            [yaxis]="data()?.yaxis ?? {}"
+            [xaxis]="data()?.xaxis ?? {}"
+            [responsive]="data()?.responsive ?? []"
+            [tooltip]="data()?.tooltip ?? {}"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

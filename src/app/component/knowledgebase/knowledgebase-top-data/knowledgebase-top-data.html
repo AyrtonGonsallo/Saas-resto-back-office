@@ -1,0 +1,17 @@
+<div class="col-12 position-relative">
+    <div class="knowledgebase-bg b-center bg-size" style="background-image: url(&quot;assets/images/knowledgebase/bg_1.jpg&quot;); background-size: cover; background-position: center center; display: block;">
+        <img class="bg-img-cover bg-center" src="assets/images/knowledgebase/bg_1.jpg" alt="looginpage" style="display: none;">
+    </div>
+    <div class="knowledgebase-search">
+        <div>
+            <h3 class="txt-dark">How Can I help you?</h3>
+            <form class="form-inline">
+                <div class="form-group w-100">
+                    <app-feather-icon [icon]="'search'" />
+                    <input class="form-control-plaintext w-100" type="text" placeholder="Type question here">
+                </div>
+            </form>
+        </div>
+    </div>
+</div> 
+<app-top-common-faq [data]="knowledgebaseData" />

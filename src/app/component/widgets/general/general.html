@@ -1,0 +1,35 @@
+<div class="container-fluid general-widget">
+    <div class="row">
+        <div class="col-12">
+            <div class="row">
+                <div class="col-md-4">
+                    <app-top-ecommerce-chart [data]="TotalSaleChart" />
+                </div>
+                <div class="col-md-4">
+                    <app-top-ecommerce-chart [data]="NewOrderChart" />
+                </div>
+                <div class="col-md-4">
+                    <app-top-ecommerce-chart [data]="OrderDeliveryChart" />
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-xl-3">
+            <app-product-offer />
+        </div>
+        <div class="col-sm-6 col-xl-3">
+            <app-schedule-time />
+        </div>
+        <div class="col-sm-6">
+            <app-sales-summary />
+        </div>
+        <div class="col-sm-6 col-xl-3">
+            <app-total-investment [investment]="false" />
+        </div>
+        <div class="col-sm-6 col-xl-5">
+            <app-task-summary />
+        </div>
+        <div class="col-sm-6 col-xl-4">
+            <app-project-progress />
+        </div>
+    </div>
+</div>

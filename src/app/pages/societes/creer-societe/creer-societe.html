@@ -1,0 +1,88 @@
+<form class="card" [formGroup]="formSociete" (ngSubmit)="onSubmit()">
+    <div class="card-header">
+        <h4 class="card-title mb-0">Ajouter une société</h4>
+        
+    </div>
+
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="mb-3">
+                <label class="form-label">Titre</label>
+                <input class="form-control" type="text" formControlName="titre" placeholder="titre">
+                <div *ngIf="formSociete.get('titre')?.touched && formSociete.get('titre')?.invalid" class="text-danger">
+                    Le titre est invalide
+                </div>
+                </div>
+            </div>
+
+            <div class="col-sm-12 col-md-12">
+                <div class="mb-3">
+                <label class="form-label">Nom</label>
+                <input class="form-control" type="text" formControlName="nom" placeholder="Nom du gestionnaire">
+                <div *ngIf="formSociete.get('nom')?.touched && formSociete.get('nom')?.invalid" class="text-danger">
+                    Le nom est invalide
+                </div>
+                </div>
+            </div>
+
+            <div class="col-sm-12 col-md-12">
+                <div class="mb-3">
+                <label class="form-label">Prénom</label>
+                <input class="form-control" type="text" formControlName="prenom" placeholder="Prénom du gestionnaire">
+                <div *ngIf="formSociete.get('prenom')?.touched && formSociete.get('prenom')?.invalid" class="text-danger">
+                    Le prénom est invalide
+                </div>
+                </div>
+            </div>
+
+            <div class="col-sm-12 col-md-12">
+                <div class="mb-3">
+                <label class="form-label">Addresse email</label>
+                <input class="form-control" type="email" formControlName="email" placeholder="Email du gestionnaire">
+                <div *ngIf="formSociete.get('email')?.touched && formSociete.get('email')?.invalid" class="text-danger">
+                    L'adresse email est invalide
+                </div>
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <div class="mb-3">
+                <label class="form-label">Téléphone</label>
+                <input class="form-control" type="text" formControlName="telephone" placeholder="Téléphone du gestionnaire">
+                <div *ngIf="formSociete.get('telephone')?.touched && formSociete.get('telephone')?.invalid" class="text-danger">
+                    Le téléphone est invalide
+                </div>
+                </div>
+            </div>
+
+            <div class="col-sm-12 col-md-12">
+                <div class="mb-3">
+                <label class="form-label">Mot de passe</label>
+                <input class="form-control" type="password" formControlName="mot_de_passe" placeholder="Mot de passe">
+                <div *ngIf="formSociete.get('mot_de_passe')?.touched && formSociete.get('mot_de_passe')?.invalid" class="text-danger">
+                    Le mot de passe est invalide
+                </div>
+                </div>
+            </div>
+
+            <div class="col-sm-12 col-md-12">
+                <div class="mb-3">
+                <label class="form-label">Confirmation du mot de passe</label>
+                <input class="form-control" type="password" formControlName="confirmed_mot_de_passe" placeholder="Confirmez votre mot de passe">
+                <div *ngIf="formSociete.get('mot_de_passe')?.touched && formSociete.get('mot_de_passe')?.invalid" class="text-danger">
+                    Champ requis
+                </div>
+                <div *ngIf="!checkpasswords()" class="text-danger">
+                    Les mots de passe ne correspondent pas
+                </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="card-footer text-end">
+        <button class="btn btn-primary" type="submit">Envoyer</button>
+    </div>
+</form>

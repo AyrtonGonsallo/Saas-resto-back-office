@@ -1,0 +1,99 @@
+<form class="form theme-form">
+    <div class="row">
+        <div class="col">
+            <div class="mb-3">
+                <label class="form-label" for="exampleFormControlInput1">Full Name:<span
+                        class="font-danger">*</span></label>
+                <input class="form-control" id="exampleFormControlInput1" type="email"
+                    placeholder="Enter your full name">
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div class="mb-3">
+                <label class="form-label" for="exampleFormControlInput3">Email:<span
+                        class="font-danger">*</span></label>
+                <input class="form-control" id="exampleFormControlInput3" type="email" placeholder="Enter email">
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div class="mb-3">
+                <label class="form-label" for="exampleFormControlpassword">Password:<span
+                        class="font-danger">*</span></label>
+                <input class="form-control" id="exampleFormControlpassword" type="password"
+                    placeholder="Enter password">
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div class="mb-3">
+                <label class="form-label" for="exampleFormControlpassword1">Repeat Password:<span
+                        class="font-danger">*</span></label>
+                <input class="form-control" id="exampleFormControlpassword1" type="password"
+                    placeholder="Repeat password">
+            </div>
+        </div>
+    </div>
+    <div class="row select-date">
+        <label class="col-form-label pt-0" for="choices-scrolling-dropdown">Birth Date</label>
+        <div class="col-sm-4">
+            <div class="mb-3">
+                <select class="form-control col-sm-12" id="choices-scrolling-dropdown"
+                    name="choices-scrolling-dropdown">
+                    <optgroup label="Month">
+                        <option value="Choice 1">January</option>
+                        <option value="Choice 2">February</option>
+                        <option value="Choice 3">March</option>
+                        <option value="Choice 4">April</option>
+                        <option value="Choice 5">May</option>
+                        <option value="Choice 6">June</option>
+                        <option value="Choice 7">July</option>
+                        <option value="Choice 8">August</option>
+                        <option value="Choice 9">September</option>
+                        <option value="Choice 10">October</option>
+                        <option value="Choice 11">November</option>
+                        <option value="Choice 12">December</option>
+                    </optgroup>
+                </select>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="mb-3 mt-0">
+                <div class="col-form-label p-0">
+                    <select class="js-example-basic-single form-select col-sm-12">
+                        <optgroup label="Day">
+                            @for(date of date; track date){
+                            <option value="{{ date }}">{{ date }}</option>
+                            }
+                        </optgroup>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="mb-3 mt-0">
+                <div class="col-form-label p-0">
+                    <select class="js-example-basic-single form-select col-sm-12">
+                        <optgroup label="Year">
+                            @for(year of year; track year){
+                            <option value="{{ year }}">{{ year }}</option>
+                            }
+                        </optgroup>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div class="mb-3">
+                <label class="form-label" for="exampleFormControlInput4">Phone Number:</label>
+                <input class="form-control" id="exampleFormControlInput4" type="email" placeholder="Enter Phone no.">
+            </div>
+        </div>
+    </div>
+</form>

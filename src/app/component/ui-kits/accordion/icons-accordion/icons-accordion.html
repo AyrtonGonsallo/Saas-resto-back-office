@@ -1,0 +1,28 @@
+<div class="card">
+    <div class="card-header">
+        <h4>With icons accordion</h4>
+        <p class="desc mb-0 mt-1"><span>Use the</span><code>.accordion , .icons-accordion</code><span> through change
+                plus icons accordion.</span></p>
+    </div>
+    <div class="card-body accordion-border icons-accordion">
+        <div class="accordion" ngbAccordion [closeOthers]="true">
+            @for(accordionitem of iconaccordionData; track accordionitem){
+            <div class="accordion-item" ngbAccordionItem>
+                <h2 class="accordion-header" ngbAccordionHeader>
+                    <button class="accordion-button collapsed gap-2 accordion-light-secondary" type="button"
+                        ngbAccordionButton>
+                        <svg class="svg-color stroke-secondary">
+                            <use attr.xlink:href="assets/svg/iconly-sprite.svg#{{accordionitem.icon}}"></use>
+                        </svg>  {{accordionitem.title}}
+                    </button>
+                </h2>
+                <div class="accordion-collapse collapse show" ngbAccordionCollapse>
+                    <div class="accordion-body" ngbAccordionBody>
+                        <p [innerHTML]="accordionitem.text"></p>
+                    </div>
+                </div>
+            </div>
+            }
+        </div>
+    </div>
+</div>

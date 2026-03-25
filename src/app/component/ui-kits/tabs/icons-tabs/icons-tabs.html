@@ -1,0 +1,63 @@
+<div class="card">
+    <div class="card-header pb-0">
+        <h4>Icons with tabs</h4>
+        <p class="desc mb-0 mt-1"><span>Use the</span><code>nav-link , .show</code><span>class to tabs
+                change.</span></p>
+    </div>
+    <div class="card-body custom-icon-tabs">
+        <ul class="nav nav-tabs" ngbNav #nav="ngbNav" [(activeId)]="active">
+            <li class="nav-item" [ngbNavItem]="1">
+                <a class="nav-link active font-info"  ngbNavLink>
+                    <svg class="svg-color stroke-info">
+                        <use href="assets/svg/iconly-sprite.svg#Home"></use>
+                    </svg>Home
+                </a>
+                <ng-template ngbNavContent>
+                    <div class="tab-pane fade show " id="icon-home">
+                        <p class="pt-3"> Not limited to any states, boundaries. All over India providing cutting-edge
+                            design and website development services for over 12 years. We provide end to end digital
+                            solutions,right from  designing your website/application development: Domain, Web Hosting, Email Hosting
+                            Registration, Search Engine Optimization and other Internet Marketing, Renewal of Services timely and
+                            effectively.
+                        </p>
+                    </div>
+                </ng-template>
+            </li>
+            <li class="nav-item" [ngbNavItem]="2">
+                <a class="nav-link font-info" ngbNavLink>
+                    <svg class="svg-color stroke-info">
+                        <use href="assets/svg/iconly-sprite.svg#Profile"></use>
+                    </svg>Profile</a>
+                <ng-template ngbNavContent>
+                    <div class="pt-3 mb-0">
+                        <div class="flex-space flex-wrap align-items-center"><img class="tab-img"
+                                src="assets/images/avatar/2.jpg" alt="profile">
+                            <ul class="d-flex flex-column gap-1">
+                                <li><strong>Visit Us: </strong> 278 Green Avenue Oakland, CA 94612</li>
+                                <li><strong>Mail Us:</strong> MichaelMMcGowan&#64;teleworm.us</li>
+                                <li><strong>Contact Number: </strong> 510-767-0025</li>
+                            </ul>
+                        </div>
+                    </div>
+                </ng-template>
+            </li>
+            <li class="nav-item" [ngbNavItem]="3">
+                <a class="nav-link font-info" ngbNavLink>
+                    <svg class="svg-color stroke-info">
+                        <use href="assets/svg/iconly-sprite.svg#Contacts"></use>
+                    </svg>Contact
+                </a>
+                <ng-template ngbNavContent>
+                    <p class="pt-3 mb-2">Us Technology offers web &amp; mobile development solutions for all industry
+                        verticals.Include a short form using fields that&apos;ll help your business understand
+                        who&apos;s contacting them.</p>
+                    <label class="form-label" for="exampleFormControlone">Email address</label>
+                    <input class="form-control" type="email" placeholder="youremail&#64;gmail.com">
+                </ng-template>
+            </li>
+        </ul>
+        <div class="tab-content" id="icon-tabContent">
+            <div [ngbNavOutlet]="nav"></div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,84 @@
+<div class="email-right-aside bookmark-tabcontent">
+    <div class="card email-body radius-left">
+        <div class="ps-0">
+            <div class="tab-content">
+                <div class="tab-pane fade active show" id="pills-created" role="tabpanel">
+                    <div class="card mb-0">
+                        <div class="card-header d-flex">
+                            <h6 class="mb-0">{{ bookmarkTitle }}</h6>
+                            <ul>
+                                <li>
+                                    <a class="grid-bookmark-view" href="javascript:void(0)"
+                                        (click)="changeStyle('grid')">
+                                        <app-feather-icon [icon]="'grid'" />
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="list-layout-view" href="javascript:void(0)" (click)="changeStyle('list')">
+                                        <app-feather-icon [icon]="'list'" />
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="card-body">
+                            <div class="details-bookmark text-center" [class.list-bookmark]="listView">
+                                <div class="row" id="bookmarkData">
+                                    @if(bookmarkDetails){
+                                    @for(details of bookmarkDetails; track details){
+                                    <div class="col-xxl-3 col-md-4 col-ed-4">
+                                        <div class="card card-with-border bookmark-card o-hidden">
+                                            <div class="details-website"><img class="img-fluid" [src]="details.image"
+                                                    alt="">
+                                                <div class="favourite-icon favourite_0"
+                                                    [class.favourite]="details.favorite">
+                                                    <a (click)="favoriteBookmark(details)"><i
+                                                            class="fa fa-star"></i>
+                                                    </a>
+                                                </div>
+                                                <div class="desciption-data">
+                                                    <div class="title-bookmark">
+                                                        <h6 class="title_0">{{ details.title }}</h6>
+                                                        <p class="weburl_0">{{ details.url }}</p>
+                                                        <div class="hover-block">
+                                                            <ul>
+                                                                <li>
+                                                                    <a href="javascript:void(0)"
+                                                                        (click)="editBookmark(details)">
+                                                                        <app-feather-icon [icon]="'edit-2'" />
+                                                                    </a>
+                                                                </li>
+                                                                <li><a href="javascript:void(0)"><app-feather-icon [icon]="'link'" /></a></li>
+                                                                <li><a href="javascript:void(0)"><app-feather-icon [icon]="'share-2'" /></a>
+                                                                </li>
+                                                                <li><a href="javascript:void(0)"
+                                                                        (click)="deleteBookmark(details)"><app-feather-icon [icon]="'trash-2'" /></a>
+                                                                </li>
+                                                                <li class="pull-right text-end"><a
+                                                                        href="javascript:void(0)"><app-feather-icon [icon]="'tag'" /></a></li>
+                                                            </ul>
+                                                        </div>
+                                                        <div class="content-general">
+                                                            <p class="desc_4"> {{ details.desc }}</p><span
+                                                                class="collection_4">{{ details.collection }}</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    }@empty {
+                                    <div class="no-favourite"><span>No Bookmarks Found.</span></div>
+                                    }
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

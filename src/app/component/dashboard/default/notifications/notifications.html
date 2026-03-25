@@ -1,0 +1,42 @@
+<div class="card notification-card" (clickOutside)="clickOutside()">
+  <div class="card-header">
+    <h4>Notifications</h4>
+    <div class="dropdown icon-dropdown">
+      <button class="btn dropdown-toggle" type="button" (click)="open()">
+        <i class="icon-more-alt"></i>
+      </button>
+      <div class="dropdown-menu dropdown-menu-end" [class.show]="isopen">
+        <a class="dropdown-item" href="javascript:void(0)">Weekly</a>
+        <a class="dropdown-item" href="javascript:void(0)">Monthly</a>
+        <a class="dropdown-item" href="javascript:void(0)">Yearly</a>
+      </div>
+    </div>
+  </div>
+  <div class="card-body p-0">
+    @for( data of notificationData ; track data){
+    <div class="d-flex {{data.class}} gap-3">
+      <div class="flex-shrink-0">
+        @if(data.text){
+        <span class="bg-{{ data.color }}">{{data.text}}</span>
+        } @if(data.img){
+        <img class="img-40 b-r-15" src="{{data.img}}" alt="Use1" />
+        }
+      </div>
+      <div class="flex-grow-1">
+        <a [routerLink]="'/user/users-profile'">
+          <h6>{{data.des}}</h6> </a
+        ><span>{{data.timedata}}</span>
+        @if( data.btn === true){
+        <div class="d-flex gap-2 p-0 mt-2">
+          <button class="btn btn-outline-dark">Decline</button>
+          <button class="btn btn-primary">Accept</button>
+        </div>
+        }
+      </div>
+      @if( data.dot === true){
+      <div class="circle-dot-primary"><span></span></div>
+      }
+    </div>
+    }
+  </div>
+</div>

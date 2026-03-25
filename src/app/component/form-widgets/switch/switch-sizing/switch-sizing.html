@@ -1,0 +1,20 @@
+<div class="card">
+    <div class="card-header pb-0">
+        <h4>Switch sizing</h4>
+        <p class="desc mb-0 mt-1"><span>Use the</span><code>.switch-sm-*.switch-lg-*</code><span>class through
+                defined switch sizing.</span></p>
+    </div>
+    <div class="card-body common-flex switch-wrapper">
+        @for(item of sizeingData; track item){
+        <div class="d-flex">
+            <label class="col-form-label m-r-10">{{item.text}}</label>
+            <div class="flex-grow-1 {{item.class}}">
+                <label class="switch">
+                    <input type="checkbox" [checked]="item.value" [disabled]="item.disable"><span
+                        class="switch-state"></span>
+                </label>
+            </div>
+        </div>
+        }
+    </div>
+</div>

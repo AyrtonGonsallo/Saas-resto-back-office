@@ -1,0 +1,33 @@
+<div class="card visit-card card-hover" (clickOutside)="clickOutside()">
+  <div class="card-header pb-0">
+    <h4>Total Earning</h4>
+    <div class="dropdown icon-dropdown">
+      <button class="btn dropdown-toggle" type="button" (click)="open()">
+        <i class="icon-more-alt"></i>
+      </button>
+      <div class="dropdown-menu dropdown-menu-end" [class.show]="isopen">
+        <a class="dropdown-item" href="javascript:void(0)">Weekly</a>
+        <a class="dropdown-item" href="javascript:void(0)">Monthly</a>
+        <a class="dropdown-item" href="javascript:void(0)">Yearly</a>
+      </div>
+    </div>
+  </div>
+  <div class="card-body py-0 total-earn">
+    <h4 class="font-primary mt-1">Rp 30.000</h4>
+    <p class="f-13 font-light">Compared to Rp 23.000 Yesterday</p>
+    <div class="earn-chart">
+      <apx-chart
+        [series]="Totalearningchart.series"
+        [chart]="Totalearningchart.chart"
+        [colors]="Totalearningchart.colors"
+        [plotOptions]="Totalearningchart.plotOptions"
+        [legend]="Totalearningchart.legend"
+        [dataLabels]="Totalearningchart.dataLabels"
+        [grid]="Totalearningchart.grid"
+        [xaxis]="Totalearningchart.xaxis"
+        [yaxis]="Totalearningchart.yaxis"
+        [responsive]="Totalearningchart.responsive"
+      />
+    </div>
+  </div>
+</div>

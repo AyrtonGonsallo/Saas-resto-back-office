@@ -1,0 +1,33 @@
+<div class="card">
+    <div class="card-header pb-0">
+        <h4>Multiple collapse accordion</h4>
+        <p class="desc mb-0 mt-1"><span>A</span><code>&lt;button&gt;</code><span>can show and hide multiple elements by
+                referencing them with a selector in its href or data-bs-target attribute.</span></p>
+    </div>
+    <div class="card-body">
+        <div class="common-flex"><a class="btn btn-primary collapsed" (click)="onClick()">Toggle first element</a>
+            <button class="btn btn-secondary collapsed" type="button" (click)="open()">Toggle second element</button>
+            <button class="btn btn-tertiary collapsed" type="button" (click)="toggle()">Toggle both elements</button>
+        </div>
+        <div class="row">
+            <div class="col-xl-6">
+                <div class="multi-collapse collapse" [class.show]="togglecollpese">
+                    <div class="card card-body mt-3 mb-0 collapse-wrapper accordion-light-primary">The collapse
+                        JavaScript plugin is used to show and hide content. Buttons or anchors are used as triggers that
+                        are mapped to specific elements you toggle. Collapsing an element will animate the height from
+                        it&apos;s current value to 0. Given how CSS handles animations, you cannot use padding on a
+                        .collapse element. Instead, use the class as an independent wrapping element.</div>
+                </div>
+            </div>
+            <div class="col-xl-6">
+                <div class="multi-collapse collapse" [class.show]="togglecollpese2">
+                    <div class="card card-body mt-3 mb-0 collapse-wrapper accordion-light-secondary">This is the first
+                        item&apos;s accordion body. It is shown by default, until the collapse plugin adds the
+                        appropriate classes that we use to style each element. These classes control the overall
+                        appearance, as well as the showing and hiding via CSS transitions. You can modify any of this
+                        with custom CSS or overriding our default variables.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

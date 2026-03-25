@@ -1,0 +1,21 @@
+<div class="card">
+    <div class="card-header pb-0">
+        <h4>Alerts with icons and text actions</h4>
+        <p class="desc mb-0 mt-1"><span>Use the</span><code>.dismiss-text</code><span> class to add dismiss text instead
+                of icon.</span></p>
+    </div>
+    <div class="card-body dark-txt">
+        @for( data of icontextData; track data){
+        <div class="alert {{data.class1}}" role="alert">
+            <div class="alert-arrow {{data.class2}}">
+                <svg class="feather">
+                    <use use attr.xlink:href="assets/svg/feather-icons/dist/feather-sprite.svg#{{data.icon}}"></use>
+                </svg>
+            </div>
+            <p class="text-truncate" [innerHTML]="data.text"></p>
+            <button class="p-0 border-0 me-2 ms-auto" type="button" (click)="close(data)">
+                <span class="{{data.color}}" aria-hidden="true">{{data.buttontext}}</span></button>
+        </div>
+        }
+    </div>
+</div>

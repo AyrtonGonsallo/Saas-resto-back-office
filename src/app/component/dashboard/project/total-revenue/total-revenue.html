@@ -1,0 +1,24 @@
+<div class="card total-revenue">
+  <div class="card-header border-dash-bottom">
+    <h4>Total Revenue</h4>
+    <div class="card-icon">
+      <h3 class="f-w-600">$983731</h3>
+    </div>
+  </div>
+  <div class="card-body px-0">
+    <div class="revenuechart">
+      <apx-chart
+        [series]="RevenuData.series"
+        [chart]="RevenuData.chart"
+        [fill]="RevenuData.fill"
+        [annotations]="RevenuData.annotations"
+        [dataLabels]="RevenuData.dataLabels"
+        [stroke]="RevenuData.stroke"
+        [grid]="RevenuData.grid"
+        [colors]="RevenuData.colors"
+        [xaxis]="RevenuData.xaxis"
+        [yaxis]="RevenuData.yaxis"
+      />
+    </div>
+  </div>
+</div>

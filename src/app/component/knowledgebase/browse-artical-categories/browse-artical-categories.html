@@ -1,0 +1,48 @@
+<div class="header-faq">
+    <h5 class="mb-0">Browse articles by category</h5>
+</div>
+<div class="row">
+    <div class="col-sm-12">
+        <div class="card">
+            <div class="card-header">
+                <h5>Browse Articles</h5>
+            </div>
+            <div class="card-body">
+                <div class="row browse g-sm-4 g-3">
+                    @for(ArticlesData of browseArticlesData; track ArticlesData){
+                    <div class="col-xl-4 xl-50 col-md-6">
+                        <div class="browse-articles">
+                            <h6><span>
+                                    <app-feather-icon [icon]="'archive'" />
+                                </span>{{ ArticlesData.title }}
+                            </h6>
+                            <ul>
+                                @for( data of ArticlesData.data; track data){
+                                <li><a href="javascript:void(0)">
+                                        <span>
+                                            <app-feather-icon [icon]="'file-text'" />
+                                      
+                                        </span>
+                                        <span>{{ data.listData }}</span>
+                                        @if(data.tagTitle ){
+                                        <span class="badge badge-primary pull-right">{{ data.tagTitle }}</span>
+                                        }
+                                    </a>
+                                </li>
+                                }
+                                <li><a href="javascript:void(0)">
+                                        <span>
+                                            <app-feather-icon [icon]="'arrow-right'" />
+                                        </span>
+                                        <span>See More ({{ ArticlesData.seeMore }})</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

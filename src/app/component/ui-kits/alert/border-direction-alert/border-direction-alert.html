@@ -1,0 +1,18 @@
+<div class="card height_equal">
+    <div class="card-header pb-0">
+        <h4>Border direction alert</h4>
+        <p class="desc mb-0 mt-1"><span>Use the</span><code>.b-l-*, b-t-*</code><span>for different color with direction
+                border.</span></p>
+    </div>
+    <div class="card-body live-dark">
+        @for(data of DircationData; track data){
+            <div class="alert alert-light-{{ data.class }}" role="alert">
+                <svg class="feather">
+                    <use href="assets/svg/feather-icons/dist/feather-sprite.svg#help-circle"></use>
+                </svg>
+                <p class="text-truncate">{{ data.text }}</p>
+                <button class="btn-close" type="button"  (click)="close(data)"></button>
+            </div>
+        }
+    </div>
+</div>

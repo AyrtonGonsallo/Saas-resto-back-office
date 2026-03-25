@@ -1,0 +1,18 @@
+<div class="card">
+    <div class="card-header pb-0">
+        <h4>Lists with checkbox</h4>
+        <p class="desc mb-0 mt-1"><span>Use the</span><code>.form-check-input</code><span>to check your checkbox.</span>
+        </p>
+    </div>
+    <div class="card-body dark-list">
+        <ul class="list-group">
+            @for(checkboxData of listsCheckboxData; track checkboxData){
+            <li class="list-group-item">
+                <input class="me-3 checkbox-{{checkboxData.class}}" id="firstCheckbox" type="checkbox" value="">
+                <label class="form-check-label font-{{checkboxData.class}} mb-0"
+                    for="firstCheckbox">{{checkboxData.list}}</label>
+            </li>
+            }
+        </ul>
+    </div>
+</div>

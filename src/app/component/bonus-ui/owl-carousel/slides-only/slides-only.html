@@ -1,0 +1,20 @@
+<div class="card">
+  <div class="card-header pb-0">
+    <h4>Slides Only</h4>
+  </div>
+  <div class="card-body">
+    <owl-carousel-o
+      [options]="slidesopdtionData"
+      class="carousel slide"
+      id="carouselExampleSlidesOnly"
+    >
+      @for(sildesItem of sildesData; track sildesItem){
+      <ng-template carouselSlide class="carousel-inner">
+        <div class="carousel-item active">
+          <img class="d-block w-100" src="{{ sildesItem.img }}" alt="image" />
+        </div>
+      </ng-template>
+      }
+    </owl-carousel-o>
+  </div>
+</div>

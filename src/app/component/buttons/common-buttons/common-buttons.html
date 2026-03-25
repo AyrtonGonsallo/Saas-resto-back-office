@@ -1,0 +1,11 @@
+<div class="btn-showcase row">
+    @for( item of data(); track item){     
+        @for( items of item.data; track items){      
+        <div class="text-center col-12 col-sm-6 col-md-12">
+            <button class="btn {{items.class}}" type="button" title="btn {{items.btn}}">
+               {{ items.text}}
+            </button>
+        </div>
+      }
+    }
+</div>

@@ -1,0 +1,27 @@
+@for( allData of questionData; track allData){
+ @if(allData.heading){
+  <div class="faq-title">
+     <h6>{{ allData.heading }}</h6>
+  </div>
+ }
+<div ngbAccordion [closeOthers]="true">
+    @for( data of allData.data; track data){
+    <div class="card" ngbAccordionItem [collapsed]="data.panel !== 'First'">
+        <div class="card-header" ngbAccordionHeader>
+            <h5 class="mb-0">
+                <button class="accordion-button btn btn-link collapsed" ngbAccordionButton>
+                    <i class="fa-regular fa-circle-question"></i> {{ data.title }}
+                </button>
+            </h5>
+        </div>
+        <div class="collapse" ngbAccordionCollapse>
+            <div class="card-body" ngbAccordionBody>
+                <ng-template>
+                    {{ data.desc }}
+                </ng-template>
+            </div>
+        </div>
+    </div>
+    }
+</div>
+}

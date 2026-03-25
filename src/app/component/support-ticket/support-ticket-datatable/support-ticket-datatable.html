@@ -1,0 +1,103 @@
+<div class="table-responsive custom-scrollbar">
+  <div
+    class="datatable-wrapper datatable-loading no-footer sortable searchable fixed-columns custom-support-ticket"
+  >
+    <form>
+      <div class="d-flex justify-content-between mt-3 mb-3">
+        <select
+          class="form-select"
+          style="width: auto"
+          name="pageSize"
+          [(ngModel)]="service.pageSize"
+        >
+          <option [ngValue]="10">10</option>
+          <option [ngValue]="25">25</option>
+          <option [ngValue]="50">50</option>
+          <option [ngValue]="100">100</option>
+        </select>
+        <div class="mb-3 row justify-content-end">
+          @if(service.loading$ | async){
+          <span class="col col-form-label text-end">Loading...</span>
+          }
+          <label for="table-complete-search" class="col-xs-3 col-sm-auto col-form-label"
+            >Search:</label
+          >
+          <div class="col-xs-3 col-sm-auto">
+            <input
+              id="table-complete-search"
+              type="text"
+              class="form-control"
+              name="searchTerm"
+              [(ngModel)]="service.searchTerm"
+              autocomplete="off"
+            />
+          </div>
+        </div>
+      </div>
+    </form>
+    <table class="table mb-0" id="support_table">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th sortable="name" (sort)="onSort($event)">Name</th>
+          <th sortable="position" (sort)="onSort($event)">Position.</th>
+          <th sortable="salary" (sort)="onSort($event)">Salary</th>
+          <th sortable="office" (sort)="onSort($event)">Office</th>
+          <th sortable="skill" (sort)="onSort($event)">Skill</th>
+          <th sortable="extn" (sort)="onSort($event)">Extn.</th>
+          <th sortable="email" (sort)="onSort($event)">E-mail</th>
+          <th sortable="experience" (sort)="onSort($event)">Experience</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for(data of countries$ | async; track data; let i = $index){
+        <tr>
+          <td scope="row">{{ i + 1 + ((service.page - 1) * service.pageSize)}}</td>
+          <td>
+            <div class="d-flex">
+              <img
+                class="rounded-circle img-30 me-2"
+                [src]="data.img"
+                alt="Generic placeholder image"
+              />
+              <div class="flex-grow-1 align-self-center">
+                <div>{{ data.name }}</div>
+              </div>
+            </div>
+          </td>
+          <td>{{ data.position }}</td>
+          <td>${{ data.salary | number }}</td>
+          <td>{{ data.office }}</td>
+          <td>
+            <div class="progress-showcase">
+              <div class="progress sm-progress-bar">
+                <div [ngClass]="data.skill" role="progressbar" [style.width]="data.progress"></div>
+              </div>
+            </div>
+          </td>
+          <td>{{ data.extn }}</td>
+          <td>{{ data.email }}</td>
+          <td>{{ data.experience}}</td>
+          <td>
+            <i class="fa-solid fa-eye font-primary pe-2"></i>
+            <i class="icofont icofont-close-circled font-danger ps-2"></i>
+          </td>
+        </tr>
+        } @empty{
+        <tr class="odd">
+          <td colspan="8" class="dataTables_empty" style="text-align: center">
+            Opps! There are no result found.
+          </td>
+        </tr>
+        }
+      </tbody>
+    </table>
+    <ngb-pagination
+      class="ms-3"
+      [collectionSize]="(total$ | async)!"
+      [(page)]="service.page"
+      [pageSize]="service.pageSize"
+    />
+  </div>
+</div>

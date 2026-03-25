@@ -1,0 +1,17 @@
+<div class="card">
+    <div class="card-header faq-header pb-0">
+        <h4 class="d-inline-block">Latest Updates</h4>
+        <span class="pull-right d-inline-block">See All</span>
+    </div>
+    <div class="card-body faq-body">
+        @for( data of update; track data){
+        <div class="d-flex updates-faq-main">
+            <div class="updates-faq"><i class="fa-solid {{data.icon}} font-primary"></i></div>
+            <div class="flex-grow-1 updates-bottom-time">
+                <p [innerHTML]="data.des"></p>
+                <p>{{data.time}}</p>
+            </div>
+        </div>
+        }
+    </div>
+</div>

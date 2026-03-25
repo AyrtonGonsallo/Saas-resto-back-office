@@ -1,0 +1,51 @@
+<div class="card total-project">
+  <div class="card-header border-dash-bottom">
+    <h4>Total Project</h4>
+    <div class="card-icon">
+      <h3 class="f-w-600">3051</h3>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-6 custom-width">
+        <div class="customer-chart">
+          <apx-chart
+            [series]="ProjectData.series"
+            [chart]="ProjectData.chart"
+            [plotOptions]="ProjectData.plotOptions"
+            [legend]="ProjectData.legend"
+            [dataLabels]="ProjectData.dataLabels"
+            [grid]="ProjectData.grid"
+            [colors]="ProjectData.colors"
+            [responsive]="ProjectData.responsive"
+          />
+        </div>
+      </div>
+      <div class="col-6">
+        <ul class="project-details">
+          <li class="d-flex align-items-center mt-3 justify-content-between">
+            <div class="d-flex align-items-center">
+              <div class="circle-dot-primary"><span></span></div>
+              <p class="ms-2 f-w-500">Completed Project</p>
+            </div>
+            <span class="ms-1 f-w-500">321</span>
+          </li>
+          <li class="d-flex align-items-center mt-3 justify-content-between">
+            <div class="d-flex align-items-center">
+              <div class="circle-dot-secondary"><span></span></div>
+              <p class="ms-2 f-w-500">Inprogress</p>
+            </div>
+            <span class="ms-1 f-w-500">876</span>
+          </li>
+          <li class="d-flex align-items-center mt-3 justify-content-between">
+            <div class="d-flex align-items-center">
+              <div class="circle-dot-tertiary"><span></span></div>
+              <p class="ms-2 f-w-500">Yet to Start</p>
+            </div>
+            <span class="ms-1 f-w-500">645</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

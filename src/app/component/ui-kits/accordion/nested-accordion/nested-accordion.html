@@ -1,0 +1,104 @@
+<div class="card">
+    <div class="card-header pb-0">
+        <h4>Nested accordion</h4>
+        <p class="desc mb-0 mt-1"><span>You can give</span><code>.accordion,.nestings</code><span> inside the parent
+                Accordion content property by using id #nestedaccordion of nested element.</span></p>
+    </div>
+    <div class="card-body nestings">
+        <div class="accordion" ngbAccordion [closeOthers]="true">
+            <div class="accordion-item" ngbAccordionItem>
+                <h2 class="accordion-header" ngbAccordionHeader>
+                    <button class="accordion-button collapsed accordion-light-info active" type="button"
+                        ngbAccordionButton>Knowledgebase featured tutorial detail.</button>
+                </h2>
+                <div class="accordion-collapse collapse show" ngbAccordionCollapse>
+                    <div class="accordion-body" ngbAccordionBody>
+                        <ng-template>
+                            <div class="d-flex">
+                                <div class="nested-accordion w-50" ngbAccordion>
+                                    <div class="accordion-item" ngbAccordionItem>
+                                        <h2 class="accordion-header" ngbAccordionHeader>
+                                            <button class="accordion-button collapsed accordion-light-tertiary active"
+                                                ngbAccordionButton type="button">Web Development</button>
+                                        </h2>
+                                        <div class="accordion-collapse collapse" ngbAccordionCollapse>
+                                            <div class="accordion-body" ngbAccordionBody>
+                                                <ng-template>
+                                                    <p class="mb-0">This course is designed to start you on a path
+                                                        toward
+                                                        future studies in web development and design.</p>
+                                                </ng-template>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="nested-accordion w-50" ngbAccordion>
+                                    <div class="accordion-item" ngbAccordionItem>
+                                        <h2 class="accordion-header" ngbAccordionHeader>
+                                            <button class="accordion-button collapsed accordion-light-tertiary active"
+                                                type="button" ngbAccordionButton>UI/UX designer</button>
+                                        </h2>
+                                        <div class="accordion-collapse collapse" ngbAccordionCollapse>
+                                            <div class="accordion-body" ngbAccordionBody>
+                                                <ng-template>
+                                                    <p class="mb-0">The capacity to comprehend and experience other
+                                                        people's
+                                                        feelings is known as empathy. A positive consumer experience is
+                                                        priority by UX.</p>
+                                                </ng-template>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-template>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item" ngbAccordionItem>
+                <h2 class="accordion-header" ngbAccordionHeader>
+                    <button class="accordion-button accordion-light-info active collapsed" type="button"
+                        ngbAccordionButton>What is the use of web design ?</button>
+                </h2>
+                <div class="accordion-collapse collapse" ngbAccordionCollapse>
+                    <div class="accordion-body" ngbAccordionBody>
+                        <ng-template>
+                            <div class="d-flex">
+                                <div class="nested-accordion">
+                                    <div class="card-body collapse-accordion p-0">
+                                        <p class="mb-2">
+                                            <button class="btn btn-outline-tertiary" type="button" (click)="open()">Nested Button
+                                                Collapse</button>
+                                        </p>
+                                        <div class="collapse" [class.show]="show">
+                                            <div class="card card-body default-border mb-0">Some placeholder content for
+                                                the collapse component. This panel is hidden by default but revealed
+                                                when
+                                                the user activates the relevant trigger.</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-template>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item" ngbAccordionItem>
+                <h2 class="accordion-header" ngbAccordionHeader>
+                    <button class="accordion-button collapsed accordion-light-info active" type="button"
+                        ngbAccordionButton>What are the elements of web design ?</button>
+                </h2>
+                <div class="accordion-collapse collapse" ngbAccordionCollapse>
+                    <div class="accordion-body" ngbAccordionBody>
+                        <ng-template>
+                            <p class="mb-0">The web design process allows designers to adjust to any preferences and
+                                provide effective solutions. There are many standard components of every web design,
+                                including:
+                            </p>
+                        </ng-template>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

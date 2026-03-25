@@ -1,0 +1,21 @@
+<div class="card">
+    <div class="card-header pb-0">
+        <h4>Status Indicator</h4>
+        <p class="desc mb-0 mt-1">
+            <span>Using</span><code>.status-* (online/offline/dnd)</code><span>class you
+                can set status of avatar.</span>
+        </p>
+    </div>
+    <div class="card-body">
+        <div class="avatar-showcase">
+            <div class="avatars">
+                @for(Indicatoritem of statusindicatorData; track Indicatoritem){
+                <div class="avatar">
+                    <img class="{{Indicatoritem.class}} rounded-circle" src="{{Indicatoritem.Image}}" alt="indicatoimg">
+                    <div class="{{Indicatoritem.status}}"></div>
+                </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

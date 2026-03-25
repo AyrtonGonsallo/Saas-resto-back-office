@@ -1,0 +1,107 @@
+<div class="card custom-table-striped">
+  <form class="table-responsive theme-scroollbar">
+    <div class="card-body">
+      <div class="card-header">
+        <h3>Individual column searching (text inputs)</h3>
+        <span
+          >The searching functionality provided by DataTables is useful for quickly search through
+          the information in the table - however the search is global, and you may wish to present
+          controls that search on specific columns.</span
+        >
+      </div>
+      <div class="dataTables_wrapper">
+        <div class="d-flex justify-content-between p-2">
+          <div class="dataTables_length" id="basic-6_length">
+            <label
+              >Show
+              <select name="pageSize" [(ngModel)]="service.pageSize">
+                <option [ngValue]="10">10</option>
+                <option [ngValue]="15">15</option>
+                <option [ngValue]="15">20</option>
+                <option [ngValue]="25">25</option>
+              </select>
+              entries
+            </label>
+          </div>
+          <div class="mb-3 row">
+            <label for="table-complete-search" class="col-xs-3 col-sm-auto col-form-label"
+              >Search:</label
+            >
+            <div class="col-xs-3 col-sm-auto">
+              <input
+                id="table-complete-search"
+                type="text"
+                class="form-control"
+                name="searchTerm"
+                [(ngModel)]="service.searchTerm"
+                autocomplete="off"
+              />
+            </div>
+            @if(service.loading$ | async){
+            <span class="col col-form-label">Loading...</span>
+            }
+          </div>
+        </div>
+        <table class="display table table-striped table-hover table-light">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col" sortable="name" (sort)="onSort($event)">Name</th>
+              <th scope="col" sortable="position" (sort)="onSort($event)">Position</th>
+              <th scope="col" sortable="salary" (sort)="onSort($event)">Salary</th>
+              <th scope="col" sortable="office" (sort)="onSort($event)">Office</th>
+              <th scope="col" sortable="extn" (sort)="onSort($event)">Extn</th>
+              <th scope="col" sortable="email" (sort)="onSort($event)">Email</th>
+              <th scope="col">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for(data of tableData$ | async; track data; let i = $index){
+            <tr>
+              <th scope="row">{{ i + 1 + ((service.page - 1) * service.pageSize)}}</th>
+              <td>
+                <ngb-highlight [result]="data.name" [term]="service.searchTerm" />
+              </td>
+              <td>
+                <ngb-highlight [result]="data.position" [term]="service.searchTerm" />
+              </td>
+              <td>
+                <ngb-highlight [result]="data.salary|number" [term]="service.searchTerm" />
+              </td>
+              <td>
+                <ngb-highlight [result]="data.office" [term]="service.searchTerm" />
+              </td>
+              <td>
+                <ngb-highlight [result]="data.extn|number" [term]="service.searchTerm" />
+              </td>
+              <td>
+                <ngb-highlight [result]="data.email" [term]="service.searchTerm" />
+              </td>
+              <td>
+                <ul class="action">
+                  <i class="fa fa-eye font-primary pe-2"></i>
+                  <i class="icofont icofont-close-circled font-danger ps-2"></i>
+                </ul>
+              </td>
+            </tr>
+            } @empty{
+            <tr class="odd">
+              <td colspan="8" class="dataTables_empty" style="text-align: center; font-size: 18px">
+                No records found
+              </td>
+            </tr>
+            }
+          </tbody>
+        </table>
+        <div class="d-flex justify-content-between p-2">
+          <ngb-pagination
+            class="ms-3"
+            [collectionSize]="( total$ | async)!"
+            [(page)]="service.page"
+            [pageSize]="service.pageSize"
+          />
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

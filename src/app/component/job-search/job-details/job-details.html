@@ -1,0 +1,58 @@
+<div class="container-fluid job-cards-view custom-cards-view">
+    <div class="row">
+        <div class="col-xl-3 xl-40 box-col-12">
+            <app-job-filter />
+        </div>
+        <div class="col-xl-9 xl-60 box-col-12">
+            <div class="card">
+                <div class="job-search">
+                    <div class="card-body">
+                        <div class="d-flex">
+                            <img class="img-40 img-fluid m-r-20" src="assets/images/job-search/1.jpg"   alt="job">
+                            <div class="flex-grow-1">
+                                <h6 class="f-w-600"><a class="font-primary" href="#">Product Designer (UI/UX
+                                        Designer)</a><span class="pull-right">
+                                        <button class="btn btn-primary" type="button">Apply</button></span></h6>
+                                <p>Endless - United States<span><i class="fa fa-star font-warning"></i>
+                                        <i class="fa fa-star font-warning"></i>
+                                        <i class="fa fa-star font-warning"></i>
+                                        <i class="fa fa-star font-warning"></i>
+                                        <i class="fa fa-star font-warning"></i>
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+                        @for(jobData of jobDetail | slice:0:4; track jobData){
+                        <div class="job-description">
+                            <h6>{{ jobData.title }}</h6>
+                            @if(jobData.liClass === true){
+                            <ul>
+                                @for(data of jobData.data; track data){
+                                <li> {{ data.desctiption }}</li>
+                                }
+                            </ul>
+                            }
+                            @else{
+                            @for(data of jobData.data; track data){
+                            <li> {{ data.desctiption }}</li>
+                            }
+                            }
+                        </div>
+                        }
+                        <div class="job-description">
+                            <button class="btn btn-primary me-2" type="button">
+                                <span><i class="fa fa-check"></i></span> Save this job</button>
+                            <button class="btn btn-primary" type="button"><span>
+                                <i class="fa fa-share-alt"></i></span>Share
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="header-faq">
+                <h6 class="mb-0 f-w-600">Similar jobs</h6>
+            </div>
+            <app-similar-jobs />
+        </div>
+    </div>
+</div>

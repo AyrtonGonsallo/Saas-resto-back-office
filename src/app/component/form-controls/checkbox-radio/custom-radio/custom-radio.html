@@ -1,0 +1,53 @@
+<div class="card">
+    <div class="card-header pb-0">
+        <h4>Custom Radio</h4>
+        <p class="desc mb-0 mt-1"><span>Use
+                the</span><code>.form-check-input-* ,.form-check-label-* </code><span>for radios.</span></p>
+    </div>
+    <div class="card-body checkbox-checked">
+        <div class="row g-3">
+            <div class="col-xxl-4 col-sm-6">
+                <div class="card-wrapper solid-border rounded-3">
+                    <h6 class="sub-title fw-bold">Bordered Radio</h6>
+                    @for( Data of borderData; track Data){
+                    <label class="d-block" for="{{Data.id}}">
+                        <input class="radio radio-border-{{Data.class}} radio-{{Data.class}}" id="{{Data.id}}"
+                            type="radio" name="radio1" value="option1" [checked]="Data.check">{{Data.text}}
+                    </label>
+                    }
+                </div>
+            </div>
+            <div class="col-xxl-4 col-sm-12 order-xxl-0 order-sm-1">
+                <div class="card-wrapper solid-border rounded-3">
+                    <h6 class="sub-title fw-bold">Icons Radio</h6>
+                    <div class="form-check radio ps-0">
+                        <ul class="radio-wrapper">
+                            @for( Data of iconData; track Data){
+                            <li>
+                                <input class="form-check-input" id="{{Data.id}}" type="radio" name="radio2"
+                                    value="option2" [checked]="Data.check">
+                                <label class="form-check-label" for="{{Data.id}}">
+                                    <i class="fa fa-{{Data.icon}}"></i><span>{{Data.text}}</span>
+                                </label>
+                            </li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xxl-4 col-sm-6">
+                <div class="card-wrapper solid-border rounded-3 fill-radio">
+                    <h6 class="sub-title fw-bold">Filled Radio</h6>
+                    <form>
+                        @for( Data of filledData; track Data){
+                        <label class="d-block" for="{{Data.id}}">
+                            <input class="radio radio-{{Data.class}} radio-border-{{Data.class}}" id="{{Data.id}}"
+                                type="radio" name="radio-animation" value="option3" [checked]="Data.check">{{Data.text}}
+                        </label>
+                        }
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

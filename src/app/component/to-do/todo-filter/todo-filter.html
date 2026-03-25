@@ -1,0 +1,68 @@
+<div class="email-sidebar md-sidebar" (clickOutside)="clickOutside()">
+    <a class="btn btn-primary email-aside-toggle md-sidebar-toggle" (click)="openFilter()">To Do filter</a>
+    <div class="email-left-aside md-sidebar-aside" [class.open]="open">
+        <div class="card">
+            <div class="card-body">
+                <div class="email-app-sidebar left-bookmark custom-scrollbar">
+                    <div class="d-flex align-items-center flex-wrap">
+                        <div class="media-size-email"><img class="me-3 img-40 rounded-circle"
+                                src="assets/images/avatar/1.jpg" alt=""></div>
+                        <div class="flex-grow-1">
+                            <h6 class="f-w-600">Mark Jecno</h6>
+                            <p>Markjecno&#64;gmail.com</p>
+                        </div>
+                    </div>
+                    <ul class="nav main-menu">
+                        <li class="nav-item">
+                            <button class="btn-primary bg-primary d-block btn-mail w-100">
+                                <app-feather-icon [icon]="'check-circle'" />
+                                To Do List
+                            </button>
+                        </li>
+                        <li class="nav-item">
+                            <a href="javascript:void(0)">
+                                <span class="iconbg badge-light-primary">
+                                    <app-feather-icon [icon]="'file-plus'" />
+                                </span>
+                                <span class="title ms-2">All Task</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="javascript:void(0)">
+                                <span class="iconbg badge-light-success">
+                                    <app-feather-icon [icon]="'check-circle'" />
+                                </span>
+                                <span class="title ms-2">Completed</span>
+                                <span class="badge badge-success">3</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="javascript:void(0)"><span class="iconbg badge-light-danger">
+                                <app-feather-icon [icon]="'cast'" />
+                                </span>
+                                <span class="title ms-2">Pending</span>
+                                <span class="badge badge-danger">2</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="javascript:void(0)"><span class="iconbg badge-light-info">
+                                <app-feather-icon [icon]="'activity'" />
+                                </span>
+                                <span class="title ms-2">In Process</span>
+                                <span class="badge badge-primary">2</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="javascript:void(0)">
+                                <span class="iconbg badge-light-danger">
+                                    <app-feather-icon [icon]="'trash'" />
+                                </span>
+                                <span class="title ms-2">Trash</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

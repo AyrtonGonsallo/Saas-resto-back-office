@@ -1,0 +1,54 @@
+<div class="card visit-card card-hover" (clickOutside)="clickOutside()">
+  <div class="card-header pb-0">
+    <h4>Total visit</h4>
+    <div class="dropdown icon-dropdown">
+      <button class="btn dropdown-toggle" type="button" (click)="open()">
+        <i class="icon-more-alt"></i>
+      </button>
+      <div class="dropdown-menu dropdown-menu-end" [class.show]="isopen">
+        <a class="dropdown-item" href="javascript:void(0)">Weekly</a>
+        <a class="dropdown-item" href="javascript:void(0)">Monthly</a>
+        <a class="dropdown-item" href="javascript:void(0)">Yearly</a>
+      </div>
+    </div>
+  </div>
+  <div class="card-body pb-0">
+    <ul class="d-flex justify-content-xl-between justify-content-evenly">
+      <li>
+        <div class="badge bg-light-primary b-r-0">
+          <svg class="svg-menu me-1">
+            <use href="assets/svg/iconly-sprite.svg#mobile"></use></svg
+          >Mobile
+        </div>
+        <div class="d-block text-center mt-2">
+          <h6 class="f-w-500">68,9%</h6>
+          <span class="font-light f-13">20,600</span>
+        </div>
+      </li>
+      <li>
+        <div class="badge bg-light-secondary b-r-0">
+          <svg class="svg-menu me-1">
+            <use href="assets/svg/iconly-sprite.svg#desktop"></use></svg
+          >Desktop
+        </div>
+        <div class="d-block text-center mt-2">
+          <h6 class="f-w-500">13,4%</h6>
+          <span class="font-light f-13">02,450</span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div class="visit-chart">
+    <apx-chart
+      [series]="Totalvisitchart.series"
+      [chart]="Totalvisitchart.chart"
+      [dataLabels]="Totalvisitchart.dataLabels"
+      [tooltip]="Totalvisitchart.tooltip"
+      [colors]="Totalvisitchart.colors"
+      [xaxis]="Totalvisitchart.xaxis"
+      [stroke]="Totalvisitchart.stroke"
+      [yaxis]="Totalvisitchart.yaxis"
+      [grid]="Totalvisitchart.grid"
+    />
+  </div>
+</div>

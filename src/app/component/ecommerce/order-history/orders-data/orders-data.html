@@ -1,0 +1,40 @@
+@for(item of orderHistory; track item){
+<div class="card">
+    <div class="card-header">
+        <h4>{{item.title}}</h4>
+        <p class="desc mb-0 mt-1"><span></span><code></code><span></span></p>
+    </div>
+    <div class="card-body">
+        <div class="row g-sm-4 g-3">
+            @for(items of item.data; track items; let index = $index){
+            <div class="col-xxl-4 col-md-6">
+                <div class="prooduct-details-box">
+                    <div class="d-flex gap-3">
+                        <img class="align-self-center img-fluid img-60" [src]="items.image" alt="">
+                        <div class="flex-grow-1">
+                            <div class="product-name">
+                                <h6><a href="javascript:void(0)">{{items.title}}</a></h6>
+                            </div>
+                            <div class="rating">
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                            </div>
+                            <div class="price">
+                                <div class="text-muted me-2">Price</div>: 210$
+                              </div>
+                            <div class="avaiabilty">
+                                <div class="text-success">In stock</div>
+                            </div><a class="btn btn-xs btn-{{items.color}}" href="javascript:void(0)">{{items.status}}</a>
+                            <app-feather-icon [icon]="'x'" class="feather close" (click)="cancelOrder(index,items.id)" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            }
+        </div>
+    </div>
+</div>
+}

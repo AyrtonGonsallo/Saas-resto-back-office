@@ -1,0 +1,79 @@
+<div class="card">
+    <div class="calendar-box">
+        <div class="card-header ">
+            <h4>Today</h4><span>UI/UX designer</span>
+            <div class="card-icon"><a class="btn btn-primary" [routerLink]="'/calender'">Add Task</a></div>
+        </div>
+        <div class="card-body pt-0">
+            <div class="default-datepicker custom-datepicker border-dash-bottom pb-3"> 
+                <div class="datepicker-here">
+                    <ngb-datepicker #dp (navigate)="date = $event.next" />
+                </div> 
+            </div>
+            <div class="row align-items-center"> 
+                <div class="col-2">
+                    <ul class="d-flex flex-column gap-4">
+                        <li> <span class="font-light">10:00 </span></li>
+                        <li> <span class="font-light">11:00</span></li>
+                        <li> <span class="font-light">12:00</span></li>
+                        <li> <span class="font-light">13:00</span></li>
+                        <li> <span class="font-light">14:00</span></li>
+                    </ul>
+                </div>
+                <div class="col-10 timeline-items">
+                    <div class="timeline-box d-flex align-items-center b-w-39 b-t-primary">
+                        <div class="flex-grow-1">
+                            <h6 class="f-15 f-w-600 mb-1">Design meeting</h6>
+                            <div class="font-light">
+                                <app-feather-icon [icon]="'clock'" />
+                                <span class="font-light f-w-400 f-14">2 hours</span>
+                            </div>
+                        </div>
+                        <div class="team-member text-end">
+                            <div class="customers d-inline-block avatar-group">
+                                <ul>
+                                    <li class="d-inline-block">
+                                        <img class="img-38 b-r-8" src="assets/images/user/13.jpg" alt="#">
+                                    </li>
+                                    <li class="d-inline-block">
+                                        <img class="img-38 b-r-8" src="assets/images/user/6.jpg" alt="#">
+                                    </li>
+                                    <li class="d-inline-block">
+                                        <img class="img-38 b-r-8" src="assets/images/user/3.jpg" alt="#">
+                                    </li>
+                                    <li class="d-inline-block"><span class="b-r-10">+4</span></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <hr class="my-4">
+                    <div class="timeline-box d-flex align-items-center b-w-39 b-t-secondary">
+                        <div class="flex-grow-1">
+                            <h6 class="f-15 f-w-600 mb-1">Weekly scurm Meeting</h6>
+                            <div class="font-light">
+                                <app-feather-icon [icon]="'clock'" />
+                                <span class="font-light f-w-400 f-14">2 hours</span>
+                            </div>
+                        </div>
+                        <div class="team-member text-end">
+                            <div class="customers d-inline-block avatar-group">
+                                <ul>
+                                    <li class="d-inline-block">
+                                        <img class="img-38 b-r-8" src="assets/images/user/14.jpg" alt="img">
+                                    </li>
+                                    <li class="d-inline-block">
+                                        <img class="img-38 b-r-8" src="assets/images/user/9.jpg" alt="img">
+                                    </li>
+                                    <li class="d-inline-block">
+                                        <img class="img-38 b-r-8" src="assets/images/user/11.jpg" alt="img">
+                                    </li>
+                                    <li class="d-inline-block"><span class="b-r-10">+2</span></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,28 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="card gallery-grid">
+        <div class="card-header pb-0">
+          <p class="desc mb-0 mt-1"><span></span><code></code><span></span></p>
+        </div>
+        <div class="my-gallery card-body row gallery-with-description mb-0" itemscope="" gallerize>
+          @for(imgData of galleryGrid; track imgData){
+          <div class="col-xl-3 col-sm-6">
+            <div class="my-gallery pswp-gallery">
+              <div class="pswp-gallery__item" itemprop="associatedMedia">
+                <a href="javascript:void(0)" itemprop="contentUrl">
+                  <img [src]="imgData.srcUrl" style="width: 100%" alt="images" />
+                  <div class="caption">
+                    <h4>{{ imgData.title }}</h4>
+                    <p>{{ imgData.text }}</p>
+                  </div>
+                </a>
+              </div>
+            </div>
+          </div>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

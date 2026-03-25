@@ -1,0 +1,16 @@
+<div class="card">
+    <div class="card-header pb-0">
+        <h4>Numbered &amp; badge lists</h4>
+        <p class="desc mb-0 mt-1"><span>Use the</span><code>.list-group-numbered</code><span>modifier class to numbered
+                list group items.Numbers are generated via CSS for better placement inside list group items.</span></p>
+    </div>
+    <div class="card-body">
+        <ol class="list-group list-group-numbered badge-list">
+            @for( numberbadgeitem of NumberedBadgeData; track numberbadgeitem){
+            <li class="list-group-item">
+                <div>{{numberbadgeitem.list}}</div><span class="badge  {{numberbadgeitem.class}} rounded-pill p-2">{{numberbadgeitem.text}}</span>
+            </li>
+        }
+        </ol>
+    </div>
+</div>

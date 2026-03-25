@@ -1,0 +1,36 @@
+<div class="card" (clickOutside)="clickOutside()">
+  <div class="card-header pb-0">
+    <h4>Activity report</h4>
+    <div class="dropdown icon-dropdown">
+      <button class="btn dropdown-toggle" type="button" (click)="open()">
+        <i class="icon-more-alt"></i>
+      </button>
+      <div class="dropdown-menu dropdown-menu-end" [class.show]="isopen">
+        <a class="dropdown-item" href="javascript:void(0)">Weekly</a>
+        <a class="dropdown-item" href="javascript:void(0)">Monthly</a>
+        <a class="dropdown-item" href="javascript:void(0)">Yearly</a>
+      </div>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="chart-container chart-height">
+      <div>
+        <apx-chart
+          [series]="activityChart.series"
+          [chart]="activityChart.chart"
+          [colors]="activityChart.colors"
+          [stroke]="activityChart.stroke"
+          [plotOptions]="activityChart.plotOptions"
+          [xaxis]="activityChart.xaxis"
+          [yaxis]="activityChart.yaxis"
+          [legend]="activityChart.legend"
+          [dataLabels]="activityChart.dataLabels"
+          [grid]="activityChart.grid"
+          [tooltip]="activityChart.tooltip"
+          [fill]="activityChart.fill"
+          [responsive]="activityChart.responsive"
+        />
+      </div>
+    </div>
+  </div>
+</div>

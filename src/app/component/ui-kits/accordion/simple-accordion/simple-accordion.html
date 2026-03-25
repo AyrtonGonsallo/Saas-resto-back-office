@@ -1,0 +1,53 @@
+<div class="card">
+  <div class="card-header pb-0">
+    <h4>Simple accordion</h4>
+    <p class="desc mb-0 mt-1">
+      <span>Use</span><code>.accordion, accordion-light-*</code
+      ><span
+        >click accordion below to expand/collapse accordion content, you can use different
+        color.</span
+      >
+    </p>
+  </div>
+  <div class="card-body">
+    <div class="accordion" ngbAccordion [closeOthers]="true">
+      @for(simpleaccordionitem of simpleAccordionData; track simpleaccordionitem){
+      <div
+        class="accordion-item"
+        ngbAccordionItem
+        [collapsed]="simpleaccordionitem.panel !== 'First'"
+      >
+        <h2 class="accordion-header" ngbAccordionHeader>
+          <button
+            class="accordion-button collapsed accordion-light-primary active"
+            type="button"
+            ngbAccordionButton
+          >
+            {{simpleaccordionitem.title}}
+          </button>
+        </h2>
+        <div class="accordion-collapse collapse show" ngbAccordionCollapse>
+          <div class="accordion-body" ngbAccordionBody>
+            <ng-template>
+              @if(simpleaccordionitem.link === true){
+              <ul class="d-flex flex-column gap-2 accordions-content">
+                <li>1. Layout</li>
+                <li>2. Images</li>
+                <li>3. Visual hierarchy</li>
+                <li>4. Color scheme</li>
+                <li>5. Typography</li>
+                <li>6. Navigation</li>
+                <li>7. Readability</li>
+                <li>8. Content</li>
+              </ul>
+              }@else{
+              <p lass="mb-0" [innerHTML]="simpleaccordionitem.text"></p>
+              }
+            </ng-template>
+          </div>
+        </div>
+      </div>
+      }
+    </div>
+  </div>
+</div>

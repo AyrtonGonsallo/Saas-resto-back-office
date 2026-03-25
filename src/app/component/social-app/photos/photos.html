@@ -1,0 +1,25 @@
+<div class="row">
+    <div class="col-sm-12">
+        <div class="card gallery-grid">
+            <div class="my-gallery card-body row gallery-with-description" itemscope="" gallerize>
+                @for( img of photosData; track img){
+                <div class="col-xl-3 col-sm-6">
+                    <div class="my-gallery pswp-gallery">
+                        <div class="pswp-gallery__item">
+                            <a target="_blank">
+                                <img [src]="img.srcUrl" alt="Demo image 1">
+                                <div class="caption">
+                                    <h4>Portfolio Title</h4>
+                                    <p>is simply dummy text of the printing and typesetting industry. Lorem Ipsum has
+                                        been
+                                        the industry's standard dummy.</p>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

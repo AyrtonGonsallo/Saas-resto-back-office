@@ -1,0 +1,24 @@
+<button class="btn btn-info px-xl-2 px-xxl-3" type="button" (click)="tooltipModal(tooltipmodalContent)">Tooltips and popovers</button>
+<ng-template #tooltipmodalContent let-modal>
+    <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title">Tooltip and popover modal</h4>
+            <button class="btn-close" type="button" (click)="modal.dismiss('Cross click')"></button>
+        </div>
+        <div class="modal-body">
+            <h5>Popover in a modal</h5>
+            <p class="mt-2">This <a class="btn btn-success popover-test btn-sm" role="button" placement="end"
+                ngbTooltip="this is amazing content" triggers="click" >button</a>
+                 triggers a popover on click.</p>
+            <hr>
+            <h5>Tooltips in a modal</h5>
+            <p class="mt-2"><a class="tooltip-test font-primary" href="javascript:void(0)" placement="top"
+                ngbTooltip="Tooltip">This link</a> and <a class="tooltip-test font-primary" href="javascript:void(0)"
+                placement="top" ngbTooltip="Tooltip">that link</a> have tooltips on hover.</p>
+          </div>
+        <div class="modal-footer">
+            <button class="btn btn-secondary" type="button" (click)="modal.dismiss('Cross click')">Close</button>
+            <button class="btn btn-primary" type="button">Save changes</button>
+        </div>
+    </div>
+</ng-template>

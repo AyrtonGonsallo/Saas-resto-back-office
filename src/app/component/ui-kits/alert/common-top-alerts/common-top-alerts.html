@@ -1,0 +1,30 @@
+@for( theme of data(); track theme){
+    <div class="card">
+        <div class="card-header pb-0">
+            <h4>{{ theme.mainTitle}}</h4>
+            <p class="desc mb-0 mt-1" [innerHTML]="theme.des"></p>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-lg-6">
+                    @for( item of theme.item; track item ){
+                    <p class="mb-1">{{ item.title}}</p>
+                    <div class="alert alert-{{ item.class}}" role="alert">
+                        <p class="mb-0">This is a <a class="alert-link {{item.color}}" href="javascript:void(0)">{{item.text}}</a> with an
+                            example link.Check it out.</p>
+                    </div>
+                    }
+                </div>
+                <div class="col-lg-6">
+                    @for( item of theme.item2; track item ){
+                    <p class="mb-1">{{ item.title}}</p>
+                    <div class="alert alert-{{ item.class}}" role="alert">
+                        <p class="mb-0">This is a <a class="alert-link {{item.color}}" href="javascript:void(0)">{{item.text}}</a> with an
+                            example link.Check it out.</p>
+                    </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+}

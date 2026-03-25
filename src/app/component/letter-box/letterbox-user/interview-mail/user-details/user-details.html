@@ -1,0 +1,83 @@
+<div class="user-mail-wrapper" (clickOutside)="clickOutside()">
+    <div class="user-title">
+        <div>
+            <div class="rounded-border">
+                <img class="img-fluid" src="assets/images/user/6.jpg" alt="user">
+            </div>
+            <div class="dropdown-subtitle">
+                <p>Jacob Jones</p>
+                <div class="onhover-dropdown">
+                    <button class="btn p-0 dropdown-button" (click)="openMenu()">To me
+                        <app-feather-icon [icon]="'chevron-down'" />
+                    </button>
+                    <div class="inbox-security onhover-show-div">
+                        <p>From: <span>jones &lt;jacobjones3&#64;gmail.com&gt;</span></p>
+                        <p>to: <span>donut.horry&#64;gmail.com</span></p>
+                        <p>reply-to:<span>&lt;jacobjones3&#64;gmail.com&gt;</span></p>
+                        <p>date: <span>Jul 13, 2023, 7:10 AM</span></p>
+                        <p>subject: <span>Important Account Security Update</span></p>
+                        <p>security: <span>standard encryption (TLS)</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="inbox-options"> <span>Friday 07 Apr (4 hours ago)</span>
+            <div class="light-square">
+                <app-feather-icon [icon]="'star'" class="important-mail" />
+            </div>
+            <div class="light-square">
+                <app-feather-icon [icon]="'printer'" />
+            </div>
+            <div class="light-square btn-group">
+                <div class="dropdown-toggle" (click)="openMenu()">
+                    <app-feather-icon [icon]="'menu'" />
+                </div>
+                <div class="dropdown-menu dropdown-block" [class.show]="isOpen">
+                    <a class="dropdown-item" href="javascript:void(0);"><i class="fa fa-mail-reply"></i>Reply</a>
+                    <a class="dropdown-item" href="javascript:void(0);"> <i class="fa fa-mail-forward"></i>Forward</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="user-body">
+        <p>Dear Customer,</p>
+        <p>We regret to notify you that an unauthorized attempt was made to access your account. Our system discovered
+            suspicious activity, and we acted right away to safeguard your personal data.</p>
+        <p>Please change your login information by clicking the following link in order to safeguard your account:</p>
+        <p>Please be aware that your account may be temporarily suspended if no action is taken within 24 hours. We urge
+            you to take immediate action to prevent any inconvenience.</p>
+        <p>We sincerely apologize for any inconvenience this may cause and thank you for your immediate attention to
+            this matter.</p>
+        <div class="mail-subcontent">
+            <p>Yours faithfully,</p>
+            <p>Account Security Team</p>
+        </div>
+    </div>
+    <div class="user-footer">
+        <div>
+            <app-feather-icon [icon]="'paperclip'" />
+            <span class="font-light">Attachments</span>
+        </div>
+        <div class="d-inline-block">
+            <div class="attchment-file common-flex">
+                <div class="common-flex align-items-center"><img src="assets/images/email-template/pdfs.png" alt="pdf">
+                    <div class="d-block">
+                        <p>Offer_Letter.pdf</p>
+                        <p>200KB</p>
+                    </div>
+                </div>
+                <a href="assets/pug/pages/template/text_file.font" download>
+                    <i class="fa fa-download font-light"></i>
+                </a>
+            </div>
+        </div>
+        <div class="toolbar-box">
+            <div id="editor">
+                <angular-editor [ngModel]="htmlContent" [ngModelOptions]="{standalone: true}" />
+            </div>
+        </div>
+    </div>
+    <div class="send-btn">
+        <button class="btn btn-primary">Send<i class="fa fa-paper-plane"></i></button>
+    </div>
+</div>

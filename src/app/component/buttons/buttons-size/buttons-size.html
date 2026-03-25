@@ -1,0 +1,84 @@
+<div class="card custom-card-btn-size">
+    <div class="card-header pb-0">
+        <h4>Buttons Size</h4>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-lg-6 col-sm-12">
+                <div class="nav flex-column nav-pills nav-success card-wrapper bg-light-secondary rounded-3">
+                    <a class="nav-link active" [class.active]="openTab === 'Default'" (click)="tabbed('Default')">
+                        <div class="circle-dot-secondary"> <span></span></div>
+                        Default Size
+                    </a>
+                    <a class="nav-link" [class.active]="openTab === 'Large'" (click)="tabbed('Large')">
+                        <div class="circle-dot-secondary"> <span></span></div>
+                        Large Buttons
+                    </a>
+                    <a class="nav-link" [class.active]="openTab === 'Small'" (click)="tabbed('Small')">
+                        <div class="circle-dot-secondary"> <span></span></div>
+                        Small Buttons
+                    </a>
+                    <a class="nav-link" [class.active]="openTab === 'Extra Small'"
+                        (click)="tabbed('Extra Small')">
+                        <div class="circle-dot-secondary"> <span></span></div>
+                        Extra Small
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-6 col-sm-12">
+                @for( item of ButtonData; track item){
+                <div class="tab-content">
+                    <div class="tab-pane fade show active" [ngClass]="{'show active': openTab === 'Default'}">
+                        <div class="btn-showcase row">
+                            @for( data of item.data; track data){
+                            @if(item.Title === 'Default Size'){
+                            <div class="text-center col-12 col-sm-6 col-md-12">
+                                <button class="btn m-1 {{data.class}}" type="button"
+                                    title="btn btn-{{data.class}}">{{ data.text }}</button>
+                            </div>
+                            }
+                            }
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" [ngClass]="{'show active': openTab === 'Large'}">
+                        <div class="btn-showcase row">
+                            @for( data of item.data; track data){
+                            @if(item.Title === 'Large Size'){
+                            <div class="text-center col-12 col-sm-6 col-md-12">
+                                <button class="btn m-1 btn-lg {{data.class}}" type="button"
+                                    title="btn btn-{{data.class}} btn-lg">{{ data.text }}</button>
+                            </div>
+                            }
+                            }
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" [ngClass]="{'show active': openTab === 'Small'}">
+                        <div class="btn-showcase row">
+                            @for( data of item.data; track data){
+                            @if(item.Title === 'Small Size'){
+                            <div class="text-center col-12 col-sm-6 col-md-12">
+                                <button class="btn m-1 btn-sm {{data.class}}" type="button"
+                                    title="btn btn-{{data.class}} btn-sm">{{ data.text }}</button>
+                            </div>
+                            }
+                            }
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" [ngClass]="{'show active': openTab === 'Extra Small'}">
+                        <div class="btn-showcase row">
+                            @for( data of item.data; track data){
+                            @if(item.Title === 'Extra Small Size'){  
+                            <div class="text-center col-12 col-sm-6 col-md-12">
+                                <button class="btn m-1 btn-xs {{data.class}}" type="button"
+                                    title="btn btn-{{data.class}} btn-xs">{{ data.text }}</button>
+                            </div>
+                            }
+                            }
+                        </div>
+                    </div>
+                </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

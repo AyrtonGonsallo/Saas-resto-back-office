@@ -1,0 +1,81 @@
+<div class="card">
+    <div class="card-header pb-0">
+        <h4>Pills tabs</h4>
+        <p class="desc mb-0 mt-1"><span>Use the</span><code>data-bs-toggle/=&quot;pill&quot;</code><span>to
+                tabs pill shape. And mandatory for .active class.</span></p>
+    </div>
+    <div class="card-body">
+        <ul class="nav nav-pills nav-primary" ngbNav #nav="ngbNav" [(activeId)]="active">
+            <li class="nav-item" [ngbNavItem]="1">
+                <a class="nav-link" ngbNavLink>About us</a>
+                <ng-template ngbNavContent>
+                    <div class="tab-pane fade show">
+                        <p class="pt-3">The ultimate goal of every web design is to create a site that will reach its
+                            audience and be useful to them. In order to achieve that, it is necessary to befriend
+                            Google&apos;s mechanisms and algorithms. There is no use of a pretty website, if it&apos;s
+                            displayed on a 10th page of search results, because this way no one will ever find it. That
+                            brings us to the topic of Google&apos;s Website Ranking.Generally speaking, it&apos;s a list
+                            of pages and their keywords, sorted in the order of search results. The higher your place in
+                            the ranking is, the more people are likely to see your page.</p>
+                    </div>
+                </ng-template>
+            </li>
+            <li class="nav-item" [ngbNavItem]="2">
+                <a class="nav-link" ngbNavLink>Contact us</a>
+                <ng-template ngbNavContent>
+                    <div class="tab-pane fade show">
+                        <ul class="d-flex flex-column gap-1 pt-3">
+                            <li>Create professional web page design. Responsive, fully customizable with easy
+                                Drag-n-Drop
+                                Nicepage editor. Adjust colors, fonts, header and footer, layout and other design
+                                elements, as
+                                well as content and images.</li>
+                            <li><strong>Visit Us: </strong> 4 Marigold Close, Glenmore Park, New South Wales, 2745
+                                Australia- 2745</li>
+                            <li><strong>Mail Us:</strong> SamuelMario&#64;armyspy.com</li>
+                            <li><strong>Contact Number: </strong> (02) 4733 6337</li>
+                        </ul>
+                    </div>
+                </ng-template>
+            </li>
+            <li class="nav-item" [ngbNavItem]="3">
+                <a class="nav-link" ngbNavLink>Blog</a>
+                <ng-template ngbNavContent>
+                    <div class="tab-pane fade active show">
+                        <div class="pt-3 d-flex align-items-center gap-3 pills-blogger">
+                            <div class="blog-wrapper d-flex bg-light-primary">
+                                <div class="flex-shrink-0 border-primary"><img
+                                        src="assets/images/dashboard2/product/1.png" alt=""></div>
+                            </div>
+                            <div class="blog-content">
+                                <p> <em class="font-primary fw-bold">Macbook</em> &mdash; iMac is a family of all-in-one
+                                    Mac
+                                    desktop computers designed and built by Apple Inc. It has been the primary part of
+                                    Apple's
+                                    consumer desktop offerings since its debut in August 1998, and has evolved through
+                                    seven
+                                    distinct forms.</p>
+                            </div>
+                        </div>
+                        <div class="pt-3 d-flex align-items-center gap-3 pills-blogger">
+                            <div class="blog-wrapper d-flex bg-light-secondary">
+                                <div class="flex-shrink-0 border-secondary"><img
+                                        src="assets/images/dashboard2/product/2.png" alt="img"></div>
+                            </div>
+                            <div class="blog-content">
+                                <p> <em class="font-secondary fw-bold">Microwave</em> &mdash; Microwave is a form of
+                                    electromagnetic radiation with wavelengths ranging from about one meter to one
+                                    millimetercorresponding to frequencies between 300 MHz and 300 GHz respectively. Different
+                                    sources define different frequency ranges as microwaves.</p>
+                            </div>
+                        </div>
+                    </div>
+                </ng-template>
+            </li>
+        </ul>
+        <div class="tab-content" id="ver-pills-tabContent">
+            <div [ngbNavOutlet]="nav" class="ms-2">
+            </div>
+        </div>
+    </div>
+</div>

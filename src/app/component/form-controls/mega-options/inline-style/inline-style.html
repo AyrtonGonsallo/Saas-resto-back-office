@@ -1,0 +1,31 @@
+<div class="card">
+    <div class="card-header pb-0">
+        <h4>Inline style</h4>
+        <p class="desc mb-0 mt-1"><span>For Create inline megaoption add</span><code>.mega-inline</code><span>class in
+                form tag</span></p>
+    </div>
+    <div class="card-body megaoptions-border-space-sm">
+        <form class="mega-inline">
+            <div class="row">
+                @for(item of inlineData; track item){
+                <div class="col-sm-6">
+                    <div class="card">
+                        <div class="d-flex p-20 pb-0">
+                            <label class="d-block" for="{{item.id}}">
+                                <input class="radio radio-border-{{item.class}} radio-{{item.class}}" id="{{item.id}}"
+                                    type="radio" name="radio1" [checked]="item.check">{{item.title}}
+                            </label>
+                            <div class="flex-grow-1"><span
+                                    class="badge badge-{{item.class}} pull-right digits">{{item.digit}}</span></div>
+                        </div><span class="p-20 pt-0">{{item.lable}}</span>
+                    </div>
+                </div>
+                }
+            </div>
+        </form>
+    </div>
+    <div class="card-footer text-end">
+        <button class="btn btn-warning m-r-15" type="submit">Submit</button>
+        <button class="btn btn-light-warning" type="submit">Cancel</button>
+    </div>
+</div>

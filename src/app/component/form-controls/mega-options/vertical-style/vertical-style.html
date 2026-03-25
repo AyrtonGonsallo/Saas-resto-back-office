@@ -1,0 +1,76 @@
+<div class="card">
+    <div class="card-header pb-0">
+        <h4>Vertical style</h4>
+        <p class="desc mb-0 mt-1"><span>vertical style in mega-options. Use
+                the</span><code>.mega-vertical</code><span>class through created vertical alignments.</span></p>
+    </div>
+    <div class="card-body">
+        <form class="mega-vertical">
+            <div class="row">
+                <div class="col-sm-12">
+                    <p class="mega-title m-b-5">Delivery Option</p>
+                </div>
+                @for(Data of verticalstyleData; track Data){
+                <div class="col-sm-6">
+                    <div class="card">
+                        <div class="d-flex p-20 pb-0">
+                            <label class="d-block" for="{{Data.id}}">
+                                <input class="radio radio-border-{{Data.class}} radio-{{Data.class}}" id="{{Data.id}}"
+                                    type="radio" name="radio5" [checked]="Data.check">{{Data.title}}
+                            </label>
+                            <div class="flex-grow-1"><span
+                                    class="badge badge-{{Data.class}} pull-right digits">{{Data.digit}}</span></div>
+                        </div><span class="p-20 pt-0">{{Data.lable}}</span>
+                    </div>
+                </div>
+                }
+                <div class="col-sm-12">
+                    <p class="mega-title m-b-5">Buying Option</p>
+                </div>
+                <div class="col-sm-6">
+                    <div class="card">
+                        <div class="d-flex p-20 pb-0">
+                            <label class="d-block" for="radio26">
+                                <input class="radio radio-border-warning radio-warning" id="radio26" type="radio"
+                                    name="radio7" value="option1" checked="">Pixelstrap
+                            </label>
+                            <div class="flex-grow-1"><span class="badge badge-warning pull-right digits">250 INR</span>
+                            </div>
+                        </div><span class="p-20 pt-0 rating-star-wrapper">
+                            <i class="icofont icofont-star font-warning"></i>
+                            <i class="icofont icofont-star font-warning"></i>
+                            <i class="icofont icofont-star font-warning"></i>
+                            <i class="icofont icofont-star font-warning"></i>
+                            <i class="icofont icofont-star font-warning"></i>
+                            5 start rating
+                        </span>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="card">
+                        <div class="d-flex p-20 pb-0">
+                            <label class="d-block" for="radio27">
+                                <input class="radio radio-border-danger radio-danger" id="radio27" type="radio"
+                                    name="radio7" value="option1">Multikart
+                            </label>
+                            <div class="flex-grow-1">
+                                <span class="badge badge-danger pull-right digits">150 INR</span>
+                            </div>
+                        </div><span class="p-20 pt-0 rating-star-wrapper">
+                            <i class="icofont icofont-star font-warning"></i>
+                            <i class="icofont icofont-star font-warning"></i>
+                            <i class="icofont icofont-star"></i>
+                            <i class="icofont icofont-star"></i>
+                            <i class="icofont icofont-star m-r-5"></i>
+                            2 start rating
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div class="card-footer text-end">
+            <button class="btn btn-primary m-r-15" type="submit">Submit</button>
+            <button class="btn bg-light" type="submit">Cancel</button>
+        </div>
+    </div>
+</div>

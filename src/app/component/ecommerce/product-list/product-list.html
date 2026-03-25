@@ -1,0 +1,115 @@
+<div class="container-fluid list-products">
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="card">
+        <div class="card-header pb-0">
+          <h4>Individual column searching (text inputs)</h4>
+          <span
+            >The searching functionality provided by DataTables is useful for quickly search through
+            the information in the table - however the search is global, and you may wish to present
+            controls that search on specific columns.</span
+          >
+        </div>
+        <div class="card-body">
+          <div class="table-responsive theme-scrollbar product-table">
+            <div
+              class="datatable-wrapper datatable-loading no-footer sortable searchable fixed-columns"
+            >
+              <div class="datatable-top">
+                <div class="d-flex justify-content-between mt-2">
+                  <select
+                    class="form-select"
+                    style="width: auto"
+                    name="pageSize"
+                    [(ngModel)]="service.pageSize"
+                  >
+                    <option [ngValue]="10">10</option>
+                    <option [ngValue]="25">25</option>
+                    <option [ngValue]="50">50</option>
+                    <option [ngValue]="10">100</option>
+                  </select>
+                  <div class="mb-3 row">
+                    <label for="table-complete-search" class="col-xs-3 col-sm-auto col-form-label"
+                      >Search:</label
+                    >
+                    <div class="col-xs-3 col-sm-auto">
+                      <input
+                        id="table-complete-search"
+                        type="text"
+                        class="form-control"
+                        name="searchTerm"
+                        [(ngModel)]="service.searchTerm"
+                        autocomplete="off"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="datatable-container">
+                <table class="display datatable-table add-product-table" id="basic-3">
+                  <thead>
+                    <tr>
+                      <th sortable="productImg" (sort)="onSort($event)">
+                        <a class="datatable-sorter">Image</a>
+                      </th>
+                      <th sortable="productName" (sort)="onSort($event)">Details</th>
+                      <th sortable="amount" (sort)="onSort($event)">Amount</th>
+                      <th sortable="stock" (sort)="onSort($event)">Stock</th>
+                      <th>Start date</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @for(item of (products$ | async) ? (products$ | async) : []; track item){
+                    <tr>
+                      <td>
+                        <a [routerLink]="['/ecommerce/product-page']"
+                          ><img src="{{item.productImg}}" alt=""
+                        /></a>
+                      </td>
+                      <td>
+                        <a [routerLink]="['/ecommerce/product-page']">
+                          <h6>{{item.productName}}</h6>
+                        </a>
+                        <span>{{item.productSubName}}</span>
+                      </td>
+                      <td>${{item.amount}}</td>
+                      <td>
+                        <span
+                          [class]="{'font-success' : item.stock === 'In Stock', 'font-danger' : item.stock === 'out of stock', 'font-primary' : item.stock === 'Low Stock'}"
+                          >{{item.stock}}</span
+                        >
+                      </td>
+                      <td>{{item.startData}}</td>
+                      <td>
+                        <button class="btn btn-danger btn-xs me-1" type="button">Delete</button>
+                        <button class="btn btn-primary btn-xs" type="button">Edit</button>
+                      </td>
+                    </tr>
+                    } @empty{
+                    <tr class="odd">
+                      <td
+                        colspan="8"
+                        class="dataTables_empty"
+                        style="text-align: center; font-size: 18px"
+                      >
+                        No results match your search query
+                      </td>
+                    </tr>
+                    }
+                  </tbody>
+                </table>
+                <ngb-pagination
+                  class="ms-3"
+                  [collectionSize]="(total$ | async)!"
+                  [(page)]="service.page"
+                  [pageSize]="service.pageSize"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

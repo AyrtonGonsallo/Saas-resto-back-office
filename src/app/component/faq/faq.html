@@ -1,0 +1,34 @@
+<div class="container-fluid">
+    <div class="row">
+        <app-top-common-faq [data]="FaqTopPartData" />
+        <div class="col-lg-12">
+            <div class="header-faq">
+                <h4 class="mb-0">Quick Questions are answered</h4>
+            </div>
+            <div class="row default-according style-1 faq-accordion accordion accordion-flush">
+                <div class="col-xl-8 xl-60 col-lg-6 col-md-7">
+                    <app-questions />
+                </div>
+                <div class="col-xl-4 xl-40 col-lg-6 col-md-5">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <app-serach-artical />
+                        </div>
+                        <div class="col-lg-12">
+                            <app-navigation />
+                        </div>
+                        <div class="col-lg-12">
+                            <app-latest-update />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-12">
+            <app-featured-tutorials [data]="featuredTutorialData" />
+        </div>
+        <div class="col-lg-12">
+            <app-latest-artical-videos [data]="articlesAndVideosData" />
+        </div>
+    </div>
+</div>

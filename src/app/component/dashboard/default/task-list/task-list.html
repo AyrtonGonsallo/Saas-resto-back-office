@@ -1,0 +1,44 @@
+<div class="card task-card" (clickOutside)="clickOutside()">
+    <div class="card-header pb-0">
+        <h4>Task list</h4>
+        <div class="dropdown icon-dropdown">
+            <button class="btn dropdown-toggle" type="button" (click)="open()">
+                <i class="icon-more-alt"></i>
+            </button>
+            <div class="dropdown-menu dropdown-menu-end" [class.show]="isopen">
+                <a class="dropdown-item" href="javascript:void(0)">Weekly</a>
+                <a class="dropdown-item" href="javascript:void(0)">Monthly</a>
+                <a class="dropdown-item" href="javascript:void(0)">Yearly</a>
+            </div>
+        </div>
+    </div>
+    <div class="card-body filled-checkbox">
+        <ul>
+            @for( data of taskData; track data){
+            <li class="d-flex line-{{data.class}}">
+                <div class="flex-shrink-0">
+                    <div class="form-check checkbox checkbox-solid-primary">
+                        <input class="form-check-input" type="checkbox" id="{{data.for}}" [(ngModel)]="data.check">
+                        <label class="form-check-label" for="{{data.for}}"></label>
+                    </div>
+                </div>
+                <div class="flex-grow-1"> <a [routerLink]="'/task'">
+                        <h5 class="f-w-500">{{data.task}}</h5>
+                    </a>
+                    <h6>{{data.name}}</h6>
+                </div>
+                <div class="dropdown task-dropdown" (clickOutside)="data.isActive = false">
+                    <button class="btn dropdown-toggle" type="button" (click)="open2(data.id)">
+                        <app-feather-icon [icon]="'more-horizontal'" />
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-end" [class.show]="data.isActive">
+                        <a class="dropdown-item" href="javascript:void(0)">Weekly</a>
+                        <a class="dropdown-item" href="javascript:void(0)">Monthly</a>
+                        <a class="dropdown-item" href="javascript:void(0)">Yearly</a>
+                    </div>
+                </div>
+            </li>
+            }
+        </ul>
+    </div>
+</div>

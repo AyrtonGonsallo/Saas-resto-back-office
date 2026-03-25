@@ -1,0 +1,35 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="card gallery-grid">
+        <div class="card-header pb-0">
+          <p class="desc mb-0 mt-1"><span></span><code></code><span></span></p>
+        </div>
+        <div class="card-body">
+          <div class="my-gallery row grid gallery-with-description mb-0" gallerize itemscope="">
+            <ngx-masonry [options]="masonryOptions" style="width: 100%" [ordered]="true">
+              @for(image of masonryImages; track image){
+              <figure class="grid-item col-xl-3 col-sm-6" ngxMasonryItem style="width: 355px">
+                <div class="my-gallery pswp-gallery">
+                  <div class="pswp-gallery__item">
+                    <a href="javascript:void(0)">
+                      <img [src]="image[1]" width="100%" class="img-thumbnail" alt="images" />
+                      <div class="caption">
+                        <h4>Portfolio Title 1</h4>
+                        <p>
+                          Here is simply dummy text of the printing and typesetting industry. Lorem
+                          Ipsum has been the industry's standard dummy.
+                        </p>
+                      </div>
+                    </a>
+                  </div>
+                </div>
+              </figure>
+              }
+            </ngx-masonry>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,35 @@
+<div class="card">
+    <div class="card-header pb-0">
+        <h4>Basic Radio And Checkbox</h4>
+        <p class="desc mb-0 mt-1"><span>Use the</span><code>.form-check-inline</code><span>through display
+                inline.</span></p>
+    </div>
+    <div class="card-body">
+        <div class="row g-3">
+            <div class="col-md-12">
+                <div class="card-wrapper solid-border rounded-3">
+                    <h6 class="sub-title f-w-500">Simple Checkbox</h6>
+                    <div class="form-check-size">
+                        @for(item of basicItem; track item){
+                            <label class="d-block">
+                                <input class="checkbox-primary" id="{{item.id}}" type="checkbox" [(ngModel)]="item.value">{{item.text}}
+                            </label>
+                          }
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="card-wrapper solid-border rounded-3">
+                    <h6 class="sub-title f-w-500">Simple Radios</h6>
+                    <div class="form-check-size">
+                        @for(item of radioData; track item){
+                            <label class="d-block">
+                                <input class="radio-primary" id="{{item.id}}" type="radio" name="radio5"   [checked]="item.check">{{item.text}}
+                            </label>
+                           }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

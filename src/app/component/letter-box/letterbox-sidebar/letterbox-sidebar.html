@@ -1,0 +1,42 @@
+<div class="row" (clickOutside)="clickOutside()">
+    <div class="col-xxl-3 col-xl-4 box-col-12">
+        <div class="md-sidebar"> <a class="btn btn-primary md-sidebar-toggle" (click)="openMenu()">email filter</a>
+            <div class="md-sidebar-aside job-left-aside custom-scrollbar" [class.open]="open">
+                <div class="email-left-aside">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="email-app-sidebar">
+                                <button class="btn btn-primary emailbox" type="button" (click)="composeEmail()">
+                                    <i class="fa fa-plus"></i>Compose Email
+                                </button>
+                                <ul class="nav nav-pills main-menu email-category">
+                                    @for( data of email; track data){
+                                    <li class="nav-item">
+                                        <a class="nav-link active" id="inbox-pill-tab" [class.active]="data.status" (click)="letterbox(data)">
+                                            <svg class="feather stroke-{{data.color}} stroke-icon">
+                                                <use
+                                                    attr.xlink:href="assets/svg/feather-icons/dist/feather-sprite.svg#{{ data.icon }}">
+                                                </use>
+                                            </svg>
+                                            <div>{{ data.title}}<span class="badge">{{ data.badge}}</span></div>
+                                        </a>
+                                    </li>
+                                    }
+                                    <li class="nav-item">
+                                        <a class="nav-link" (click)="addlable()">
+                                            <i class="fa fa-plus" ></i>
+                                            Add Label
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xxl-9 col-xl-8 box-col-12">
+        <app-letterbox-user [selectedId]="selectedId" [statusData]="statusData" />
+    </div>
+</div>

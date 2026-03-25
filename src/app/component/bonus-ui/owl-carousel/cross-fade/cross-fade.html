@@ -1,0 +1,18 @@
+<div class="card height-equal">
+    <div class="card-header pb-0">
+        <h4>Cross-Fade</h4>
+    </div>
+    <div class="card-body">
+        <owl-carousel-o [options]="fadeoptionsData" class="carousel slide">
+            @for(fadeItem of crossfadeData; track fadeItem){
+            <ng-template carouselSlide class="carousel-inner">
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <img class="d-block w-100" src="{{fadeItem.img}}" alt="drawing-room">
+                    </div> 
+                </div> 
+            </ng-template>
+            }
+        </owl-carousel-o>
+    </div>
+</div>

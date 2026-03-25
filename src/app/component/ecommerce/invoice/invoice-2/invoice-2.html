@@ -1,0 +1,98 @@
+<div class="container invoice-2">
+    <div id="print-section">
+    <div class="card"> 
+      <div class="card-body">
+        <table class="table-borderless table-wrapper table-responsive theme-scrollbar">
+          <tbody>
+            <tr>
+              <td>
+                <table class="table-responsive" style="width: 100%;">
+                  <tbody>
+                    <tr>
+                      <td style="min-width: 347px; width: 30%;"><img class="for-light" src="assets/images/logo/logo.png" alt="logo"><img class="for-dark" src="assets/images/logo/dark-logo.png" alt="logo">
+                        <address style="opacity: 0.8; width: 80%; margin-top: 10px; font-style:normal;">
+                            <span style="font-size: 16px; line-height: 1.5; font-weight: 500;">
+                              1982 Harvest Lane New York, NY12210
+                             United State
+                            </span>
+                        </address>
+                      </td>
+                      <td style="opacity: 0.8; text-align:end;"><span style="display:block; line-height: 1.5; font-size:16px; font-weight:500;">Email : Edmin&#64;themesforest.com</span><span style="display:block; line-height: 1.5; font-size:16px; font-weight:500;">Website: www.Edminthemes.com</span><span style="display:block; line-height: 1.5; font-size:16px; font-weight:500;">Contact No : (316) 555-0116</span></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </td>
+            </tr>
+            <tr> 
+              <td> 
+                <table class="table-responsive" style="width:100%;">
+                  <tbody> 
+                    <tr style="display:flex;justify-content:space-between;padding: 25px 0;">
+                      <td style="display:flex;align-items:center; gap: 6px;flex-wrap: wrap;min-width: 136px;"> <span style="opacity: 0.8; font-size: 16px; font-weight: 500;">Invoice No.</span>
+                        <h4 style="margin:0;font-weight:400; font-size: 16px;">#VL25000365</h4>
+                      </td>
+                      <td style="display:flex;align-items:center; gap: 6px;flex-wrap: wrap;min-width: 136px;"> <span style="opacity: 0.8; font-size: 16px; font-weight: 500;">Date : </span>
+                        <h4 style="margin:0;font-weight:400; font-size: 16px;">09/03/2023</h4>
+                      </td>
+                      <td style="display:flex;align-items:center; gap: 6px; flex-wrap: wrap;min-width: 146px;"> <span style="opacity: 0.8; font-size: 16px; font-weight: 500;">Payment Status :</span>
+                        <h4 style="margin:0;font-weight:400; font-size: 16px;padding:6px 18px; background-color:rgba(84, 186, 74, 0.1);color:#0DA759; border-radius: 5px;">Paid</h4>
+                      </td>
+                      <td style="display:flex;align-items:center; gap: 6px; flex-wrap: wrap;"> <span style="opacity: 0.8; font-size: 16px; font-weight: 500;min-width: 136px;">Total Amount :</span>
+                        <h4 style="margin:0;font-weight:400; font-size: 16px;">$26,410.00</h4>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </td>
+            </tr>
+            <tr> 
+              <td> 
+                <table class="table-responsive" style="width: 100%;">
+                  <tbody> 
+                    <tr style="padding: 28px 0; display:block;"> 
+                      <td Style="width:70%; min-width: 304px;"><span style="opacity: 0.8; font-size: 16px; font-weight: 500;">BILLING ADDRESS</span>
+                        <h4 style="font-weight:400; margin: 12px 0 6px 0; font-size: 16px;">Brooklyn Simmons</h4><span style="width: 54%; display:block; line-height: 1.5; opacity: 0.8; font-size: 16px; font-weight: 400;">2118 Thornridge Cir. Syracuse, Connecticut 35624, United State</span><span style="line-height:2.6; opacity: 0.8; font-size: 16px; font-weight: 400;">Phone : (239) 555-0108</span>
+                      </td>
+                      <td Style="min-width: 280px;"><span style="opacity: 0.8;font-size: 16px; font-weight: 500;">SHIPPING ADDRESS</span>
+                        <h4 style="font-weight:400; margin: 12px 0 6px 0; font-size: 16px;">Cameron Williamson</h4><span style="width: 95%; display:block; line-height: 1.5; opacity: 0.8; font-size: 16px; font-weight: 400;">2972 Westheimer Rd. Santa Ana, Illinois 85486 </span><span style="line-height:2.6; opacity: 0.8; font-size: 16px; font-weight: 400;">Phone : (219) 555-0114</span>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </td>
+            </tr>
+            <tr> 
+              <td> 
+               <app-invoice2-table />
+              </td>
+            </tr>
+            <tr> 
+              <td> 
+                <app-invoice2-total />
+              </td>
+            </tr>
+            <tr> 
+              <td> <span style="display:block;background: rgba(82, 82, 108, 0.3);height: 1px;width: 100%;margin-bottom:24px;"></span></td>
+            </tr>
+            <tr>
+              <td> 
+                <span style="display: flex; justify-content: end; gap: 15px;">
+                    <button type="button"
+                        style="background: rgba(67, 185, 178, 1); color:rgba(255, 255, 255, 1);border-radius: 10px;padding: 18px 27px;font-size: 16px;font-weight: 600;outline: 0;border: 0; text-decoration: none;"
+                        printSectionId="print-section" ngxPrint>Print Invoice<i class="icon-arrow-right"
+                            style="font-size:13px;font-weight:bold; margin-left: 10px;"></i>
+                    </button>
+                    <a style="background: rgba(67, 185, 178, 0.1);color: rgba(67, 185, 178, 1);border-radius: 10px;padding: 18px 27px;font-size: 16px;font-weight: 600;outline: 0;border: 0; text-decoration: none;"
+                        href="javascript:void(0)" download="">Download<i class="icon-arrow-right"
+                            style="font-size:13px;font-weight:bold; margin-left: 10px;">
+                        </i>
+                    </a>
+                </span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

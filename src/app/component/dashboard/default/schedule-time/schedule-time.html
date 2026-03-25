@@ -1,0 +1,76 @@
+<div class="card schedule-card">
+    <div class="card-header pb-0">
+        <h4 class="mb-2">Schedule Time</h4>
+        <div class="dropdown icon-dropdown" (clickOutside)="clickOutside()">
+            <button class="btn dropdown-toggle" type="button" (click)="open()">
+                <i class="icon-more-alt"></i>
+            </button>
+            <div class="dropdown-menu dropdown-menu-end" [class.show]="isopen">
+                <a class="dropdown-item" href="javascript:void(0)">Weekly</a>
+                <a class="dropdown-item" href="javascript:void(0)">Monthly</a>
+                <a class="dropdown-item" href="javascript:void(0)">Yearly</a>
+            </div>
+        </div>
+    </div>
+    <div class="card-body pt-0">
+        <div class="d-flex justify-content-between mb-3">
+            <h5>Aug 2023</h5>
+            <div class="d-flex align-items-center gap-2 monthly-time">
+                <h5 class="font-light">Month </h5>
+                <h5 class="font-light">Year</h5>
+            </div>
+        </div>
+        <ul class="schedule-wrapper nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item"><a class="nav-link active" id="mon-tab" [ngClass]="{'active show': openTab === 'mon'}"
+                    (click)="tabbed('mon')" role="tab" aria-controls="mon" aria-selected="false"><span>Mo </span>
+                    <h6>01</h6>
+                </a>
+            </li>
+            <li class="nav-item"><a class="nav-link" id="tue-tab" [ngClass]="{'active show': openTab === 'tu'}"
+                    role="tab" (click)="tabbed('tu')"><span>Tu </span>
+                    <h6>02</h6>
+                </a>
+            </li>
+            <li class="nav-item"><a class="nav-link" id="wed-tab" [ngClass]="{'active show': openTab === 'we'}"
+                    (click)="tabbed('we')"><span>We </span>
+                    <h6>03</h6>
+                </a>
+            </li>
+            <li class="nav-item"><a class="nav-link" id="thu-tab" [ngClass]="{'active show': openTab === 'th'}"
+                    (click)="tabbed('th')"><span>Th </span>
+                    <h6>04</h6>
+                </a>
+            </li>
+            <li class="nav-item"><a class="nav-link" id="frd-tab" [ngClass]="{'active show': openTab === 'fr'}"
+                    (click)="tabbed('fr')"><span>Fr </span>
+                    <h6>05</h6>
+                </a>
+            </li>
+            <li class="nav-item"><a class="nav-link font-primary" id="sat-tab"
+                    [ngClass]="{'active show': openTab === 'sa'}" (click)="tabbed('sa')"><span>Sa </span>
+                    <h6>06</h6>
+                </a>
+            </li>
+        </ul>
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show" id="mon" role="tabpanel" [ngClass]="{'show active': openTab === 'mon'}">
+                <app-monday />
+            </div>
+            <div class="tab-pane fade  show" id="tu" role="tabpanel" [ngClass]="{'show active': openTab === 'tu'}">
+                <app-tuesday />
+            </div>
+            <div class="tab-pane fade  show" id="we" role="tabpanel" [ngClass]="{'show active': openTab === 'we'}">
+                <app-wednesday />
+            </div>
+            <div class="tab-pane fade  show" id="th" role="tabpanel" [ngClass]="{'show active': openTab === 'th'}">
+                <app-thursday />
+            </div>
+            <div class="tab-pane fade  show" id="th" role="tabpanel" [ngClass]="{'show active': openTab === 'fr'}">
+                <app-friday />
+            </div>
+            <div class="tab-pane fade  show" id="th" role="tabpanel" [ngClass]="{'show active': openTab === 'sa'}">
+                <app-thursday />
+            </div>
+        </div>
+    </div>
+</div>

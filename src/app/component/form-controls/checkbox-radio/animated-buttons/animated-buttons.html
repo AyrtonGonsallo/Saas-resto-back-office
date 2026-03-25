@@ -1,0 +1,33 @@
+<div class="card">
+    <div class="card-header pb-0">
+        <h4>Animated Buttons</h4>
+        <p class="desc mb-0 mt-1"><span>Use the</span><code>.radio_animated </code><span>through animated
+                checkbox and radios.</span></p>
+    </div>
+    <div class="card-body checkbox-checked">
+        <div class="row g-3">
+            <div class="col-sm-6">
+                <div class="card-wrapper solid-border rounded-3">
+                    <h6 class="sub-title f-w-500">Select your payment method</h6>
+                    @for(item of payment; track item){
+                    <label class="d-block">
+                        <input class="radio-{{item.class}}" id="radio-ani_1" type="radio" name="radio-animation"
+                            [checked]="item.value">{{item.text}}
+                    </label>
+                    }
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="card-wrapper solid-border rounded-3">
+                    <h6 class="sub-title f-w-500">What is your favorite social media? </h6>
+                    @for(item of SoicalmidiaData; track item){
+                    <label class="d-block">
+                        <input class="checkbox-{{item.class}}" id="chk-ani_2" type="checkbox"
+                            [(ngModel)]="item.value">{{item.text}}
+                    </label>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,67 @@
+<div class="row" (clickOutside)="clickOutside()">
+    <div class="col-xl-3 box-col-3">
+        <div class="md-sidebar">
+            <a class="btn btn-primary md-sidebar-toggle"  (click)="openMenu()">contact filter</a>
+            <div class="md-sidebar-aside job-left-aside custom-scrollbar" [class.open]="open">
+                <div class="email-left-aside">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="email-app-sidebar left-bookmark">
+                                <div class="d-flex flex-wrap">
+                                    <div class="media-size-email">
+                                        <img class="me-2 rounded-circle" src="assets/images/user/4.jpg" alt="user">
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <h3 class="f-w-600 f-16">MARK JENCO</h3>
+                                        <p>Markjecno&#64;gmail.com</p>
+                                    </div>
+                                </div>
+                                <ul class="nav main-menu contact-options">
+                                    <li class="nav-item">
+                                        <button class="badge-light-primary btn-block txt-primary btn-mail w-100"
+                                            type="button" (click)=" newContacts()">
+                                            <app-feather-icon [icon]="'users'" class="me-2" />
+
+                                            New Contacts
+                                        </button>
+                                    </li>
+                                    <li class="nav-item"><span class="main-title">Views</span></li>
+                                    @for( item of Personal; track item){
+                                    <li>
+                                        <a (click)="openContact(item.title_id, item.title)">
+                                            <span class="title">{{item.title}}</span>
+                                        </a>
+                                    </li>
+                                    }
+                                    <li>
+                                        <button class="btn btn-category" type="button" (click)="addCategory()">
+                                            <span class="title txt-primary f-w-600"> + Add Category</span></button>
+                                    </li>
+                                    @for( item of organization; track item){
+                                    <li>
+                                        <a class="show" (click)="openContact1(item.title_id, item.title)">
+                                            <span class="title">{{item.title}}</span>
+                                        </a>
+                                    </li>
+                                    }
+                                    @for( item of viewList; track item){
+                                    <li>
+                                        <a class="show">
+                                            <span class="title">
+                                                {{item.title}}
+                                            </span>
+                                        </a>
+                                    </li>
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-9 col-md-12 box-col-80">
+        <app-contact-details [selectedId]="selectedId" [statusData]="statusData" />
+    </div>
+</div>

@@ -1,0 +1,57 @@
+<div class="container-fluid default-dashboard" >
+    <div class="row">
+        <div class="col-sm-6 col-xl-4">
+            <app-top-card />
+        </div>
+        <div class="col-sm-6 col-xl-3">
+            <app-project-overview />
+        </div>
+        <div class="col-sm-6 col-xl-2">
+            <div class="row">
+                <div class="col-6 col-sm-12">
+                    <app-top-common-chart [data]="TotalClientsData" />
+                </div>
+                <div class="col-6 col-sm-12">
+                    <app-top-common-chart [data]="newProjectData" />
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-xl-3">
+            <app-investing />
+        </div>
+        <div class="col-md-6 col-xl-6">
+            <app-all-invoices />
+        </div>
+        <div class="col-md-6 col-xl-3">
+            <app-total-investment [investment]="true" />
+        </div>
+        <div class="col-md-6 col-xl-3">
+            <app-task-list />
+        </div>
+        <div class="col-md-6 col-lg-6 col-xl-7">
+            <app-monthly-overview />
+        </div>
+        <div class="col-md-6 col-xl-5">
+            <app-task-summary />
+        </div>
+        <div class="col-md-6 col-xl-4">
+            <app-courses-highlighted />
+        </div>
+        <div class="col-sm-6 col-xl-3 order-1 order-xl-0">
+            <app-schedule-time />
+        </div>
+        <div class="col-sm-12 col-xl-2 custom-margin">
+            <div class="row">
+                <div class="col-6 col-xl-12 col-lg-5">
+                    <app-total-visit />
+                </div>
+                <div class="col-6 col-xl-12 col-lg-7">
+                    <app-total-earning />
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-xl-3 custom-margin">
+            <app-notifications />
+        </div>
+    </div>
+</div>

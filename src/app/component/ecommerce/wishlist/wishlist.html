@@ -1,0 +1,41 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12"></div>
+        <div class="card">
+            <div class="card-header pb-0">
+                <h4>Wishlist</h4>
+                <p class="desc mb-0 mt-1"><span></span><code></code><span></span></p>
+            </div>
+            <div class="card-body whishlist-main">
+                <div class="row">
+                    @for( data of WishistData; track data){
+                    <div class="col-xl-2 col-md-4 col-sm-6 col-lg-3">
+                        <div class="prooduct-details-box">
+                            <div class="d-block">
+                                <a [routerLink]="'/ecommerce/product-page'">
+                                    <img class="align-self-center img-fluid" src="{{ data.img }}"
+                                        alt="">
+                                </a>
+                                <div class="flex-grow-1">
+                                    <div class="product-name">
+                                        <a [routerLink]="'/ecommerce/product-page'">
+                                            <h6>{{ data.name }}</h6>
+                                        </a>
+                                    </div>
+                                    <div class="rating">
+                                        <ngb-rating [rate]="data.value" />
+                                    </div>
+                                    <div class="price">Price <span>: 220$</span></div>
+                                    <div class="avaiabilty">
+                                        <div [ngClass]="data.status === 'In stock'?'font-success' :'font-danger'">{{ data.status }}</div>
+                                    </div><a class="btn btn-primary btn-xs"[routerLink]="'/ecommerce/cart'">Move to Cart</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

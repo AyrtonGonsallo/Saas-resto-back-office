@@ -1,0 +1,43 @@
+<div class="card">
+  <div class="card-header pb-0">
+    <h4>Default Checkbox</h4>
+    <p class="desc mb-0 mt-1">
+      <span>Use the</span><code>.form-check-input, .form-check-label</code
+      ><span>for checkbox.</span>
+    </p>
+  </div>
+  <div class="card-body checkbox-checked">
+    <div class="row g-3">
+      @for( checkbox of checkboxData; track checkbox){
+      <div class="col-sm-6 col-xxl-4">
+        <div class="card-wrapper solid-border rounded-3">
+          <h6 class="sub-title f-w-500">{{checkbox.title}}</h6>
+          @for( item of checkbox.data; track item){
+          <div class="form-check" [class.form-check-reverse]="checkbox.id === 3">
+            <input
+              class="form-check-input"
+              id="flexCheckDefault"
+              type="checkbox"
+              [checked]="item.value"
+              [disabled]="item.disable"
+            />
+            <label class="form-check-label" for="flexCheckDefault">{{item.text}}</label>
+          </div>
+          }
+        </div>
+      </div>
+      }
+      <div class="col-xxl-12 col-sm-6">
+        <div class="card-wrapper solid-border rounded-3">
+          <h6 class="sub-title f-w-500">Indeterminate</h6>
+          <div class="form-check">
+            <input class="form-check-input" id="flexCheckIndeterminate" type="checkbox" value="" />
+            <label class="form-check-label" for="flexCheckIndeterminate"
+              >Indeterminate checkbox</label
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,26 @@
+<div class="card">
+    <div class="card-header pb-0">
+        <h4>Images with Radio</h4>
+        <p class="desc mb-0 mt-1"><span>Use
+                the</span><code>.form-check-input-* ,.form-check-label-* </code><span>for image radio.</span></p>
+    </div>
+    <div class="card-body checkbox-checked">
+        <div class="main-img-checkbox">
+            <div class="row g-3">
+                @for(item of imgradioData; track item){
+                <div class="col-xxl-3 col-sm-6">
+                    <div class="card-wrapper solid-border rounded-3">
+                        <h6 class="sub-title fw-bold">{{item.title}}</h6>
+                        <div class="img-checkbox">
+                            <input class="main-img-cover form-check-input" id="{{item.index}}" type="radio"
+                                name="radio6" [checked]="item.check" [disabled]="item.disabled">
+                            <label class="form-check-label mb-0" for="img-radio-1"> <img src="{{item.img}}"
+                                    alt="coffee-beans"></label>
+                        </div>
+                    </div>
+                </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

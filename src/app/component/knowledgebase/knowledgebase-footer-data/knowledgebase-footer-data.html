@@ -1,0 +1,28 @@
+<div class="row custom-articles-video">
+    <div class="header-faq">
+        <h5 class="mb-0">Latest articles and videos</h5>
+    </div>
+    <div class="row">
+        @for( ArticalData of Articalvidoes; track ArticalData){
+        <div class="col-xl-4 col-md-6">
+            <div class="row">
+                @for( item of ArticalData.data; track item){
+                <div class="col-sm-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex articles-icons">
+                                <app-feather-icon [icon]="item.icon" class="m-r-20" />
+                                <div class="flex-grow-1">
+                                    <h6 class="f-w-600">{{item.title}}</h6>
+                                    <p>{{item.des}}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                }
+            </div>
+        </div>
+        }
+    </div>
+</div>

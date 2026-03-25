@@ -1,0 +1,18 @@
+<div class="card">
+    <div class="card-header pb-0">
+        <h4>Shapes</h4>
+        <p class="desc mb-0 mt-1"><span>Using</span><code>.b-r-* (15/25/30/35)</code><span>class you can set
+                shape of avatar.</span></p>
+    </div>
+    <div class="card-body">
+        <div class="avatar-showcase">
+            <div class="avatars">
+                @for( shapesitem of shapesData; track shapesitem){
+                    <div class="avatar">
+                        <img class="{{shapesitem.class}}" src="{{shapesitem.Image}}" alt="shapesimg">
+                    </div>
+                 }
+            </div>
+        </div>
+    </div>
+</div>

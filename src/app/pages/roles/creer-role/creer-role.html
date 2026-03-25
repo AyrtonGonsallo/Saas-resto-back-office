@@ -1,0 +1,38 @@
+<form class="card" [formGroup]="formRole" (ngSubmit)="onSubmit()">
+    <div class="card-header">
+        <h4 class="card-title mb-0">Ajouter un rôle</h4>
+        
+    </div>
+
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="mb-3">
+                <label class="form-label">Titre</label>
+                <input class="form-control" type="text" formControlName="titre" placeholder="titre">
+                <div *ngIf="formRole.get('titre')?.touched && formRole.get('titre')?.invalid" class="text-danger">
+                    Le titre est invalide
+                </div>
+                </div>
+            </div>
+
+            <div class="col-sm-12 col-md-12">
+                <div class="mb-3">
+                <label class="form-label">Type</label>
+                <ng-select [items]="types" bindLabel="name" bindValue="key" [multiple]="false" placeholder="Select cities"
+                    formControlName="type" />
+                <div *ngIf="formRole.get('type')?.touched && formRole.get('type')?.invalid" class="text-danger">
+                    Le type est requis
+                </div>
+                </div>
+            </div>
+
+            
+
+        </div>
+    </div>
+
+    <div class="card-footer text-end">
+        <button class="btn btn-primary" type="submit">Envoyer</button>
+    </div>
+</form>

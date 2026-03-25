@@ -1,0 +1,23 @@
+<div class="row">
+    @for(data of commonLists; track data){
+        <div class="col-lg-4">
+        <div class="card">
+            <div class="card-header pb-0">
+                <h4>{{ data.title}} </h4>
+                <p class="f-m-light mt-1" [innerHTML]=" data.des"></p>
+            </div>
+            <div class="card-body">
+                <ul class="list-group {{data.class}}">
+                    @for(list of data.item; track list){
+                    <li class="{{list.class}}">
+                        <svg class="svg-w-18 stroke-{{list.class2}} me-1">
+                            <use href="assets/svg/iconly-sprite.svg#right-3"></use>
+                          </svg>{{list.text}}
+                    </li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+    }
+</div>

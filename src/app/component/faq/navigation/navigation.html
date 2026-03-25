@@ -1,0 +1,28 @@
+<div class="card card-mb-faq">
+  <div class="card-header faq-header pb-0">
+    <h4>Navigation</h4>
+    <i class="fa-solid fa-gear"></i>
+  </div>
+  <div class="card-body faq-body">
+    <div class="navigation-btn">
+      <a class="btn btn-primary" href="javascript:void(0)">
+        <i class="fa-solid fa-message m-r-10"></i>Ask Question</a
+      >
+    </div>
+    <div class="navigation-option">
+      @for( data of navigationData; track data){
+      <ul>
+        <li>
+          <a href="javascript:void(0)">
+            <i class="{{ data.icon }}"></i>{{ data.title }} @if(data.count){
+            <span class="badge badge-primary rounded-pill pull-right">{{ data.count }}</span>
+            }
+          </a>
+        </li>
+      </ul>
+      @if(data.line === true){
+      <hr />
+      } }
+    </div>
+  </div>
+</div>

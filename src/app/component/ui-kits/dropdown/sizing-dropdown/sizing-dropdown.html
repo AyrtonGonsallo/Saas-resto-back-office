@@ -1,0 +1,41 @@
+<div class="card">
+    <div class="card-header">
+        <h4> Dropdown sizing</h4>
+        <p class="f-m-light mt-1">When the<code>.show </code>class starts, dropdown appears. And
+            <code>[.btn-lg/.btn-sm]</code>class through button size changed.
+        </p>
+    </div>
+    <div class="card-body rtl-dropdown">
+        <div class="common-flex align-items-center">
+            <div class="btn-showcase" ngbDropdown>
+                <button class="btn btn-info light w-100 btn-lg dropdown-toggle align-items-center" type="button" ngbDropdownToggle>Large button
+                </button>
+                <ul class="dropdown-menu dropdown-block" ngbDropdownMenu>
+                    <li><a class="dropdown-item" href="javascript:void(0)" ngbDropdownItem>Small button</a></li>
+                    <li><a class="dropdown-item" href="javascript:void(0)" ngbDropdownItem>Medium button </a></li>
+                    <li><a class="dropdown-item" href="javascript:void(0)" ngbDropdownItem>Large button </a></li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                    <li><a class="dropdown-item" href="javascript:void(0)" ngbDropdownItem>Very large button </a></li>
+                </ul>
+            </div>
+            <div class="btn-showcase"ngbDropdown>
+                <button class="btn btn-dark w-100 light btn-sm dropdown-toggle align-items-center" type="button" ngbDropdownToggle>Small button
+                </button>
+                <ul class="dropdown-menu dropdown-block" ngbDropdownMenu>
+                    <li><a class="dropdown-item" href="javascript:void(0)" ngbDropdownItem>Small button </a></li>
+                    <li><a class="dropdown-item" href="javascript:void(0)" ngbDropdownItem>Extra small button </a></li>
+                </ul>
+            </div>
+            <div class="btn-showcase"ngbDropdown>
+                <button class="btn btn-primary w-100 light btn-xs dropdown-toggle align-items-center" type="button" ngbDropdownToggle>Extra small
+                    button </button>
+                <ul class="dropdown-menu dropdown-block" ngbDropdownMenu>
+                    <li><a class="dropdown-item" href="javascript:void(0)" ngbDropdownItem>Small button </a></li>
+                    <li><a class="dropdown-item" href="javascript:void(0)" ngbDropdownItem>Extra extra small </a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

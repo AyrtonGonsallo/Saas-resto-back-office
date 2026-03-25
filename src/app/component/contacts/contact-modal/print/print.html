@@ -1,0 +1,28 @@
+<ng-template #printModal let-modal>
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">Print preview</h5>
+            <button class="btn-close" type="button" (click)="modal.close()"></button>
+        </div>
+        <div class="modal-body list-persons">
+            <div id="print-section">
+                <div class="profile-mail pt-0">
+                    <div class="d-flex align-items-center">
+                        <img class="img-100 img-fluid m-r-20 rounded-circle" [src]="printData.profileImage" alt="">
+                        <div class="flex-grow-1 mt-0">
+                            <h5><span>{{printData.fname}} </span><span>{{printData.lname}}</span></h5>
+                            <p>{{printData.email}}</p>
+                        </div>
+                    </div>
+                    <div class="email-general">
+                        <h6>General</h6>
+                        <p>Email Address: <span class="font-primary">{{printData.email}} </span></p>
+                    </div>
+                </div>
+            </div>
+            <button class="btn btn-secondary me-2" type="button" printSectionId="print-section" ngxPrint
+                (click)="modal.close()">Print</button>
+            <button class="btn btn-primary" type="button" (click)="modal.close()">Cancel</button>
+        </div>
+    </div>
+</ng-template>

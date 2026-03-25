@@ -1,0 +1,21 @@
+<div class="card height_equal">
+    <div class="card-header pb-0">
+        <h4>Default Toasts</h4>
+        <p class="desc mb-0 mt-1">
+            <span>Use the</span><code>.hide , .show</code><span>class through visible toast.</span>
+        </p>
+    </div>
+    <div class="card-body toast-rtl">
+        <div class="toast default-show-toast toast" [ngClass]="default ? 'show':'hide'">
+            <div class="toast-header toast-img">
+                <img class="rounded me-2" src="assets/images/avatar/9.jpg" alt="profile">
+                <strong class="me-auto">Edmin Template</strong>
+                <small class="d-sm-block d-none">10 min ago</small>
+                <button class="btn-close" type="button" (click)="close()"></button>
+            </div>
+            <div class="toast-body toast-dark">
+                <strong class="font-success">Well done!</strong> You successfully read this important message.
+            </div>
+        </div>
+    </div>
+</div>

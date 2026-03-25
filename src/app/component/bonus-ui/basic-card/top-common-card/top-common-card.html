@@ -1,0 +1,45 @@
+<div class="row">
+  @for( data of topCardData;track data){
+  <div class="col-xl-6">
+    <div class="{{ data.class}}">
+      <div class="{{ data.headerclass }}">
+        @if( data.icon === true){
+        <h4><i class="icofont icofont-library me-2"></i>{{ data.title }}</h4>
+        }@else{
+        <h4>{{ data.title }}</h4>
+        }
+        <p class="desc mb-0 mt-1" [innerHTML]="data.subdesc"></p>
+      </div>
+      @for( item of data.Data;track item){
+      <div class="card-body">
+        @if(item.details === true){
+        <div class="flex-space flex-wrap align-items-center">
+          <img class="tab-img" src="assets/images/avatar/2.jpg" alt="profile" />
+          <p>
+            <strong>Visit Us: </strong> 2600 Hollywood Blvd,Florida, United States- 33020<br /><strong
+              >Mail Us:</strong
+            >
+            contact&#64;us&#64;gmail.com<br /><strong>Contact Number: </strong> (954) 357-7760
+          </p>
+        </div>
+        } @if(item.headingData === true){
+        <div class="d-flex gap-3 align-items-center list-behavior-1">
+          <div class="flex-shrink-0">
+            <img class="tab-img img-fluid" src="assets/images/blog/img.png" alt="home" />
+          </div>
+          <div class="flex-grow-1 ms-0">
+            <p class="mb-xl-0 mb-sm-4">
+              We provide end to end digital solutions, right from designing your website/application
+              development: Domain, Web Hosting, Email Hosting Registration, Search Engine
+              Optimization and other Internet Marketing, Renewal of Services timely and effectively.
+            </p>
+          </div>
+        </div>
+        }
+        <p class="mb-0" [innerHTML]="item.desc"></p>
+      </div>
+      }
+    </div>
+  </div>
+  }
+</div>

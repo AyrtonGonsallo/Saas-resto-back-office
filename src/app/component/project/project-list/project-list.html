@@ -1,0 +1,144 @@
+<div class="container-fluid">
+  <div class="row project-cards">
+    <div class="col-md-12 project-list">
+      <div class="card">
+        <div class="row">
+          <div class="col-md-6">
+            <ul class="nav nav-tabs border-tab">
+              <li class="nav-item">
+                <a
+                  class="nav-link active"
+                  [ngClass]="{'active show': openTab === 'All'}"
+                  (click)="tabbed('All')"
+                >
+                  <app-feather-icon [icon]="'target'" />
+                  All
+                </a>
+              </li>
+              <li class="nav-item">
+                <a
+                  class="nav-link"
+                  [ngClass]="{'active show': openTab === 'Doing'}"
+                  (click)="tabbed('Doing')"
+                >
+                  <app-feather-icon [icon]="'info'" />
+                  Doing
+                </a>
+              </li>
+              <li class="nav-item">
+                <a
+                  class="nav-link"
+                  [ngClass]="{'active show': openTab === 'Done'}"
+                  (click)="tabbed('Done')"
+                >
+                  <app-feather-icon [icon]="'check-circle'" />
+                  Done
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div class="col-md-6 d-md-block d-none">
+            <div class="form-group mb-0 me-0"></div>
+            <a class="btn btn-primary d-flex align-items-center" [routerLink]="['/project/create']">
+              <app-feather-icon [icon]="'plus-square'" />
+              Create New Project
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="tab-content" id="top-tabContent">
+            <div class="tab-pane fade show active">
+              <div class="row">
+                @for(item of filterData; track item){
+                <div class="col-xxl-4 col-md-6">
+                  <div class="project-box font-dark bg-light-{{item.class}}">
+                    <span
+                      class="badge"
+                      [ngClass]="item.badge === 'Doing' ? 'badge-danger':' badge-success'"
+                      >{{item.badge}}</span
+                    >
+                    <h5 class="f-w-500 mb-2">{{item.title}}</h5>
+                    <div class="d-flex mb-2 align-items-center">
+                      <img class="img-20 me-1 rounded-circle" src="{{item.img}}" alt="img" />
+                      <p class="mb-0">{{item.sites}}</p>
+                    </div>
+                    <p>{{item.desc}}</p>
+                    <div class="row details">
+                      <div class="col-6"><span>Issues </span></div>
+                      <div
+                        class="col-6"
+                        [ngClass]="item.badge === 'Doing' ? 'font-danger' : 'font-success'"
+                      >
+                        {{item.issue}}
+                      </div>
+                      <div class="col-6"><span>Resolved</span></div>
+                      <div
+                        class="col-6"
+                        [ngClass]="item.badge === 'Doing' ? 'font-danger': 'font-success'"
+                      >
+                        {{item.resolved}}
+                      </div>
+                      <div class="col-6"><span>Comment</span></div>
+                      <div
+                        class="col-6"
+                        [ngClass]="item.badge === 'Doing' ? 'font-danger' : 'font-success'"
+                      >
+                        {{item.comment}}
+                      </div>
+                    </div>
+                    <div class="customers">
+                      <ul>
+                        <li class="d-inline-block">
+                          <img
+                            class="img-30 rounded-circle"
+                            src="{{item.customers_img1}}"
+                            alt="images"
+                          />
+                        </li>
+                        <li class="d-inline-block">
+                          <img
+                            class="img-30 rounded-circle"
+                            src="{{item.customers_img2}}"
+                            alt="images"
+                          />
+                        </li>
+                        <li class="d-inline-block">
+                          <img
+                            class="img-30 rounded-circle"
+                            src="{{item.customers_img3}}"
+                            alt="images"
+                          />
+                        </li>
+                        <li class="d-inline-block ms-2"><p class="f-12">+10 More</p></li>
+                      </ul>
+                    </div>
+                    <div class="project-status mt-4">
+                      <div class="d-flex align-items-center gap-1 mb-2">
+                        <p>{{item.projectLaval}}</p>
+                        <span>Done</span>
+                      </div>
+                      <div class="progress" style="height: 5px">
+                        <div
+                          class="progress-bar-animated progress-bar-striped"
+                          [ngClass]="item.badge === 'Doing'
+                                                  ?'bg-danger':'bg-success'"
+                          role="progressbar"
+                          [style.width]="item.projectLaval"
+                        ></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                }
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

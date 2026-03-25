@@ -1,0 +1,75 @@
+<div class="card right-sidebar-chat" (clickOutside)="clickOutside()">
+    <div class="right-sidebar-title">
+        <div class="common-space">
+            <div class="chat-time group-chat">
+                <ul>
+                    <li><img class="img-fluid rounded-circle" src="assets/images/avatar/1.jpg" alt="user"></li>
+                    <li><img class="img-fluid rounded-circle" src="assets/images/avatar/2.jpg" alt="user"></li>
+                    <li><img class="img-fluid rounded-circle" src="assets/images/avatar/3.jpg" alt="user"></li>
+                    <li><img class="img-fluid rounded-circle" src="assets/images/avatar/4.jpg" alt="user"></li>
+                    <li><img class="img-fluid rounded-circle" src="assets/images/avatar/5.jpg" alt="user"></li>
+                    <li><img class="img-fluid rounded-circle" src="assets/images/avatar/6.jpg" alt="user"></li>
+                    <li><img class="img-fluid rounded-circle" src="assets/images/avatar/7.jpg" alt="user"></li>
+                    <li>
+                        <div class="custom-name profile-count bg-light-primary">
+                            <p class="f-w-500">9+</p>
+                        </div>
+                    </li>
+                </ul>
+                <div> <span>Meeting Department</span>
+                    <p>35 Members</p>
+                </div>
+            </div>
+            <div class="d-flex gap-2">
+                <div class="contact-edit chat-alert">
+                    <app-feather-icon [icon]="'alert-circle'" />
+                </div>
+                <div class="contact-edit chat-alert">
+                    <i class="fa-solid fa-bars dropdown-toggle"  (click)="open()"></i>
+                    <div class="dropdown-menu dropdown-menu-end" [class.show]="isopen">
+                        <a class="dropdown-item" href="javascript:void(0)">View details</a>
+                        <a class="dropdown-item" href="javascript:void(0)">Send messages</a>
+                        <a class="dropdown-item" href="javascript:void(0)">Add to favorites</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="right-sidebar-Chats">
+        <div class="msger">
+            <div class="msger-chat">
+                @for(data of MsgData; track data){
+                <div class="msg {{data.side}}-msg">
+                    <div class="msg-img"></div>
+                    <div class="msg-bubble">
+                        <div class="msg-info">
+                            <div class="msg-info-name">{{data.name}}</div>
+                            <div class="msg-info-time">{{data.time}}</div>
+                        </div>
+                        <div class="msg-text">{{data.text}}
+                        </div>
+                    </div>
+                </div>
+                }
+            </div>
+            <form class="msger-inputarea">
+                <div class="dropdown-form dropdown-toggle">
+                    <i class="icon-plus"></i>
+                    <div class="chat-icon dropdown-menu dropdown-menu-start">
+                        <div class="dropdown-item mb-2">
+                            <app-feather-icon [icon]="'camera'" />
+                        </div>
+                        <div class="dropdown-item">
+                            <app-feather-icon [icon]="'paperclip'" />
+                        </div>
+                    </div>
+                </div>
+                <input class="msger-input two uk-textarea" type="text" placeholder="Type Message here..">
+                <div class="open-emoji">
+                    <div class="second-btn uk-button"></div>
+                </div>
+                <button class="msger-send-btn" type="submit"><i class="fa fa-location-arrow"></i></button>
+            </form>
+        </div>
+    </div>
+</div>

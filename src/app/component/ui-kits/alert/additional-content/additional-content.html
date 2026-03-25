@@ -1,0 +1,17 @@
+<div class="card">
+    <div class="card-header pb-0">
+        <h4>Additional content</h4>
+        <p class="desc mb-0 mt-1"><span>Use the</span><code>.alert , .bg-light-*</code>
+        <span> utility class to quickly provide additional content within any alerts.</span></p>
+      </div>
+    <div class="card-body dark-alert">
+        @for( additionalitem of additionalData; track additionalitem){
+        <div class="{{additionalitem.class}}">
+            <h5 class="alert-heading pb-2">{{additionalitem.heading}}</h5>
+            <p>{{additionalitem.title}}</p>
+            <hr>
+            <p class="mb-0">{{additionalitem.message}}</p>
+        </div>
+        }
+    </div>
+</div>

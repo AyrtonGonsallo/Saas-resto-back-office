@@ -1,0 +1,23 @@
+@for(badgesData of data(); track data()){
+<div class="card">
+  <div class="card-header pb-0">
+    <h4>{{badgesData.mainTitle}}</h4>
+    <p class="f-m-light mt-1" [innerHTML]="badgesData.title"></p>
+  </div>
+  <div class="card-body">
+    <div class="badge-spacing">
+      @for(badgesitem of badgesData.item; track badgesitem){ @if(badgesitem.icon_enble === false){
+      <span class="badge {{badgesitem.class}}"> {{badgesitem.text}} </span>
+      } @else{
+      <a class="badge {{badgesitem.class}} p-2" href="javascript:void(0)">
+        <svg class="feather">
+          <use
+            attr.xlink:href="assets/svg/feather-icons/dist/feather-sprite.svg#{{ badgesitem.icon }}"
+          ></use>
+        </svg>
+      </a>
+      } }
+    </div>
+  </div>
+</div>
+}

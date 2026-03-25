@@ -1,0 +1,18 @@
+<div class="card">
+    <div class="card-header pb-0">
+        <h4>Horizontal accordion</h4>
+        <p class="desc mb-0 mt-1"><span>Add</span><code>.collapse-horizontal</code><span>modifier class to transition
+                width, set a width on the next child element.</span></p>
+    </div>
+    <div class="card-body">
+        <p class="mb-2">
+            <button class="btn btn-success" type="button" (click)="onClick()">Toggle width collapse</button>
+          </p>
+          <div>
+            <div class="collapse collapse-horizontal" [class.show]="togglecollpese">
+              <div class="card card-body default-border mb-0">
+                 This is some placeholder content for a horizontal collapse. It&apos;s hidden by default and shown when triggered.</div>
+            </div>
+          </div>
+    </div>
+</div>

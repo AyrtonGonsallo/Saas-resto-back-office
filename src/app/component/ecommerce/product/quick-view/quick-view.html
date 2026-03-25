@@ -1,0 +1,72 @@
+<div class="modal-content product-modal modal">
+  <div class="modal-header">
+    <div class="product-box row">
+      <div class="product-img col-lg-6">
+        <img class="img-fluid" [src]="productDetails.img" alt="" />
+      </div>
+      <div class="col-lg-6 text-start">
+        <div class="product-details">
+          <a [routerLink]="['/ecommerce/product-page']">
+            <h4>{{ productDetails.name }}</h4>
+          </a>
+          <div class="product-price">
+            <span>${{ productDetails.price }}</span>
+            <del>${{ productDetails.discountPrice }}</del>
+          </div>
+          <div class="product-view">
+            <h6 class="f-w-600">Product Details</h6>
+            <p class="mb-0">{{ productDetails.discription }}</p>
+          </div>
+          <div class="product-size">
+            <ul>
+              <li><button class="btn" type="button">M</button></li>
+              <li><button class="btn" type="button">L</button></li>
+              <li><button class="btn" type="button">XL</button></li>
+            </ul>
+          </div>
+          <div class="product-qnty">
+            <h6 class="f-w-600">Quantity</h6>
+            <fieldset>
+              <div class="touchspin-wrapper">
+                <button
+                  class="decrement-touchspin btn-touchspin touchspin-primary"
+                  (click)="decrement()"
+                >
+                  <i class="fa fa-minus"></i>
+                </button>
+                <input
+                  class="input-touchspin spin-outline-primary"
+                  type="number"
+                  [value]="counter"
+                />
+                <button
+                  class="increment-touchspin btn-touchspin touchspin-primary"
+                  (click)="increment()"
+                >
+                  <i class="fa fa-plus"></i>
+                </button>
+              </div>
+            </fieldset>
+          </div>
+          <div class="addcart-btn">
+            <a
+              class="btn btn-primary"
+              [routerLink]="['/ecommerce/cart']"
+              (click)="activeModal.dismiss('')"
+            >
+              Add to Cart
+            </a>
+            <a
+              class="btn btn-primary ms-2"
+              [routerLink]="['/ecommerce/product-page']"
+              (click)="activeModal.dismiss('')"
+            >
+              View Details
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button class="btn-close" type="button" (click)="activeModal.dismiss('')"></button>
+  </div>
+</div>

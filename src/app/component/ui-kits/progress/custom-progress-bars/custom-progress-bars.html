@@ -1,0 +1,22 @@
+<div class="card">
+    <div class="card-header pb-0">
+        <h4>Custom progress bars</h4>
+        <p class="desc mb-0 mt-1">
+            <span>Use the</span><code>.progress-bar-animated , .progress-bar-striped</code><span>to animate the stripes
+                right to left.</span></p>
+    </div>
+    <div class="card-body progress-showcase">
+        <div class="row">
+            <div class="col">
+                @for(customitem of customprogressData; track customitem){
+                    <h5 class="mb-2 f-w-500">{{customitem.text}}</h5>
+                  <div class="progress mb-4">
+                      <div class="{{customitem.class}}" role="progressbar" [style.width]="customitem.value"
+                          aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"> </div>
+                  </div>
+  
+                  }
+            </div>
+        </div>
+    </div>
+</div>

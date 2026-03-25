@@ -1,0 +1,48 @@
+<div class="card invest-card" (clickOutside)="clickOutside()">
+  <div class="card-header">
+    <h4>Total Investment</h4>
+    <div class="dropdown icon-dropdown">
+      <button class="btn dropdown-toggle" type="button" (click)="open()">
+        <i class="icon-more-alt"></i>
+      </button>
+      <div class="dropdown-menu dropdown-menu-end" [class.show]="isopen">
+        <a class="dropdown-item" href="javascript:void(0)">Weekly</a>
+        <a class="dropdown-item" href="javascript:void(0)">Monthly</a>
+        <a class="dropdown-item" href="javascript:void(0)">Yearly</a>
+      </div>
+    </div>
+  </div>
+  <div class="card-body p-0">
+    <div>
+      <apx-chart
+        [series]="Investmentchart.series"
+        [chart]="Investmentchart.chart"
+        [plotOptions]="Investmentchart.plotOptions"
+        [stroke]="Investmentchart.stroke"
+        [colors]="Investmentchart.colors"
+        [fill]="Investmentchart.fill"
+        [grid]="Investmentchart.grid"
+        [yaxis]="Investmentchart.yaxis"
+        [legend]="Investmentchart.legend"
+        [responsive]="Investmentchart.responsive"
+        [tooltip]="Investmentchart.tooltip"
+      />
+    </div>
+    @if( investment() === true){
+    <ul>
+      <li>
+        <h5>Total</h5>
+        <h6>$ 34,4562</h6>
+      </li>
+      <li>
+        <h5>Monthly</h5>
+        <h6>$ 12,463</h6>
+      </li>
+      <li>
+        <h5>Daily</h5>
+        <h6>$ 5000</h6>
+      </li>
+    </ul>
+    }
+  </div>
+</div>

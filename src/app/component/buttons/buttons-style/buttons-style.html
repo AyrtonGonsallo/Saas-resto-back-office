@@ -1,0 +1,59 @@
+<div class="card button-style-custom">
+    <div class="card-header pb-0">
+        <h4>Buttons Style</h4>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-lg-6 col-sm-12">
+                <div class="nav flex-column nav-pills nav-success card-wrapper bg-light-primary rounded-3">
+                    <a class="nav-link active" [class.active]="openTab === 'Default'" (click)="tabbed('Default')">
+                        <div class="circle-dot-primary"><span></span></div>
+                        Default Buttons
+                    </a>
+                    <a class="nav-link" [class.active]="openTab === 'Flat'" (click)="tabbed('Flat')">
+                        <div class="circle-dot-primary"><span></span></div>
+                        Flat Buttons
+                    </a>
+                    <a class="nav-link" [class.active]="openTab === 'Edge'" (click)="tabbed('Edge')">
+                        <div class="circle-dot-primary"><span></span></div>
+                        Edge Buttons
+                    </a>
+                    <a class="nav-link" [class.active]="openTab === 'Raised'" (click)="tabbed('Raised')">
+                        <div class="circle-dot-primary"><span></span></div>
+                        Raised Buttons
+                    </a>
+                    <a class="nav-link" [class.active]="openTab === 'Outline'" (click)="tabbed('Outline')">
+                        <div class="circle-dot-primary"><span></span></div>
+                        Outline Buttons
+                    </a>
+                    <a class="nav-link" [class.active]="openTab === 'Gradient'" (click)="tabbed('Gradient')">
+                        <div class="circle-dot-primary"><span></span></div>
+                        Gradient Buttons
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-6 col-sm-12">
+                <div class="tab-content">
+                    <div class="tab-pane fade show active" [ngClass]="{'show active': openTab === 'Default'}">
+                        <app-common-buttons [data]="Buttonsdefult" />
+                    </div>
+                    <div class="tab-pane fade" [ngClass]="{'show active': openTab === 'Flat'}">
+                        <app-common-buttons [data]="Buttonfalt" />
+                    </div>
+                    <div class="tab-pane fade" [ngClass]="{'active show': openTab === 'Edge'}">
+                        <app-common-buttons [data]="ButtonEdge" />
+                    </div>
+                    <div class="tab-pane fade" [ngClass]="{'active show': openTab === 'Raised'}">
+                        <app-common-buttons [data]="ButtonRaised" />
+                    </div>
+                    <div class="tab-pane fade" [ngClass]="{'active show': openTab === 'Outline'}">
+                        <app-common-buttons [data]="ButtonOutline" />
+                    </div>
+                    <div class="tab-pane fade" [ngClass]="{'active show': openTab === 'Gradient'}">
+                        <app-common-buttons [data]="Buttongradient" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

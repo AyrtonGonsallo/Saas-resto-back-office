@@ -1,0 +1,22 @@
+<div class="card">
+    <div class="card-header pb-0">
+        <h4>Badges as part buttons</h4>
+        <p class="desc mb-0 mt-1"><span>All html button,</span><code>.btn , .badge</code><span>are
+                available.</span></p>
+    </div>
+    <div class="card-body button-badge">
+        <div class="badge-spacing flex-column align-items-start">
+            @for(badgesitem of buttonspartData; track badgesitem){
+            <button class="btn btn-{{badgesitem.color}} d-flex align-items-center" type="button">
+                {{badgesitem.text}}
+                <span class="badge rounded-circle btn-p-space badge-light text-dark ms-2">
+                    <svg class="feather">
+                        <use attr.xlink:href="assets/svg/feather-icons/dist/feather-sprite.svg#{{ badgesitem.icon }}"> </use>
+                    </svg>
+                </span>
+            </button>
+            }
+
+        </div>
+    </div>
+</div>

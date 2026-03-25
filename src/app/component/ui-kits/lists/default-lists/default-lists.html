@@ -1,0 +1,26 @@
+<div class="card">
+    <div class="card-header pb-0">
+        <h4>Default lists</h4>
+        <p class="desc mb-0 mt-1"><span>Use the</span><code>list-group , .list-group-item</code><span>to indicate the
+                current content.</span></p>
+    </div>
+    <div class="card-body">
+        @for(horizontalList of DefaultData; track horizontalList){
+        <div class="horizontal-list-wrapper dark-list">
+            <ul class="fw-bold list-group list-group-horizontal-sm pb-2">
+                @for(horizontalItem of horizontalList.data; track horizontalItem){
+                 @if(horizontalItem.border){
+                 <li class="list-group-item b-l-{{horizontalList.bordercolor}}">
+                     {{horizontalItem.list}}
+                 </li>
+                }@else{
+                <li class="list-group-item">
+                    {{horizontalItem.list}}
+                </li>
+                 }
+                }
+            </ul>
+        </div>
+        }
+    </div>
+</div>

@@ -1,0 +1,18 @@
+<div class="card">
+    <div class="card-header pb-0">
+        <h4>Ratio</h4>
+        <p class="desc mb-0 mt-1"><span>Give the ratio to avatar
+                using</span><code>.ratio , img-* (70/80/90/100)</code><span>class.</span></p>
+    </div>
+    <div class="card-body">
+        <div class="avatar-showcase">
+            <div class="avatars">
+                @for( ratioitem of ratioData; track ratioitem){
+                    <div class="avatar ratio">
+                        <img class="{{ratioitem.class}}" src="{{ratioitem.Image}}" alt="ratioimg">
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

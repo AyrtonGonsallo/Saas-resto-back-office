@@ -1,0 +1,19 @@
+<div class="card">
+    <div class="card-header pb-0">
+        <h4>Lists with radios</h4>
+        <p class="desc mb-0 mt-1"><span>Use the</span><code>.form-check-input</code><span>to check your radio
+                buttons.</span></p>
+    </div>
+    <div class="card-body">
+        <ul class="list-group">
+            @for(radiosItem of listradiosData; track radiosItem){
+            <li class="list-group-item">
+                <input class="form-check-input me-2 active radio-{{radiosItem.class}}" id="{{radiosItem.for}}"
+                    type="radio" name="listGroupRadio" [checked]="radiosItem.value">
+                <label class="form-check-label mb-0 font-{{radiosItem.class}} mb-0"
+                    for="{{radiosItem.for}}">{{radiosItem.list}}</label>
+            </li>
+            }
+        </ul>
+    </div>
+</div>

@@ -1,0 +1,52 @@
+<div class="tab-pane fade active show">
+    <div class="card mb-0">
+        <div class="card-header d-flex">
+            <h5 class="mb-0">{{ gettaskData.title }}</h5>
+            <a class="f-w-600 font-primary" href="javascript:void(0)">
+                <app-feather-icon [icon]="'printer'" class="me-2" />
+                Print
+            </a>
+        </div>
+        <div class="card-body p-0">
+            <div class="taskadd">
+                <div class="table-responsive custom-scrollbar">
+                    <table class="table">
+                        <tbody>
+                            @for(task of gettaskData.data; track task){
+                            <tr>
+                                <td>
+                                    <h6 class="task_title_0 f-w-600">{{ task.title }}</h6>
+                                    <p class="project_name_0">General</p>
+                                </td>
+                                <td>
+                                    <p class="task_desc_0">{{ task.text }}</p>
+                                </td>
+                                <td>
+                                    <a class="me-2" href="javascript:void(0)">
+                                        <app-feather-icon [icon]="'link'" />
+                                    </a>
+                                    <a href="javascript:void(0)">
+                                        <app-feather-icon [icon]="'more-horizontal'" />
+                                    </a>
+                                </td>
+                                <td>
+                                    <a href="javascript:void(0)">
+                                        <app-feather-icon [icon]="'trash-2'" />
+                                    </a>
+                                </td>
+                            </tr>
+                            }
+                            @empty{
+                            <tr>
+                                <div class="card-body">
+                                    <div class="details-bookmark text-center"><span>No tasks found.</span></div>
+                                </div>
+                            </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

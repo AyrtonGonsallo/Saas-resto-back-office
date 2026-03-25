@@ -1,0 +1,128 @@
+<div class="card">
+    <div class="card-header pb-0">
+        <h4>Material style tabs</h4>
+        <p class="desc mb-0 mt-1"><span>Use the</span><code>.nav-link , .active</code><span>class through
+                access new tabs. And icons of design for attractive webpage.</span></p>
+    </div>
+    <div class="card-body">
+        <ul class="nav nav-tabs border-tab border-0 mb-0 nav-danger" ngbNav #nav="ngbNav" [(activeId)]="active">
+            <li class="nav-item" [ngbNavItem]="1">
+                <a class="nav-link nav-border pt-0 font-danger nav-danger" ngbNavLink>
+                    <svg class="svg-color">
+                        <use href="assets/svg/iconly-sprite.svg#Profile"></use>
+                    </svg>User</a>
+                <ng-template ngbNavContent>
+                    <div class="tab-pane fade show" ngbNavLink>
+                        <div class="card-body px-0 pb-0">
+                            <div class="user-header pb-2">
+                                <h6 class="f-w-600">User Details:</h6>
+                            </div>
+                            <div class="user-content">
+                                <div class="table-responsive">
+                                    <table class="table mb-0">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">#</th>
+                                                <th scope="col">Name</th>
+                                                <th scope="col">Country</th>
+                                                <th scope="col">Contact No</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @for(data of userDetailsData; track data){
+                                            <tr>
+                                                <th scope="row">{{ data.id }}</th>
+                                                <td>{{ data.name }}</td>
+                                                <td>{{ data.country }} </td>
+                                                <td>{{ data.contact }}</td>
+                                            </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </ng-template>
+            </li>
+            <li class="nav-item" [ngbNavItem]="2">
+                <a class="nav-link nav-border font-danger nav-danger" ngbNavLink>
+                    <svg class="svg-color">
+                        <use href="assets/svg/iconly-sprite.svg#Document"></use>
+                    </svg>Description</a>
+                <ng-template ngbNavContent>
+                    <div class="tab-pane fade show" id="topline-top-description" role="tabpanel"
+                        aria-labelledby="topline-top-description-tab">
+                        <div class="card-body px-0 pb-0">
+                            <div class="user-header pb-2">
+                                <h6 class="f-w-600">Description:</h6>
+                            </div>
+                            <div class="user-content">
+                                <div class="table-responsive">
+                                    <table class="table mb-0">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">Technology</th>
+                                                <th scope="col">Interest </th>
+                                                <th scope="col">Salary Expected </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @for(data of descriptionData; track data){
+                                            <tr>
+                                                <td>{{ data.technology }}</td>
+                                                <td>{{ data.interest }}</td>
+                                                <td>{{ data.salary }}</td>
+                                            </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </ng-template>
+            </li>
+            <li class="nav-item" [ngbNavItem]="3">
+                <a class="nav-link nav-border font-danger nav-danger" ngbNavLink>
+                    <svg class="svg-color">
+                        <use href="assets/svg/iconly-sprite.svg#Star"></use>
+                    </svg>Review</a>
+                <ng-template ngbNavContent>
+                    <div class="tab-pane fade show">
+                        <div class="card-body px-0 pb-0">
+                            <div class="user-header pb-2">
+                                <h6 class="f-w-600">Review:</h6>
+                            </div>
+                            <div class="user-content">
+                                <div class="table-responsive">
+                                    <table class="table mb-0">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">#</th>
+                                                <th scope="col">Name</th>
+                                                <th scope="col">Country</th>
+                                                <th scope="col">Rating </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @for(data of reviewData; track data){
+                                            <tr>
+                                                <th scope="row">{{ data.id }}</th>
+                                                <td>{{ data.name }}</td>
+                                                <td>{{ data.country }} </td>
+                                                <td [innerHTML]="data.rating"> </td>
+                                            </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </ng-template>
+            </li>
+        </ul>
+        <div [ngbNavOutlet]="nav" class="ms-2"></div>
+    </div>
+</div>

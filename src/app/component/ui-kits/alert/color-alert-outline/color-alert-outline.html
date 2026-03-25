@@ -1,0 +1,18 @@
+<div class="card">
+    <div class="card-header pb-0">
+        <h4>Color alert with outline</h4>
+        <p class="desc mb-0 mt-1"><span>Use the</span><code>border-*</code><span> utility class to quickly provide
+                matching border and border-width within any alert.</span></p>
+    </div>
+    <div class="card-body">
+        @for( data of outlinealertData; track data){
+        <div class="alert {{data.class}}" role="alert">
+            <svg class="feather">
+                <use attr.xlink:href="assets/svg/feather-icons/dist/feather-sprite.svg#{{ data.icon}}"></use>
+            </svg>
+            <p class="text-truncate" [innerHTML]="data.text"></p>
+            <button class="btn-close" type="button" (click)="close(data)"></button>
+        </div>
+        }
+    </div>
+</div>

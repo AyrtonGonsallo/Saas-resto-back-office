@@ -1,0 +1,22 @@
+<div class="card">
+    <div class="card-header pb-0">
+        <h4>Basic dropdown</h4>
+        <p class="desc mb-0 mt-1"><span>When the</span><code>.show</code><span>class add, dropdown
+                appears.</span></p>
+    </div>
+    <div class="card-body custom-basic-dropdown"> 
+        <div class="common-flex">
+            @for(basicdropdownitem of basicDropdownData; track basicdropdownitem){
+            <div class="btn-group" ngbDropdown>
+                <button class="btn {{basicdropdownitem.class}}" type="button" ngbDropdownToggle>
+                    {{basicdropdownitem.title}}</button>
+                <ul class="dropdown-menu dropdown-block" ngbDropdownMenu>
+                    @for( basicData of basicdropdownitem.item; track basicData){
+                    <li><a class="dropdown-item" href="javascript:void(0)" ngbDropdownItem>{{basicData.list}}</a></li>
+                    }
+                </ul>
+            </div>
+        }
+        </div>
+    </div>
+</div>

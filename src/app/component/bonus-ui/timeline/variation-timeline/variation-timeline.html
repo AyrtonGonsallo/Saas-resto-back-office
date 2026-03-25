@@ -1,0 +1,43 @@
+<div class="card">
+    <div class="card-header pb-0">
+        <h4>Variation Timeline</h4>
+        <p class="desc mb-0 mt-1"><span>Use the</span><code>.activity-dot-primary</code><span>through rounded
+                animations.</span>
+        </p>
+    </div>
+    <div class="card-body dark-timeline">
+        <ul>
+            @for(data of variationTimelineData; track data){
+            <li class="d-flex pb-0">
+                <div class="activity-dot-{{data.class}}"></div>
+                <div class="w-100 ms-3">
+                    <p class="d-flex justify-content-between mb-2" [innerHTML]="data.time"></p>
+                    <h6 class="f-w-600">{{ data.title}}<span class="dot-notification"></span></h6>
+                    <p class="font-light">Quisque a consequat ante sit amet magna...</p>
+                    @if(data.additem){
+                    <div class="recent-images">
+                        <ul>
+                            <li>
+                                <div class="recent-img-wrap">
+                                    <img class="img-fluid" src="assets/images/email-template/7.png" alt="chair">
+                                </div>
+                            </li>
+                            <li>
+                                <div class="recent-img-wrap">
+                                    <img class="img-fluid" src="assets/images/email-template/8.png" alt="chair">
+                                </div>
+                            </li>
+                            <li>
+                                <div class="recent-img-wrap">
+                                    <img class="img-fluid" src="assets/images/product/1.png" alt="men t-shirt">
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    }
+                </div>
+            </li>
+            }
+        </ul>
+    </div>
+</div>

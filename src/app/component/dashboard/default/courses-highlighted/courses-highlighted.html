@@ -1,0 +1,53 @@
+<div class="card" (clickOutside)="clickOutside()">
+    <div class="card-header pb-0">
+        <h4>Courses Highlighted</h4>
+        <div class="dropdown icon-dropdown">
+            <button class="btn dropdown-toggle" type="button" (click)="open()">
+                <i class="icon-more-alt"></i>
+            </button>
+            <div class="dropdown-menu dropdown-menu-end" [class.show]="isopen">
+                <a class="dropdown-item" href="javascript:void(0)">Weekly</a>
+                <a class="dropdown-item" href="javascript:void(0)">Monthly</a>
+                <a class="dropdown-item" href="javascript:void(0)">Yearly</a>
+            </div>
+        </div>
+    </div>
+    <div class="card-body pt-0 course-table">
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Course name</th>
+                        <th>Price</th>
+                        <th>Type</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for( data of coursesData; track data){
+                    <tr>
+                        <td>
+                            <div class="d-flex align-items-center gap-2">
+                                <div class="flex-shrink-0">
+                                    <img src="{{data.img}}" alt="img">
+                                </div>
+                                <div class="flex-grow-1">
+                                    <a [routerLink]="'/user/users-profile'">
+                                        <h6 class="f-w-500">{{data.courses}}</h6>
+                                    </a>
+                                    <span class="font-light f-w-400 f-13">{{data.time}}</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td>${{data.price}}</td>
+                        <td>{{ data.type }}</td>
+                        <td>
+                            <button class="btn edge-btn f-13 w-100 btn-light-{{data.class}}">{{data.Status}}</button>
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

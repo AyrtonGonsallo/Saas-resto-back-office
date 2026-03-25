@@ -1,0 +1,74 @@
+<div class="card" (clickOutside)="clickOutside()">
+    <div class="card-header pb-0">
+        <h4>Tasks</h4>
+        <div class="dropdown icon-dropdown">
+            <button class="btn dropdown-toggle" type="button" (click)="open()">
+                <i class="icon-more-alt"></i>
+            </button>
+            <div class="dropdown-menu dropdown-menu-end" [class.show]="isopen">
+                <a class="dropdown-item" href="javascript:void(0)">Weekly</a>
+                <a class="dropdown-item" href="javascript:void(0)">Monthly</a>
+                <a class="dropdown-item" href="javascript:void(0)">Yearly</a>
+            </div>
+        </div>
+    </div>
+    <div class="card-body pt-0 task-table">
+        <div class="table-responsive">
+            <table class="table">
+                <tbody>
+                    @for( data of tasks  ; track data){
+                    <tr>
+                        <td>
+                            <div class="d-flex align-items-center gap-2">
+                                <div class="flex-shrink-0">
+                                    <svg class="svg-w-19">
+                                        <use attr.xlink:href="assets/svg/iconly-sprite.svg#{{ data.icon }}"></use>
+                                    </svg>
+                                </div>
+                                <div class="flex-grow-1">
+                                    <h6 class="f-w-500">Begin from</h6>
+                                    <div class="font-light mt-1 timer">
+                                        <app-feather-icon [icon]="'clock'" class="me-1" />
+                                        <span class="f-w-400 f-13">{{ data.time }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                        <td><a [routerLink]="'/user/users-profile'">
+                                <h6 class="f-w-500">{{ data.des }}</h6>
+                            </a>
+                            <ul class="mt-1">
+                                <li>
+                                    <app-feather-icon [icon]="'paperclip'" class="me-1" />
+                                    <span class="f-w-400 f-13">www.dribbble.com</span>
+                                </li>
+                                <li>
+                                    <app-feather-icon [icon]="'message-square'" class="me-1" />
+                                    <span class="font-light f-w-400">{{data.comments}} comments</span>
+                                </li>
+                            </ul>
+                        </td>
+                        <td>
+                            <h6 class="f-w-500">{{ data.status }}</h6>
+                            <div class="progress-showcase mt-2">
+                                <div class="progress sm-progress-bar progress-border-{{data.class}}">
+                                    <div class="progress-bar" [style.width]="data.value"></div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="task-icon-button">
+                                <button class="btn edge-btn f-13 w-75 btn-light-primary">
+                                    <svg class="svg-w-19">
+                                        <use href="assets/svg/iconly-sprite.svg#watch"></use>
+                                    </svg><span>Reminder</span>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

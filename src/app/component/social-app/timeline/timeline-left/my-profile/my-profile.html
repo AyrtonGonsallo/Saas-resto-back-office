@@ -1,0 +1,79 @@
+<div class="card" ngbAccordion [closeOthers]="true">
+  <div ngbAccordionItem [collapsed]="false">
+    <div class="card-header accordion" ngbAccordionHeader>
+      <h2 class="mb-0">
+        <button
+          class="accordion-button btn btn-link btn-block text-start accordion-button"
+          ngbAccordionButton
+        >
+          My Profile
+        </button>
+      </h2>
+    </div>
+    <div class="collapse show" ngbAccordionCollapse>
+      <div class="card-body socialprofile filter-cards-view" ngbAccordionBody>
+        <ng-template>
+          <div class="d-flex align-items-start">
+            <img
+              class="img-50 img-fluid m-r-20 rounded-circle"
+              src="assets/images/avatar/1.jpg"
+              alt="images"
+              alt="images"
+            />
+            <div class="flex-grow-1">
+              <h6 class="font-primary f-w-600">My Page</h6>
+              <span class="d-block"
+                ><span
+                  ><i class="fa-regular fa-comments"></i
+                  ><span class="px-2"
+                    >Messages<span class="badge rounded-pill badge-light ms-2">9</span></span
+                  ></span
+                ></span
+              ><span class="d-block"
+                ><span
+                  ><i class="fa-regular fa-bell"></i
+                  ><span class="px-2"
+                    >notification<span class="badge rounded-pill badge-light ms-2">9</span>
+                  </span>
+                </span>
+              </span>
+            </div>
+          </div>
+          <div class="social-btngroup d-flex">
+            <button class="btn btn-primary text-center" type="button">Likes</button>
+            <button class="btn bg-light-primary text-center ms-2" type="button">View</button>
+          </div>
+          <div class="likes-profile text-center">
+            <h5>
+              <span class="font-light"><i class="fa fa-heart font-danger"></i> 884</span>
+            </h5>
+          </div>
+          <div class="text-center">35 New Likes This Week</div>
+          <div class="customers text-center social-group">
+            <ul>
+              <li class="d-inline-block">
+                <img class="img-40 rounded-circle" src="assets/images/avatar/1.jpg" alt="images" />
+              </li>
+              <li class="d-inline-block">
+                <img class="img-40 rounded-circle" src="assets/images/avatar/3.jpg" alt="images" />
+              </li>
+              <li class="d-inline-block">
+                <img class="img-40 rounded-circle" src="assets/images/avatar/4.jpg" alt="images" />
+              </li>
+              <li class="d-inline-block">
+                <img class="img-40 rounded-circle" src="assets/images/avatar/5.jpg" alt="images" />
+              </li>
+              <li class="d-inline-block">
+                <img class="img-40 rounded-circle" src="assets/images/avatar/6.jpg" alt="images" />
+              </li>
+              <li class="d-inline-block">
+                <img class="img-40 rounded-circle" src="assets/images/avatar/7.jpg" alt="images" />
+              </li>
+            </ul>
+          </div>
+          <img class="img-fluid mt-5" src="assets/images/social-app/timeline-3.png" alt="images" />
+        </ng-template>
+      </div>
+    </div>
+  </div>
+</div>

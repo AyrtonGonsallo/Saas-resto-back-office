@@ -1,0 +1,76 @@
+<div class="email-right-aside">
+  <div class="card email-body email-list show" [class.hide]="isShow">
+    <app-letter-top-section />
+    <div class="tab-content" id="email-pills-tabContent">
+      <div class="tab-pane fade show active">
+        <div class="mail-body-wrapper">
+          <ul id="paginated-list">
+            @for(item of emailDatas.data | slice: (page-1) * pageSize : page * pageSize; track item
+            ; let i = $index ){
+            <li class="inbox-data">
+              <div class="inbox-user">
+                <div class="form-check form-check-inline m-0">
+                  <input
+                    class="form-check-input checkbox-primary"
+                    id="emailCheckboxB"
+                    type="checkbox"
+                    value="option1"
+                  />
+                  <label class="form-check-label" for="emailCheckboxB"></label>
+                </div>
+                <svg class="feather important-mail" [class.active]="item.isStar">
+                  <use
+                    href="assets/svg/feather-icons/dist/feather-sprite.svg#star"
+                    (click)="openMenu('star',item.id)"
+                  ></use>
+                </svg>
+                <div class="rounded-border">
+                  @if(item.image){
+                  <img class="img-fluid" src="{{item.image}}" alt="user" />
+                  } @if(item.imgName){
+                  <div>
+                    <p class="txt-{{item.class}}">{{item.imgName}}</p>
+                  </div>
+                  }
+                </div>
+                <p>{{item.name}}</p>
+              </div>
+              <div class="inbox-message">
+                <div class="email-data" (click)="isShow =! isShow">
+                  <span>{{item.title}}<span>{{item.subTitle}}</span></span>
+                  <div class="badge badge-light-{{item.color}}">{{item.status}}</div>
+                </div>
+                <div class="email-timing"><span>{{item.time}}</span></div>
+                <div class="email-options">
+                  <i
+                    [ngClass]="active === true ? 'fa-solid fa-envelope-open fa-fw envelope-2 show' : 
+                                    'fa-regular fa-envelope fa-fw envelope-1 show'"
+                    (click)="toggle()"
+                  >
+                  </i>
+                  <i
+                    class="fa-solid fa-trash-can fa-fw trash-3"
+                    (click)="deleteEmail(i, item.name)"
+                  ></i>
+                  <i class="fa fa-print"></i>
+                </div>
+              </div>
+            </li>
+            }
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="mail-pagination">
+      <ngb-pagination
+        [(page)]="page"
+        [pageSize]="pageSize"
+        [collectionSize]="emailDatas.data.length"
+        (pageChange)="getPaginationData();"
+      />
+    </div>
+  </div>
+  <div class="card email-body email-read" [class.show]="isShow">
+    <app-interview-mail (filterValue)="receiverFilterValue($event)" />
+  </div>
+</div>

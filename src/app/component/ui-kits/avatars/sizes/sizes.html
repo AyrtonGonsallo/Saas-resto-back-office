@@ -1,0 +1,18 @@
+<div class="card">
+    <div class="card-header pb-0">
+        <h4>Sizes</h4>
+        <p class="desc mb-0 mt-1"><span>Using</span><code>.img- * (70/80/90/100)</code><span>class you can set
+                the size of avatar</span></p>
+    </div>
+    <div class="card-body">
+        <div class="avatar-showcase">
+            <div class="avatars">
+                @for( avataritem of SizeData; track avataritem){
+                <div class="avatar">
+                    <img class="{{avataritem.class}} rounded-circle" src="{{avataritem.Image}}" alt="sizeimg">
+                </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
