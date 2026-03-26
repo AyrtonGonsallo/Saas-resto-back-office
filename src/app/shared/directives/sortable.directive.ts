@@ -1,8 +1,7 @@
 import { Directive, HostBinding, HostListener, input, output, signal } from '@angular/core';
 
-import { supportDB } from '../interface/support';
 
-export type SortColumn = keyof supportDB | '';
+export type SortColumn = string;
 export type SortDirection = 'asc' | 'desc' | '';
 const rotate: { [key: string]: SortDirection } = { asc: 'desc', desc: '', '': 'asc' };
 

@@ -38,7 +38,6 @@
         <table class="display table table-striped table-hover table-light">
           <thead>
             <tr>
-              <th scope="col">#</th>
               <th scope="col" sortable="id" (sort)="onSort($event)">ID</th>
               <th scope="col" sortable="type" (sort)="onSort($event)">Type</th>
               <th scope="col" sortable="titre" (sort)="onSort($event)">Titre</th>
@@ -49,7 +48,7 @@
           <tbody>
             @for(data of tableData$ | async; track data; let i = $index){
             <tr>
-              <th scope="row">{{ i + 1 + ((service.page - 1) * service.pageSize)}}</th>
+              
               <td>
                 <ngb-highlight [result]="data.id" [term]="service.searchTerm" />
               </td>
@@ -62,8 +61,8 @@
               
               <td>
                 <ul class="action">
-                  <i class="fa fa-eye font-primary pe-2"></i>
-                  <i class="icofont icofont-close-circled font-danger ps-2"></i>
+                  <a style="cursor: pointer;" (click)="modifier_data(data.id)"><i class="fa fa-pen font-primary pe-2" ></i></a>
+                  <a style="cursor: pointer;" (click)="supprimer_data(data.id)"><i class="fa fa-trash font-danger ps-2" ></i></a>
                 </ul>
               </td>
             </tr>
@@ -87,4 +86,11 @@
       </div>
     </div>
   </form>
+
+    <div class="add-task-btn-wrapper">
+        <span class="add-task-btn" >
+            <button class="btn btn-primary" (click)="redirect_add()">
+            <i class="icon-plus"></i> Ajouter un rôle</button>
+        </span>
+    </div>
 </div>

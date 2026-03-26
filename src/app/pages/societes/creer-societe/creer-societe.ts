@@ -1,8 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CrudSaasRestoService } from '../../../shared/services/api/crud-saas-resto.service';
 import { NotificationsService } from '../../../shared/services/notifications/notifications.service';
 import { CommonModule } from '@angular/common';
+import Swal from 'sweetalert2';
+import { Router, } from '@angular/router';
 @Component({
   selector: 'app-creer-societe',
   imports: [ReactiveFormsModule,CommonModule  ],
@@ -12,13 +14,13 @@ import { CommonModule } from '@angular/common';
 })
 export class CreerSociete {
   
-  
-  formSociete!: FormGroup;
+  private router = inject(Router);
+  formData!: FormGroup;
   constructor(private fb: FormBuilder, private crudSaasService:CrudSaasRestoService, private notificationsService:NotificationsService,) {}
 
   ngOnInit(): void {
     
-    this.formSociete = this.fb.group({
+    this.formData = this.fb.group({
       titre: ['', Validators.required],
       nom: ['', Validators.required],
       prenom: ['', Validators.required],
@@ -30,28 +32,44 @@ export class CreerSociete {
   }
 
   checkpasswords(){
-    const val1 = this.formSociete.get('mot_de_passe')?.value;
-    const val2 = this.formSociete.get('confirmed_mot_de_passe')?.value;
+    const val1 = this.formData.get('mot_de_passe')?.value;
+    const val2 = this.formData.get('confirmed_mot_de_passe')?.value;
 
     return val1 === val2;
   }
 
   onSubmit() {
     
-    if (this.formSociete.invalid) {
+    if (this.formData.invalid) {
       this.notificationsService.error("Formulaire invalide","Echec")
-      this.formSociete.markAllAsTouched();
+      this.formData.markAllAsTouched();
       return;
     }
 
     if (!this.checkpasswords()) {
       this.notificationsService.error("Les mots de passe ne correspondent pas","Echec")
-      this.formSociete.markAllAsTouched();
+      this.formData.markAllAsTouched();
       return;
     }
-    this.notificationsService.success("Formulaire valide","Succès")
 
-    console.log(this.formSociete.value);
+    console.log(this.formData.value);
+
+     this.crudSaasService.ajouterSociete(this.formData.value).subscribe({
+          next: (res) => {
+            Swal.fire({
+                  position: 'bottom-end',
+                  icon: 'success',
+                  title: 'L\'élément a bien été crée',
+                  showConfirmButton: false,
+                });
+            setTimeout(() => {
+              this.router.navigate(['/societes/liste-societes']);
+            }, 2000);
+          },
+          error: (err) => {
+            this.notificationsService.error("Erreur lors de l’ajout","Echec")
+          }
+        });
 
 
     // appel API ici

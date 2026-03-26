@@ -8,7 +8,8 @@ import { UserProfile5 } from './user-profile5/user-profile5';
 
 @Component({
   selector: 'app-users-profile',
-  imports: [UserProfile1, UserProfile2, UserProfile3, UserProfile4, UserProfile5],
+ // imports: [UserProfile1, UserProfile2, UserProfile3, UserProfile4, UserProfile5],
+   imports: [UserProfile1,],
   templateUrl: './users-profile.html',
   styleUrl: './users-profile.scss',
 })

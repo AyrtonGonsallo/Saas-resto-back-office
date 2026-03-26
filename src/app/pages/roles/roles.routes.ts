@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 
-export const Roles: Routes = [
+export const RolesRoutes : Routes = [
   {
     path: '',
     children: [
@@ -9,16 +9,24 @@ export const Roles: Routes = [
         path: 'creer-role',
         loadComponent: () => import('./creer-role/creer-role').then(m => m.CreerRole),
         data: {
-          title: 'Créer un role',
-          breadcrumb: 'Créer un role',
+          title: 'Créer un rôle',
+          breadcrumb: 'Créer un rôle',
+        },
+      },
+      {
+        path: 'modifier-role/:id',
+        loadComponent: () => import('./modifier-role/modifier-role').then(m => m.ModifierRole),
+        data: {
+          title: 'Modifier un rôle',
+          breadcrumb: 'Modifier un rôle',
         },
       },
       {
         path: 'liste-roles',
         loadComponent: () => import('./roles').then(m => m.Roles),
         data: {
-          title: 'Liste des roles',
-          breadcrumb: 'Liste des roles',
+          title: 'Liste des rôle',
+          breadcrumb: 'Liste des rôles',
         },
       },
       

@@ -1,15 +1,14 @@
 import { DecimalPipe, AsyncPipe } from '@angular/common';
 import { Component, inject, viewChildren } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
+import Swal from 'sweetalert2';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Observable } from 'rxjs';
-
+import { Router,  } from '@angular/router';
 import {
   NgbdSortableHeaderDirective,
   SortEvent,
 } from '../../shared/directives/sortable.directive';
-import { supportDB } from '../../shared/interface/support';
 import { TableService } from '../../shared/services/table.service';
 import { CrudSaasRestoService } from '../../shared/services/api/crud-saas-resto.service';
 import { NotificationsService } from '../../shared/services/notifications/notifications.service';
@@ -21,14 +20,14 @@ import { NotificationsService } from '../../shared/services/notifications/notifi
     NgbdSortableHeaderDirective,
     ReactiveFormsModule,
     NgbModule,
-    AsyncPipe,
-    DecimalPipe,],
+    AsyncPipe,],
   templateUrl: './roles.html',
   styleUrl: './roles.scss',
   providers: [TableService, DecimalPipe],
 })
 export class Roles {
   public service = inject(TableService);
+  private router = inject(Router);
 
   public tableData$: Observable<any[]> = this.service.supportdata$;
   public total$: Observable<number> = this.service.total$;
@@ -41,7 +40,7 @@ export class Roles {
       this.Data = res;
       console.log(this.Data)
     });
-    this.get_all_roles()
+    this.get_all_datas()
   }
     
   constructor(private crudSaasService:CrudSaasRestoService, private notificationsService:NotificationsService,) {}
@@ -61,7 +60,7 @@ export class Roles {
   roles:any
 
 
-  get_all_roles(){
+  get_all_datas(){
 
     this.crudSaasService.getRoles().subscribe({
       next: (res) => {
@@ -72,6 +71,52 @@ export class Roles {
         this.notificationsService.error("Erreur lors de la récupération des rôles","Echec")
       }
     });
+  }
+
+  redirect_add(){
+    this.router.navigate(['/roles/creer-role']);
+  }
+
+  modifier_data(id:number){
+    this.router.navigate(['/roles/modifier-role', id]);
+  }
+
+  supprimer_data(id:number){
+
+    
+        Swal.fire({
+          title: 'Voulez-vous vraiment supprimer cet élément?',
+          text: "Cette action est irreversible!",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Oui, supprimer!',
+          cancelButtonText: 'annuler',
+        }).then(result => {
+          if (result.isConfirmed) {
+
+            this.crudSaasService.deleteRole(id).subscribe({
+              next: (res) => {
+                console.log("res supp",res)
+                //this.notificationsService.success("Rôle supprimé !","Succès")
+                this.get_all_datas()
+              },
+              error: (err) => {
+                this.notificationsService.error("Erreur lors de la suppression de l'élément","Echec")
+              }
+            });
+
+            Swal.fire({
+              title: 'Suppression faite!',
+              text: 'L\'élément à bien été supprimé.',
+              icon: 'success',
+            });
+          }
+        });
+      
+
+    
   }
 }
 

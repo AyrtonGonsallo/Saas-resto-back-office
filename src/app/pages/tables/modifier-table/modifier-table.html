@@ -1,0 +1,75 @@
+<form class="card" [formGroup]="formData" (ngSubmit)="onSubmit()">
+    <div class="card-header">
+        <h4 class="card-title mb-0">Modifier une table</h4>
+        
+    </div>
+
+    <div class="card-body">
+        <div class="row">
+
+            <div class="col-sm-12 col-md-12">
+                <div class="mb-3">
+                <label class="form-label">Numéro</label>
+                <input class="form-control" type="text" formControlName="numero" placeholder="Numéro">
+                <div *ngIf="formData.get('numero')?.touched && formData.get('numero')?.invalid" class="text-danger">
+                    Le numéro est invalide
+                </div>
+                </div>
+            </div>
+
+            <div class="col-sm-12 col-md-12">
+                <div class="mb-3">
+                <label class="form-label">Nombre de places</label>
+                <input class="form-control" type="number" formControlName="nb_places" placeholder="Nombre de places">
+                <div *ngIf="formData.get('nb_places')?.touched && formData.get('nb_places')?.invalid" class="text-danger">
+                    Le nombre de places est invalide
+                </div>
+                </div>
+            </div>
+
+            <div class="col-sm-12 col-md-12">
+                <label class="form-label">Statut</label>
+            
+                <ng-select [items]="statuts" bindLabel="name" bindValue="key" [multiple]="false"
+                    placeholder="choisir une heure" formControlName="statut"  />
+                    <div *ngIf="formData.get('statut')?.touched && formData.get('statut')?.invalid" class="text-danger">
+                    Le statut est invalide
+                </div>
+            </div>
+
+            <div class="col-sm-12 col-md-12">
+                <label class="form-label">Société</label>
+            
+                <ng-select [items]="societes" bindLabel="titre" bindValue="id" [multiple]="false"
+                    placeholder="choisir une société" formControlName="societe_id"  />
+                    <div *ngIf="formData.get('societe_id')?.touched && formData.get('societe_id')?.invalid" class="text-danger">
+                    La sociéte est invalide
+                </div>
+            </div>
+
+            <div class="col-sm-12 col-md-12">
+                <label class="form-label">Restaurant</label>
+            
+                <ng-select [items]="restaurants" bindLabel="nom" bindValue="id" [multiple]="false"
+                    placeholder="choisir un restaurant" formControlName="restaurant_id"  />
+                    <div *ngIf="formData.get('restaurant_id')?.touched && formData.get('restaurant_id')?.invalid" class="text-danger">
+                    Le restaurant est invalide
+                </div>
+            </div>
+            
+            
+                
+                
+
+
+            
+
+        </div>
+    </div>
+
+    <div class="card-footer text-end">
+        <button class="btn btn-primary" type="submit">Modifier</button>
+    </div>
+</form>
+
+

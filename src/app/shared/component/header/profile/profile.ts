@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 
 import { ClickOutsideDirective } from '../../../directives/outside.directive';
+import { AuthSaasRestoService } from '../../../services/auth/auth-saas-resto.service';
 
 @Component({
   selector: 'app-profile',
@@ -12,6 +13,12 @@ import { ClickOutsideDirective } from '../../../directives/outside.directive';
 export class Profile {
   public profile: boolean = false;
   private router = inject(Router);
+  user:any
+
+   constructor(private authSerivce:AuthSaasRestoService) {
+      this.user = this.authSerivce.getUser();
+      console.log('user recuperé',this.user )
+    }
 
   open() {
     this.profile = !this.profile;

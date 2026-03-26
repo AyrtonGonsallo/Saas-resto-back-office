@@ -1,0 +1,38 @@
+<form class="card" [formGroup]="formData" (ngSubmit)="onSubmit()">
+    <div class="card-header">
+        <h4 class="card-title mb-0">Modifier une société</h4>
+        
+    </div>
+
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="mb-3">
+                <label class="form-label">Titre</label>
+                <input class="form-control" type="text" formControlName="titre" placeholder="titre">
+                <div *ngIf="formData.get('titre')?.touched && formData.get('titre')?.invalid" class="text-danger">
+                    Le titre est invalide
+                </div>
+                </div>
+            </div>
+
+            <div class="col-sm-12 col-md-12">
+                <div class="mb-3">
+                <label class="form-label">Statut</label>
+                <ng-select [items]="status" bindLabel="name" bindValue="key" [multiple]="false" placeholder="Select cities"
+                    formControlName="status" />
+                <div *ngIf="formData.get('status')?.touched && formData.get('status')?.invalid" class="text-danger">
+                    Le statut est requis
+                </div>
+                </div>
+            </div>
+
+            
+
+        </div>
+    </div>
+
+    <div class="card-footer text-end">
+        <button class="btn btn-primary" type="submit">Modifier</button>
+    </div>
+</form>

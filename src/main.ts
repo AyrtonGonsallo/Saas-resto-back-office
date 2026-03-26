@@ -5,6 +5,9 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideToastr } from 'ngx-toastr';
 import { App } from './app/app';
 import { appConfig } from './app/app.config';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { AuthInterceptor } from './app/shared/interceptors/auth.interceptor';
+
 
 bootstrapApplication(App, {
   ...appConfig,
@@ -14,5 +17,8 @@ bootstrapApplication(App, {
       
     ),
     provideZoneChangeDetection(),
-     ...appConfig.providers],
+     ...appConfig.providers,
+      provideHttpClient(withInterceptorsFromDi()),
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
+    ],
 }).catch(err => console.error(err));

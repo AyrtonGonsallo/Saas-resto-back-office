@@ -287,7 +287,7 @@ export const dashData: Routes = [
       title: 'Societes',
       breadcrumb: 'Societe',
     },
-    loadChildren: () => import('../../pages/societes/societes.routes').then(r => r.Societe),
+    loadChildren: () => import('../../pages/societes/societes.routes').then(r => r.SocietesRoutes),
   },
   {
     path: 'roles',
@@ -295,6 +295,30 @@ export const dashData: Routes = [
       title: 'Rôles',
       breadcrumb: 'Rôles',
     },
-    loadChildren: () => import('../../pages/roles/roles.routes').then(r => r.Roles),
+    loadChildren: () => import('../../pages/roles/roles.routes').then(r => r.RolesRoutes),
+  },
+  {
+    path: 'utilisateurs',
+    data: {
+      title: 'Utilisateurs',
+      breadcrumb: 'Utilisateurs',
+    },
+    loadChildren: () => import('../../pages/utilisateurs/utilisateurs.routes').then(r => r.UtilisateursRoutes),
+  },
+  {
+    path: 'tables',
+    data: {
+      title: 'Tables',
+      breadcrumb: 'Tables',
+    },
+    loadChildren: () => import('../../pages/tables/tables.routes').then(r => r.TablesRoutes),
+  },
+  {
+    path: 'restaurants',
+    data: {
+      title: 'Restaurants',
+      breadcrumb: 'Restaurants',
+    },
+    loadChildren: () => import('../../pages/restaurants/restaurants.routes').then(r => r.RestaurantsRoutes),
   },
 ];

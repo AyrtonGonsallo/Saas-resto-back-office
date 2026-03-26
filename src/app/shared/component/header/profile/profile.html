@@ -1,7 +1,7 @@
 <div class="d-flex align-items-center" (click)="open()" (clickOutside)="clickOutside()">
     <img src="assets/images/profile.png" alt="">
     <div class="flex-grow-1">
-        <h5>Wade Warren</h5><span>UI Designer</span>
+        <h5>{{user?.datas?.prenom}} {{user?.datas?.nom}}</h5><span>{{user?.datas?.Societe?.titre}} - {{user?.datas?.Role?.titre}}</span>
     </div>
 </div>
 <div class="custom-menu overflow-hidden" [class.show]="profile">

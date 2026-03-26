@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 
-export const Societe: Routes = [
+export const SocietesRoutes: Routes = [
   {
     path: '',
     children: [
@@ -11,6 +11,14 @@ export const Societe: Routes = [
         data: {
           title: 'Créer une société',
           breadcrumb: 'Créer une société',
+        },
+      },
+      {
+        path: 'modifier-societe/:id',
+        loadComponent: () => import('./modifier-societe/modifier-societe').then(m => m.ModifierSociete),
+        data: {
+          title: 'Modifier une société',
+          breadcrumb: 'Modifier une société',
         },
       },
       {

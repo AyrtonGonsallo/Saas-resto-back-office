@@ -1,0 +1,112 @@
+<div class="card custom-table-striped">
+  <form class="table-responsive theme-scroollbar">
+    <div class="card-body">
+      
+      <div class="dataTables_wrapper">
+        <div class="d-flex justify-content-between p-2">
+          <div class="dataTables_length" id="basic-6_length">
+            <label
+              >Show
+              <select name="pageSize" [(ngModel)]="service.pageSize">
+                <option [ngValue]="10">10</option>
+                <option [ngValue]="15">15</option>
+                <option [ngValue]="15">20</option>
+                <option [ngValue]="25">25</option>
+              </select>
+              entries
+            </label>
+          </div>
+          <div class="mb-3 row">
+            <label for="table-complete-search" class="col-xs-3 col-sm-auto col-form-label"
+              >Search:</label
+            >
+            <div class="col-xs-3 col-sm-auto">
+              <input
+                id="table-complete-search"
+                type="text"
+                class="form-control"
+                name="searchTerm"
+                [(ngModel)]="service.searchTerm"
+                autocomplete="off"
+              />
+            </div>
+            @if(service.loading$ | async){
+            <span class="col col-form-label">Loading...</span>
+            }
+          </div>
+        </div>
+        <table class="display table table-striped table-hover table-light">
+          <thead>
+            <tr>
+              <th scope="col" sortable="id" (sort)="onSort($event)">ID</th>
+              <th scope="col" sortable="nom" (sort)="onSort($event)">Nom</th>
+              <th scope="col" sortable="lieu" (sort)="onSort($event)">Lieu</th>
+              <th scope="col" sortable="heure_debut" (sort)="onSort($event)">Horaires</th>
+              <th scope="col" sortable="commandes_par_minutes" (sort)="onSort($event)">Commandes par minute</th>
+              <th scope="col" sortable="societe_id" (sort)="onSort($event)">Société</th>
+              <th scope="col" sortable="utilisateur_id" (sort)="onSort($event)">utilisateur</th>
+              
+              <th scope="col">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for(data of tableData$ | async; track data; let i = $index){
+            <tr>
+              
+              <td>
+                <ngb-highlight [result]="data.id" [term]="service.searchTerm" />
+              </td>
+              <td>
+                <ngb-highlight [result]="data.nom" [term]="service.searchTerm" />
+              </td>
+              <td>
+                <ngb-highlight [result]="data.lieu" [term]="service.searchTerm" />
+              </td>
+              <td>
+                <ngb-highlight [result]="data.heure_debut+' - '+data.heure_fin" [term]="service.searchTerm" />
+              </td>
+              <td>
+                <ngb-highlight [result]="data.commandes_par_minutes" [term]="service.searchTerm" />
+              </td>
+              <td>
+                <ngb-highlight [result]="data.Societe.titre" [term]="service.searchTerm" />
+              </td>
+              <td>
+                <ngb-highlight [result]="data.gestionnaire.prenom+' '+data.gestionnaire.nom" [term]="service.searchTerm" />
+              </td>
+              
+              <td>
+                <ul class="action">
+                  <a style="cursor: pointer;" (click)="modifier_data(data.id)"><i class="fa fa-pen font-primary pe-2" ></i></a>
+                  <a style="cursor: pointer;" (click)="supprimer_data(data.id)"><i class="fa fa-trash font-danger ps-2" ></i></a>
+                </ul>
+              </td>
+            </tr>
+            } @empty{
+            <tr class="odd">
+              <td colspan="8" class="dataTables_empty" style="text-align: center; font-size: 18px">
+                No records found
+              </td>
+            </tr>
+            }
+          </tbody>
+        </table>
+        <div class="d-flex justify-content-between p-2">
+          <ngb-pagination
+            class="ms-3"
+            [collectionSize]="( total$ | async)!"
+            [(page)]="service.page"
+            [pageSize]="service.pageSize"
+          />
+        </div>
+      </div>
+    </div>
+  </form>
+
+    <div class="add-task-btn-wrapper">
+        <span class="add-task-btn" >
+            <button class="btn btn-primary" (click)="redirect_add()">
+            <i class="icon-plus"></i> Ajouter un restaurant</button>
+        </span>
+    </div>
+</div>

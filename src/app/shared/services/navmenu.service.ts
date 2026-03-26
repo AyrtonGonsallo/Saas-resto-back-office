@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
+import { environment } from '../../environment';
 
 export interface Menu {
   headTitle1?: string;
@@ -13,6 +14,7 @@ export interface Menu {
   type?: string;
   active?: boolean;
   id?: number;
+  devOnly?: boolean;
   bookmark?: boolean;
   children?: Menu[];
   horizontalList?: boolean;
@@ -32,13 +34,13 @@ export class NavmenuService {
   MENUITEMS: Menu[] = [
     {
       headTitle1: 'General',
-      line: false,
+      line: false,devOnly: true,
     },
     {
       id: 1,
       level: 1,
       title: 'Dashboard',
-      icon: 'Home',
+      icon: 'Home',devOnly: true,
       badge: true,
       type: 'sub',
       active: true,
@@ -54,6 +56,7 @@ export class NavmenuService {
       title: 'Widgets',
       icon: 'Pie',
       type: 'sub',
+      devOnly: true,
       active: false,
       children: [
         { path: '/widgets/general', title: 'General', type: 'link' },
@@ -67,32 +70,47 @@ export class NavmenuService {
     {
       id: 35,
       level: 1,
-      title: 'Roles',
-      icon: 'Info-circle',
-      type: 'sub',
+      title: 'Rôles',
+      path: '/roles/liste-roles',
+      icon: 'Shield',
       active: false,
-      horizontalList: true,
-      children: [
-        { path: '/roles/liste-roles', title: 'Liste des rôles', type: 'link' },
-        { path: '/roles/creer-role', title: 'Créer un rôle', type: 'link' },
-      ],
     },
     {
       id: 36,
       level: 1,
-      title: 'Société',
-      icon: 'Info-circle',
-      type: 'sub',
+      title: 'Sociétés',
+      path: '/societes/liste-societes',
+      icon: 'Bag',
       active: false,
-      horizontalList: true,
-      children: [
-        { path: '/societes/liste-societes', title: 'Liste des sociétés', type: 'link' },
-        { path: '/societes/creer-societe', title: 'Créer une société', type: 'link' },
-      ],
+    },
+    {
+      id: 37,
+      level: 1,
+      title: 'Restaurants',
+      path: '/restaurants/liste-restaurants',
+      icon: 'Home',
+      active: false,
+    },
+    {
+      id: 38,
+      level: 1,
+      title: 'Utilisateurs',
+      path: '/utilisateurs/liste-utilisateurs',
+      icon: 'Profile',
+      active: false,
+    },
+    {
+      id: 39,
+      level: 1,
+      title: 'Tables',
+      path: '/tables/liste-tables',
+      icon: 'Work',
+      active: false,
     },
     {
       headTitle1: 'Applications',
       line: true,
+      devOnly: true,
     },
     {
       id: 3,
@@ -101,6 +119,7 @@ export class NavmenuService {
       icon: 'Info-circle',
       type: 'sub',
       active: false,
+      devOnly: true,
       horizontalList: true,
       children: [
         { path: '/project/list', title: 'Project List', type: 'link' },
@@ -113,6 +132,7 @@ export class NavmenuService {
       path: '/file-manager',
       title: 'File Manager',
       icon: 'Paper',
+      devOnly: true,
       type: 'link',
     },
     {
@@ -121,6 +141,7 @@ export class NavmenuService {
       title: 'Ecommerce',
       type: 'sub',
       icon: 'Bag',
+      devOnly: true,
       horizontalList: true,
       active: false,
       children: [
@@ -155,6 +176,7 @@ export class NavmenuService {
       level: 1,
       title: 'Letter-box',
       path: '/letter-box',
+      devOnly: true,
       icon: 'Message',
       active: false,
       type: 'link',
@@ -165,6 +187,7 @@ export class NavmenuService {
       title: 'Chat',
       type: 'sub',
       icon: 'Chat',
+      devOnly: true,
       active: false,
       children: [
         { path: '/chat/private-chat', title: 'Private Chat', type: 'link' },
@@ -177,6 +200,7 @@ export class NavmenuService {
       title: 'Users',
       icon: 'Profile',
       type: 'sub',
+      devOnly: true,
       active: false,
       children: [
         { path: '/user/users-profile', title: 'Users Profile', type: 'link' },
@@ -184,12 +208,13 @@ export class NavmenuService {
         { path: '/user/users-cards', title: 'Users Cards', type: 'link' },
       ],
     },
-    { level: 1, id: 9, path: '/bookmarks', title: 'Bookmarks', icon: 'Bookmark', type: 'link' },
+    { level: 1, id: 9, devOnly: true, path: '/bookmarks', title: 'Bookmarks', icon: 'Bookmark', type: 'link' },
     {
       level: 1,
       id: 10,
       path: '/contacts',
       bookmark: true,
+      devOnly: true,
       title: 'Contact',
       icon: 'Contacts',
       type: 'link',
@@ -200,15 +225,16 @@ export class NavmenuService {
       path: '/task',
       bookmark: true,
       title: 'Tasks',
+      devOnly: true,
       icon: 'Tick-square',
       type: 'link',
     },
-    { level: 1, id: 12, path: '/calender', title: 'Calender', icon: 'Calendar', type: 'link' },
-    { level: 1, id: 13, path: '/social-app', title: 'Social App', icon: 'Camera', type: 'link' },
-    { level: 1, id: 14, path: '/todo', bookmark: true, title: 'To-Do', icon: 'Edit', type: 'link' },
+    { level: 1, id: 12,devOnly: true, path: '/calender', title: 'Calender', icon: 'Calendar', type: 'link' },
+    { level: 1, id: 13,devOnly: true, path: '/social-app', title: 'Social App', icon: 'Camera', type: 'link' },
+    { level: 1, id: 14,devOnly: true, path: '/todo', bookmark: true, title: 'To-Do', icon: 'Edit', type: 'link' },
     {
       level: 1,
-      id: 15,
+      id: 15,devOnly: true,
       path: '/search-pages',
       title: 'Search Result',
       icon: 'Search',
@@ -216,10 +242,10 @@ export class NavmenuService {
     },
     {
       headTitle1: 'Components',
-      line: true,
+      line: true,devOnly: true,
     },
     {
-      id: 16,
+      id: 16,devOnly: true,
       level: 1,
       title: 'Buttons',
       path: '/buttons',
@@ -228,7 +254,7 @@ export class NavmenuService {
     },
     {
       id: 17,
-      level: 1,
+      level: 1,devOnly: true,
       title: 'Ui-Kits',
       icon: 'Folder',
       type: 'sub',
@@ -252,7 +278,7 @@ export class NavmenuService {
     },
     {
       id: 18,
-      level: 1,
+      level: 1,devOnly: true,
       title: 'Bonus UI',
       icon: 'Ticket-star',
       type: 'sub',
@@ -276,7 +302,7 @@ export class NavmenuService {
     },
     {
       id: 19,
-      level: 1,
+      level: 1,devOnly: true,
       title: 'Icons',
       icon: 'Activity',
       type: 'sub',
@@ -293,7 +319,7 @@ export class NavmenuService {
 
     {
       id: 20,
-      level: 1,
+      level: 1,devOnly: true,
       title: 'Charts',
       icon: 'Chart',
       type: 'sub',
@@ -307,13 +333,13 @@ export class NavmenuService {
     },
     {
       headTitle1: 'Forms & Table',
-      line: true,
+      line: true,devOnly: true,
     },
     {
       id: 21,
       level: 1,
       title: 'Form Controls',
-      type: 'sub',
+      type: 'sub',devOnly: true,
       icon: 'Filter',
       active: false,
       children: [
@@ -326,7 +352,7 @@ export class NavmenuService {
     },
     {
       id: 22,
-      level: 1,
+      level: 1,devOnly: true,
       title: 'Form Widgets',
       type: 'sub',
       icon: 'Scan',
@@ -342,7 +368,7 @@ export class NavmenuService {
     },
     {
       id: 23,
-      level: 1,
+      level: 1,devOnly: true,
       title: 'Tables',
       icon: 'Edit-line',
       type: 'sub',
@@ -351,7 +377,7 @@ export class NavmenuService {
         {
           title: 'Bootstrap Tables',
           type: 'sub',
-          level: 2,
+          level: 2,devOnly: true,
           active: false,
           children: [
             { path: '/table/bootstrap-tables/basic-table', title: 'Basic Table', type: 'link' },
@@ -373,11 +399,11 @@ export class NavmenuService {
     },
     {
       headTitle1: 'Pages',
-      line: true,
+      line: true,devOnly: true,
     },
     {
       level: 1,
-      id: 24,
+      id: 24,devOnly: true,
       path: '/sample-page',
       title: 'Sample Page',
       icon: 'Paper-plus',
@@ -385,7 +411,7 @@ export class NavmenuService {
     },
     {
       id: 25,
-      level: 1,
+      level: 1,devOnly: true,
       title: 'Others',
       icon: 'Password',
       type: 'sub',
@@ -568,14 +594,14 @@ export class NavmenuService {
     },
     {
       headTitle1: 'Miscellaneous',
-      line: true,
+      line: true,devOnly: true,
     },
     {
       id: 26,
       level: 1,
       title: 'Gallery',
       icon: 'Gallery',
-      type: 'sub',
+      type: 'sub',devOnly: true,
       active: false,
       children: [
         { path: '/gallary/gallary-grid', title: 'Gallery Grid', type: 'link' },
@@ -589,7 +615,7 @@ export class NavmenuService {
       id: 27,
       level: 1,
       title: 'Blog',
-      icon: 'Game',
+      icon: 'Game',devOnly: true,
       type: 'sub',
       horizontalList: true,
       active: false,
@@ -604,7 +630,7 @@ export class NavmenuService {
       id: 28,
       path: '/faq',
       title: 'FAQ',
-      icon: 'Danger',
+      icon: 'Danger',devOnly: true,
       type: 'link',
       active: false,
     },
@@ -612,7 +638,7 @@ export class NavmenuService {
       id: 29,
       level: 1,
       title: 'Job Search',
-      icon: 'Filter-2',
+      icon: 'Filter-2',devOnly: true,
       type: 'sub',
       active: false,
       children: [
@@ -625,7 +651,7 @@ export class NavmenuService {
     {
       id: 30,
       level: 1,
-      title: 'Learning',
+      title: 'Learning',devOnly: true,
       icon: 'Work',
       type: 'sub',
       active: false,
@@ -637,7 +663,7 @@ export class NavmenuService {
     {
       id: 31,
       level: 1,
-      title: 'Maps',
+      title: 'Maps',devOnly: true,
       icon: 'Discovery',
       type: 'sub',
       active: false,
@@ -649,7 +675,7 @@ export class NavmenuService {
     {
       id: 32,
       level: 1,
-      title: 'Editors',
+      title: 'Editors',devOnly: true,
       icon: 'Shield',
       type: 'sub',
       active: false,
@@ -660,7 +686,7 @@ export class NavmenuService {
     },
     {
       level: 1,
-      id: 33,
+      id: 33,devOnly: true,
       path: '/knowledgebase',
       title: 'Knowledgebase',
       icon: 'Setting',
@@ -668,7 +694,7 @@ export class NavmenuService {
     },
     {
       level: 1,
-      id: 34,
+      id: 34,devOnly: true,
       path: '/support-ticket',
       title: 'Support Ticket',
       icon: 'Ticket',
@@ -676,5 +702,13 @@ export class NavmenuService {
     },
   ];
 
-  item = new BehaviorSubject<Menu[]>(this.MENUITEMS);
+  item = new BehaviorSubject<Menu[]>(this.MENUITEMS.filter(item => {
+    //console.log(item.title,item.devOnly,environment.production)
+    // cacher si devOnly et qu'on est en prod
+    if (item.devOnly && environment.production) {
+      
+      return false;
+    }
+    return true;
+  }));
 }

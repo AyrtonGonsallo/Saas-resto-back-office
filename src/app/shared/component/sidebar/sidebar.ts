@@ -9,6 +9,7 @@ import { LayoutService } from '../../services/layout.service';
 import { Menu, NavmenuService } from '../../services/navmenu.service';
 import { Feathericon } from '../feathericon/feathericon';
 import { SvgIcon } from '../svg-icon/svg-icon';
+import { environment } from '../../../environment';
 
 @Component({
   selector: 'app-sidebar',

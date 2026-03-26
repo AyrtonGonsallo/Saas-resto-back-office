@@ -10,32 +10,39 @@
           <div class="row">
             <div class="col-sm-6 col-lg-4 order-sm-2 order-xl-2">
               <div class="ttl-info text-start">
-                <h6><i class="fa-solid fa-envelope"></i>   Email</h6><span>Marekjecno&#64;yahoo.com</span>
+                <h6><i class="fa-solid fa-envelope"></i>   Email</h6><span>{{user?.datas?.email}}</span>
               </div>
             </div>
             <div class="col-md-6">
               <div class="ttl-info text-start">
-                <h6><i class="fa-solid fa-calendar-days"></i>   BOD</h6><span>02 January 1988</span>
+                <h6><i class="fa-solid fa-calendar-days"></i>Inscription</h6><span>{{user?.datas?.created_at | date:'dd/MM/yyyy HH:mm' }}</span>
               </div>
             </div>
           </div>
         </div>
         <div class="col-sm-12 col-lg-4 order-sm-0 order-xl-1">
           <div class="user-designation">
-            <div class="title"><a target="_blank" href="">Mark jecno</a></div>
-            <div class="desc">designer</div>
+            <div class="title"><a target="_blank" href="">{{user?.datas?.prenom}} {{user?.datas?.nom}}</a></div>
+            <div class="desc">{{user?.datas?.Role?.titre}}</div>
           </div>
         </div>
         <div class="col-sm-6 col-lg-4 order-sm-2 order-xl-2">
           <div class="row">
             <div class="col-md-6">
               <div class="ttl-info text-start">
-                <h6><i class="fa-solid fa-phone"></i>   Contact Us</h6><span>India +91 123-456-7890</span>
+                <h6><i class="fa-solid fa-phone"></i>   Société</h6><span>{{user?.datas?.Societe?.titre}} {{user?.datas?.telephone}}</span>
               </div>
             </div>
             <div class="col-md-6">
               <div class="ttl-info text-start">
-                <h6><i class="fa fa-location-arrow"></i>   Location</h6><span>B69 Near Schoool Demo Home</span>
+                <h6><i class="fa fa-location-arrow"></i>   Restaurants</h6>
+                <span *ngFor="let resto of user?.datas?.Restaurants; let i = index">
+                  {{ resto.nom }}<br>
+                  {{ resto.lieu }}<br>
+                  {{ resto.heure_debut }}<br>
+                  {{ resto.heure_fin }}<br>
+                  <span *ngIf="i < user?.datas?.Restaurants.length - 1">, </span>
+                </span>
               </div>
             </div>
           </div>

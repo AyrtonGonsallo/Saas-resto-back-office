@@ -35,9 +35,11 @@ function sort(countries: any[], column: SortColumn, direction: string): any[] {
 }
 
 function matches(item: any, term: string) {
-  return (
-    item.titre?.toLowerCase().includes(term.toLowerCase()) ||
-    item.type?.toLowerCase().includes(term.toLowerCase())
+  term = term.toLowerCase();
+
+  return Object.values(item).some(value =>
+    value != null &&
+    String(value).toLowerCase().includes(term)
   );
 }
 
@@ -117,7 +119,7 @@ export class TableService {
 
   private _search(): Observable<SearchResult> {
     const { sortColumn, sortDirection, pageSize, page, searchTerm } = this._state;
-
+   
     // 1. sort
     let Details = sort(this._fullData, sortColumn, sortDirection);
     console.log(sortColumn, sortDirection)
@@ -128,12 +130,17 @@ export class TableService {
 
     // 3. paginate
     Details = Details.slice((page - 1) * pageSize, (page - 1) * pageSize + pageSize);
+    console.log("searchTerm",searchTerm)
+    console.log("search",Details)
     return of({ Details, total });
   }
 
 
   setData(data: any[]) {
-  this._fullData = data;
-  this._search$.next(); // 🔥 relance tout
-}
+    this._fullData = data;
+    this._search$.next();
+    console.log("data",data)
+    console.log("this._fullData",this._fullData)
+    
+  }
 }

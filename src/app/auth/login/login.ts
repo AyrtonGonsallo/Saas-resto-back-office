@@ -7,6 +7,8 @@ import {
   Validators,
 } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
+import { AuthSaasRestoService } from '../../shared/services/auth/auth-saas-resto.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-login',
@@ -21,7 +23,7 @@ export class Login {
   private fb = inject(FormBuilder);
   private router = inject(Router);
 
-  constructor() {
+  constructor(private authSerivce:AuthSaasRestoService) {
     this.loginForm = this.fb.group({
       email: ['Test@gmail.com', [Validators.required, Validators.email]],
       password: ['test123', Validators.required],
@@ -34,18 +36,42 @@ export class Login {
 
   // Simple Login
   login() {
-    if (
-      this.loginForm.value['email'] == 'Test@gmail.com' &&
-      this.loginForm.value['password'] == 'test123'
-    ) {
-      let user = {
-        email: 'Test@gmail.com',
-        password: 'test123',
-        name: 'test user',
+  console.log(this.loginForm.value)
+  this.authSerivce.login(this.loginForm.value).subscribe({
+    next: (e) => {
+      let user_connected = e.user
+      console.log(e)
+      Swal.fire({
+        position: 'bottom-end',
+        icon: 'success',
+        title: `Bienvenue ${user_connected.prenom} ${user_connected.nom}`,
+        showConfirmButton: false,
+      });
+
+      let user_recupéré = {
+        email: user_connected.email,
+        password: user_connected.mot_de_passe,
+        name: user_connected.prenom+' '+user_connected.nom,
+        datas:user_connected,
+        accessToken:e.accessToken
       };
 
-      localStorage.setItem('user', JSON.stringify(user));
+      localStorage.setItem('user', JSON.stringify(user_recupéré));
+
+      this.authSerivce.setUser(user_recupéré);
       this.router.navigate(['/dashboard/default']);
+    },
+    error: err => {
+      console.error(err)
+      Swal.fire({
+        position: 'bottom-end',
+        icon: 'error',
+        title: err.error.message,
+        showConfirmButton: false,
+      });
     }
-  }
+  });
+}
+
+
 }
