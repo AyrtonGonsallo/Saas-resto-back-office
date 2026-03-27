@@ -39,12 +39,13 @@
           <thead>
             <tr>
               <th scope="col" sortable="id" (sort)="onSort($event)">ID</th>
-              <th scope="col" sortable="titre" (sort)="onSort($event)">Titre</th>
-              <th scope="col" sortable="status" (sort)="onSort($event)">Statut</th>
-              <th scope="col" sortable="gestionnaire_id" (sort)="onSort($event)">Gestionnaire</th>
-              <th scope="col" sortable="portefeuille_id" (sort)="onSort($event)">Portefeuille</th>
-              <th scope="col" sortable="abonnement_id" (sort)="onSort($event)">Abonnement</th>
-              
+              <th scope="col" sortable="produit_id" (sort)="onSort($event)">Titre produit</th>
+              <th scope="col" sortable="produit_id" (sort)="onSort($event)">Prix HT produit</th>
+              <th scope="col" sortable="produit_id" (sort)="onSort($event)">Tva produit</th>
+              <th scope="col" sortable="titre" (sort)="onSort($event)">Titre variation</th>
+              <th scope="col" sortable="obligatoire" (sort)="onSort($event)">Obligatoire</th>
+              <th scope="col" sortable="supplement_prix" (sort)="onSort($event)">Supplément prix HT</th>
+              <th scope="col" sortable="stock" (sort)="onSort($event)">Stock</th>
               
               <th scope="col">Action</th>
             </tr>
@@ -57,20 +58,27 @@
                 <ngb-highlight [result]="data.id" [term]="service.searchTerm" />
               </td>
               <td>
+                <ngb-highlight [result]="data.produit?.titre" [term]="service.searchTerm" />
+              </td>
+              <td>
+                <ngb-highlight [result]="data.produit?.prix_ht" [term]="service.searchTerm" />
+              </td>
+              <td>
+                <ngb-highlight [result]="data.produit?.tva" [term]="service.searchTerm" />
+              </td>
+              <td>
                 <ngb-highlight [result]="data.titre" [term]="service.searchTerm" />
               </td>
               <td>
-                <ngb-highlight [result]="data.status" [term]="service.searchTerm" />
+                <ngb-highlight [result]="data.obligatoire" [term]="service.searchTerm" />
               </td>
               <td>
-                <ngb-highlight [result]="data.gestionnaire.prenom+' '+data.gestionnaire.nom" [term]="service.searchTerm" />
+                <ngb-highlight [result]="data.supplement_prix" [term]="service.searchTerm" />
               </td>
               <td>
-                <ngb-highlight [result]="get_texte_portefeuille(data.portefeuille)" [term]="service.searchTerm" />
+                <ngb-highlight [result]="data.stock" [term]="service.searchTerm" />
               </td>
-              <td>
-                <ngb-highlight [result]="get_texte_abonnement(data.abonnement)" [term]="service.searchTerm" />
-              </td>
+              
               
               <td>
                 <ul class="action">
@@ -100,10 +108,5 @@
     </div>
   </form>
 
-    <div class="add-task-btn-wrapper">
-        <span class="add-task-btn" >
-            <button class="btn btn-primary" (click)="redirect_add()">
-            <i class="icon-plus"></i> Ajouter une société</button>
-        </span>
-    </div>
+    
 </div>

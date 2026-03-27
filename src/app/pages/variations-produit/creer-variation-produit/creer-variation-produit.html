@@ -1,0 +1,68 @@
+<form class="card" [formGroup]="formData" (ngSubmit)="onSubmit()">
+    <div class="card-header">
+        <h4 class="card-title mb-0">Ajouter une variation sur le produit #{{parent_data?.id}} {{parent_data?.titre}}</h4>
+        
+    </div>
+
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="mb-3">
+                <label class="form-label">Titre</label>
+                <input class="form-control" type="text" formControlName="titre" placeholder="titre">
+                <div *ngIf="formData.get('titre')?.touched && formData.get('titre')?.invalid" class="text-danger">
+                    Le titre est invalide
+                </div>
+                </div>
+            </div>
+
+           
+
+            <div class="col-sm-12 col-md-12">
+                <div class="mb-3">
+                    <label class="form-label">Description</label>
+                    <angular-editor [placeholder]="'Enter text here...'" formControlName="description"  />
+                </div>
+            </div>
+
+            <div class="col-sm-12 col-md-12">
+                <div class="mb-3">
+                    <label class="form-label">Obligatoire ?</label>
+                    <div>
+                         <label class="switch">
+                        <input type="checkbox" formControlName="obligatoire">
+                        <span class="switch-state"></span>
+                    </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <div class="mb-3">
+                <label class="form-label">Supplément de prix HT</label>
+                <input class="form-control" type="number" formControlName="supplement_prix" placeholder="supplement_prix">
+                <div *ngIf="formData.get('supplement_prix')?.touched && formData.get('supplement_prix')?.invalid" class="text-danger">
+                    Le supplement_prix est invalide
+                </div>
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <div class="mb-3">
+                <label class="form-label">Stock</label>
+                <input class="form-control" type="number" formControlName="stock" placeholder="stock">
+                <div *ngIf="formData.get('stock')?.touched && formData.get('stock')?.invalid" class="text-danger">
+                    Le stock est invalide
+                </div>
+                </div>
+            </div>
+
+          
+
+        </div>
+    </div>
+
+    <div class="card-footer text-end">
+        <button class="btn btn-primary" type="submit">Envoyer</button>
+    </div>
+</form>

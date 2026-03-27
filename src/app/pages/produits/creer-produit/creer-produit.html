@@ -1,0 +1,115 @@
+<form class="card" [formGroup]="formData" (ngSubmit)="onSubmit()">
+    <div class="card-header">
+        <h4 class="card-title mb-0">Ajouter un produit</h4>
+        
+    </div>
+
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="mb-3">
+                <label class="form-label">Titre</label>
+                <input class="form-control" type="text" formControlName="titre" placeholder="titre">
+                <div *ngIf="formData.get('titre')?.touched && formData.get('titre')?.invalid" class="text-danger">
+                    Le titre est invalide
+                </div>
+                </div>
+            </div>
+
+            <div class="col-sm-12 col-md-12">
+                <label class="form-label">Catégorie de produit</label>
+            
+                <ng-select [items]="categories_produits" bindLabel="titre" bindValue="id" [multiple]="false"
+                    placeholder="choisir une catégorie de produit" formControlName="categorie_id"  />
+                    <div *ngIf="formData.get('categorie_id')?.touched && formData.get('categorie_id')?.invalid" class="text-danger">
+                    La catégorie de produit est invalide
+                </div>
+            </div>
+
+
+            <div class="col-sm-12 col-md-12">
+                <label class="form-label">Image</label>
+                <div class="input-group">
+                    <input formControlName="image"  (change)="onFileSelected($event)" class="form-control" id="inputGroupFile01" type="file">
+                </div>
+               
+            </div>
+
+            
+
+            <div class="col-sm-12 col-md-12">
+                <div class="mb-3">
+                    <label class="form-label">Description</label>
+                    <angular-editor [placeholder]="'Enter text here...'" formControlName="description"  />
+                </div>
+            </div>
+
+            <div class="col-sm-12 col-md-12">
+                <div class="mb-3">
+                    <label class="form-label">Allergènes</label>
+                    <angular-editor [placeholder]="'Enter text here...'" formControlName="allergenes"  />
+                </div>
+            </div>
+
+            <div class="col-sm-12 col-md-12">
+                <div class="mb-3">
+                    <label class="form-label">Actif ?</label>
+                    <div>
+                         <label class="switch">
+                        <input type="checkbox" formControlName="actif">
+                        <span class="switch-state"></span>
+                    </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <div class="mb-3">
+                <label class="form-label">Prix HT</label>
+                <input class="form-control" type="number" formControlName="prix_ht" placeholder="prix_ht">
+                <div *ngIf="formData.get('prix_ht')?.touched && formData.get('prix_ht')?.invalid" class="text-danger">
+                    Le prix_ht est invalide
+                </div>
+                </div>
+            </div>
+
+
+            <div class="col-md-12">
+                <div class="mb-3">
+                <label class="form-label">tva</label>
+                <input class="form-control" type="number" formControlName="tva" placeholder="tva">
+                <div *ngIf="formData.get('tva')?.touched && formData.get('tva')?.invalid" class="text-danger">
+                    Le tva est invalide
+                </div>
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <div class="mb-3">
+                <label class="form-label">Stock</label>
+                <input class="form-control" type="number" formControlName="stock" placeholder="stock">
+                <div *ngIf="formData.get('stock')?.touched && formData.get('stock')?.invalid" class="text-danger">
+                    Le stock est invalide
+                </div>
+                </div>
+            </div>
+
+            <div class="col-sm-12 col-md-12">
+                <label class="form-label">Statut</label>
+            
+                <ng-select [items]="statuts" bindLabel="name" bindValue="key" [multiple]="false"
+                    placeholder="choisir un statut" formControlName="statut"  />
+                    
+                    <div *ngIf="formData.get('statut')?.touched && formData.get('statut')?.invalid" class="text-danger">
+                    Le statut est invalide
+                </div>
+            </div>
+            
+
+        </div>
+    </div>
+
+    <div class="card-footer text-end">
+        <button class="btn btn-primary" type="submit">Envoyer</button>
+    </div>
+</form>

@@ -321,4 +321,28 @@ export const dashData: Routes = [
     },
     loadChildren: () => import('../../pages/restaurants/restaurants.routes').then(r => r.RestaurantsRoutes),
   },
+  {
+    path: 'categories-produit',
+    data: {
+      title: 'Catégories de produit',
+      breadcrumb: 'Catégories de produit',
+    },
+    loadChildren: () => import('../../pages/categories-produit/categories-produits.routes').then(r => r.CategoriesProduitRoutes),
+  },
+  {
+    path: 'produits',
+    data: {
+      title: 'Produits',
+      breadcrumb: 'Produits',
+    },
+    loadChildren: () => import('../../pages/produits/produits.routes').then(r => r.ProduitsRoutes),
+  },
+  {
+    path: 'variations-produit',
+    data: {
+      title: 'Variations de produit',
+      breadcrumb: 'Variations de produit',
+    },
+    loadChildren: () => import('../../pages/variations-produit/variations-produit.routes').then(r => r.VariationsProduitRoutes),
+  },
 ];

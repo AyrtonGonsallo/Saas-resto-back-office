@@ -129,5 +129,74 @@ export class CrudSaasRestoService {
     return this.http.put<any>(url, categorie);
   }
 
+   ajouterCategorieProduit(userData: any): Observable<any> {
+    return this.http.post<any>(`${environment.apiUrl}/ajouter_categorie_produit`, userData);
+  }
+
+  getCategoriesProduit(): Observable<any[]> {
+    return this.http.get<any[]>(`${environment.apiUrl}/get_all_categories_produit`);
+  }
+
+  getCategorieProduitById(id: number): Observable<any> {
+  const url = `${environment.apiUrl}/get_categorie_produit_by_id/${id}`;
+  return this.http.get<any>(url);
+}
+
+  deleteCategorieProduit(id: number): Observable<any> {
+    const url = `${environment.apiUrl}/delete_categorie_produit/${id}`;
+    return this.http.delete<any>(url);
+  }
+
+  updateCategorieProduit(id: number, categorie: any): Observable<any> {
+    const url = `${environment.apiUrl}/update_categorie_produit/${id}`;
+    return this.http.put<any>(url, categorie);
+  }
+
+  ajouterProduit(userData: any): Observable<any> {
+    return this.http.post<any>(`${environment.apiUrl}/ajouter_produit`, userData);
+  }
+
+  getProduits(): Observable<any[]> {
+    return this.http.get<any[]>(`${environment.apiUrl}/get_all_produits`);
+  }
+
+  getProduitById(id: number): Observable<any> {
+  const url = `${environment.apiUrl}/get_produit_by_id/${id}`;
+  return this.http.get<any>(url);
+}
+
+  deleteProduit(id: number): Observable<any> {
+    const url = `${environment.apiUrl}/delete_produit/${id}`;
+    return this.http.delete<any>(url);
+  }
+
+  updateProduit(id: number, produit: any): Observable<any> {
+    const url = `${environment.apiUrl}/update_produit/${id}`;
+    return this.http.put<any>(url, produit);
+  }
+
+   ajouterVariationProduit(userData: any): Observable<any> {
+    return this.http.post<any>(`${environment.apiUrl}/ajouter_variation_produit`, userData);
+  }
+
+  getVariationsProduit(): Observable<any[]> {
+    return this.http.get<any[]>(`${environment.apiUrl}/get_all_variations_produit`);
+  }
+
+  getVariationProduitById(id: number): Observable<any> {
+  const url = `${environment.apiUrl}/get_variation_produit_by_id/${id}`;
+  return this.http.get<any>(url);
+}
+
+  deleteVariationProduit(id: number): Observable<any> {
+    const url = `${environment.apiUrl}/delete_variation_produit/${id}`;
+    return this.http.delete<any>(url);
+  }
+
+  updateVariationProduit(id: number, variation: any): Observable<any> {
+    const url = `${environment.apiUrl}/update_variation_produit/${id}`;
+    return this.http.put<any>(url, variation);
+  }
+
 
 }

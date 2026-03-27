@@ -40,11 +40,7 @@
             <tr>
               <th scope="col" sortable="id" (sort)="onSort($event)">ID</th>
               <th scope="col" sortable="titre" (sort)="onSort($event)">Titre</th>
-              <th scope="col" sortable="status" (sort)="onSort($event)">Statut</th>
-              <th scope="col" sortable="gestionnaire_id" (sort)="onSort($event)">Gestionnaire</th>
-              <th scope="col" sortable="portefeuille_id" (sort)="onSort($event)">Portefeuille</th>
-              <th scope="col" sortable="abonnement_id" (sort)="onSort($event)">Abonnement</th>
-              
+              <th scope="col" sortable="est_actif" (sort)="onSort($event)">Actif</th>
               
               <th scope="col">Action</th>
             </tr>
@@ -60,16 +56,7 @@
                 <ngb-highlight [result]="data.titre" [term]="service.searchTerm" />
               </td>
               <td>
-                <ngb-highlight [result]="data.status" [term]="service.searchTerm" />
-              </td>
-              <td>
-                <ngb-highlight [result]="data.gestionnaire.prenom+' '+data.gestionnaire.nom" [term]="service.searchTerm" />
-              </td>
-              <td>
-                <ngb-highlight [result]="get_texte_portefeuille(data.portefeuille)" [term]="service.searchTerm" />
-              </td>
-              <td>
-                <ngb-highlight [result]="get_texte_abonnement(data.abonnement)" [term]="service.searchTerm" />
+                <ngb-highlight [result]="data.est_actif" [term]="service.searchTerm" />
               </td>
               
               <td>
@@ -103,7 +90,7 @@
     <div class="add-task-btn-wrapper">
         <span class="add-task-btn" >
             <button class="btn btn-primary" (click)="redirect_add()">
-            <i class="icon-plus"></i> Ajouter une société</button>
+            <i class="icon-plus"></i> Ajouter une catégorie</button>
         </span>
     </div>
 </div>

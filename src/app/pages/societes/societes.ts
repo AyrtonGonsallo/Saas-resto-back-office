@@ -115,9 +115,37 @@ export class Societes {
                });
              }
            });
-         
-   
-       
+     }
+
+
+     formatDate(date: any) {
+        if (!date) return '';
+        return new Date(date).toLocaleDateString('fr-FR');
+      }
+
+     get_texte_abonnement(abonnement:any){
+        if(abonnement){
+          return 'Type : '+abonnement.formule+
+          '\nStatut : '+abonnement.statut+
+          '\nDate de début : '+this.formatDate(abonnement.date_debut)+
+          '\nDate d\'expiration : '+this.formatDate(abonnement.date_expiration)+
+          '\nCoût : '+abonnement.cout+' €'
+        }else{
+          return '';
+        }
+        
+     }
+
+     get_texte_portefeuille(portefeuille:any){
+        if(portefeuille){
+          return 'ID : '+portefeuille.id+
+          '\nSolde sms : '+portefeuille.solde_sms+
+          '\nSolde ia : '+portefeuille.solde_ia+
+          '\nSeuil sms : '+portefeuille.alert_seuil_sms+
+          '\nSeuil ia : '+portefeuille.alert_seuil_ia
+        }else{
+          return '';
+        }
      }
    }
    
