@@ -16,22 +16,20 @@ import { environment } from '../../environment';
 
 
 @Component({
-  selector: 'app-produits',
-  imports:  [FormsModule,
+  selector: 'app-parametres',
+  imports: [FormsModule,
     NgbdSortableHeaderDirective,
     ReactiveFormsModule,CommonModule,
     NgbModule,
     AsyncPipe,],
-  templateUrl: './produits.html',
-  styleUrl: './produits.scss',
+  templateUrl: './parametres.html',
+  styleUrl: './parametres.scss',
   providers: [TableService, DecimalPipe],
 })
-export class Produits {
-
-  public imagesUrl = environment.imagesUrl
-   public service = inject(TableService);
+export class Parametres {
+  public service = inject(TableService);
   private router = inject(Router);
-
+  public imagesUrl = environment.imagesUrl
   public tableData$: Observable<any[]> = this.service.supportdata$;
   public total$: Observable<number> = this.service.total$;
   public Data: any[];
@@ -60,28 +58,28 @@ export class Produits {
     this.service.sortDirection = direction;
   }
 
-  produits:any
+  parametres:any
 
 
   get_all_datas(){
 
-    this.crudSaasService.getProduits().subscribe({
+    this.crudSaasService.getParametres().subscribe({
       next: (res) => {
         this.service.setData(res);
-        console.log("produits",this.produits)
+        console.log("parametres",this.parametres)
       },
       error: (err) => {
-        this.notificationsService.error("Erreur lors de la récupération des catégories","Echec")
+        this.notificationsService.error("Erreur lors de la récupération des rôles","Echec")
       }
     });
   }
 
   redirect_add(){
-    this.router.navigate(['/produits/creer-produit']);
+    this.router.navigate(['/parametres/creer-parametre']);
   }
 
   modifier_data(id:number){
-    this.router.navigate(['/produits/modifier-produit', id]);
+    this.router.navigate(['/parametres/modifier-parametre', id]);
   }
 
   supprimer_data(id:number){
@@ -99,7 +97,7 @@ export class Produits {
         }).then(result => {
           if (result.isConfirmed) {
 
-            this.crudSaasService.deleteProduit(id).subscribe({
+            this.crudSaasService.deleteParametre(id).subscribe({
               next: (res) => {
                 console.log("res supp",res)
                 //this.notificationsService.success("Rôle supprimé !","Succès")
@@ -122,4 +120,3 @@ export class Produits {
     
   }
 }
-

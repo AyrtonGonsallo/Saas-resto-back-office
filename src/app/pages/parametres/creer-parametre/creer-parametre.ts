@@ -11,13 +11,13 @@ import { AuthSaasRestoService } from '../../../shared/services/auth/auth-saas-re
 import { AngularEditorModule } from '@kolkov/angular-editor';
 
 @Component({
-  selector: 'app-creer-produit',
-  imports: [ReactiveFormsModule,CommonModule, ReactiveFormsModule, NgSelectModule, NgbModule,AngularEditorModule],
-  templateUrl: './creer-produit.html',
-  styleUrl: './creer-produit.scss',
+  selector: 'app-creer-parametre',
+  imports: [ReactiveFormsModule,CommonModule, ReactiveFormsModule, NgSelectModule, NgbModule,AngularEditorModule,],
+  templateUrl: './creer-parametre.html',
+  styleUrl: './creer-parametre.scss',
 })
-export class CreerProduit {
-  private router = inject(Router);
+export class CreerParametre {
+   private router = inject(Router);
   
   formData!: FormGroup;
   user:any
@@ -25,22 +25,17 @@ export class CreerProduit {
 
   ngOnInit(): void {
 
-    this.get_categories()
+   
 
     this.user = this.authSerivce.getUser();
     console.log('user recuperé',this.user )
    
     this.formData = this.fb.group({
       titre: ['', Validators.required],
-      categorie_id: [0, Validators.required],
-      image: ['', ],
+      type: ['', Validators.required],
+      valeur: ['', Validators.required],
       description: ['', ],
-      allergenes: ['', ],
-      actif: [true, Validators.required],
-      prix_ht: [0, ],
-      tva: [20, ],
-      statut: ['disponible', Validators.required],
-      stock: [0, ],
+      est_actif: [true, Validators.required],
       societe_id: [this.user.datas.societe_id, Validators.required],
       restaurant_id: [this.user.datas.Restaurants[0].id, Validators.required],
       utilisateur_id: [this.user.datas.id, Validators.required],
@@ -58,14 +53,11 @@ export class CreerProduit {
     const finalFormData = new FormData();
 
     finalFormData.append('titre', this.formData.value.titre);
-    finalFormData.append('categorie_id', this.formData.value.categorie_id);
+    finalFormData.append('type', this.formData.value.type);
     finalFormData.append('description', this.formData.value.description);
-    finalFormData.append('allergenes', this.formData.value.allergenes);
-    finalFormData.append('actif', this.formData.value.actif);
-    finalFormData.append('prix_ht', this.formData.value.prix_ht);
-    finalFormData.append('tva', this.formData.value.tva);
-    finalFormData.append('statut', this.formData.value.statut);
-    finalFormData.append('stock', this.formData.value.stock);
+    finalFormData.append('valeur', this.formData.value.valeur);
+    finalFormData.append('est_actif', this.formData.value.est_actif);
+   
     finalFormData.append('societe_id', this.formData.value.societe_id);
     finalFormData.append('restaurant_id', this.formData.value.restaurant_id);
     finalFormData.append('utilisateur_id', this.formData.value.utilisateur_id);
@@ -78,7 +70,7 @@ export class CreerProduit {
 
     console.log(finalFormData);
    
-    this.crudSaasService.ajouterProduit(finalFormData).subscribe({
+    this.crudSaasService.ajouterParametre(finalFormData).subscribe({
       next: (res) => {
         Swal.fire({
               position: 'bottom-end',
@@ -87,7 +79,7 @@ export class CreerProduit {
               showConfirmButton: false,
             });
         setTimeout(() => {
-          this.router.navigate(['/produits/liste-produits']);
+          this.router.navigate(['/parametres/liste-parametres']);
         }, 2000);
       },
       error: (err) => {
@@ -99,23 +91,15 @@ export class CreerProduit {
     // appel API ici
   }
 
-  categories_produits:any[]
+  categories_parametres:any[]
 
-  get_categories(){
-     this.crudSaasService.getCategoriesProduit().subscribe({
-      next: (res) => {
-        this.categories_produits=res
-        console.log("categories_produits",this.categories_produits)
-      },
-      error: (err) => {
-        this.notificationsService.error("Erreur lors de la récupération des catégories","Echec")
-      }
-    });
-  }
 
-   statuts = [
-    { key: 'disponible', name: 'Disponible' },
-    { key: 'indisponible', name: 'Indisponible' },
+   types = [
+    { key: 'tva', name: 'Tva' },
+    { key: 'coefficient', name: 'Coefficient' },
+    //{ key: 'logo', name: 'Logo' },
+   // { key: 'couleur_principale', name: 'Couleur principale' },
+   // { key: 'couleur_secondaire', name: 'Couleur secondaire' },
   ];
 
   selectedFile: File | null = null;
@@ -124,6 +108,11 @@ export class CreerProduit {
     
     this.selectedFile = event.target.files[0];
     console.log("upload",this.selectedFile)
+     if (this.selectedFile) {
+      this.formData.patchValue({
+        valeur: this.selectedFile.name
+      });
+    }
   }
 
 }

@@ -9,7 +9,7 @@
 
             <div class="col-sm-12 col-md-12">
                 <div class="mb-3">
-                <label class="form-label">Nom</label>
+                <label class="form-label">Nom <span class="text-danger">*</span></label>
                 <input class="form-control" type="text" formControlName="nom" placeholder="Nom">
                 <div *ngIf="formData.get('nom')?.touched && formData.get('nom')?.invalid" class="text-danger">
                     Le nom est invalide
@@ -19,7 +19,7 @@
 
             <div class="col-sm-12 col-md-12">
                 <div class="mb-3">
-                <label class="form-label">Adresse</label>
+                <label class="form-label">Adresse <span class="text-danger">*</span></label>
                 <input class="form-control" type="text" formControlName="lieu" placeholder="Adresse">
                 <div *ngIf="formData.get('lieu')?.touched && formData.get('lieu')?.invalid" class="text-danger">
                     L'adresse est invalide
@@ -28,7 +28,7 @@
             </div>
 
             <div class="col-sm-12 col-md-12">
-                <label class="form-label">Horaires</label>
+                <label class="form-label">Horaires <span class="text-danger">*</span></label>
             </div>
             <div class="col-sm-6 col-md-6">
                 <ng-select [items]="heures_deb" bindLabel="label" bindValue="label" [multiple]="false"
@@ -82,7 +82,7 @@
 
              <div class="col-sm-12 col-md-12">
                 <div class="mb-3">
-                <label class="form-label">Société</label>
+                <label class="form-label">Société <span class="text-danger">*</span></label>
                 <ng-select [items]="societes" bindLabel="titre" bindValue="id" [multiple]="false" placeholder="choisir une société"
                     formControlName="societe_id" />
                 <div *ngIf="formData.get('societe_id')?.touched && formData.get('societe_id')?.invalid" class="text-danger">
@@ -93,11 +93,11 @@
 
              <div class="col-sm-12 col-md-12">
                 <div class="mb-3">
-                <label class="form-label">Gestionnaire</label>
+                <label class="form-label">Gestionnaire <span class="text-danger">*</span></label>
                 <ng-select [items]="gestionnaires" bindLabel="fullName" bindValue="id" [multiple]="false" placeholder="choisir un gestionnaire"
                     formControlName="utilisateur_id" />
                 <div *ngIf="formData.get('utilisateur_id')?.touched && formData.get('utilisateur_id')?.invalid" class="text-danger">
-                    Le rôle est requis
+                    Le gestionnaire est requis
                 </div>
                 </div>
             </div>

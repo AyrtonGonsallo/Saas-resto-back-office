@@ -9,6 +9,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import Swal from 'sweetalert2';
 import { AuthSaasRestoService } from '../../../shared/services/auth/auth-saas-resto.service';
 import { AngularEditorModule } from '@kolkov/angular-editor';
+import { environment } from '../../../environment';
 
 
 @Component({
@@ -18,6 +19,7 @@ import { AngularEditorModule } from '@kolkov/angular-editor';
   styleUrl: './modifier-produit.scss',
 })
 export class ModifierProduit {
+  public imagesUrl = environment.imagesUrl
   private router = inject(Router);
   data_id=0
   
@@ -141,6 +143,7 @@ export class ModifierProduit {
     this.crudSaasService.getProduitById(id).subscribe({
       next: (res) => {
         this.data=res
+        console.log("this.data",this.data)
 
         this.formData = this.fb.group({
           titre: [this.data.titre, Validators.required],

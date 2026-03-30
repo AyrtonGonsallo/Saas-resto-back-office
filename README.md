@@ -57,3 +57,19 @@ Angular CLI does not come with an end-to-end testing framework by default. You c
 ## Additional Resources
 
 For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+
+
+
+profile 
+D:\telechargement\Saas resto back office\src\app\component\user\users-profile\user-profile1\user-profile1.html
+menu 
+D:\telechargement\Saas resto back office\src\app\shared\services\navmenu.service.ts
+routes 
+D:\telechargement\Saas resto back office\src\app\shared\routes\routes.ts
+intercepteurs
+D:\telechargement\Saas resto back office\src\app\shared\interceptors
+bienvenue 
+D:\telechargement\Saas resto back office\src\app\component\dashboard\default\top-card\top-card.html
+
+le menu du haut 
+D:\telechargement\Saas resto back office\src\app\shared\component\header\profile\profile.html

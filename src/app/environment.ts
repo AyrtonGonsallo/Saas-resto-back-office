@@ -7,7 +7,9 @@ export const environment = {
     //apiUrl: 'https://api.resto.orocom.io/api/v1', // URL de l'API en prod
     
 
-    imagesUrl: 'https://api.resto.orocom.io/api/v1/files/', // URL de l'API sur le dev
+    imagesUrl: 'http://localhost:2026/api/v1/files/', // URL des images de l'API locale
+    //imagesUrl: 'https://api.resto.orocom.io/api/v1/files/', // URL des images de l'API sur le dev
+    //imagesUrl: 'https://api.resto.orocom.io/api/v1/files/', // URL des images de l'API sur le prod
 
 
     assetsUrl: 'https://resto.orocom.io/assets/', // URL de assets sur le dev

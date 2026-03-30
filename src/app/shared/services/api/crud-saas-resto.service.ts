@@ -198,5 +198,28 @@ export class CrudSaasRestoService {
     return this.http.put<any>(url, variation);
   }
 
+  ajouterParametre(userData: any): Observable<any> {
+    return this.http.post<any>(`${environment.apiUrl}/ajouter_parametre`, userData);
+  }
+
+  getParametres(): Observable<any[]> {
+    return this.http.get<any[]>(`${environment.apiUrl}/get_all_parametres`);
+  }
+
+  getParametreById(id: number): Observable<any> {
+  const url = `${environment.apiUrl}/get_parametre_by_id/${id}`;
+  return this.http.get<any>(url);
+}
+
+  deleteParametre(id: number): Observable<any> {
+    const url = `${environment.apiUrl}/delete_parametre/${id}`;
+    return this.http.delete<any>(url);
+  }
+
+  updateParametre(id: number, parametre: any): Observable<any> {
+    const url = `${environment.apiUrl}/update_parametre/${id}`;
+    return this.http.put<any>(url, parametre);
+  }
+
 
 }

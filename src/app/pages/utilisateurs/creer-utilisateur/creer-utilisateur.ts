@@ -24,6 +24,8 @@ private router = inject(Router);
     this.get_all_roles()
 
     this.get_all_societes()
+
+    this.get_all_restaurants()
     
     this.formData = this.fb.group({
       nom: ['', Validators.required],
@@ -33,7 +35,8 @@ private router = inject(Router);
       mot_de_passe: ['', Validators.required],
       confirmed_mot_de_passe: ['', Validators.required],
       role_id: [0, Validators.required],
-      societe_id: [0, Validators.required],
+      societe_id: [0, ],
+      restaurant_id: [0, ],
     });
   }
 
@@ -73,6 +76,7 @@ private router = inject(Router);
             }, 2000);
           },
           error: (err) => {
+            console.log("erreur",err.error)
             this.notificationsService.error("Erreur lors de l’ajout","Echec")
           }
         });
@@ -83,6 +87,7 @@ private router = inject(Router);
 
   roles:any[]
   societes:any[]
+  restaurants:any[]
 
 
     get_all_societes(){
@@ -93,6 +98,18 @@ private router = inject(Router);
         },
         error: (err) => {
           this.notificationsService.error("Erreur lors de la récupération des rôles","Echec")
+        }
+      });
+    }
+
+     get_all_restaurants(){
+      this.crudSaasService.getRestaurants().subscribe({
+        next: (res) => {
+          this.restaurants=res
+          console.log("restaurants",this.restaurants)
+        },
+        error: (err) => {
+          this.notificationsService.error("Erreur lors de la récupération des restaurants","Echec")
         }
       });
     }

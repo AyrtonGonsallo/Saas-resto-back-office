@@ -5,10 +5,21 @@
     </div>
 
     <div class="card-body">
+        <div class="blog-single mb-5">
+            <div class="blog-box blog-details">
+                <img class="img-fluid w-100" [src]="imagesUrl+data.image" alt="blog-main">
+                <div class="blog-details">
+                    <ul class="blog-social">
+                        <li><i class="icofont icofont-calendar"></i>Créé le <span>{{data.created_at | date:'dd/MM/yyyy'}} </span></li>
+                        <li><i class="icofont icofont-pencil"></i>modifié le <span>{{data.updated_at | date:'dd/MM/yyyy'}}</span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
         <div class="row">
             <div class="col-md-12">
                 <div class="mb-3">
-                <label class="form-label">Titre</label>
+                <label class="form-label">Titre <span class="text-danger">*</span></label>
                 <input class="form-control" type="text" formControlName="titre" placeholder="titre">
                 <div *ngIf="formData.get('titre')?.touched && formData.get('titre')?.invalid" class="text-danger">
                     Le titre est invalide
@@ -17,7 +28,7 @@
             </div>
 
             <div class="col-sm-12 col-md-12">
-                <label class="form-label">Catégorie de produit</label>
+                <label class="form-label">Catégorie de produit <span class="text-danger">*</span></label>
             
                 <ng-select [items]="categories_produits" bindLabel="titre" bindValue="id" [multiple]="false"
                     placeholder="choisir une catégorie de produit" formControlName="categorie_id"  />
@@ -53,7 +64,7 @@
 
             <div class="col-sm-12 col-md-12">
                 <div class="mb-3">
-                    <label class="form-label">Actif ?</label>
+                    <label class="form-label">Actif ? <span class="text-danger">*</span></label>
                     <div>
                          <label class="switch">
                         <input type="checkbox" formControlName="actif">
@@ -95,7 +106,7 @@
             </div>
 
             <div class="col-sm-12 col-md-12">
-                <label class="form-label">Statut</label>
+                <label class="form-label">Statut <span class="text-danger">*</span></label>
             
                 <ng-select [items]="statuts" bindLabel="name" bindValue="key" [multiple]="false"
                     placeholder="choisir un statut" formControlName="statut"  />

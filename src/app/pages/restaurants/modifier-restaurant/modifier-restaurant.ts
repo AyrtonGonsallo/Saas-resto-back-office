@@ -39,7 +39,7 @@ export class ModifierRestaurant {
       heure_fin: ['', [Validators.required, ]],
       heure_cc_debut: ['', [, ]],
       heure_cc_fin: ['', [, ]],
-      commandes_par_minutes: [0, Validators.required],
+      commandes_par_minutes: [0, ],
       societe_id: [0, Validators.required],
       utilisateur_id: [0, Validators.required],
     });
@@ -151,7 +151,7 @@ export class ModifierRestaurant {
           heure_fin: [this.data.heure_fin, [Validators.required, ]],
           heure_cc_debut: [this.data.heure_cc_debut, [, ]],
           heure_cc_fin: [this.data.heure_cc_fin, [, ]],
-          commandes_par_minutes: [this.data.commandes_par_minutes, Validators.required],
+          commandes_par_minutes: [this.data.commandes_par_minutes, ],
           societe_id: [this.data.societe_id, Validators.required],
           utilisateur_id: [this.data.utilisateur_id, Validators.required],
         });

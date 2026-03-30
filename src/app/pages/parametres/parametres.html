@@ -39,13 +39,11 @@
           <thead>
             <tr>
               <th scope="col" sortable="id" (sort)="onSort($event)">ID</th>
-              <th scope="col" sortable="categorie_id" (sort)="onSort($event)">Catégorie</th>
-              <th scope="col" sortable="image" (sort)="onSort($event)">Image</th>
+              <th scope="col" sortable="type" (sort)="onSort($event)">Type</th>
               <th scope="col" sortable="titre" (sort)="onSort($event)">Titre</th>
-              <th scope="col" sortable="actif" (sort)="onSort($event)">Actif</th>
-              <th scope="col" sortable="stock" (sort)="onSort($event)">Stock</th>
-              <th scope="col" sortable="prix_ht" (sort)="onSort($event)">Prix HT</th>
-              <th scope="col" sortable="tva" (sort)="onSort($event)">TVA</th>
+              <th scope="col" sortable="description" (sort)="onSort($event)">Description</th>
+              <th scope="col" sortable="valeur" (sort)="onSort($event)">Valeur</th>
+              <th scope="col" sortable="est_actif" (sort)="onSort($event)">Actif ?</th>
               
               <th scope="col">Action</th>
             </tr>
@@ -58,32 +56,28 @@
                 <ngb-highlight [result]="data.id" [term]="service.searchTerm" />
               </td>
               <td>
-                <ngb-highlight [result]="data.categorie?.titre" [term]="service.searchTerm" />
+                <ngb-highlight [result]="data.titre" [term]="service.searchTerm" />
               </td>
               <td>
-                <div class="customers text-center social-group" *ngIf="data.image">
+                
+                <ngb-highlight [result]="data.type" [term]="service.searchTerm"/>
+              </td>
+              <td>
+                <ngb-highlight [result]="data.description" [term]="service.searchTerm" />
+              </td>
+              <td>
+                <div class="customers text-center social-group" *ngIf="data.type=='logo'">
                   <ul>
                     <li class="d-inline-block">
-                      <img class="img-40 rounded-circle" [src]="imagesUrl+data.image" alt="images" />
+                      <img class="img-40 rounded-circle" [src]="imagesUrl+data.valeur" alt="images" />
                     </li>
                     
                   </ul>
                 </div>
+                <ngb-highlight [result]="data.valeur" [term]="service.searchTerm" *ngIf="data.type!='logo'"/>
               </td>
               <td>
-                <ngb-highlight [result]="data.titre" [term]="service.searchTerm" />
-              </td>
-              <td>
-                <ngb-highlight [result]="data.actif" [term]="service.searchTerm" />
-              </td>
-              <td>
-                <ngb-highlight [result]="data.stock" [term]="service.searchTerm" />
-              </td>
-              <td>
-                <ngb-highlight [result]="data.prix_ht" [term]="service.searchTerm" />
-              </td>
-              <td>
-                <ngb-highlight [result]="data.tva" [term]="service.searchTerm" />
+                <ngb-highlight [result]="data.est_actif" [term]="service.searchTerm" />
               </td>
               
               <td>
@@ -117,7 +111,7 @@
     <div class="add-task-btn-wrapper">
         <span class="add-task-btn" >
             <button class="btn btn-primary" (click)="redirect_add()">
-            <i class="icon-plus"></i> Ajouter un produit</button>
+            <i class="icon-plus"></i> Ajouter un paramètre</button>
         </span>
     </div>
 </div>

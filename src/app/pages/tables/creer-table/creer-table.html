@@ -9,7 +9,7 @@
 
             <div class="col-sm-12 col-md-12">
                 <div class="mb-3">
-                <label class="form-label">Numéro</label>
+                <label class="form-label">Numéro <span class="text-danger">*</span></label>
                 <input class="form-control" type="text" formControlName="numero" placeholder="Numéro">
                 <div *ngIf="formData.get('numero')?.touched && formData.get('numero')?.invalid" class="text-danger">
                     Le numéro est invalide
@@ -28,7 +28,7 @@
             </div>
 
             <div class="col-sm-12 col-md-12">
-                <label class="form-label">Statut</label>
+                <label class="form-label">Statut <span class="text-danger">*</span></label>
             
                 <ng-select [items]="statuts" bindLabel="name" bindValue="key" [multiple]="false"
                     placeholder="choisir une heure" formControlName="statut"  />
@@ -38,7 +38,7 @@
             </div>
 
             <div class="col-sm-12 col-md-12">
-                <label class="form-label">Société</label>
+                <label class="form-label">Société <span class="text-danger">*</span></label>
             
                 <ng-select [items]="societes" bindLabel="titre" bindValue="id" [multiple]="false"
                     placeholder="choisir une société" formControlName="societe_id"  />
@@ -48,7 +48,7 @@
             </div>
 
             <div class="col-sm-12 col-md-12">
-                <label class="form-label">Restaurant</label>
+                <label class="form-label">Restaurant <span class="text-danger">*</span></label>
             
                 <ng-select [items]="restaurants" bindLabel="nom" bindValue="id" [multiple]="false"
                     placeholder="choisir un restaurant" formControlName="restaurant_id"  />

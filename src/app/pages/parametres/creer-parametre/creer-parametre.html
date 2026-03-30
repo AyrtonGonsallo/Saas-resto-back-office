@@ -1,6 +1,6 @@
 <form class="card" [formGroup]="formData" (ngSubmit)="onSubmit()">
     <div class="card-header">
-        <h4 class="card-title mb-0">Ajouter une catégorie de prroduit</h4>
+        <h4 class="card-title mb-0">Ajouter un paramètre</h4>
         
     </div>
 
@@ -17,12 +17,44 @@
             </div>
 
             <div class="col-sm-12 col-md-12">
+                <label class="form-label">Type de paramètre <span class="text-danger">*</span></label>
+            
+                <ng-select [items]="types" bindLabel="name" bindValue="key" [multiple]="false"
+                    placeholder="choisir une catégorie de paramètre" formControlName="type"  />
+                    <div *ngIf="formData.get('type')?.touched && formData.get('type')?.invalid" class="text-danger">
+                    Le type de paramètre est invalide
+                </div>
+            </div>
+
+            <!-- IMAGE -->
+            <div *ngIf="formData.get('type')?.value === 'logo'" class="col-md-12">
+                <label class="form-label">Image</label>
+                <div class="input-group">
+                    <input (change)="onFileSelected($event)" class="form-control" type="file">
+                </div>
+            </div>
+
+            <!-- TEXTE -->
+            <div *ngIf="formData.get('type')?.value !== 'logo'" class="col-md-12">
+                <div class="mb-3">
+                    <label class="form-label">Valeur <span class="text-danger">*</span></label>
+                    <input class="form-control" type="text" formControlName="valeur" placeholder="valeur">
+
+                    <div *ngIf="formData.get('valeur')?.touched && formData.get('valeur')?.invalid" class="text-danger">
+                    La valeur est invalide
+                    </div>
+                </div>
+            </div>
+
+            
+
+            <div class="col-sm-12 col-md-12">
                 <div class="mb-3">
                     <label class="form-label">Description</label>
                     <angular-editor [placeholder]="'Enter text here...'" formControlName="description"  />
-                    
                 </div>
             </div>
+
 
             <div class="col-sm-12 col-md-12">
                 <div class="mb-3">
@@ -33,9 +65,9 @@
                         <span class="switch-state"></span>
                     </label>
                     </div>
-                   
                 </div>
             </div>
+
             
 
         </div>

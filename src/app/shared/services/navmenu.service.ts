@@ -84,6 +84,14 @@ export class NavmenuService {
       active: false,
     },
     {
+      id: 43,
+      level: 1,
+      title: 'Paramètres',
+      path: '/parametres/liste-parametres',
+      icon: 'Setting',
+      active: false,
+    },
+    {
       id: 37,
       level: 1,
       title: 'Restaurants',
@@ -124,7 +132,7 @@ export class NavmenuService {
       active: false,
     },
     {
-      id: 41,
+      id: 42,
       level: 1,
       title: 'Variations de produits',
       path: '/variations-produit/liste-variations-produit',

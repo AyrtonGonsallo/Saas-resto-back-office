@@ -36,8 +36,8 @@ export class ModifierUtilisateur {
       email: ['', [Validators.required, Validators.email]],
       telephone: [''],
       role_id: [0, Validators.required],
-      societe_id: [0, Validators.required],
-      restaurant_id: [0, ],
+      societe_id: [0, ],
+      restaurant_id: [[], ],
     });
 
     this.load_data(this.data_id)
@@ -138,8 +138,11 @@ export class ModifierUtilisateur {
           email: [this.data.email, [Validators.required, Validators.email]],
           telephone: [this.data.telephone],
           role_id: [this.data.role_id, Validators.required],
-          societe_id: [this.data.societe_id, Validators.required],
-          restaurant_id: [this.data.restaurant_id ],
+          societe_id: [this.data.societe_id, ],
+          restaurant_id: [Array.isArray(this.data.Restaurants) 
+            ? this.data.Restaurants.map((r:any) => r.id) 
+            : []
+          ]
     });
         
       },

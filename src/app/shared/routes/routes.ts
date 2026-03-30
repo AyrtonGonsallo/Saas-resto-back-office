@@ -345,4 +345,12 @@ export const dashData: Routes = [
     },
     loadChildren: () => import('../../pages/variations-produit/variations-produit.routes').then(r => r.VariationsProduitRoutes),
   },
+  {
+    path: 'parametres',
+    data: {
+      title: 'Paramètres',
+      breadcrumb: 'Paramètres',
+    },
+    loadChildren: () => import('../../pages/parametres/parametres.routes').then(r => r.ParametresRoutes),
+  },
 ];

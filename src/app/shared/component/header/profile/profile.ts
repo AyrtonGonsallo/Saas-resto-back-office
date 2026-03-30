@@ -3,10 +3,11 @@ import { Router, RouterModule } from '@angular/router';
 
 import { ClickOutsideDirective } from '../../../directives/outside.directive';
 import { AuthSaasRestoService } from '../../../services/auth/auth-saas-resto.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-profile',
-  imports: [RouterModule, ClickOutsideDirective],
+  imports: [RouterModule, ClickOutsideDirective,CommonModule],
   templateUrl: './profile.html',
   styleUrl: './profile.scss',
 })

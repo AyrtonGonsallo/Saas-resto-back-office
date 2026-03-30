@@ -8,7 +8,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="mb-3">
-                <label class="form-label">Titre</label>
+                <label class="form-label">Titre <span class="text-danger">*</span></label>
                 <input class="form-control" type="text" formControlName="titre" placeholder="titre">
                 <div *ngIf="formData.get('titre')?.touched && formData.get('titre')?.invalid" class="text-danger">
                     Le titre est invalide

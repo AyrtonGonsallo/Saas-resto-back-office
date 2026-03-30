@@ -40,7 +40,7 @@ export class CreerRestaurant {
       heure_fin: ['', [Validators.required, ]],
       heure_cc_debut: ['', [, ]],
       heure_cc_fin: ['', [, ]],
-      commandes_par_minutes: [0, Validators.required],
+      commandes_par_minutes: [0, ],
       societe_id: [0, Validators.required],
       utilisateur_id: [0, Validators.required],
     });
