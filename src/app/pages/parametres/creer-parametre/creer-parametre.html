@@ -6,15 +6,7 @@
 
     <div class="card-body">
         <div class="row">
-            <div class="col-md-12">
-                <div class="mb-3">
-                <label class="form-label">Titre <span class="text-danger">*</span></label>
-                <input class="form-control" type="text" formControlName="titre" placeholder="titre">
-                <div *ngIf="formData.get('titre')?.touched && formData.get('titre')?.invalid" class="text-danger">
-                    Le titre est invalide
-                </div>
-                </div>
-            </div>
+            
 
             <div class="col-sm-12 col-md-12">
                 <label class="form-label">Type de paramètre <span class="text-danger">*</span></label>
@@ -67,6 +59,17 @@
                     </div>
                 </div>
             </div>
+
+             <div class="col-sm-12 col-md-12">
+                <label class="form-label">Restaurant <span class="text-danger">*</span></label>
+            
+                <ng-select [items]="restaurants" bindLabel="nom" bindValue="id" [multiple]="false"
+                    placeholder="choisir un restaurant" formControlName="restaurant_id"  />
+                    <div *ngIf="formData.get('restaurant_id')?.touched && formData.get('restaurant_id')?.invalid" class="text-danger">
+                    Le restaurant est invalide
+                </div>
+            </div>
+            
 
             
 

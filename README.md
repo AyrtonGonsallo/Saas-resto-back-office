@@ -73,3 +73,12 @@ D:\telechargement\Saas resto back office\src\app\component\dashboard\default\top
 
 le menu du haut 
 D:\telechargement\Saas resto back office\src\app\shared\component\header\profile\profile.html
+
+login
+D:\telechargement\Saas resto back office\src\app\auth\login\login.html
+
+editer les chaines ici pour le multilingue
+D:\telechargement\Saas resto back office\public\assets\i18n\fr.json
+importer ce module 
+import { TranslateModule } from '@ngx-translate/core'; 
+et le charger puis faire {{title | translate}}

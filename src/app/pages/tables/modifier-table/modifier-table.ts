@@ -7,6 +7,7 @@ import Swal from 'sweetalert2';
 import { ActivatedRoute, Router, } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { RestaurantService } from '../../../shared/services/restaurant/restaurant.service';
 
 @Component({
   selector: 'app-modifier-table',
@@ -19,7 +20,7 @@ export class ModifierTable {
   private router = inject(Router);
   formData!: FormGroup;
   data_id=0
-  constructor(private route: ActivatedRoute,private fb: FormBuilder, private crudSaasService:CrudSaasRestoService, private notificationsService:NotificationsService,) {}
+  constructor(private route: ActivatedRoute,private fb: FormBuilder,private restaurantService: RestaurantService, private crudSaasService:CrudSaasRestoService, private notificationsService:NotificationsService,) {}
 
   ngOnInit(): void {
 
@@ -81,7 +82,9 @@ restaurants:any[]
 societes:any[]
 
   get_all_restaurants(){
-      this.crudSaasService.getRestaurants().subscribe({
+
+    let restaurant_id = this.restaurantService.getRestaurant()
+      this.crudSaasService.getRestaurants(restaurant_id).subscribe({
         next: (res) => {
           this.restaurants=res
           console.log("getRestaurants",this.restaurants)

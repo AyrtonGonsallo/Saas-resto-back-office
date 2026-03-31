@@ -12,6 +12,7 @@ import {
 import { TableService } from '../../shared/services/table.service';
 import { CrudSaasRestoService } from '../../shared/services/api/crud-saas-resto.service';
 import { NotificationsService } from '../../shared/services/notifications/notifications.service';
+import { RestaurantService } from '../../shared/services/restaurant/restaurant.service';
 
 @Component({
   selector: 'app-tables',
@@ -42,7 +43,7 @@ export class Tables {
     this.get_all_datas()
   }
     
-  constructor(private crudSaasService:CrudSaasRestoService, private notificationsService:NotificationsService,) {}
+  constructor(private crudSaasService:CrudSaasRestoService,private restaurantService: RestaurantService, private notificationsService:NotificationsService,) {}
 
 
   onSort({ column, direction }: SortEvent) {
@@ -61,7 +62,8 @@ export class Tables {
 
   get_all_datas(){
 
-    this.crudSaasService.getTables().subscribe({
+    let restaurant_id = this.restaurantService.getRestaurant()
+    this.crudSaasService.getTables(restaurant_id).subscribe({
       next: (res) => {
         this.service.setData(res);
         console.log("tables",this.tables)

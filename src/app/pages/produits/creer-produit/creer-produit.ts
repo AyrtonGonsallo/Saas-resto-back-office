@@ -9,6 +9,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import Swal from 'sweetalert2';
 import { AuthSaasRestoService } from '../../../shared/services/auth/auth-saas-resto.service';
 import { AngularEditorModule } from '@kolkov/angular-editor';
+import { RestaurantService } from '../../../shared/services/restaurant/restaurant.service';
 
 @Component({
   selector: 'app-creer-produit',
@@ -21,11 +22,13 @@ export class CreerProduit {
   
   formData!: FormGroup;
   user:any
-  constructor(private authSerivce:AuthSaasRestoService,private fb: FormBuilder, private crudSaasService:CrudSaasRestoService, private notificationsService:NotificationsService,) {}
+  constructor(private authSerivce:AuthSaasRestoService, private restaurantService: RestaurantService,private fb: FormBuilder, private crudSaasService:CrudSaasRestoService, private notificationsService:NotificationsService,) {}
 
   ngOnInit(): void {
 
     this.get_categories()
+
+    this.get_all_restaurants()
 
     this.user = this.authSerivce.getUser();
     console.log('user recuperé',this.user )
@@ -42,8 +45,25 @@ export class CreerProduit {
       statut: ['disponible', Validators.required],
       stock: [0, ],
       societe_id: [this.user.datas.societe_id, Validators.required],
-      restaurant_id: [this.user.datas.Restaurants[0].id, Validators.required],
+      restaurant_id: [0, Validators.required],
       utilisateur_id: [this.user.datas.id, Validators.required],
+    });
+
+    this.formData.get('restaurant_id')?.valueChanges.subscribe((restaurantId) => {
+
+      console.log("restaurant choisi:", restaurantId);
+
+      if (!restaurantId) {
+        this.categories_produits = this.allCategories;
+      } else {
+        this.categories_produits = this.allCategories.filter(cat =>
+          cat.restaurant_id === restaurantId
+        );
+      }
+
+      // 🔥 reset catégorie sélectionnée
+      this.formData.patchValue({ categorie_id: null });
+
     });
   }
 
@@ -99,12 +119,16 @@ export class CreerProduit {
     // appel API ici
   }
 
-  categories_produits:any[]
+  allCategories: any[] = [];
+categories_produits: any[] = [];
 
   get_categories(){
-     this.crudSaasService.getCategoriesProduit().subscribe({
+
+    let restaurant_id = this.restaurantService.getRestaurant()
+     this.crudSaasService.getCategoriesProduit(restaurant_id).subscribe({
       next: (res) => {
-        this.categories_produits=res
+        this.allCategories = res;
+        this.categories_produits = res;
         console.log("categories_produits",this.categories_produits)
       },
       error: (err) => {
@@ -124,6 +148,27 @@ export class CreerProduit {
     
     this.selectedFile = event.target.files[0];
     console.log("upload",this.selectedFile)
+  }
+
+  
+restaurants:any[]
+
+  get_all_restaurants(){
+
+    let restaurant_id = this.restaurantService.getRestaurant()
+      this.crudSaasService.getRestaurants(restaurant_id).subscribe({
+        next: (res) => {
+          this.restaurants=res
+          console.log("getRestaurants",this.restaurants)
+        },
+        error: (err) => {
+          this.notificationsService.error("Erreur lors de la récupération des restaurants","Echec")
+        }
+      });
+  }
+
+  getCatLabel(){
+
   }
 
 }

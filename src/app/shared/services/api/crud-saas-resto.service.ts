@@ -60,12 +60,20 @@ export class CrudSaasRestoService {
     return this.http.post<any>(`${environment.apiUrl}/ajouter_utilisateur`, userData);
   }
 
-  getUtilisateurs(): Observable<any[]> {
-    return this.http.get<any[]>(`${environment.apiUrl}/get_all_utilisateurs`);
+  getUtilisateurs(restaurantId:number | null): Observable<any[]> {
+    let url = `${environment.apiUrl}/get_all_utilisateurs`;
+    if (restaurantId) {
+      url += `?restaurant_id=${restaurantId}`;
+    }
+    return this.http.get<any[]>(url);
   }
 
-  getUtilisateursByRole(role_string:string): Observable<any[]> {
-    return this.http.get<any[]>(`${environment.apiUrl}/get_all_utilisateurs_by_role/${role_string}`);
+  getUtilisateursByRole(role_string:string,restaurantId:number | null): Observable<any[]> {
+    let url = `${environment.apiUrl}/get_all_utilisateurs_by_role/${role_string}`;
+    if (restaurantId) {
+      url += `?restaurant_id=${restaurantId}`;
+    }
+    return this.http.get<any[]>(url);
   }
 
   getUtilisateurById(id: number): Observable<any> {
@@ -87,8 +95,12 @@ export class CrudSaasRestoService {
     return this.http.post<any>(`${environment.apiUrl}/ajouter_restaurant`, userData);
   }
 
-  getRestaurants(): Observable<any[]> {
-    return this.http.get<any[]>(`${environment.apiUrl}/get_all_restaurants`);
+  getRestaurants(restaurantId:number | null): Observable<any[]> {
+    let url = `${environment.apiUrl}/get_all_restaurants`;
+    if (restaurantId) {
+      url += `?restaurant_id=${restaurantId}`;
+    }
+    return this.http.get<any[]>(url);
   }
 
   getRestaurantById(id: number): Observable<any> {
@@ -110,14 +122,19 @@ export class CrudSaasRestoService {
     return this.http.post<any>(`${environment.apiUrl}/ajouter_table`, userData);
   }
 
-  getTables(): Observable<any[]> {
-    return this.http.get<any[]>(`${environment.apiUrl}/get_all_tables`);
+
+  getTables(restaurantId:number | null): Observable<any[]> {
+    let url = `${environment.apiUrl}/get_all_tables`;
+    if (restaurantId) {
+      url += `?restaurant_id=${restaurantId}`;
+    }
+    return this.http.get<any[]>(url);
   }
 
   getTableById(id: number): Observable<any> {
-  const url = `${environment.apiUrl}/get_table_by_id/${id}`;
-  return this.http.get<any>(url);
-}
+    const url = `${environment.apiUrl}/get_table_by_id/${id}`;
+    return this.http.get<any>(url);
+  }
 
   deleteTable(id: number): Observable<any> {
     const url = `${environment.apiUrl}/delete_table/${id}`;
@@ -133,8 +150,12 @@ export class CrudSaasRestoService {
     return this.http.post<any>(`${environment.apiUrl}/ajouter_categorie_produit`, userData);
   }
 
-  getCategoriesProduit(): Observable<any[]> {
-    return this.http.get<any[]>(`${environment.apiUrl}/get_all_categories_produit`);
+  getCategoriesProduit(restaurantId:number | null): Observable<any[]> {
+    let url = `${environment.apiUrl}/get_all_categories_produit`;
+    if (restaurantId) {
+      url += `?restaurant_id=${restaurantId}`;
+    }
+    return this.http.get<any[]>(url);
   }
 
   getCategorieProduitById(id: number): Observable<any> {
@@ -156,14 +177,18 @@ export class CrudSaasRestoService {
     return this.http.post<any>(`${environment.apiUrl}/ajouter_produit`, userData);
   }
 
-  getProduits(): Observable<any[]> {
-    return this.http.get<any[]>(`${environment.apiUrl}/get_all_produits`);
+  getProduits(restaurantId:number | null): Observable<any[]> {
+    let url = `${environment.apiUrl}/get_all_produits`;
+    if (restaurantId) {
+      url += `?restaurant_id=${restaurantId}`;
+    }
+    return this.http.get<any[]>(url);
   }
 
   getProduitById(id: number): Observable<any> {
-  const url = `${environment.apiUrl}/get_produit_by_id/${id}`;
-  return this.http.get<any>(url);
-}
+    const url = `${environment.apiUrl}/get_produit_by_id/${id}`;
+    return this.http.get<any>(url);
+  }
 
   deleteProduit(id: number): Observable<any> {
     const url = `${environment.apiUrl}/delete_produit/${id}`;
@@ -175,12 +200,16 @@ export class CrudSaasRestoService {
     return this.http.put<any>(url, produit);
   }
 
-   ajouterVariationProduit(userData: any): Observable<any> {
+  ajouterVariationProduit(userData: any): Observable<any> {
     return this.http.post<any>(`${environment.apiUrl}/ajouter_variation_produit`, userData);
   }
 
-  getVariationsProduit(): Observable<any[]> {
-    return this.http.get<any[]>(`${environment.apiUrl}/get_all_variations_produit`);
+  getVariationsProduit(restaurantId:number | null): Observable<any[]> {
+    let url = `${environment.apiUrl}/get_all_variations_produit`;
+    if (restaurantId) {
+      url += `?restaurant_id=${restaurantId}`;
+    }
+    return this.http.get<any[]>(url);
   }
 
   getVariationProduitById(id: number): Observable<any> {
@@ -202,8 +231,12 @@ export class CrudSaasRestoService {
     return this.http.post<any>(`${environment.apiUrl}/ajouter_parametre`, userData);
   }
 
-  getParametres(): Observable<any[]> {
-    return this.http.get<any[]>(`${environment.apiUrl}/get_all_parametres`);
+  getParametres(restaurantId:number | null): Observable<any[]> {
+    let url = `${environment.apiUrl}/get_all_parametres`;
+    if (restaurantId) {
+      url += `?restaurant_id=${restaurantId}`;
+    }
+    return this.http.get<any[]>(url);
   }
 
   getParametreById(id: number): Observable<any> {

@@ -17,6 +17,16 @@
             </div>
 
             <div class="col-sm-12 col-md-12">
+                <label class="form-label">Restaurant <span class="text-danger">*</span></label>
+            
+                <ng-select [items]="restaurants" bindLabel="nom" bindValue="id" [multiple]="false"
+                    placeholder="choisir un restaurant" formControlName="restaurant_id"  />
+                    <div *ngIf="formData.get('restaurant_id')?.touched && formData.get('restaurant_id')?.invalid" class="text-danger">
+                    Le restaurant est invalide
+                </div>
+            </div>
+
+            <div class="col-sm-12 col-md-12">
                 <label class="form-label">Catégorie de produit <span class="text-danger">*</span></label>
             
                 <ng-select [items]="categories_produits" bindLabel="titre" bindValue="id" [multiple]="false"
@@ -104,6 +114,9 @@
                     Le statut est invalide
                 </div>
             </div>
+
+             
+            
             
 
         </div>

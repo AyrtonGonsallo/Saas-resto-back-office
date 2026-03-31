@@ -7,6 +7,7 @@ import Swal from 'sweetalert2';
 import { Router, } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { RestaurantService } from '../../../shared/services/restaurant/restaurant.service';
 
 
 
@@ -22,7 +23,7 @@ export class CreerRestaurant {
   
   private router = inject(Router);
   formData!: FormGroup;
-  constructor(private fb: FormBuilder, private crudSaasService:CrudSaasRestoService, private notificationsService:NotificationsService,) {}
+  constructor(private fb: FormBuilder, private crudSaasService:CrudSaasRestoService, private restaurantService: RestaurantService, private notificationsService:NotificationsService,) {}
 
   
 
@@ -40,7 +41,7 @@ export class CreerRestaurant {
       heure_fin: ['', [Validators.required, ]],
       heure_cc_debut: ['', [, ]],
       heure_cc_fin: ['', [, ]],
-      commandes_par_minutes: [0, ],
+      telephone: ['', ],
       societe_id: [0, Validators.required],
       utilisateur_id: [0, Validators.required],
     });
@@ -98,7 +99,8 @@ export class CreerRestaurant {
 
 
     get_all_utilisateurs(){
-      this.crudSaasService.getUtilisateursByRole('gestionnaire-restaurant').subscribe({
+      let restaurant_id = this.restaurantService.getRestaurant()
+      this.crudSaasService.getUtilisateursByRole('gestionnaire-restaurant',restaurant_id).subscribe({
         next: (res) => {
           this.gestionnaires = res.map(g => ({
           ...g,

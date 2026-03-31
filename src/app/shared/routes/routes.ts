@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { RoleGuard } from '../guard/role.guard';
 
 export const dashData: Routes = [
   {
@@ -286,7 +287,9 @@ export const dashData: Routes = [
     data: {
       title: 'Societes',
       breadcrumb: 'Societe',
+     roles: ['super-admin','gestionnaire-societe',]
     },
+    canActivate: [RoleGuard],
     loadChildren: () => import('../../pages/societes/societes.routes').then(r => r.SocietesRoutes),
   },
   {
@@ -294,7 +297,9 @@ export const dashData: Routes = [
     data: {
       title: 'Rôles',
       breadcrumb: 'Rôles',
+      roles: ['super-admin','gestionnaire-societe','admin']
     },
+    canActivate: [RoleGuard],
     loadChildren: () => import('../../pages/roles/roles.routes').then(r => r.RolesRoutes),
   },
   {
@@ -302,7 +307,9 @@ export const dashData: Routes = [
     data: {
       title: 'Utilisateurs',
       breadcrumb: 'Utilisateurs',
+     roles: ['super-admin','gestionnaire-societe','admin','gestionnaire-restaurant']
     },
+    canActivate: [RoleGuard],
     loadChildren: () => import('../../pages/utilisateurs/utilisateurs.routes').then(r => r.UtilisateursRoutes),
   },
   {
@@ -310,7 +317,9 @@ export const dashData: Routes = [
     data: {
       title: 'Tables',
       breadcrumb: 'Tables',
+     roles: ['super-admin','gestionnaire-societe','admin','gestionnaire-restaurant','lecteur-planning','lecteur-cuisine','employé',]
     },
+    canActivate: [RoleGuard],
     loadChildren: () => import('../../pages/tables/tables.routes').then(r => r.TablesRoutes),
   },
   {
@@ -318,7 +327,9 @@ export const dashData: Routes = [
     data: {
       title: 'Restaurants',
       breadcrumb: 'Restaurants',
+     roles: ['super-admin','gestionnaire-societe','admin','gestionnaire-restaurant','lecteur-planning','lecteur-cuisine','employé']
     },
+    canActivate: [RoleGuard],
     loadChildren: () => import('../../pages/restaurants/restaurants.routes').then(r => r.RestaurantsRoutes),
   },
   {
@@ -326,7 +337,9 @@ export const dashData: Routes = [
     data: {
       title: 'Catégories de produit',
       breadcrumb: 'Catégories de produit',
+     roles: ['super-admin','gestionnaire-societe','admin','gestionnaire-restaurant','lecteur-planning','lecteur-cuisine','employé',]
     },
+    canActivate: [RoleGuard],
     loadChildren: () => import('../../pages/categories-produit/categories-produits.routes').then(r => r.CategoriesProduitRoutes),
   },
   {
@@ -334,7 +347,9 @@ export const dashData: Routes = [
     data: {
       title: 'Produits',
       breadcrumb: 'Produits',
+     roles: ['super-admin','gestionnaire-societe','admin','gestionnaire-restaurant','lecteur-planning','lecteur-cuisine','employé',]
     },
+    canActivate: [RoleGuard],
     loadChildren: () => import('../../pages/produits/produits.routes').then(r => r.ProduitsRoutes),
   },
   {
@@ -342,7 +357,9 @@ export const dashData: Routes = [
     data: {
       title: 'Variations de produit',
       breadcrumb: 'Variations de produit',
+     roles: ['super-admin','gestionnaire-societe','admin','gestionnaire-restaurant','lecteur-planning','lecteur-cuisine','employé',]
     },
+    canActivate: [RoleGuard],
     loadChildren: () => import('../../pages/variations-produit/variations-produit.routes').then(r => r.VariationsProduitRoutes),
   },
   {
@@ -350,7 +367,9 @@ export const dashData: Routes = [
     data: {
       title: 'Paramètres',
       breadcrumb: 'Paramètres',
+     roles: ['super-admin','gestionnaire-societe','admin','gestionnaire-restaurant','lecteur-planning',]
     },
+    canActivate: [RoleGuard],
     loadChildren: () => import('../../pages/parametres/parametres.routes').then(r => r.ParametresRoutes),
   },
 ];

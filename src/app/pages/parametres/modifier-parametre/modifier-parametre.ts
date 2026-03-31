@@ -101,6 +101,8 @@ export class ModifierParametre {
    types = [
     { key: 'tva', name: 'Tva' },
     { key: 'coefficient', name: 'Coefficient' },
+    { key: 'max_commandes_par_minutes', name: 'Max commandes par minute' },
+    { key: 'alerte_stocke_min', name: 'Stocke minimun avant alerte' },
     //{ key: 'logo', name: 'Logo' },
     //{ key: 'couleur_principale', name: 'Couleur principale' },
     //{ key: 'couleur_secondaire', name: 'Couleur secondaire' },
@@ -142,6 +144,17 @@ export class ModifierParametre {
           restaurant_id: [this.user.datas.Restaurants[0].id, Validators.required],
           utilisateur_id: [this.user.datas.id, Validators.required],
         });
+
+        this.formData.get('type')?.valueChanges.subscribe((type) => {
+          let typelabel = this.getTypeName(type);
+
+          console.log("type choisi:", typelabel);
+
+        
+          //  reset catégorie sélectionnée
+          this.formData.patchValue({ titre: typelabel });
+
+        });
         
       },
       error: (err) => {
@@ -149,5 +162,10 @@ export class ModifierParametre {
       }
     });
   }
+
+    getTypeName(key: string): string {
+      const found = this.types.find(t => t.key === key);
+      return found ? found.name : key;
+    }
 
 }

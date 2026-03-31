@@ -46,10 +46,9 @@ export class Language {
   ];
 
   public selectedLanguage: selectedlanguage = {
-    language: 'English',
-    code: 'en',
-    type: 'US',
-    icon: 'us',
+    language: 'Français',
+      code: 'fr',
+      icon: 'fr',
   };
 
   public navServices: NavmenuService = inject(NavmenuService);
@@ -58,5 +57,10 @@ export class Language {
   changeLanguage(lang: selectedlanguage) {
     this.translate.use(lang.code);
     this.selectedLanguage = lang;
+  }
+
+  constructor() {
+    this.translate.setDefaultLang('fr');
+    this.translate.use('fr'); // langue active
   }
 }

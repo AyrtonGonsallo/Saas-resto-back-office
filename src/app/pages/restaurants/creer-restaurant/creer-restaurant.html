@@ -72,9 +72,9 @@
 
             <div class="col-md-12">
                 <div class="mb-3">
-                <label class="form-label">Commandes par minute</label>
-                <input class="form-control" type="number" formControlName="commandes_par_minutes" placeholder="commandes_par_minutes">
-                <div *ngIf="formData.get('commandes_par_minutes')?.touched && formData.get('commandes_par_minutes')?.invalid" class="text-danger">
+                <label class="form-label">Téléphone</label>
+                <input class="form-control" formControlName="telephone" placeholder="91-(999)-999-999" type="tel" >
+                <div *ngIf="formData.get('telephone')?.touched && formData.get('telephone')?.invalid" class="text-danger">
                     Le champ est invalide
                 </div>
                 </div>

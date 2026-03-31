@@ -1,4 +1,6 @@
 import { Component, inject } from '@angular/core';
+import { TranslateModule } from '@ngx-translate/core';
+
 import {
   ActivatedRoute,
   Router,
@@ -12,7 +14,7 @@ import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-breadcrumb',
-  imports: [RouterModule],
+  imports: [RouterModule,TranslateModule],
   templateUrl: './breadcrumb.html',
   styleUrl: './breadcrumb.scss',
 })

@@ -1,4 +1,4 @@
-import { SlicePipe } from '@angular/common';
+import { CommonModule, SlicePipe } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
@@ -14,6 +14,10 @@ import { Theme } from './theme/theme';
 import { LayoutService } from '../../services/layout.service';
 import { NavmenuService, Menu } from '../../services/navmenu.service';
 import { SvgIcon } from '../svg-icon/svg-icon';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { AuthSaasRestoService } from '../../services/auth/auth-saas-resto.service';
+import { RestaurantService } from '../../services/restaurant/restaurant.service';
 
 @Component({
   selector: 'app-header',
@@ -23,12 +27,12 @@ import { SvgIcon } from '../svg-icon/svg-icon';
     RouterModule,
     Theme,
     Search,
+    CommonModule,
+    NgSelectModule, NgbModule,
     Notification,
     Profile,
     Messages,
     Language,
-    Bookmark,
-    Cart,
     SvgIcon,
     SlicePipe,
   ],
@@ -45,9 +49,30 @@ export class Header {
   public show = false;
   public navmenu = inject(NavmenuService);
   public layout = inject(LayoutService);
+  user:any
 
-  constructor() {
+  restaurants : any[];
+
+  idRestaurantChoisi: number|null;
+
+  onChangeRestaurant(data:any) {
+    if(data){
+      console.log('restaurant choisi : ',data.id,data.nom)
+      this.restaurantService.setRestaurant(data.id);
+    }else{
+      console.log('Pas de restaurant choisi : ',data)
+      this.restaurantService.clearRestaurant();
+    }
+     window.location.reload();
+  }
+
+  constructor(private authSerivce:AuthSaasRestoService,private restaurantService: RestaurantService) {
     this.navmenu.item.subscribe((menuItems: Menu[]) => (this.item = menuItems));
+     this.user = this.authSerivce.getUser();
+      console.log('user recuperé',this.user )
+      this.restaurants = this.user?.datas?.Restaurants
+      this.idRestaurantChoisi = restaurantService.getRestaurant()
+      console.log("resto choisi",this.idRestaurantChoisi)
   }
 
   openMenu() {

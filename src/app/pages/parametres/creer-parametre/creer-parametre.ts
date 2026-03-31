@@ -9,6 +9,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import Swal from 'sweetalert2';
 import { AuthSaasRestoService } from '../../../shared/services/auth/auth-saas-resto.service';
 import { AngularEditorModule } from '@kolkov/angular-editor';
+import { RestaurantService } from '../../../shared/services/restaurant/restaurant.service';
 
 @Component({
   selector: 'app-creer-parametre',
@@ -21,11 +22,11 @@ export class CreerParametre {
   
   formData!: FormGroup;
   user:any
-  constructor(private authSerivce:AuthSaasRestoService,private fb: FormBuilder, private crudSaasService:CrudSaasRestoService, private notificationsService:NotificationsService,) {}
+  constructor(private authSerivce:AuthSaasRestoService, private restaurantService:RestaurantService,private fb: FormBuilder, private crudSaasService:CrudSaasRestoService, private notificationsService:NotificationsService,) {}
 
   ngOnInit(): void {
 
-   
+    this.get_all_restaurants()
 
     this.user = this.authSerivce.getUser();
     console.log('user recuperé',this.user )
@@ -40,6 +41,18 @@ export class CreerParametre {
       restaurant_id: [this.user.datas.Restaurants[0].id, Validators.required],
       utilisateur_id: [this.user.datas.id, Validators.required],
     });
+
+    this.formData.get('type')?.valueChanges.subscribe((type) => {
+      let typelabel = this.getTypeName(type);
+
+      console.log("type choisi:", typelabel);
+
+    
+      //  reset catégorie sélectionnée
+      this.formData.patchValue({ titre: typelabel });
+
+    });
+
   }
 
 
@@ -97,9 +110,11 @@ export class CreerParametre {
    types = [
     { key: 'tva', name: 'Tva' },
     { key: 'coefficient', name: 'Coefficient' },
+    { key: 'max_commandes_par_minutes', name: 'Max commandes par minute' },
+    { key: 'alerte_stocke_min', name: 'Stocke minimun avant alerte' },
     //{ key: 'logo', name: 'Logo' },
-   // { key: 'couleur_principale', name: 'Couleur principale' },
-   // { key: 'couleur_secondaire', name: 'Couleur secondaire' },
+    //{ key: 'couleur_principale', name: 'Couleur principale' },
+    //{ key: 'couleur_secondaire', name: 'Couleur secondaire' },
   ];
 
   selectedFile: File | null = null;
@@ -113,6 +128,27 @@ export class CreerParametre {
         valeur: this.selectedFile.name
       });
     }
+  }
+
+  getTypeName(key: string): string {
+    const found = this.types.find(t => t.key === key);
+    return found ? found.name : key;
+  }
+  
+  restaurants:any[]
+
+  get_all_restaurants(){
+
+    let restaurant_id = this.restaurantService.getRestaurant()
+      this.crudSaasService.getRestaurants(restaurant_id).subscribe({
+        next: (res) => {
+          this.restaurants=res
+          console.log("getRestaurants",this.restaurants)
+        },
+        error: (err) => {
+          this.notificationsService.error("Erreur lors de la récupération des restaurants","Echec")
+        }
+      });
   }
 
 }

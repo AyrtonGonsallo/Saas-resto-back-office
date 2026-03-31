@@ -7,6 +7,7 @@ import Swal from 'sweetalert2';
 import { Router, } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { RestaurantService } from '../../../shared/services/restaurant/restaurant.service';
 
 @Component({
   selector: 'app-creer-table',
@@ -18,7 +19,7 @@ export class CreerTable {
   
   private router = inject(Router);
   formData!: FormGroup;
-  constructor(private fb: FormBuilder, private crudSaasService:CrudSaasRestoService, private notificationsService:NotificationsService,) {}
+  constructor(private fb: FormBuilder, private crudSaasService:CrudSaasRestoService,private restaurantService: RestaurantService, private notificationsService:NotificationsService,) {}
 
   ngOnInit(): void {
 
@@ -77,7 +78,9 @@ restaurants:any[]
 societes:any[]
 
   get_all_restaurants(){
-      this.crudSaasService.getRestaurants().subscribe({
+
+    let restaurant_id = this.restaurantService.getRestaurant()
+      this.crudSaasService.getRestaurants(restaurant_id).subscribe({
         next: (res) => {
           this.restaurants=res
           console.log("getRestaurants",this.restaurants)

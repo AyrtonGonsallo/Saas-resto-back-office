@@ -10,6 +10,7 @@ import Swal from 'sweetalert2';
 import { AuthSaasRestoService } from '../../../shared/services/auth/auth-saas-resto.service';
 import { AngularEditorModule } from '@kolkov/angular-editor';
 import { environment } from '../../../environment';
+import { RestaurantService } from '../../../shared/services/restaurant/restaurant.service';
 
 
 @Component({
@@ -25,13 +26,14 @@ export class ModifierProduit {
   
   formData!: FormGroup;
   user:any
-  constructor(private route: ActivatedRoute,private authSerivce:AuthSaasRestoService,private fb: FormBuilder, private crudSaasService:CrudSaasRestoService, private notificationsService:NotificationsService,) {}
+  constructor(private route: ActivatedRoute,private restaurantService: RestaurantService, private authSerivce:AuthSaasRestoService,private fb: FormBuilder, private crudSaasService:CrudSaasRestoService, private notificationsService:NotificationsService,) {}
 
   ngOnInit(): void {
 
     this.data_id = parseInt(this.route.snapshot.paramMap.get('id')??'');
-    this.load_data(this.data_id )
     this.get_categories()
+    
+    
 
     this.user = this.authSerivce.getUser();
     console.log('user recuperé',this.user )
@@ -48,7 +50,7 @@ export class ModifierProduit {
       statut: ['disponible', Validators.required],
       stock: [0, ],
       societe_id: [this.user.datas.societe_id, Validators.required],
-      restaurant_id: [this.user.datas.Restaurants[0].id, Validators.required],
+      restaurant_id: [0, Validators.required],
       utilisateur_id: [this.user.datas.id, Validators.required],
     });
   }
@@ -106,13 +108,18 @@ export class ModifierProduit {
     // appel API ici
   }
 
-  categories_produits:any[]
+  allCategories: any[] = [];
+  categories_produits: any[] = [];
 
   get_categories(){
-     this.crudSaasService.getCategoriesProduit().subscribe({
+
+    let restaurant_id = this.restaurantService.getRestaurant()
+     this.crudSaasService.getCategoriesProduit(restaurant_id).subscribe({
       next: (res) => {
         this.categories_produits=res
+        this.allCategories=res
         console.log("categories_produits",this.categories_produits)
+        this.load_data(this.data_id )
       },
       error: (err) => {
         this.notificationsService.error("Erreur lors de la récupération des catégories","Echec")
@@ -144,6 +151,12 @@ export class ModifierProduit {
       next: (res) => {
         this.data=res
         console.log("this.data",this.data)
+
+        
+        this.categories_produits = this.allCategories.filter(cat =>
+          cat.restaurant_id === this.data.restaurant_id
+        );
+      
 
         this.formData = this.fb.group({
           titre: [this.data.titre, Validators.required],

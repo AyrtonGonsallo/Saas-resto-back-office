@@ -40,7 +40,7 @@ export class CreerVariationProduit {
       supplement_prix:[0, ],
       stock: [0, ],
       societe_id: [this.user.datas.societe_id, Validators.required],
-      restaurant_id: [this.user.datas.Restaurants[0].id, Validators.required],
+      restaurant_id: [0, Validators.required],
       utilisateur_id: [this.user.datas.id, Validators.required],
     });
   }
@@ -88,6 +88,7 @@ export class CreerVariationProduit {
     this.crudSaasService.getProduitById(this.produit_id).subscribe({
       next: (res) => {
         this.parent_data=res
+        this.formData.patchValue({ restaurant_id: this.parent_data.restaurant_id });
 
       },
       error: (err) => {

@@ -41,7 +41,7 @@
               <th scope="col" sortable="id" (sort)="onSort($event)">ID</th>
               <th scope="col" sortable="type" (sort)="onSort($event)">Type</th>
               <th scope="col" sortable="titre" (sort)="onSort($event)">Titre</th>
-              <th scope="col" sortable="description" (sort)="onSort($event)">Description</th>
+              <th scope="col" sortable="description" (sort)="onSort($event)">Restaurant</th>
               <th scope="col" sortable="valeur" (sort)="onSort($event)">Valeur</th>
               <th scope="col" sortable="est_actif" (sort)="onSort($event)">Actif ?</th>
               
@@ -56,14 +56,14 @@
                 <ngb-highlight [result]="data.id" [term]="service.searchTerm" />
               </td>
               <td>
-                <ngb-highlight [result]="data.titre" [term]="service.searchTerm" />
+                <ngb-highlight [result]="data.type" [term]="service.searchTerm" />
               </td>
               <td>
                 
-                <ngb-highlight [result]="data.type" [term]="service.searchTerm"/>
+                <ngb-highlight [result]="data.titre" [term]="service.searchTerm"/>
               </td>
               <td>
-                <ngb-highlight [result]="data.description" [term]="service.searchTerm" />
+                <ngb-highlight [result]="data.Restaurant?.nom" [term]="service.searchTerm" />
               </td>
               <td>
                 <div class="customers text-center social-group" *ngIf="data.type=='logo'">

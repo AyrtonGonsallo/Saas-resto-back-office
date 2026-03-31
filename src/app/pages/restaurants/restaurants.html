@@ -40,11 +40,11 @@
             <tr>
               <th scope="col" sortable="id" (sort)="onSort($event)">ID</th>
               <th scope="col" sortable="nom" (sort)="onSort($event)">Nom</th>
-              <th scope="col" sortable="lieu" (sort)="onSort($event)">Lieu</th>
+              <th scope="col" sortable="lieu" (sort)="onSort($event)">Adresse</th>
               <th scope="col" sortable="heure_debut" (sort)="onSort($event)">Horaires</th>
-              <th scope="col" sortable="commandes_par_minutes" (sort)="onSort($event)">Commandes par minute</th>
+              <th scope="col" sortable="telephone" (sort)="onSort($event)">Téléphone</th>
               <th scope="col" sortable="societe_id" (sort)="onSort($event)">Société</th>
-              <th scope="col" sortable="utilisateur_id" (sort)="onSort($event)">utilisateur</th>
+              <th scope="col" sortable="utilisateur_id" (sort)="onSort($event)">Gestionnaire</th>
               
               <th scope="col">Action</th>
             </tr>
@@ -66,7 +66,7 @@
                 <ngb-highlight [result]="data.heure_debut+' - '+data.heure_fin" [term]="service.searchTerm" />
               </td>
               <td>
-                <ngb-highlight [result]="data.commandes_par_minutes" [term]="service.searchTerm" />
+                <ngb-highlight [result]="data.telephone" [term]="service.searchTerm" />
               </td>
               <td>
                 <ngb-highlight [result]="data.Societe.titre" [term]="service.searchTerm" />

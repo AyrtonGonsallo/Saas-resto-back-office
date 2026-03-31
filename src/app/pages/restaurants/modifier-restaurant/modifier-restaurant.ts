@@ -7,6 +7,7 @@ import Swal from 'sweetalert2';
 import { ActivatedRoute, Router, } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { RestaurantService } from '../../../shared/services/restaurant/restaurant.service';
 
 @Component({
   selector: 'app-modifier-restaurant',
@@ -18,7 +19,7 @@ export class ModifierRestaurant {
   
   private router = inject(Router);
   formData!: FormGroup;
-  constructor(private route: ActivatedRoute,private fb: FormBuilder, private crudSaasService:CrudSaasRestoService, private notificationsService:NotificationsService,) {}
+  constructor(private route: ActivatedRoute,private fb: FormBuilder, private restaurantService: RestaurantService, private crudSaasService:CrudSaasRestoService, private notificationsService:NotificationsService,) {}
 
   data_id=0
 
@@ -39,7 +40,7 @@ export class ModifierRestaurant {
       heure_fin: ['', [Validators.required, ]],
       heure_cc_debut: ['', [, ]],
       heure_cc_fin: ['', [, ]],
-      commandes_par_minutes: [0, ],
+      telephone: ['', ],
       societe_id: [0, Validators.required],
       utilisateur_id: [0, Validators.required],
     });
@@ -97,7 +98,8 @@ export class ModifierRestaurant {
 
 
     get_all_utilisateurs(){
-      this.crudSaasService.getUtilisateursByRole('gestionnaire-restaurant').subscribe({
+      let restaurant_id = this.restaurantService.getRestaurant()
+      this.crudSaasService.getUtilisateursByRole('gestionnaire-restaurant',restaurant_id).subscribe({
         next: (res) => {
           this.gestionnaires = res.map(g => ({
           ...g,
@@ -151,7 +153,7 @@ export class ModifierRestaurant {
           heure_fin: [this.data.heure_fin, [Validators.required, ]],
           heure_cc_debut: [this.data.heure_cc_debut, [, ]],
           heure_cc_fin: [this.data.heure_cc_fin, [, ]],
-          commandes_par_minutes: [this.data.commandes_par_minutes, ],
+          telephone: [this.data.telephone, ],
           societe_id: [this.data.societe_id, Validators.required],
           utilisateur_id: [this.data.utilisateur_id, Validators.required],
         });
