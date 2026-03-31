@@ -26,6 +26,7 @@ export class ModifierRole {
      this.formData = this.fb.group({
       titre: ['', Validators.required],
       type: ['', Validators.required],
+      priorite: [0, Validators.required],
     });
     this.load_data(this.data_id )
     
@@ -86,6 +87,7 @@ export class ModifierRole {
         this.formData = this.fb.group({
           titre: [this.data.titre, Validators.required],
           type: [this.data.type, Validators.required],
+          priorite: [this.data.priorite, Validators.required],
         });
         
       },

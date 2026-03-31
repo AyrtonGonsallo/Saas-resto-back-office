@@ -7,7 +7,7 @@ import Swal from 'sweetalert2';
 import { Router, } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { RestaurantService } from '../../../shared/services/restaurant/restaurant.service';
+import { RestaurantService } from '../../../shared/services/user/user.service';
 
 @Component({
   selector: 'app-creer-table',

@@ -62,7 +62,7 @@ export class Roles {
 
   get_all_datas(){
 
-    this.crudSaasService.getRoles().subscribe({
+    this.crudSaasService.getRoles(null).subscribe({
       next: (res) => {
         this.service.setData(res);
         console.log("roles",this.roles)

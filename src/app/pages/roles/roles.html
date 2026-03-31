@@ -41,7 +41,7 @@
               <th scope="col" sortable="id" (sort)="onSort($event)">ID</th>
               <th scope="col" sortable="type" (sort)="onSort($event)">Type</th>
               <th scope="col" sortable="titre" (sort)="onSort($event)">Titre</th>
-              
+              <th scope="col" sortable="priorite" (sort)="onSort($event)">Priorité</th>
               <th scope="col">Action</th>
             </tr>
           </thead>
@@ -57,6 +57,9 @@
               </td>
               <td>
                 <ngb-highlight [result]="data.type" [term]="service.searchTerm" />
+              </td>
+              <td>
+                <ngb-highlight [result]="data.priorite" [term]="service.searchTerm" />
               </td>
               
               <td>

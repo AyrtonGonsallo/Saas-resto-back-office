@@ -12,7 +12,7 @@ import {
 import { TableService } from '../../shared/services/table.service';
 import { CrudSaasRestoService } from '../../shared/services/api/crud-saas-resto.service';
 import { NotificationsService } from '../../shared/services/notifications/notifications.service';
-import { RestaurantService } from '../../shared/services/restaurant/restaurant.service';
+import { RestaurantService } from '../../shared/services/user/user.service';
 
 
 @Component({
@@ -88,40 +88,50 @@ export class Utilisateurs {
         return liste.map(r => r.nom).join(', ');
       }
    
-     supprimer_data(id:number){
-   
-       
-           Swal.fire({
-             title: 'Voulez-vous vraiment supprimer cet élément ?',
-             text: "Cette action est irreversible!",
-             icon: 'warning',
-             showCancelButton: true,
-             confirmButtonColor: '#3085d6',
-             cancelButtonColor: '#d33',
-             confirmButtonText: 'Oui, supprimer!',
-             cancelButtonText: 'annuler',
-           }).then(result => {
-             if (result.isConfirmed) {
-   
-               this.crudSaasService.deleteUtilisateur(id).subscribe({
-                 next: (res) => {
-                   console.log("res supp",res)
-                   //this.notificationsService.success("Rôle supprimé !","Succès")
-                   this.get_all_datas()
-                 },
-                 error: (err) => {
-                   this.notificationsService.error("Erreur lors de la suppression de l'élément","Echec")
-                 }
-               });
-   
-               Swal.fire({
-                 title: 'Suppression faite!',
-                 text: 'L\'élement à bien été supprimé.',
-                 icon: 'success',
-               });
-             }
-           });
-         
+     supprimer_data(id:number,priorite:number){
+
+      let user = this.restaurantService.getUser()
+      let priorite_connected_user = user?.datas?.Role?.priorite
+      console.log(priorite_connected_user,priorite,priorite_connected_user<=priorite)
+      if(priorite_connected_user>=priorite){
+        Swal.fire({
+          title: 'Pas assez de privilèges',
+          text: `Cet utilisateur à la priorité ${priorite} et vous avez la priorité ${priorite_connected_user}`,
+          icon: 'error',
+        });
+      }else{
+        Swal.fire({
+          title: 'Voulez-vous vraiment supprimer cet élément ?',
+          text: "Cette action est irreversible!",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Oui, supprimer!',
+          cancelButtonText: 'annuler',
+        }).then(result => {
+          if (result.isConfirmed) {
+
+            this.crudSaasService.deleteUtilisateur(id).subscribe({
+              next: (res) => {
+                console.log("res supp",res)
+                //this.notificationsService.success("Rôle supprimé !","Succès")
+                this.get_all_datas()
+              },
+              error: (err) => {
+                this.notificationsService.error("Erreur lors de la suppression de l'élément","Echec")
+              }
+            });
+
+            Swal.fire({
+              title: 'Suppression faite!',
+              text: 'L\'élement à bien été supprimé.',
+              icon: 'success',
+            });
+          }
+        });
+
+      }
    
        
      }

@@ -7,7 +7,7 @@ import Swal from 'sweetalert2';
 import { ActivatedRoute, Router, } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { RestaurantService } from '../../../shared/services/restaurant/restaurant.service';
+import { RestaurantService } from '../../../shared/services/user/user.service';
 
 @Component({
   selector: 'app-modifier-utilisateur',
@@ -112,7 +112,10 @@ export class ModifierUtilisateur {
 
 
     get_all_roles(){
-      this.crudSaasService.getRoles().subscribe({
+      let user = this.restaurantService.getUser()
+      let role = user?.datas?.Role
+      console.log("role",role)
+      this.crudSaasService.getRoles(role.priorite).subscribe({
         next: (res) => {
           this.roles=res
           console.log("roles",this.roles)

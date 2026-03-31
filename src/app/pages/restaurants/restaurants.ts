@@ -12,7 +12,7 @@ import {
 import { TableService } from '../../shared/services/table.service';
 import { CrudSaasRestoService } from '../../shared/services/api/crud-saas-resto.service';
 import { NotificationsService } from '../../shared/services/notifications/notifications.service';
-import { RestaurantService } from '../../shared/services/restaurant/restaurant.service';
+import { RestaurantService } from '../../shared/services/user/user.service';
 
 @Component({
   selector: 'app-restaurants',

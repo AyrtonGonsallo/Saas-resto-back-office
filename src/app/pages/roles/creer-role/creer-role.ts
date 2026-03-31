@@ -24,6 +24,7 @@ export class CreerRole {
     this.formData = this.fb.group({
       titre: ['', Validators.required],
       type: ['', Validators.required],
+      priorite: ['', Validators.required],
     });
   }
 

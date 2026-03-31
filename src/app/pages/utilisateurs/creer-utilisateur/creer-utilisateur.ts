@@ -7,7 +7,7 @@ import Swal from 'sweetalert2';
 import { Router, } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { RestaurantService } from '../../../shared/services/restaurant/restaurant.service';
+import { RestaurantService } from '../../../shared/services/user/user.service';
 
 @Component({
   selector: 'app-creer-utilisateur',
@@ -37,7 +37,7 @@ private router = inject(Router);
       confirmed_mot_de_passe: ['', Validators.required],
       role_id: [0, Validators.required],
       societe_id: [0, ],
-      restaurant_id: [0, ],
+      restaurant_id: [[], ],
     });
   }
 
@@ -118,7 +118,10 @@ private router = inject(Router);
 
 
     get_all_roles(){
-      this.crudSaasService.getRoles().subscribe({
+      let user = this.restaurantService.getUser()
+      let role = user?.datas?.Role
+      console.log("role",role)
+      this.crudSaasService.getRoles(role.priorite).subscribe({
         next: (res) => {
           this.roles=res
           console.log("roles",this.roles)

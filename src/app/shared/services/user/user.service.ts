@@ -33,4 +33,12 @@ export class RestaurantService {
       this.restaurantIdSubject.next(Number(id));
     }
   }
+
+  getUser():any {
+     
+      let stored = localStorage.getItem('user');
+      let user = stored?JSON.parse(stored):null  ;
+    return user;
+
+  }
 }

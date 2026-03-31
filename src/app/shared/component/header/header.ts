@@ -17,7 +17,7 @@ import { SvgIcon } from '../svg-icon/svg-icon';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AuthSaasRestoService } from '../../services/auth/auth-saas-resto.service';
-import { RestaurantService } from '../../services/restaurant/restaurant.service';
+import { RestaurantService } from '../../services/user/user.service';
 
 @Component({
   selector: 'app-header',

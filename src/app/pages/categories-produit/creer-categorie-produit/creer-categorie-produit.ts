@@ -9,7 +9,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import Swal from 'sweetalert2';
 import { AuthSaasRestoService } from '../../../shared/services/auth/auth-saas-resto.service';
 import { AngularEditorModule } from '@kolkov/angular-editor';
-import { RestaurantService } from '../../../shared/services/restaurant/restaurant.service';
+import { RestaurantService } from '../../../shared/services/user/user.service';
 
 @Component({
   selector: 'app-creer-categorie-produit',

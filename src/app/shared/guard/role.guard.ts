@@ -25,7 +25,7 @@ export class RoleGuard implements CanActivate {
         showConfirmButton: false,
     });
 
-    this.router.navigate(['/unauthorized']);
+    this.router.navigate(['/dashboard/default']);
     return false;
   }
 }

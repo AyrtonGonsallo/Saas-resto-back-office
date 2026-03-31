@@ -14,14 +14,18 @@ export class CrudSaasRestoService {
     return this.http.post<any>(`${environment.apiUrl}/ajouter_role`, userData);
   }
 
-  getRoles(): Observable<any[]> {
-    return this.http.get<any[]>(`${environment.apiUrl}/get_all_roles`);
+  getRoles(priorite:number | null): Observable<any[]> {
+    let url = `${environment.apiUrl}/get_all_roles`;
+    if (priorite) {
+      url += `?priorite=${priorite}`;
+    }
+    return this.http.get<any[]>(url);
   }
 
   getRoleById(id: number): Observable<any> {
-  const url = `${environment.apiUrl}/get_role_by_id/${id}`;
-  return this.http.get<any>(url);
-}
+    const url = `${environment.apiUrl}/get_role_by_id/${id}`;
+    return this.http.get<any>(url);
+  }
 
   deleteRole(id: number): Observable<any> {
     const url = `${environment.apiUrl}/delete_role/${id}`;
