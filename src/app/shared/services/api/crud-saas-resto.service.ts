@@ -244,9 +244,9 @@ export class CrudSaasRestoService {
   }
 
   getParametreById(id: number): Observable<any> {
-  const url = `${environment.apiUrl}/get_parametre_by_id/${id}`;
-  return this.http.get<any>(url);
-}
+    const url = `${environment.apiUrl}/get_parametre_by_id/${id}`;
+    return this.http.get<any>(url);
+  }
 
   deleteParametre(id: number): Observable<any> {
     const url = `${environment.apiUrl}/delete_parametre/${id}`;
@@ -256,6 +256,26 @@ export class CrudSaasRestoService {
   updateParametre(id: number, parametre: any): Observable<any> {
     const url = `${environment.apiUrl}/update_parametre/${id}`;
     return this.http.put<any>(url, parametre);
+  }
+
+  updatePortefeuille(id: number, datas: any): Observable<any> {
+    const url = `${environment.apiUrl}/update_portefeuille/${id}`;
+    return this.http.put<any>(url, datas);
+  }
+
+  updateAbonnement(id: number, datas: any): Observable<any> {
+    const url = `${environment.apiUrl}/update_abonnement/${id}`;
+    return this.http.put<any>(url, datas);
+  }
+
+  getAbonnementById(id: number): Observable<any> {
+    const url = `${environment.apiUrl}/get_abonnement_by_id/${id}`;
+    return this.http.get<any>(url);
+  }
+
+  getPortefeuilleById(id: number): Observable<any> {
+    const url = `${environment.apiUrl}/get_portefeuille_by_id/${id}`;
+    return this.http.get<any>(url);
   }
 
 

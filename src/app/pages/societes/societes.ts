@@ -147,6 +147,14 @@ export class Societes {
           return '';
         }
      }
+
+     modifier_abonnement(id:number){
+       this.router.navigate(['/abonnements/modifier-abonnement', id]);
+     }
+
+     modifier_portefeuille(id:number){
+       this.router.navigate(['/portefeuilles/modifier-portefeuille', id]);
+     }
    }
    
    

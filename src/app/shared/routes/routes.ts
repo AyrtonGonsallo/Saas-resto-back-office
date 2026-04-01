@@ -372,4 +372,24 @@ export const dashData: Routes = [
     canActivate: [RoleGuard],
     loadChildren: () => import('../../pages/parametres/parametres.routes').then(r => r.ParametresRoutes),
   },
+  {
+    path: 'portefeuilles',
+    data: {
+      title: 'Portefeuilles',
+      breadcrumb: 'Portefeuilles',
+     roles: ['super-admin',]
+    },
+    canActivate: [RoleGuard],
+    loadChildren: () => import('../../pages/portefeuilles/portefeuilles.routes').then(r => r.PortefeuillesRoutes),
+  },
+  {
+    path: 'abonnements',
+    data: {
+      title: 'Abonnements',
+      breadcrumb: 'Abonnements',
+     roles: ['super-admin',]
+    },
+    canActivate: [RoleGuard],
+    loadChildren: () => import('../../pages/abonnements/abonnements.routes').then(r => r.AbonnementsRoutes),
+  },
 ];

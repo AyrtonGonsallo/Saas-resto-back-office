@@ -1,0 +1,115 @@
+<form class="card" [formGroup]="formData" (ngSubmit)="onSubmit()">
+    <div class="card-header">
+        <h4 class="card-title mb-0">Modifier un abonnement</h4>
+        
+    </div>
+
+    <div class="card-body">
+        <div class="row">
+            
+            <div class="col-sm-12 col-md-12">
+                <div class="mb-3">
+                <label class="form-label">Formule <span class="text-danger">*</span></label>
+                <ng-select [items]="formules" bindLabel="name" bindValue="key" [multiple]="false" placeholder="Select formule"
+                    formControlName="formule" />
+                <div *ngIf="formData.get('formule')?.touched && formData.get('formule')?.invalid" class="text-danger">
+                    La formule est requise
+                </div>
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <div class="mb-3">
+                <label class="form-label">Coût <span class="text-danger">*</span></label>
+                <input class="form-control" type="number" formControlName="cout" placeholder="0">
+                <div *ngIf="formData.get('cout')?.touched && formData.get('cout')?.invalid" class="text-danger">
+                    Le coût est invalide
+                </div>
+                </div>
+            </div>
+
+
+            <div class="col-md-4">
+                <div class="mb-3">
+                    <label class="form-label">Date de debut <span class="text-danger">*</span></label>
+                    <div class="date-picker">
+                        <div class="col-12">
+                            <div class="input-group">
+                                <input class="datepicker-here form-control digits" placeholder="yyyy-mm-dd" name="date_debut" formControlName="date_debut" ngbDatepicker #date_debut="ngbDatepicker" (click)="date_debut.toggle()">
+                            </div>
+                        </div>
+                        <div *ngIf="formData.get('date_debut')?.touched && formData.get('date_debut')?.invalid" class="text-danger">
+                            Le date de debut est invalide
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="mb-3">
+                    <label class="form-label">Date d'expiration <span class="text-danger">*</span></label>
+                    <div class="date-picker">
+                        <div class="col-12">
+                            <div class="input-group">
+                                <input class="datepicker-here form-control digits" placeholder="yyyy-mm-dd" name="date_expiration" formControlName="date_expiration" ngbDatepicker #date_expiration="ngbDatepicker" (click)="date_expiration.toggle()">
+                            </div>
+                        </div>
+                        <div *ngIf="formData.get('date_expiration')?.touched && formData.get('date_expiration')?.invalid" class="text-danger">
+                            Le date d'expiration est invalide
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-md-4">
+                <div class="mb-3">
+                    <label class="form-label">Date du dernier renouvellement</label>
+                    <div class="date-picker">
+                        <div class="col-12">
+                            <div class="input-group">
+                                <input class="datepicker-here form-control digits" placeholder="yyyy-mm-dd" name="dernier_renouvellement" formControlName="dernier_renouvellement" ngbDatepicker #dernier_renouvellement="ngbDatepicker" (click)="dernier_renouvellement.toggle()">
+                            </div>
+                        </div>
+                        <div *ngIf="formData.get('dernier_renouvellement')?.touched && formData.get('dernier_renouvellement')?.invalid" class="text-danger">
+                            Le date du dernier renouvellement est invalide
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            
+
+            <div class="col-sm-12 col-md-12">
+                <div class="mb-3">
+                    <label class="form-label">Statut <span class="text-danger">*</span></label>
+                    <ng-select [items]="statuts" bindLabel="name" bindValue="key" [multiple]="false" placeholder="Select statut"
+                    formControlName="statut" />
+                    <div *ngIf="formData.get('statut')?.touched && formData.get('statut')?.invalid" class="text-danger">
+                        Le statut est requis
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-12 col-md-12">
+                <div class="mb-3">
+                    <label class="form-label">Renouvellement automatique <span class="text-danger">*</span></label>
+                    <div>
+                         <label class="switch">
+                        <input type="checkbox" formControlName="renouvellement_auto">
+                        <span class="switch-state"></span>
+                    </label>
+                    </div>
+                </div>
+            </div>
+
+            
+
+        </div>
+    </div>
+
+    <div class="card-footer text-end">
+        <button class="btn btn-primary" type="submit">Modifier</button>
+    </div>
+</form>
+

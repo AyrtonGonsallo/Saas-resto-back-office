@@ -67,9 +67,11 @@
               </td>
               <td>
                 <ngb-highlight [result]="get_texte_portefeuille(data.portefeuille)" [term]="service.searchTerm" />
+                <a style="cursor: pointer;" (click)="modifier_portefeuille(data.portefeuille?.id)"><i class="fa fa-pen font-primary ps-2" ></i></a>
               </td>
               <td>
                 <ngb-highlight [result]="get_texte_abonnement(data.abonnement)" [term]="service.searchTerm" />
+                <a style="cursor: pointer;" (click)="modifier_abonnement(data.abonnement?.id)"><i class="fa fa-pen font-primary ps-2" ></i></a>
               </td>
               
               <td>

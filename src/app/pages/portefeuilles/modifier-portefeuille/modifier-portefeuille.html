@@ -1,0 +1,63 @@
+<form class="card" [formGroup]="formData" (ngSubmit)="onSubmit()">
+    <div class="card-header">
+        <h4 class="card-title mb-0">Modifier un portefeuille</h4>
+        
+    </div>
+
+    <div class="card-body">
+        <div class="row">
+            
+            <div class="col-md-12">
+                <div class="mb-3">
+                <label class="form-label">Solde sms <span class="text-danger">*</span></label>
+                <input class="form-control" type="number" formControlName="solde_sms" placeholder="0">
+                <div *ngIf="formData.get('solde_sms')?.touched && formData.get('solde_sms')?.invalid" class="text-danger">
+                    Le solde sms est invalide
+                </div>
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <div class="mb-3">
+                <label class="form-label">Seuil avant alerte sms <span class="text-danger">*</span></label>
+                <input class="form-control" type="number" formControlName="alert_seuil_sms" placeholder="0">
+                <div *ngIf="formData.get('alert_seuil_sms')?.touched && formData.get('alert_seuil_sms')?.invalid" class="text-danger">
+                    Le seuil avant alerte sms est invalide
+                </div>
+                </div>
+            </div>
+
+
+            <div class="col-md-12">
+                <div class="mb-3">
+                <label class="form-label">Solde ia <span class="text-danger">*</span></label>
+                <input class="form-control" type="number" formControlName="solde_ia" placeholder="0">
+                <div *ngIf="formData.get('solde_ia')?.touched && formData.get('solde_ia')?.invalid" class="text-danger">
+                    Le solde ia est invalide
+                </div>
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <div class="mb-3">
+                <label class="form-label">Seuil avant alerte ia <span class="text-danger">*</span></label>
+                <input class="form-control" type="number" formControlName="alert_seuil_ia" placeholder="0">
+                <div *ngIf="formData.get('alert_seuil_ia')?.touched && formData.get('alert_seuil_ia')?.invalid" class="text-danger">
+                    Le seuil avant alerte ia est invalide
+                </div>
+                </div>
+            </div>
+
+
+           
+
+            
+
+        </div>
+    </div>
+
+    <div class="card-footer text-end">
+        <button class="btn btn-primary" type="submit">Modifier</button>
+    </div>
+</form>
+
