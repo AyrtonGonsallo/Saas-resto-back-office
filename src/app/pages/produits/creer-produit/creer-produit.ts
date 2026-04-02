@@ -19,16 +19,20 @@ import { RestaurantService } from '../../../shared/services/user/user.service';
 })
 export class CreerProduit {
   private router = inject(Router);
-  
   formData!: FormGroup;
   user:any
+  restaurant_id:number|null
+
+
   constructor(private authSerivce:AuthSaasRestoService, private restaurantService: RestaurantService,private fb: FormBuilder, private crudSaasService:CrudSaasRestoService, private notificationsService:NotificationsService,) {}
 
   ngOnInit(): void {
 
+    this.restaurant_id = this.restaurantService.getRestaurant()
+    console.log('this.restaurant_id',this.restaurant_id)
     this.get_categories()
-
     this.get_all_restaurants()
+    this.get_all_societes()
 
     this.user = this.authSerivce.getUser();
     console.log('user recuperé',this.user )
@@ -45,7 +49,7 @@ export class CreerProduit {
       statut: ['disponible', Validators.required],
       stock: [0, ],
       societe_id: [this.user.datas.societe_id, Validators.required],
-      restaurant_id: [0, Validators.required],
+      restaurant_id: [this.restaurant_id, Validators.required],
       utilisateur_id: [this.user.datas.id, Validators.required],
     });
 
@@ -63,6 +67,23 @@ export class CreerProduit {
 
       // 🔥 reset catégorie sélectionnée
       this.formData.patchValue({ categorie_id: null });
+
+    });
+
+    this.formData.get('societe_id')?.valueChanges.subscribe((societeID) => {
+
+      console.log("société choisi:", societeID);
+
+      if (!societeID) {
+        this.restaurants = this.allRestaurants;
+      } else {
+        this.restaurants = this.allRestaurants.filter(cat =>
+          cat.societe_id === societeID
+        );
+      }
+
+      // 🔥 reset catégorie sélectionnée
+      this.formData.patchValue({ restaurant_id: null });
 
     });
   }
@@ -127,8 +148,8 @@ categories_produits: any[] = [];
     let restaurant_id = this.restaurantService.getRestaurant()
      this.crudSaasService.getCategoriesProduit(restaurant_id).subscribe({
       next: (res) => {
-        this.allCategories = res;
-        this.categories_produits = res;
+        this.allCategories = res.filter(cat => cat.est_actif === true);
+        this.categories_produits = res.filter(cat => cat.est_actif === true);
         console.log("categories_produits",this.categories_produits)
       },
       error: (err) => {
@@ -151,7 +172,9 @@ categories_produits: any[] = [];
   }
 
   
-restaurants:any[]
+  restaurants:any[]
+  allRestaurants:any[]
+  societes:any[]
 
   get_all_restaurants(){
 
@@ -159,6 +182,7 @@ restaurants:any[]
       this.crudSaasService.getRestaurants(restaurant_id).subscribe({
         next: (res) => {
           this.restaurants=res
+          this.allRestaurants=res
           console.log("getRestaurants",this.restaurants)
         },
         error: (err) => {
@@ -167,9 +191,19 @@ restaurants:any[]
       });
   }
 
-  getCatLabel(){
+   get_all_societes(){
+      this.crudSaasService.getSocietes().subscribe({
+        next: (res) => {
+          this.societes=res
+          console.log("getSocietes",this.societes)
+        },
+        error: (err) => {
+          this.notificationsService.error("Erreur lors de la récupération des sociétés","Echec")
+        }
+      });
+    }
 
-  }
+ 
 
 }
 

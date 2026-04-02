@@ -16,11 +16,16 @@ import { RestaurantService } from '../../../shared/services/user/user.service';
   styleUrl: './creer-utilisateur.scss',
 })
 export class CreerUtilisateur {
-private router = inject(Router);
+  private router = inject(Router);
   formData!: FormGroup;
+  restaurant_id:number|null
+
   constructor(private fb: FormBuilder, private restaurantService: RestaurantService, private crudSaasService:CrudSaasRestoService, private notificationsService:NotificationsService,) {}
 
   ngOnInit(): void {
+
+    this.restaurant_id = this.restaurantService.getRestaurant()
+    console.log('this.restaurant_id',this.restaurant_id)
 
     this.get_all_roles()
 
@@ -32,12 +37,29 @@ private router = inject(Router);
       nom: ['', Validators.required],
       prenom: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      telephone: [''],
+      telephone: ['', [Validators.pattern(/^[0-9+\s\-()]{8,20}$/)]],
       mot_de_passe: ['', Validators.required],
       confirmed_mot_de_passe: ['', Validators.required],
       role_id: [0, Validators.required],
       societe_id: [0, ],
-      restaurant_id: [[], ],
+      restaurant_id: [[this.restaurant_id], ],
+    });
+
+    this.formData.get('societe_id')?.valueChanges.subscribe((societe_id) => {
+
+      console.log("societe_id choisi:", societe_id);
+
+      if (!societe_id) {
+        this.restaurants = this.allRestaurants;
+      } else {
+        this.restaurants = this.allRestaurants.filter(cat =>
+          cat.societe_id === societe_id
+        );
+      }
+
+      // 🔥 reset catégorie sélectionnée
+      this.formData.patchValue({ restaurant_id: null });
+
     });
   }
 
@@ -89,6 +111,7 @@ private router = inject(Router);
   roles:any[]
   societes:any[]
   restaurants:any[]
+  allRestaurants:any[]
 
 
     get_all_societes(){
@@ -103,10 +126,11 @@ private router = inject(Router);
       });
     }
 
-     get_all_restaurants(){
+    get_all_restaurants(){
       let restaurant_id = this.restaurantService.getRestaurant()
       this.crudSaasService.getRestaurants(restaurant_id).subscribe({
         next: (res) => {
+          this.allRestaurants=res
           this.restaurants=res
           console.log("restaurants",this.restaurants)
         },

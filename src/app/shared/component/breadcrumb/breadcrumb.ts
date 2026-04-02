@@ -19,7 +19,7 @@ import { filter } from 'rxjs/operators';
   styleUrl: './breadcrumb.scss',
 })
 export class Breadcrumb {
-  public breadcrumbs: { parentBreadcrumb?: string | null; childBreadcrumb?: string } | undefined;
+  public breadcrumbs: { parentBreadcrumb?: string | null; childBreadcrumb?: string; parentpath?: string } | undefined;
   public title: string = '';
   private activatedRoute = inject(ActivatedRoute);
   private router = inject(Router);
@@ -42,11 +42,13 @@ export class Breadcrumb {
         let title = route.snapshot.data['title'];
         let parent = route.parent?.snapshot.data['breadcrumb'];
         let child = route.snapshot.data['breadcrumb'];
+        let parentpath = route.snapshot.data['parentpath'];
         this.breadcrumbs = {};
         this.title = title;
         this.breadcrumbs = {
           parentBreadcrumb: parent,
           childBreadcrumb: child,
+          parentpath: parentpath,
         };
       });
   }

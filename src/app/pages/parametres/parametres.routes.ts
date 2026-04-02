@@ -11,6 +11,7 @@ export const ParametresRoutes : Routes = [
         data: {
           title: 'Créer un paramètre',
           breadcrumb: 'Créer un paramètre',
+          parentpath: 'parametres/liste-parametres'
         },
       },
       {
@@ -19,6 +20,7 @@ export const ParametresRoutes : Routes = [
         data: {
           title: 'Modifier un paramètre',
           breadcrumb: 'Modifier un paramètre',
+          parentpath: 'parametres/liste-parametres'
         },
       },
       {

@@ -11,6 +11,7 @@ export const VariationsProduitRoutes: Routes = [
         data: {
           title: 'Créer une variation de produit',
           breadcrumb: 'Créer une variation de produit',
+          parentpath: 'variations-produit/liste-variations-produit'
         },
       },
       {
@@ -19,6 +20,7 @@ export const VariationsProduitRoutes: Routes = [
         data: {
           title: 'Modifier une variation de produit',
           breadcrumb: 'Modifier une variation de produit',
+          parentpath: 'variations-produit/liste-variations-produit'
         },
       },
       {

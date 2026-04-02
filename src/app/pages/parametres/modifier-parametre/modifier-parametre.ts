@@ -9,6 +9,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import Swal from 'sweetalert2';
 import { AuthSaasRestoService } from '../../../shared/services/auth/auth-saas-resto.service';
 import { AngularEditorModule } from '@kolkov/angular-editor';
+import { RestaurantService } from '../../../shared/services/user/user.service';
 
 
 @Component({
@@ -22,7 +23,7 @@ export class ModifierParametre {
   data_id=0
   formData!: FormGroup;
   user:any
-  constructor(private route: ActivatedRoute,private authSerivce:AuthSaasRestoService,private fb: FormBuilder, private crudSaasService:CrudSaasRestoService, private notificationsService:NotificationsService,) {}
+  constructor(private route: ActivatedRoute,private restaurantService: RestaurantService,private authSerivce:AuthSaasRestoService,private fb: FormBuilder, private crudSaasService:CrudSaasRestoService, private notificationsService:NotificationsService,) {}
 
   ngOnInit(): void {
 
@@ -31,7 +32,11 @@ export class ModifierParametre {
     this.user = this.authSerivce.getUser();
     console.log('user recuperé',this.user )
 
-     this.data_id = parseInt(this.route.snapshot.paramMap.get('id')??'');
+    this.get_all_societes()
+
+    this.get_all_restaurants()
+
+    this.data_id = parseInt(this.route.snapshot.paramMap.get('id')??'');
     this.load_data(this.data_id )
    
     this.formData = this.fb.group({
@@ -40,10 +45,12 @@ export class ModifierParametre {
       valeur: ['', Validators.required],
       description: ['', ],
       est_actif: [true, Validators.required],
-      societe_id: [this.user.datas.societe_id, Validators.required],
-      restaurant_id: [this.user.datas.Restaurants[0].id, Validators.required],
+      societe_id: [this.user.datas?.societe_id, Validators.required],
+      restaurant_id: [this.user.datas.Restaurants[0]?.id, Validators.required],
       utilisateur_id: [this.user.datas.id, Validators.required],
     });
+
+    
   }
 
 
@@ -103,6 +110,8 @@ export class ModifierParametre {
     { key: 'coefficient', name: 'Coefficient' },
     { key: 'max_commandes_par_minutes', name: 'Max commandes par minute' },
     { key: 'alerte_stocke_min', name: 'Stocke minimun avant alerte' },
+    { key: 'max_couverts_par_jour', name: 'Max couverts par jour' },
+    { key: 'delai_rappel_reservation', name: 'Delai avant rappel lors d\'une réservation' },
     //{ key: 'logo', name: 'Logo' },
     //{ key: 'couleur_principale', name: 'Couleur principale' },
     //{ key: 'couleur_secondaire', name: 'Couleur secondaire' },
@@ -140,19 +149,38 @@ export class ModifierParametre {
           valeur: [this.data.valeur, Validators.required],
           description: [this.data.description, ],
           est_actif: [this.data.est_actif, Validators.required],
-          societe_id: [this.user.datas.societe_id, Validators.required],
-          restaurant_id: [this.user.datas.Restaurants[0].id, Validators.required],
-          utilisateur_id: [this.user.datas.id, Validators.required],
+          societe_id: [this.data.societe_id, Validators.required],
+          restaurant_id: [this.data.restaurant_id, Validators.required],
+          utilisateur_id: [this.data.utilisateur_id, Validators.required],
         });
 
         this.formData.get('type')?.valueChanges.subscribe((type) => {
           let typelabel = this.getTypeName(type);
 
           console.log("type choisi:", typelabel);
-
-        
           //  reset catégorie sélectionnée
           this.formData.patchValue({ titre: typelabel });
+
+        });
+
+        this.restaurants = this.allRestaurants.filter(cat =>
+          cat.societe_id === this.data.societe_id
+        );
+
+        this.formData.get('societe_id')?.valueChanges.subscribe((societeID) => {
+
+          console.log("société choisi:", societeID);
+
+          if (!societeID) {
+            this.restaurants = this.allRestaurants;
+          } else {
+            this.restaurants = this.allRestaurants.filter(cat =>
+              cat.societe_id === societeID
+            );
+          }
+
+          // 🔥 reset catégorie sélectionnée
+          this.formData.patchValue({ restaurant_id: null });
 
         });
         
@@ -166,6 +194,39 @@ export class ModifierParametre {
     getTypeName(key: string): string {
       const found = this.types.find(t => t.key === key);
       return found ? found.name : key;
+    }
+
+
+    
+  allRestaurants:any[]
+  restaurants:any[]
+  societes:any[]
+
+  get_all_restaurants(){
+
+    let restaurant_id = this.restaurantService.getRestaurant()
+      this.crudSaasService.getRestaurants(restaurant_id).subscribe({
+        next: (res) => {
+          this.restaurants=res
+          this.allRestaurants=res
+          console.log("getRestaurants",this.restaurants)
+        },
+        error: (err) => {
+          this.notificationsService.error("Erreur lors de la récupération des restaurants","Echec")
+        }
+      });
+  }
+
+    get_all_societes(){
+      this.crudSaasService.getSocietes().subscribe({
+        next: (res) => {
+          this.societes=res
+          console.log("getSocietes",this.societes)
+        },
+        error: (err) => {
+          this.notificationsService.error("Erreur lors de la récupération des sociétés","Echec")
+        }
+      });
     }
 
 }

@@ -25,15 +25,17 @@ export class ModifierTable {
   ngOnInit(): void {
 
      this.data_id = parseInt(this.route.snapshot.paramMap.get('id')??'');
-     this.load_data(this.data_id )
+     
 
      this.get_all_restaurants()
 
     this.get_all_societes()
+
+    this.load_data(this.data_id )
     
     this.formData = this.fb.group({
       numero: ['', Validators.required],
-      nb_places: [1, ],
+      nb_places: [2, [Validators.min(2),Validators.max(50)]],
       statut: ['libre', Validators.required],
       societe_id: [0, [Validators.required, ]],
       restaurant_id: [0, [Validators.required, ]],
@@ -79,6 +81,7 @@ export class ModifierTable {
   }
 
 restaurants:any[]
+allRestaurants:any[]
 societes:any[]
 
   get_all_restaurants(){
@@ -87,6 +90,7 @@ societes:any[]
       this.crudSaasService.getRestaurants(restaurant_id).subscribe({
         next: (res) => {
           this.restaurants=res
+          this.allRestaurants=res
           console.log("getRestaurants",this.restaurants)
         },
         error: (err) => {
@@ -119,10 +123,31 @@ societes:any[]
 
         this.formData = this.fb.group({
           numero: [this.data.numero, Validators.required],
-          nb_places: [this.data.nb_places, ],
+          nb_places: [this.data.nb_places, [Validators.min(2),Validators.max(50)]],
           statut: [this.data.statut, Validators.required],
           societe_id: [this.data.societe_id, [Validators.required, ]],
           restaurant_id: [this.data.restaurant_id, [Validators.required, ]],
+        });
+
+         this.restaurants = this.allRestaurants.filter(cat =>
+          cat.societe_id === this.data.societe_id
+        );
+
+        this.formData.get('societe_id')?.valueChanges.subscribe((societeID) => {
+
+          console.log("société choisi:", societeID);
+
+          if (!societeID) {
+            this.restaurants = this.allRestaurants;
+          } else {
+            this.restaurants = this.allRestaurants.filter(cat =>
+              cat.societe_id === societeID
+            );
+          }
+
+          // 🔥 reset catégorie sélectionnée
+          this.formData.patchValue({ restaurant_id: null });
+
         });
 
       },

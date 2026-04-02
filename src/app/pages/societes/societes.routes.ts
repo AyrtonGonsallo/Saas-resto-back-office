@@ -11,6 +11,7 @@ export const SocietesRoutes: Routes = [
         data: {
           title: 'Créer une société',
           breadcrumb: 'Créer une société',
+          parentpath: 'societes/liste-societes'
         },
       },
       {
@@ -19,6 +20,7 @@ export const SocietesRoutes: Routes = [
         data: {
           title: 'Modifier une société',
           breadcrumb: 'Modifier une société',
+          parentpath: 'societes/liste-societes'
         },
       },
       {

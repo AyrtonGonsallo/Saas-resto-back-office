@@ -9,6 +9,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import Swal from 'sweetalert2';
 import { AuthSaasRestoService } from '../../../shared/services/auth/auth-saas-resto.service';
 import { AngularEditorModule } from '@kolkov/angular-editor';
+import { RestaurantService } from '../../../shared/services/user/user.service';
 
 @Component({
   selector: 'app-modifier-categorie-produit',
@@ -21,12 +22,16 @@ export class ModifierCategorieProduit {
   data_id=0
   formData!: FormGroup;
   user:any
-  constructor(private route: ActivatedRoute,private authSerivce:AuthSaasRestoService,private fb: FormBuilder, private crudSaasService:CrudSaasRestoService, private notificationsService:NotificationsService,) {}
+  constructor(private route: ActivatedRoute,private restaurantService: RestaurantService,private authSerivce:AuthSaasRestoService,private fb: FormBuilder, private crudSaasService:CrudSaasRestoService, private notificationsService:NotificationsService,) {}
 
   ngOnInit(): void {
 
     this.user = this.authSerivce.getUser();
     console.log('user recuperé',this.user )
+
+    this.get_all_societes()
+    this.get_all_restaurants()
+
      this.data_id = parseInt(this.route.snapshot.paramMap.get('id')??'');
     this.load_data(this.data_id )
    
@@ -35,7 +40,7 @@ export class ModifierCategorieProduit {
       description: ['', ],
       est_actif: [true, Validators.required],
       societe_id: [this.user.datas.societe_id, Validators.required],
-      restaurant_id: [this.user.datas.Restaurants[0].id, Validators.required],
+      restaurant_id: [this.user.datas.Restaurants[0]?.id, Validators.required],
       utilisateur_id: [this.user.datas.id, Validators.required],
     });
   }
@@ -88,6 +93,27 @@ export class ModifierCategorieProduit {
           restaurant_id: [this.data.restaurant_id, Validators.required],
           utilisateur_id: [this.user.datas.id, Validators.required],
         });
+
+         this.restaurants = this.allRestaurants.filter(cat =>
+          cat.societe_id === this.data.societe_id
+        );
+
+        this.formData.get('societe_id')?.valueChanges.subscribe((societeID) => {
+
+          console.log("société choisi:", societeID);
+
+          if (!societeID) {
+            this.restaurants = this.allRestaurants;
+          } else {
+            this.restaurants = this.allRestaurants.filter(cat =>
+              cat.societe_id === societeID
+            );
+          }
+
+          // 🔥 reset catégorie sélectionnée
+          this.formData.patchValue({ restaurant_id: null });
+
+        });
         
       },
       error: (err) => {
@@ -96,5 +122,38 @@ export class ModifierCategorieProduit {
     });
 
   }
+
+
+  
+  allRestaurants:any[]
+  restaurants:any[]
+  societes:any[]
+
+  get_all_restaurants(){
+
+    let restaurant_id = this.restaurantService.getRestaurant()
+      this.crudSaasService.getRestaurants(restaurant_id).subscribe({
+        next: (res) => {
+          this.restaurants=res
+          this.allRestaurants=res
+          console.log("getRestaurants",this.restaurants)
+        },
+        error: (err) => {
+          this.notificationsService.error("Erreur lors de la récupération des restaurants","Echec")
+        }
+      });
+  }
+
+    get_all_societes(){
+      this.crudSaasService.getSocietes().subscribe({
+        next: (res) => {
+          this.societes=res
+          console.log("getSocietes",this.societes)
+        },
+        error: (err) => {
+          this.notificationsService.error("Erreur lors de la récupération des sociétés","Echec")
+        }
+      });
+    }
 
 }

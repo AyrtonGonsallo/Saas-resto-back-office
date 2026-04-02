@@ -39,7 +39,7 @@ private router = inject(Router);
       supplement_prix:[0, ],
       stock: [0, ],
       societe_id: [this.user.datas.societe_id, Validators.required],
-      restaurant_id: [this.user.datas.Restaurants[0].id, Validators.required],
+      restaurant_id: [this.user.datas.Restaurants[0]?.id, Validators.required],
       utilisateur_id: [this.user.datas.id, Validators.required],
     });
   }
@@ -48,6 +48,7 @@ private router = inject(Router);
   onSubmit() {
     
     if (this.formData.invalid) {
+      console.log(this.formData.value);
       this.notificationsService.error("Formulaire invalide","Echec")
       this.formData.markAllAsTouched();
       return;
@@ -96,9 +97,9 @@ private router = inject(Router);
           obligatoire:[this.data.obligatoire, Validators.required],
           supplement_prix:[this.data.supplement_prix, ],
           stock: [this.data.stock, ],
-          societe_id: [this.user.datas.societe_id, Validators.required],
-          restaurant_id: [this.user.datas.Restaurants[0].id, Validators.required],
-          utilisateur_id: [this.user.datas.id, Validators.required],
+          societe_id: [this.data.societe_id, Validators.required],
+          restaurant_id: [this.data.restaurant_id, Validators.required],
+          utilisateur_id: [this.data.utilisateur_id, ],
         });
 
       },

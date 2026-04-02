@@ -11,6 +11,7 @@ export const RolesRoutes : Routes = [
         data: {
           title: 'Créer un rôle',
           breadcrumb: 'Créer un rôle',
+          parentpath: 'roles/liste-roles'
         },
       },
       {
@@ -19,6 +20,7 @@ export const RolesRoutes : Routes = [
         data: {
           title: 'Modifier un rôle',
           breadcrumb: 'Modifier un rôle',
+          parentpath: 'roles/liste-roles'
         },
       },
       {

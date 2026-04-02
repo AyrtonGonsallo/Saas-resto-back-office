@@ -22,9 +22,12 @@ export class CreerVariationProduit {
   produit_id=0
   formData!: FormGroup;
   user:any
+  
   constructor(private route: ActivatedRoute,private authSerivce:AuthSaasRestoService,private fb: FormBuilder, private crudSaasService:CrudSaasRestoService, private notificationsService:NotificationsService,) {}
 
   ngOnInit(): void {
+
+    
     this.produit_id = parseInt(this.route.snapshot.paramMap.get('produit_id')??'');
 
    this.load_parent_data()
@@ -89,6 +92,7 @@ export class CreerVariationProduit {
       next: (res) => {
         this.parent_data=res
         this.formData.patchValue({ restaurant_id: this.parent_data.restaurant_id });
+        this.formData.patchValue({ societe_id: this.parent_data.societe_id });
 
       },
       error: (err) => {

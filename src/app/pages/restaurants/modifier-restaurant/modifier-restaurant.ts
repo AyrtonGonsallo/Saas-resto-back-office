@@ -40,7 +40,7 @@ export class ModifierRestaurant {
       heure_fin: ['', [Validators.required, ]],
       heure_cc_debut: ['', [, ]],
       heure_cc_fin: ['', [, ]],
-      telephone: ['', ],
+      telephone: ['', [Validators.pattern(/^[0-9+\s\-()]{8,20}$/)]],
       societe_id: [0, Validators.required],
       utilisateur_id: [0, Validators.required],
     });
@@ -81,6 +81,7 @@ export class ModifierRestaurant {
   }
 
   gestionnaires:any[]
+  allGestionnaires:any[]
   societes:any[]
 
 
@@ -102,9 +103,13 @@ export class ModifierRestaurant {
       this.crudSaasService.getUtilisateursByRole('gestionnaire-restaurant',restaurant_id).subscribe({
         next: (res) => {
           this.gestionnaires = res.map(g => ({
-          ...g,
-          fullName: g.prenom + ' ' + g.nom + ' (' + g.Societe.titre + ')'
-        }));
+            ...g,
+            fullName: g.prenom + ' ' + g.nom + ' (' + g.Societe.titre + ')'
+          }));
+          this.allGestionnaires = res.map(g => ({
+            ...g,
+            fullName: g.prenom + ' ' + g.nom + ' (' + g.Societe.titre + ')'
+          }));
           console.log("utilisateurs",this.gestionnaires)
         },
         error: (err) => {
@@ -145,7 +150,6 @@ export class ModifierRestaurant {
         this.data=res
 
       
-
          this.formData = this.fb.group({
           nom: [this.data.nom, Validators.required],
           lieu: [this.data.lieu, Validators.required],
@@ -153,9 +157,26 @@ export class ModifierRestaurant {
           heure_fin: [this.data.heure_fin, [Validators.required, ]],
           heure_cc_debut: [this.data.heure_cc_debut, [, ]],
           heure_cc_fin: [this.data.heure_cc_fin, [, ]],
-          telephone: [this.data.telephone, ],
+          telephone: [this.data.telephone, [Validators.pattern(/^[0-9+\s\-()]{8,20}$/)]],
           societe_id: [this.data.societe_id, Validators.required],
           utilisateur_id: [this.data.utilisateur_id, Validators.required],
+        });
+
+        this.formData.get('societe_id')?.valueChanges.subscribe((societe_id) => {
+
+          console.log("societe_id choisi:", societe_id);
+
+          if (!societe_id) {
+            this.gestionnaires = this.allGestionnaires;
+          } else {
+            this.gestionnaires = this.allGestionnaires.filter(cat =>
+              cat.societe_id === societe_id
+            );
+          }
+
+          // 🔥 reset catégorie sélectionnée
+          this.formData.patchValue({ utilisateur_id: null });
+
         });
         
       },

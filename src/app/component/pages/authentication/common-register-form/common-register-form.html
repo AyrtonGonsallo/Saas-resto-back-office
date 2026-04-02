@@ -1,53 +1,91 @@
-<div class="login-main">
-    <form class="theme-form">
-        <h2 class="text-center">Create your account</h2>
-        <p class="text-center">Enter your personal details to create account</p>
-        <div class="form-group">
-            <label class="col-form-label pt-0">Your Name</label>
-            <div class="row g-2">
-                <div class="col-6">
-                    <input class="form-control" type="text" required="" placeholder="First name">
+<div class="login-main" style="width:600px">
+    <form class="theme-form" [formGroup]="formData" (ngSubmit)="onSubmit()">
+        <h2 class="text-center">Enregistrer ma société</h2>
+        <p class="text-center">Saisissez vos informations personnelles pour créer un compte</p>
+        
+            <div>
+                <div class="row">
+
+                    <div class="col-md-12">
+                        <div class="mb-3">
+                        <label class="form-label">Titre <span class="text-danger">*</span></label>
+                        <input class="form-control" type="text" formControlName="titre" placeholder="titre">
+                        <div *ngIf="formData.get('titre')?.touched && formData.get('titre')?.invalid" class="text-danger">
+                            Le titre est invalide
+                        </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-6">
+                        <div class="mb-3">
+                        <label class="form-label">Nom <span class="text-danger">*</span></label>
+                        <input class="form-control" type="text" formControlName="nom" placeholder="Nom">
+                        <div *ngIf="formData.get('nom')?.touched && formData.get('nom')?.invalid" class="text-danger">
+                            Le nom est invalide
+                        </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-md-6">
+                        <div class="mb-3">
+                        <label class="form-label">Prénom <span class="text-danger">*</span></label>
+                        <input class="form-control" type="text" formControlName="prenom" placeholder="Prénom">
+                        <div *ngIf="formData.get('prenom')?.touched && formData.get('prenom')?.invalid" class="text-danger">
+                            Le prénom est invalide
+                        </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-12 col-md-12">
+                        <div class="mb-3">
+                        <label class="form-label">Adresse email <span class="text-danger">*</span></label>
+                        <input class="form-control" type="email" formControlName="email" placeholder="Email">
+                        <div *ngIf="formData.get('email')?.touched && formData.get('email')?.invalid" class="text-danger">
+                            L'adresse email est invalide
+                        </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="mb-3">
+                        <label class="form-label">Téléphone</label>
+                        <input class="form-control" type="text" formControlName="telephone" placeholder="Téléphone">
+                        <div *ngIf="formData.get('telephone')?.touched && formData.get('telephone')?.invalid" class="text-danger">
+                            Le téléphone est invalide
+                        </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-md-6">
+                        <div class="mb-3">
+                        <label class="form-label">Mot de passe <span class="text-danger">*</span></label>
+                        <input class="form-control" type="password" formControlName="mot_de_passe" placeholder="Mot de passe">
+                        <div *ngIf="formData.get('mot_de_passe')?.touched && formData.get('mot_de_passe')?.invalid" class="text-danger">
+                            Le mot de passe est invalide
+                        </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-md-6">
+                        <div class="mb-3">
+                        <label class="form-label">Confirmation du mot de passe <span class="text-danger">*</span></label>
+                        <input class="form-control" type="password" formControlName="confirmed_mot_de_passe" placeholder="Confirmez votre mot de passe">
+                        <div *ngIf="formData.get('mot_de_passe')?.touched && formData.get('mot_de_passe')?.invalid" class="text-danger">
+                            Champ requis
+                        </div>
+                        <div *ngIf="!checkpasswords()" class="text-danger">
+                            Les mots de passe ne correspondent pas
+                        </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="col-6">
-                    <input class="form-control" type="text" required="" placeholder="Last name">
-                </div>
             </div>
-        </div>
-        <div class="form-group">
-            <label class="col-form-label">Email Address</label>
-            <input class="form-control" type="email" required="" placeholder="Test@gmail.com">
-        </div>
-        <div class="form-group">
-            <label class="col-form-label">Password</label>
-            <div class="form-input position-relative">
-                <input class="form-control" type="password" name="login[password]" formControlName="password"
-                required="" placeholder="*********" [type]="show ? 'text' : 'password'">
-            @if(!show){
-              <div class="show-hide" (click)="showPassword()"><span class="show"> </span></div>
-            }@else{
-               <div class="show-hide" (click)="showPassword()"><span class="Hide"></span></div>
-            }
+
+            <div class="text-end">
+                <button class="btn btn-primary" type="submit">Envoyer</button>
             </div>
-        </div>
-        <div class="form-group mb-0 checkbox-checked">
-            <div class="form-check checkbox-solid-info">
-                <input class="form-check-input" id="solid6" type="checkbox">
-                <label class="form-check-label" for="solid6">Agree with</label><a class="ms-3 link"
-                [routerLink]="['/authentication/forget-password']">Privacy Policy</a>
-            </div>
-            <button class="btn btn-primary btn-block w-100 mt-3" type="submit">Create Account</button>
-        </div>
-        <div class="login-social-title">
-            <h6>Or Sign in with </h6>
-        </div>
-        <div class="form-group">
-            <ul class="login-social">
-                <li><a href="https://www.linkedin.com" target="_blank"><i class="icon-linkedin"></i></a></li>
-                <li><a href="https://twitter.com" target="_blank"><i class="icon-twitter"></i></a></li>
-                <li><a href="https://www.facebook.com" target="_blank"><i class="icon-facebook"></i></a></li>
-                <li><a href="https://www.instagram.com" target="_blank"><i class="icon-instagram"></i></a></li>
-            </ul>
-        </div>
-        <p class="mt-4 mb-0 text-center">Already have an account?<a class="ms-2"[routerLink]="['/authentication/simple']">Sign in</a></p>
+        
+
+
+        <p class="mt-4 mb-0 text-center">Vous avez déjà un compte ?<a class="ms-2"[routerLink]="['/auth/login']">Se connecter</a></p>
     </form>
 </div>

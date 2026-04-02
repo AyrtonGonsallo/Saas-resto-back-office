@@ -9,4 +9,6 @@ import { CommonRegisterForm } from '../common-register-form/common-register-form
   templateUrl: './register-simple.html',
   styleUrl: './register-simple.scss',
 })
-export class RegisterSimple {}
+export class RegisterSimple {
+  
+}

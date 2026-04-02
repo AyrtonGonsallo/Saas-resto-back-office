@@ -20,7 +20,7 @@
             <div class="col-sm-12 col-md-12">
                 <div class="mb-3">
                 <label class="form-label">Nombre de places</label>
-                <input class="form-control" type="number" formControlName="nb_places" placeholder="Nombre de places">
+                <input class="form-control" type="number" min="2" max="50" formControlName="nb_places" placeholder="Nombre de places">
                 <div *ngIf="formData.get('nb_places')?.touched && formData.get('nb_places')?.invalid" class="text-danger">
                     Le nombre de places est invalide
                 </div>

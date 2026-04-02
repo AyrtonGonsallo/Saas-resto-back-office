@@ -35,7 +35,7 @@ export class ModifierUtilisateur {
       nom: ['', Validators.required],
       prenom: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      telephone: [''],
+      telephone: ['', [Validators.pattern(/^[0-9+\s\-()]{8,20}$/)]],
       role_id: [0, Validators.required],
       societe_id: [0, ],
       restaurant_id: [[], ],
@@ -82,6 +82,7 @@ export class ModifierUtilisateur {
   roles:any[]
   societes:any[]
   restaurants:any[]
+  allRestaurants:any[]
 
 
     get_all_societes(){
@@ -102,6 +103,7 @@ export class ModifierUtilisateur {
       this.crudSaasService.getRestaurants(restaurant_id).subscribe({
         next: (res) => {
           this.restaurants=res
+          this.allRestaurants=res
           console.log("restaurants",this.restaurants)
         },
         error: (err) => {
@@ -138,18 +140,36 @@ export class ModifierUtilisateur {
         this.data=res
         console.log('datas',this.data)
 
-         this.formData = this.fb.group({
+        this.formData = this.fb.group({
           nom: [this.data.nom, Validators.required],
           prenom: [this.data.prenom, Validators.required],
           email: [this.data.email, [Validators.required, Validators.email]],
-          telephone: [this.data.telephone],
+          telephone: [this.data.telephone, [Validators.pattern(/^[0-9+\s\-()]{8,20}$/)]],
           role_id: [this.data.role_id, Validators.required],
           societe_id: [this.data.societe_id, ],
           restaurant_id: [Array.isArray(this.data.Restaurants) 
             ? this.data.Restaurants.map((r:any) => r.id) 
             : []
           ]
-    });
+        });
+
+
+        this.formData.get('societe_id')?.valueChanges.subscribe((societe_id) => {
+
+          console.log("societe_id choisi:", societe_id);
+
+          if (!societe_id) {
+            this.restaurants = this.allRestaurants;
+          } else {
+            this.restaurants = this.allRestaurants.filter(cat =>
+              cat.societe_id === societe_id
+            );
+          }
+
+          // 🔥 reset catégorie sélectionnée
+          this.formData.patchValue({ restaurant_id: null });
+
+        });
         
       },
       error: (err) => {

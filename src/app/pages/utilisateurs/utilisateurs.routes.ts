@@ -11,6 +11,7 @@ export const UtilisateursRoutes: Routes = [
         data: {
           title: 'Créer un utilisateur',
           breadcrumb: 'Créer un utilisateur',
+          parentpath: 'utilisateurs/liste-utilisateurs'
         },
       },
       {
@@ -19,6 +20,7 @@ export const UtilisateursRoutes: Routes = [
         data: {
           title: 'Modifier un utilisateur',
           breadcrumb: 'Modifier un utilisateur',
+          parentpath: 'utilisateurs/liste-utilisateurs'
         },
       },
       {

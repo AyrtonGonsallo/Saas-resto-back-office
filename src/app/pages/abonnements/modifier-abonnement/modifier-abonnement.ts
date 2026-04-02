@@ -9,17 +9,14 @@ import { ActivatedRoute } from '@angular/router';
 import Swal from 'sweetalert2';
 import { AuthSaasRestoService } from '../../../shared/services/auth/auth-saas-resto.service';
 import {
-  NgbCalendar,
-  NgbDate,
-  NgbDateParserFormatter,
   NgbDateStruct,
   NgbModule,
 } from '@ng-bootstrap/ng-bootstrap';
 
-import { Feathericon } from '../../../shared/component/feathericon/feathericon';
+
 @Component({
   selector: 'app-modifier-abonnement',
-  imports: [ReactiveFormsModule,CommonModule, ReactiveFormsModule, NgSelectModule, NgbModule, Feathericon],
+  imports: [ReactiveFormsModule,CommonModule, ReactiveFormsModule, NgSelectModule, NgbModule],
   templateUrl: './modifier-abonnement.html',
   styleUrl: './modifier-abonnement.scss',
 })

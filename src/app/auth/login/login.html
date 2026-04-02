@@ -11,7 +11,7 @@
                     </div>
                     <div class="login-main">
                         <form class="theme-form" [formGroup]="loginForm">
-                            <h2 class="text-center">Me connecter</h2>
+                            <h2 class="text-center">Se connecter</h2>
                             <p class="text-center">Entrez votre adresse e-mail &amp; mot de passe pour vous connecter</p>
                             <div class="form-group">
                                 <label class="col-form-label">Adresse e-mail</label>
@@ -51,7 +51,7 @@
                                 <a class="link-two" [routerLink]="['/authentication/forget-password']">Mot de passe oublié ?</a>
                             </div>
                             <div class="text-end mt-3"><button class="btn btn-primary btn-block w-100 text-white"
-                                    [disabled]="!loginForm.valid" (click)="login()">Me connecter </button></div>
+                                    [disabled]="!loginForm.valid" (click)="login()">Se connecter </button></div>
                             <!--
                                 <div class="login-social-title">
                                     <h6>Ou connectez-vous avec </h6>
@@ -67,11 +67,11 @@
                                         <li><a href="https://www.instagram.com" target="_blank"><i
                                                     class="icon-instagram"></i></a></li>
                                     </ul>
-                                </div>
+                                </div> -->
                                 <p class="mt-4 mb-0 text-center">Vous n'avez pas de compte ?
                                     <a class="ms-2" [routerLink]="['/authentication/register-simple']">Créer un compte</a>
                                 </p>
-                            -->
+                           
                         </form>
                     </div>
                 </div>

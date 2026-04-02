@@ -9,16 +9,18 @@ export const TablesRoutes: Routes = [
         path: 'creer-table',
         loadComponent: () => import('./creer-table/creer-table').then(m => m.CreerTable),
         data: {
-          title: 'Créer un table',
-          breadcrumb: 'Créer un table',
+          title: 'Créer une table',
+          breadcrumb: 'Créer une table',
+          parentpath: 'tables/liste-tables'
         },
       },
       {
         path: 'modifier-table/:id',
         loadComponent: () => import('./modifier-table/modifier-table').then(m => m.ModifierTable),
         data: {
-          title: 'Modifier un table',
-          breadcrumb: 'Modifier un table',
+          title: 'Modifier une table',
+          breadcrumb: 'Modifier une table',
+          parentpath: 'tables/liste-tables'
         },
       },
       {

@@ -1,6 +1,6 @@
 <form class="card" [formGroup]="formData" (ngSubmit)="onSubmit()">
     <div class="card-header">
-        <h4 class="card-title mb-0">Modifier une catégorie de prroduit</h4>
+        <h4 class="card-title mb-0">Modifier une catégorie de produit</h4>
         
     </div>
 
@@ -37,6 +37,26 @@
                 </div>
             </div>
             
+
+            <div class="col-sm-12 col-md-12">
+                <label class="form-label">Société <span class="text-danger">*</span></label>
+            
+                <ng-select [items]="societes" bindLabel="titre" bindValue="id" [multiple]="false"
+                    placeholder="choisir une société" formControlName="societe_id"  />
+                    <div *ngIf="formData.get('societe_id')?.touched && formData.get('societe_id')?.invalid" class="text-danger">
+                    La sociéte est invalide
+                </div>
+            </div>
+            
+             <div class="col-sm-12 col-md-12">
+                <label class="form-label">Restaurant <span class="text-danger">*</span></label>
+            
+                <ng-select [items]="restaurants" bindLabel="nom" bindValue="id" [multiple]="false"
+                    placeholder="choisir un restaurant" formControlName="restaurant_id"  />
+                    <div *ngIf="formData.get('restaurant_id')?.touched && formData.get('restaurant_id')?.invalid" class="text-danger">
+                    Le restaurant est invalide
+                </div>
+            </div>
 
         </div>
     </div>

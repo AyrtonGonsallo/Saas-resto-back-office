@@ -18,15 +18,19 @@ import { RestaurantService } from '../../../shared/services/user/user.service';
   styleUrl: './creer-parametre.scss',
 })
 export class CreerParametre {
-   private router = inject(Router);
-  
+  private router = inject(Router);
+  restaurant_id:number|null
   formData!: FormGroup;
   user:any
   constructor(private authSerivce:AuthSaasRestoService, private restaurantService:RestaurantService,private fb: FormBuilder, private crudSaasService:CrudSaasRestoService, private notificationsService:NotificationsService,) {}
 
   ngOnInit(): void {
 
+    this.restaurant_id = this.restaurantService.getRestaurant()
+    console.log('this.restaurant_id',this.restaurant_id)
     this.get_all_restaurants()
+
+    this.get_all_societes()
 
     this.user = this.authSerivce.getUser();
     console.log('user recuperé',this.user )
@@ -38,7 +42,7 @@ export class CreerParametre {
       description: ['', ],
       est_actif: [true, Validators.required],
       societe_id: [this.user.datas.societe_id, Validators.required],
-      restaurant_id: [this.user.datas.Restaurants[0].id, Validators.required],
+      restaurant_id: [this.restaurant_id, Validators.required],
       utilisateur_id: [this.user.datas.id, Validators.required],
     });
 
@@ -46,10 +50,25 @@ export class CreerParametre {
       let typelabel = this.getTypeName(type);
 
       console.log("type choisi:", typelabel);
-
-    
       //  reset catégorie sélectionnée
       this.formData.patchValue({ titre: typelabel });
+
+    });
+
+    this.formData.get('societe_id')?.valueChanges.subscribe((societeID) => {
+
+      console.log("société choisi:", societeID);
+
+      if (!societeID) {
+        this.restaurants = this.allRestaurants;
+      } else {
+        this.restaurants = this.allRestaurants.filter(cat =>
+          cat.societe_id === societeID
+        );
+      }
+
+      // 🔥 reset catégorie sélectionnée
+      this.formData.patchValue({ restaurant_id: null });
 
     });
 
@@ -112,6 +131,8 @@ export class CreerParametre {
     { key: 'coefficient', name: 'Coefficient' },
     { key: 'max_commandes_par_minutes', name: 'Max commandes par minute' },
     { key: 'alerte_stocke_min', name: 'Stocke minimun avant alerte' },
+    { key: 'max_couverts_par_jour', name: 'Max couverts par jour' },
+    { key: 'delai_rappel_reservation', name: 'Delai avant rappel lors d\'une réservation' },
     //{ key: 'logo', name: 'Logo' },
     //{ key: 'couleur_principale', name: 'Couleur principale' },
     //{ key: 'couleur_secondaire', name: 'Couleur secondaire' },
@@ -136,13 +157,16 @@ export class CreerParametre {
   }
   
   restaurants:any[]
+  allRestaurants:any[]
+   societes:any[]
 
   get_all_restaurants(){
 
-    let restaurant_id = this.restaurantService.getRestaurant()
-      this.crudSaasService.getRestaurants(restaurant_id).subscribe({
+    
+      this.crudSaasService.getRestaurants(this.restaurant_id).subscribe({
         next: (res) => {
           this.restaurants=res
+          this.allRestaurants=res
           console.log("getRestaurants",this.restaurants)
         },
         error: (err) => {
@@ -150,6 +174,18 @@ export class CreerParametre {
         }
       });
   }
+
+   get_all_societes(){
+      this.crudSaasService.getSocietes().subscribe({
+        next: (res) => {
+          this.societes=res
+          console.log("getSocietes",this.societes)
+        },
+        error: (err) => {
+          this.notificationsService.error("Erreur lors de la récupération des sociétés","Echec")
+        }
+      });
+    }
 
 }
 

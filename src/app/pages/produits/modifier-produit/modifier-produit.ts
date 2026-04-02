@@ -32,6 +32,8 @@ export class ModifierProduit {
 
     this.data_id = parseInt(this.route.snapshot.paramMap.get('id')??'');
     this.get_categories()
+    this.get_all_societes()
+    this.get_all_restaurants()
     
     
 
@@ -116,8 +118,8 @@ export class ModifierProduit {
     let restaurant_id = this.restaurantService.getRestaurant()
      this.crudSaasService.getCategoriesProduit(restaurant_id).subscribe({
       next: (res) => {
-        this.categories_produits=res
-        this.allCategories=res
+        this.categories_produits=res.filter(cat => cat.est_actif === true);
+        this.allCategories=res.filter(cat => cat.est_actif === true);
         console.log("categories_produits",this.categories_produits)
         this.load_data(this.data_id )
       },
@@ -126,6 +128,37 @@ export class ModifierProduit {
       }
     });
   }
+
+  restaurants:any[]
+  allRestaurants:any[]
+  societes:any[]
+
+  get_all_restaurants(){
+
+    let restaurant_id = this.restaurantService.getRestaurant()
+      this.crudSaasService.getRestaurants(restaurant_id).subscribe({
+        next: (res) => {
+          this.restaurants=res
+          this.allRestaurants=res
+          console.log("getRestaurants",this.restaurants)
+        },
+        error: (err) => {
+          this.notificationsService.error("Erreur lors de la récupération des restaurants","Echec")
+        }
+      });
+  }
+
+   get_all_societes(){
+      this.crudSaasService.getSocietes().subscribe({
+        next: (res) => {
+          this.societes=res
+          console.log("getSocietes",this.societes)
+        },
+        error: (err) => {
+          this.notificationsService.error("Erreur lors de la récupération des sociétés","Echec")
+        }
+      });
+    }
 
    statuts = [
     { key: 'disponible', name: 'Disponible' },
@@ -172,6 +205,27 @@ export class ModifierProduit {
           societe_id: [this.data.societe_id, Validators.required],
           restaurant_id: [this.data.restaurant_id, Validators.required],
           utilisateur_id: [this.user.datas.id, Validators.required],
+        });
+
+         this.restaurants = this.allRestaurants.filter(cat =>
+          cat.societe_id === this.data.societe_id
+        );
+
+        this.formData.get('societe_id')?.valueChanges.subscribe((societeID) => {
+
+          console.log("société choisi:", societeID);
+
+          if (!societeID) {
+            this.restaurants = this.allRestaurants;
+          } else {
+            this.restaurants = this.allRestaurants.filter(cat =>
+              cat.societe_id === societeID
+            );
+          }
+
+          // 🔥 reset catégorie sélectionnée
+          this.formData.patchValue({ restaurant_id: null });
+
         });
         
       },

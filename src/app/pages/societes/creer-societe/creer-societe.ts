@@ -25,7 +25,7 @@ export class CreerSociete {
       nom: ['', Validators.required],
       prenom: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      telephone: [''],
+      telephone: ['', [Validators.pattern(/^[0-9+\s\-()]{8,20}$/)]],
       mot_de_passe: ['', Validators.required],
       confirmed_mot_de_passe: ['', Validators.required]
     });

@@ -11,6 +11,7 @@ export const ProduitsRoutes: Routes = [
         data: {
           title: 'Créer un produit',
           breadcrumb: 'Créer un produit',
+          parentpath: 'produits/liste-produits'
         },
       },
       {
@@ -19,6 +20,7 @@ export const ProduitsRoutes: Routes = [
         data: {
           title: 'Modifier un produit',
           breadcrumb: 'Modifier un produit',
+          parentpath: 'produits/liste-produits'
         },
       },
       {

@@ -25,8 +25,8 @@ export class Login {
 
   constructor(private authSerivce:AuthSaasRestoService) {
     this.loginForm = this.fb.group({
-      email: ['Test@gmail.com', [Validators.required, Validators.email]],
-      password: ['test123', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', Validators.required],
     });
   }
 

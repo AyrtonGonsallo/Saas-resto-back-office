@@ -14,7 +14,10 @@
                     </li>
                     @if(breadcrumbs?.parentBreadcrumb){
                     <li class="breadcrumb-item">
+
+                        <a [routerLink]="breadcrumbs?.parentpath" class="reverse-link">
                         {{breadcrumbs?.parentBreadcrumb}}
+                        </a>
                     </li>
                     }
                     @if(breadcrumbs?.childBreadcrumb){

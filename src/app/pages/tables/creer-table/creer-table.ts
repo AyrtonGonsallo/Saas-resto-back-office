@@ -8,6 +8,7 @@ import { Router, } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { RestaurantService } from '../../../shared/services/user/user.service';
+import { AuthSaasRestoService } from '../../../shared/services/auth/auth-saas-resto.service';
 
 @Component({
   selector: 'app-creer-table',
@@ -19,21 +20,44 @@ export class CreerTable {
   
   private router = inject(Router);
   formData!: FormGroup;
-  constructor(private fb: FormBuilder, private crudSaasService:CrudSaasRestoService,private restaurantService: RestaurantService, private notificationsService:NotificationsService,) {}
+  user:any
+  restaurant_id:number|null
+  constructor(private authSerivce:AuthSaasRestoService, private fb: FormBuilder, private crudSaasService:CrudSaasRestoService,private restaurantService: RestaurantService, private notificationsService:NotificationsService,) {}
 
   ngOnInit(): void {
 
-     this.get_all_restaurants()
-
+    this.restaurant_id = this.restaurantService.getRestaurant()
+    console.log('this.restaurant_id',this.restaurant_id)
+    this.get_all_restaurants()
     this.get_all_societes()
+
+    this.user = this.authSerivce.getUser();
+    console.log('user recuperé',this.user )
     
     this.formData = this.fb.group({
       numero: ['', Validators.required],
-      nb_places: [1, ],
+      nb_places: [2, [Validators.min(2),Validators.max(50)]],
       statut: ['libre', Validators.required],
-      societe_id: [0, [Validators.required, ]],
-      restaurant_id: [0, [Validators.required, ]],
+      societe_id: [this.user.datas.societe_id, Validators.required],
+      restaurant_id: [this.restaurant_id, Validators.required],
     });
+
+    this.formData.get('societe_id')?.valueChanges.subscribe((societeID) => {
+
+        console.log("société choisi:", societeID);
+
+        if (!societeID) {
+          this.restaurants = this.allRestaurants;
+        } else {
+          this.restaurants = this.allRestaurants.filter(cat =>
+            cat.societe_id === societeID
+          );
+        }
+
+        // 🔥 reset catégorie sélectionnée
+        this.formData.patchValue({ restaurant_id: null });
+
+      });
   }
 
   statuts = [
@@ -66,7 +90,12 @@ export class CreerTable {
             }, 2000);
           },
           error: (err) => {
-            this.notificationsService.error("Erreur lors de l’ajout","Echec")
+            if(err.error.message == "Validation error"){
+              this.notificationsService.error("Le numéro de table existe déja dans ce restaurant","Echec")
+            }else{
+              this.notificationsService.error("Erreur lors de l’ajout","Echec")
+            }
+            
           }
         });
 
@@ -74,8 +103,9 @@ export class CreerTable {
     // appel API ici
   }
 
-restaurants:any[]
-societes:any[]
+  allRestaurants:any[]
+  restaurants:any[]
+  societes:any[]
 
   get_all_restaurants(){
 
@@ -83,6 +113,7 @@ societes:any[]
       this.crudSaasService.getRestaurants(restaurant_id).subscribe({
         next: (res) => {
           this.restaurants=res
+          this.allRestaurants=res
           console.log("getRestaurants",this.restaurants)
         },
         error: (err) => {

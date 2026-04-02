@@ -12,6 +12,7 @@ export const AbonnementsRoutes: Routes = [
         data: {
           title: 'Modifier un abonnement',
           breadcrumb: 'Modifier un abonnement',
+          parentpath: 'societes/liste-societes'
         },
       },
       

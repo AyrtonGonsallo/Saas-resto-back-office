@@ -12,6 +12,7 @@ export const PortefeuillesRoutes: Routes = [
         data: {
           title: 'Modifier un portefeuille',
           breadcrumb: 'Modifier un portefeuille',
+          parentpath: 'societes/liste-societes'
         },
       },
       

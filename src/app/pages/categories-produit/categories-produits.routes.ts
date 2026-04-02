@@ -11,6 +11,7 @@ export const CategoriesProduitRoutes: Routes = [
         data: {
           title: 'Créer une catégorie de produit',
           breadcrumb: 'Créer une catégorie de produit',
+          parentpath: 'categories-produit/liste-categories-produit'
         },
       },
       {
@@ -19,6 +20,7 @@ export const CategoriesProduitRoutes: Routes = [
         data: {
           title: 'Modifier une catégorie de produit',
           breadcrumb: 'Modifier une catégorie de produit',
+          parentpath: 'categories-produit/liste-categories-produit'
         },
       },
       {

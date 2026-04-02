@@ -11,6 +11,7 @@ export const RestaurantsRoutes: Routes = [
         data: {
           title: 'Créer un restaurant',
           breadcrumb: 'Créer un restaurant',
+          parentpath: 'restaurants/liste-restaurants'
         },
       },
       {
@@ -19,6 +20,7 @@ export const RestaurantsRoutes: Routes = [
         data: {
           title: 'Modifier un restaurant',
           breadcrumb: 'Modifier un restaurant',
+          parentpath: 'restaurants/liste-restaurants'
         },
       },
       {
