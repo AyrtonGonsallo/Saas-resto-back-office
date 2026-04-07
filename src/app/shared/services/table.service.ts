@@ -23,24 +23,42 @@ interface State {
 
 const compare = (v1: string | number, v2: string | number) => (v1 < v2 ? -1 : v1 > v2 ? 1 : 0);
 
-function sort(countries: any[], column: SortColumn, direction: string): any[] {
-  if (direction === '' || column === '') {
-    return countries;
-  } else {
-    return [...countries].sort((a, b) => {
-      const res = compare(a[column], b[column]);
-      return direction === 'asc' ? res : -res;
-    });
-  }
+function getValue(obj: any, path: string) {
+  return path.split('.').reduce((acc, key) => acc?.[key], obj);
 }
 
-function matches(item: any, term: string) {
+function sort(data: any[], column: string, direction: string): any[] {
+  if (!direction || !column) {
+    return data;
+  }
+
+  return [...data].sort((a, b) => {
+    const aValue = getValue(a, column);
+    const bValue = getValue(b, column);
+
+    const res = compare(aValue, bValue);
+    return direction === 'asc' ? res : -res;
+  });
+}
+
+function matches(item: any, term: string): boolean {
   term = term.toLowerCase();
 
-  return Object.values(item).some(value =>
-    value != null &&
-    String(value).toLowerCase().includes(term)
-  );
+  function search(value: any): boolean {
+    if (value == null) return false;
+
+    if (typeof value === 'string' || typeof value === 'number' || typeof value === 'boolean') {
+      return String(value).toLowerCase().includes(term);
+    }
+
+    if (typeof value === 'object') {
+      return Object.values(value).some(v => search(v));
+    }
+
+    return false;
+  }
+
+  return search(item);
 }
 
 @Injectable({ providedIn: 'root' })

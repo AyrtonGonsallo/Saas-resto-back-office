@@ -24,5 +24,14 @@ export const routes: Routes = [
     path: '',
     loadComponent: () => import('./shared/component/layout/full/full').then(m => m.Full),
     children: fullRoutes,
-  }
+  },
+  {
+    path: 'reservations/formulaire-reservation/:societe_id',
+    loadComponent: () => import('./pages/reservations/formulaire-reservation/formulaire-reservation').then(m => m.FormulaireReservation),
+    data: {
+      title: 'Formulaire de réservation',
+      breadcrumb: 'Formulaire de réservation',
+      parentpath: 'reservations/liste-reservations'
+    },
+  },
 ];

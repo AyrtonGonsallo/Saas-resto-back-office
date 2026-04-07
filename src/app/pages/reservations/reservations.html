@@ -39,12 +39,15 @@
           <thead>
             <tr>
               <th scope="col" sortable="id" (sort)="onSort($event)">ID</th>
-              <th scope="col" sortable="titre" (sort)="onSort($event)">Titre</th>
-              <th scope="col" sortable="status" (sort)="onSort($event)">Statut</th>
-              <th scope="col" sortable="gestionnaire.prenom" (sort)="onSort($event)">Gestionnaire</th>
-              <th scope="col" sortable="portefeuille.id" (sort)="onSort($event)">Portefeuille</th>
-              <th scope="col" sortable="abonnement.id" (sort)="onSort($event)">Abonnement</th>
-              
+              <th scope="col" sortable="date_creation" (sort)="onSort($event)">Date de création</th>
+              <th scope="col" sortable="date_reservation" (sort)="onSort($event)">Date réservation</th>
+              <th scope="col" sortable="client_id" (sort)="onSort($event)">Client</th>
+              <th scope="col" sortable="societe_id" (sort)="onSort($event)">Société</th>
+              <th scope="col" sortable="restaurant_id" (sort)="onSort($event)">Restaurant</th>
+              <th scope="col" sortable="table_id" (sort)="onSort($event)">Table</th>
+              <th scope="col" sortable="nb_couverts" (sort)="onSort($event)">Nb couverts</th>
+              <th scope="col" sortable="nombre_de_personnes" (sort)="onSort($event)">Nb personnes</th>
+              <th scope="col" sortable="creneau_id" (sort)="onSort($event)">Créneau</th>
               
               <th scope="col">Action</th>
             </tr>
@@ -52,27 +55,38 @@
           <tbody>
             @for(data of tableData$ | async; track data; let i = $index){
             <tr>
-              
               <td>
                 <ngb-highlight [result]="data.id" [term]="service.searchTerm" />
               </td>
               <td>
-                <ngb-highlight [result]="data.titre" [term]="service.searchTerm" />
+                <ngb-highlight [result]="(data.date_creation | date:'dd/MM/yyyy HH:mm')" [term]="service.searchTerm" />
               </td>
               <td>
-                <ngb-highlight [result]="data.status" [term]="service.searchTerm" />
+                <ngb-highlight [result]="(data.date_reservation | date:'dd/MM/yyyy HH:mm')" [term]="service.searchTerm" />
               </td>
               <td>
-                <ngb-highlight [result]="data.gestionnaire.prenom+' '+data.gestionnaire.nom" [term]="service.searchTerm" />
+                <ngb-highlight [result]="data.client.nom + ' ' + data.client.prenom" [term]="service.searchTerm" />
+              </td>
+              
+              <td>
+                <ngb-highlight [result]="data.societe.titre" [term]="service.searchTerm" />
               </td>
               <td>
-                <ngb-highlight [result]="get_texte_portefeuille(data.portefeuille)" [term]="service.searchTerm" />
-                <a style="cursor: pointer;" (click)="modifier_portefeuille(data.portefeuille?.id)"><i class="fa fa-pen font-primary ps-2" ></i></a>
+                <ngb-highlight [result]="data.Restaurant.nom" [term]="service.searchTerm" />
               </td>
               <td>
-                <ngb-highlight [result]="get_texte_abonnement(data.abonnement)" [term]="service.searchTerm" />
-                <a style="cursor: pointer;" (click)="modifier_abonnement(data.abonnement?.id)"><i class="fa fa-pen font-primary ps-2" ></i></a>
+                <ngb-highlight [result]="data.table.numero+ ' - ' + data.table.nb_places+ ' places'" [term]="service.searchTerm" />
               </td>
+              <td>
+                <ngb-highlight [result]="data.nb_couverts" [term]="service.searchTerm" />
+              </td>
+              <td>
+                <ngb-highlight [result]="data.nombre_de_personnes" [term]="service.searchTerm" />
+              </td>
+              <td>
+                <ngb-highlight [result]="data.creneau.heure_debut + ' - ' + data.creneau.heure_fin" [term]="service.searchTerm" />
+              </td>
+              
               
               <td>
                 <ul class="action">
@@ -102,10 +116,5 @@
     </div>
   </form>
 
-    <div class="add-task-btn-wrapper">
-        <span class="add-task-btn" >
-            <button class="btn btn-primary" (click)="redirect_add()">
-            <i class="icon-plus"></i> Ajouter une société</button>
-        </span>
-    </div>
+    
 </div>

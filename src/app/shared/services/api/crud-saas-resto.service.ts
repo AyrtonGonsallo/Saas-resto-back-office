@@ -278,5 +278,115 @@ export class CrudSaasRestoService {
     return this.http.get<any>(url);
   }
 
+  
+  ajouterCreneau(userData: any): Observable<any> {
+    return this.http.post<any>(`${environment.apiUrl}/ajouter_creneau`, userData);
+  }
+
+  getCreneaux(restaurantId:number | null): Observable<any[]> {
+    let url = `${environment.apiUrl}/get_all_creneaux`;
+    if (restaurantId) {
+      url += `?restaurant_id=${restaurantId}`;
+    }
+    return this.http.get<any[]>(url);
+  }
+
+  getCreneauById(id: number): Observable<any> {
+    const url = `${environment.apiUrl}/get_creneau_by_id/${id}`;
+    return this.http.get<any>(url);
+  }
+
+  deleteCreneau(id: number): Observable<any> {
+    const url = `${environment.apiUrl}/delete_creneau/${id}`;
+    return this.http.delete<any>(url);
+  }
+
+  updateCreneau(id: number, parametre: any): Observable<any> {
+    const url = `${environment.apiUrl}/update_creneau/${id}`;
+    return this.http.put<any>(url, parametre);
+  }
+
+  ajouterService(userData: any): Observable<any> {
+    return this.http.post<any>(`${environment.apiUrl}/ajouter_service`, userData);
+  }
+
+  getServices(restaurantId:number | null): Observable<any[]> {
+    let url = `${environment.apiUrl}/get_all_services`;
+    if (restaurantId) {
+      url += `?restaurant_id=${restaurantId}`;
+    }
+    return this.http.get<any[]>(url);
+  }
+
+  getServiceById(id: number): Observable<any> {
+    const url = `${environment.apiUrl}/get_service_by_id/${id}`;
+    return this.http.get<any>(url);
+  }
+
+  deleteService(id: number): Observable<any> {
+    const url = `${environment.apiUrl}/delete_service/${id}`;
+    return this.http.delete<any>(url);
+  }
+
+  updateService(id: number, parametre: any): Observable<any> {
+    const url = `${environment.apiUrl}/update_service/${id}`;
+    return this.http.put<any>(url, parametre);
+  }
+
+  ajouterTag(userData: any): Observable<any> {
+    return this.http.post<any>(`${environment.apiUrl}/ajouter_tag`, userData);
+  }
+
+  getTags(restaurantId:number | null): Observable<any[]> {
+    let url = `${environment.apiUrl}/get_all_tags`;
+    if (restaurantId) {
+      url += `?restaurant_id=${restaurantId}`;
+    }
+    return this.http.get<any[]>(url);
+  }
+
+  getTagById(id: number): Observable<any> {
+    const url = `${environment.apiUrl}/get_tag_by_id/${id}`;
+    return this.http.get<any>(url);
+  }
+
+  deleteTag(id: number): Observable<any> {
+    const url = `${environment.apiUrl}/delete_tag/${id}`;
+    return this.http.delete<any>(url);
+  }
+
+  updateTag(id: number, parametre: any): Observable<any> {
+    const url = `${environment.apiUrl}/update_tag/${id}`;
+    return this.http.put<any>(url, parametre);
+  }
+
+
+  ajouterReservation(userData: any): Observable<any> {
+    return this.http.post<any>(`${environment.apiUrl}/ajouter_reservation`, userData);
+  }
+
+  getReservations(restaurantId:number | null): Observable<any[]> {
+    let url = `${environment.apiUrl}/get_all_reservations`;
+    if (restaurantId) {
+      url += `?restaurant_id=${restaurantId}`;
+    }
+    return this.http.get<any[]>(url);
+  }
+
+  getReservationById(id: number): Observable<any> {
+    const url = `${environment.apiUrl}/get_reservation_by_id/${id}`;
+    return this.http.get<any>(url);
+  }
+
+  deleteReservation(id: number): Observable<any> {
+    const url = `${environment.apiUrl}/delete_reservation/${id}`;
+    return this.http.delete<any>(url);
+  }
+
+  updateReservation(id: number, parametre: any): Observable<any> {
+    const url = `${environment.apiUrl}/update_reservation/${id}`;
+    return this.http.put<any>(url, parametre);
+  }
+
 
 }

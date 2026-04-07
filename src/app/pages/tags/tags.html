@@ -39,12 +39,10 @@
           <thead>
             <tr>
               <th scope="col" sortable="id" (sort)="onSort($event)">ID</th>
-              <th scope="col" sortable="titre" (sort)="onSort($event)">Titre</th>
-              <th scope="col" sortable="status" (sort)="onSort($event)">Statut</th>
-              <th scope="col" sortable="gestionnaire.prenom" (sort)="onSort($event)">Gestionnaire</th>
-              <th scope="col" sortable="portefeuille.id" (sort)="onSort($event)">Portefeuille</th>
-              <th scope="col" sortable="abonnement.id" (sort)="onSort($event)">Abonnement</th>
-              
+              <th scope="col" sortable="titre" (sort)="onSort($event)">titre</th>
+              <th scope="col" sortable="description" (sort)="onSort($event)">Description</th>
+              <th scope="col" sortable="restaurant_id" (sort)="onSort($event)">Restaurant</th>
+              <th scope="col" sortable="societe_id" (sort)="onSort($event)">Société</th>
               
               <th scope="col">Action</th>
             </tr>
@@ -60,19 +58,16 @@
                 <ngb-highlight [result]="data.titre" [term]="service.searchTerm" />
               </td>
               <td>
-                <ngb-highlight [result]="data.status" [term]="service.searchTerm" />
+                <ngb-highlight [result]="data.description" [term]="service.searchTerm" />
+              </td>
+              
+              <td>
+                <ngb-highlight [result]="data.Restaurant.nom" [term]="service.searchTerm" />
               </td>
               <td>
-                <ngb-highlight [result]="data.gestionnaire.prenom+' '+data.gestionnaire.nom" [term]="service.searchTerm" />
+                <ngb-highlight [result]="data.Societe.titre" [term]="service.searchTerm" />
               </td>
-              <td>
-                <ngb-highlight [result]="get_texte_portefeuille(data.portefeuille)" [term]="service.searchTerm" />
-                <a style="cursor: pointer;" (click)="modifier_portefeuille(data.portefeuille?.id)"><i class="fa fa-pen font-primary ps-2" ></i></a>
-              </td>
-              <td>
-                <ngb-highlight [result]="get_texte_abonnement(data.abonnement)" [term]="service.searchTerm" />
-                <a style="cursor: pointer;" (click)="modifier_abonnement(data.abonnement?.id)"><i class="fa fa-pen font-primary ps-2" ></i></a>
-              </td>
+              
               
               <td>
                 <ul class="action">
@@ -105,7 +100,7 @@
     <div class="add-task-btn-wrapper">
         <span class="add-task-btn" >
             <button class="btn btn-primary" (click)="redirect_add()">
-            <i class="icon-plus"></i> Ajouter une société</button>
+            <i class="icon-plus"></i> Ajouter un tag</button>
         </span>
     </div>
 </div>

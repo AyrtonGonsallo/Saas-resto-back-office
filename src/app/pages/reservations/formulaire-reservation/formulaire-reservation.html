@@ -1,0 +1,269 @@
+<div class="container-fluid p-0">
+    <div class="row m-0">
+        <div class="col-12 p-0">
+            <div class="login-card login-dark" >
+                <div>
+                    <div>
+                        <a class="logo" [routerLink]="['/dashboard/default']">
+                            <img class="img-fluid for-light" src="assets/images/logo/logo.png" alt="looginpage">
+                            <img class="img-fluid for-dark m-auto" src="assets/images/logo/dark-logo.png" alt="logo">
+                        </a>
+                    </div>
+                    <div class="login-main" >
+                        <form class="theme-form" [formGroup]="formData">
+                            <h2 class="text-center">{{societeData?.titre}}</h2>
+                            <h3 class="text-center">Réserver une table</h3>
+                            <p class="text-center">Entrez les informations suivantes</p>
+
+
+                            <div class="card">
+                                
+                                <div class="card-body">
+                                    <div class="position-relative mx-3 my-4 progress-number">
+                                        
+
+                                        <div class="progress-wrapper">
+                                        <div class="progress">
+                                            <div class="progress-bar" [style.width.%]="progression"></div>
+                                        </div>
+
+                                        <div class="steps">
+                                            <button [ngClass]="stepClass(1)">Infos générales</button>
+                                            <button [ngClass]="stepClass(2)">Restaurant</button>
+                                            <button [ngClass]="stepClass(3)">Réservation</button>
+                                            <button [ngClass]="stepClass(4)">Paiement</button>
+                                            <button [ngClass]="stepClass(5)">Récap</button>
+                                        </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card">
+                                
+                                <div class="card-body">
+                                    <div *ngIf="current_step==1">
+                                        <h4 class="card-title mb-0">Infos générales</h4>
+                                        <div class="col-sm-12 col-md-12">
+                                            <div class="mb-3">
+                                            <label class="form-label">Nom <span class="text-danger">*</span></label>
+                                            <input class="form-control" type="text" formControlName="nom" placeholder="Nom">
+                                            <div *ngIf="formData.get('nom')?.touched && formData.get('nom')?.invalid" class="text-danger">
+                                                Le nom est invalide
+                                            </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-12 col-md-12">
+                                            <div class="mb-3">
+                                            <label class="form-label">Prénom <span class="text-danger">*</span></label>
+                                            <input class="form-control" type="text" formControlName="prenom" placeholder="Prénom">
+                                            <div *ngIf="formData.get('prenom')?.touched && formData.get('prenom')?.invalid" class="text-danger">
+                                                Le prénom est invalide
+                                            </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-12 col-md-12">
+                                            <div class="mb-3">
+                                            <label class="form-label">Adresse email <span class="text-danger">*</span></label>
+                                            <input class="form-control" type="email" formControlName="email" placeholder="Email">
+                                            <div *ngIf="formData.get('email')?.touched && formData.get('email')?.invalid" class="text-danger">
+                                                L'adresse email est invalide
+                                            </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12">
+                                            <div class="mb-3">
+                                            <label class="form-label">Téléphone</label>
+                                            <input class="form-control" type="text" formControlName="telephone" placeholder="Téléphone">
+                                            <div *ngIf="formData.get('telephone')?.touched && formData.get('telephone')?.invalid" class="text-danger">
+                                                Le téléphone est invalide
+                                            </div>
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+                                    <div *ngIf="current_step==2">
+                                        
+                                        <h4 class="card-title mb-0">Restaurant</h4>
+                                        <div class="col-sm-12 col-md-12">
+                                            <div class="mb-3">
+                                            <label class="form-label">Restaurant <span class="text-danger">*</span></label>
+                                            <ng-select [items]="restaurants" bindLabel="nom" bindValue="id" [multiple]="false" placeholder="choisir un restaurant"
+                                                formControlName="restaurant_id" />
+                                            <div *ngIf="formData.get('restaurant_id')?.touched && formData.get('restaurant_id')?.invalid" class="text-danger">
+                                                Le restaurant est requis
+                                            </div>
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+                                    <div *ngIf="current_step==3">
+                                        <h4 class="card-title mb-0">Réservation</h4>
+                                        <div class="date-picker">
+                                            <div class="mb-3 row g-3">
+                                                
+                                                <!-- DATE -->
+                                                <label class="col-sm-3 col-form-label text-sm-start">
+                                                    Date de réservation <span class="text-danger">*</span>
+                                                </label>
+                                                <div class="col-xl-9 col-sm-9">
+                                                    <div class="input-group">
+                                                        <input
+                                                        class="form-control digits"
+                                                        placeholder="yyyy-mm-dd"
+                                                        formControlName="date_reservation"
+                                                        ngbDatepicker
+                                                        #d="ngbDatepicker"
+                                                        (click)="d.toggle()"
+                                                        />
+                                                    </div>
+                                                    <div *ngIf="formData.get('date_reservation')?.touched && formData.get('date_reservation')?.invalid" class="text-danger">
+                                                        La date est invalide
+                                                    </div>
+                                                </div>
+
+                                                <!-- TIME -->
+                                                <label class="col-sm-3 col-form-label text-sm-start">
+                                                    Heure <span class="text-danger">*</span>
+                                                </label>
+                                                <div class="col-xl-9 col-sm-9">
+                                                    <ngb-timepicker
+                                                        formControlName="heure_reservation"
+                                                        [spinners]="true"
+                                                        [seconds]="false"
+                                                    ></ngb-timepicker>
+                                                    <div *ngIf="formData.get('heure_reservation')?.touched && formData.get('heure_reservation')?.invalid" class="text-danger">
+                                                        L'heure est invalide
+                                                    </div>
+                                                </div>
+                                                
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12 col-md-12">
+                                            <div class="mb-3">
+                                                <label class="form-label">Service <span class="text-danger">*</span></label>
+                                                <ng-select [items]="services" bindLabel="type" bindValue="id" [multiple]="false" placeholder="choisir un service"
+                                                    formControlName="service_id" />
+                                                <div *ngIf="formData.get('service_id')?.touched && formData.get('service_id')?.invalid" class="text-danger">
+                                                    Le service est requis
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12 col-md-12">
+                                            <div class="mb-3">
+                                                <label class="form-label">Créneau <span class="text-danger">*</span></label>
+                                                <ng-select [items]="crenaux" bindLabel="fullName" bindValue="id" [multiple]="false" placeholder="choisir un créneau"
+                                                    formControlName="creneau_id" />
+                                                <div *ngIf="formData.get('creneau_id')?.touched && formData.get('creneau_id')?.invalid" class="text-danger">
+                                                    Le créneau est requis
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12 col-md-12">
+                                            <div class="mb-3">
+                                                <label class="form-label">Table <span class="text-danger">*</span></label>
+                                                <ng-select [items]="tables" bindLabel="fullName" bindValue="id" [multiple]="false" placeholder="choisir une table"
+                                                    formControlName="table_id" />
+                                                <div *ngIf="formData.get('table_id')?.touched && formData.get('table_id')?.invalid" class="text-danger">
+                                                    La table est requise
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-12 col-md-12">
+                                            <div class="mb-3">
+                                                <label class="form-label">Tags </label>
+                                                <ng-select [items]="tags" bindLabel="titre" bindValue="id" [multiple]="true" placeholder="choisir des tags"
+                                                    formControlName="tags" />
+                                                <div *ngIf="formData.get('tags')?.touched && formData.get('tags')?.invalid" class="text-danger">
+                                                    Les tags sont requis
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="col-md-12">
+                                            <div class="mb-3">
+                                                <label class="form-label">Nombre de personnes</label>
+                                                <input class="form-control" type="number" formControlName="nombre_de_personnes" placeholder="nombre de personnes">
+                                                <div *ngIf="formData.get('nombre_de_personnes')?.touched && formData.get('nombre_de_personnes')?.invalid" class="text-danger">
+                                                    Le nombre de personnes est invalide
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="mb-3">
+                                                <label class="form-label">Nombre de couverts</label>
+                                                <input class="form-control" type="number" formControlName="nb_couverts" placeholder="nombre de couverts">
+                                                <div *ngIf="formData.get('nb_couverts')?.touched && formData.get('nb_couverts')?.invalid" class="text-danger">
+                                                    Le nombre de couverts est invalide
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12 col-md-12">
+                                            <div class="mb-3">
+                                                <label class="form-label">Notes</label>
+                                                <angular-editor [placeholder]="'Vos notes...'" formControlName="notes"  />
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-12 col-md-12">
+                                            <div class="mb-3">
+                                                <label class="form-label">Demandes spéciales</label>
+                                                <angular-editor [placeholder]="'Vos demandes...'" formControlName="demandes_speciales"  />
+                                            </div>
+                                        </div>
+                                        
+                                        
+                                    </div>
+                                    <div *ngIf="current_step==4">
+                                        <h4 class="card-title mb-0">Paiement</h4>
+                                        
+                                    </div>
+                                    <div *ngIf="current_step==5">
+                                        <h4 class="card-title mb-0">Récapitulatif</h4>
+                                        <div *ngIf="final_reservation">
+                                            
+                                            <h5>Votre réservation a bien été enregistrée</h5>
+                                            ID : {{final_reservation.id}}<br>
+                                            Date de la réservation:{{final_reservation.date_reservation |  date:'dd/MM/yyyy HH:mm' }}<br>
+                                            Nombre de personnes : {{final_reservation.nombre_de_personnes}}<br>
+                                            Nombre de couverts : {{final_reservation.nb_couverts}}<br>
+                                            Note : {{final_reservation.notes}}<br>
+                                            Demandes spéciales : {{final_reservation.demandes_speciales}}<br>
+                                            Client : {{final_reservation.client.prenom}} {{final_reservation.client.nom}}<br>
+                                            Table : {{final_reservation.table.numero}}<br>
+                                            Créneau : {{final_reservation.creneau.heure_debut}} - {{final_reservation.creneau.heure_fin}}<br>
+                                            Service : {{final_reservation.service.type}}<br>
+                                            Tags : 
+                                            <span *ngFor="let tag of final_reservation.tags; let i = index">
+                                            {{ tag.titre }}<span *ngIf="i < final_reservation.tags.length - 1">, </span>
+                                            </span><br>
+
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                            <div class="row">
+                                <div class="col-sm-3 col-md-3 col-12">
+                                    <a class="btn btn-primary btn-block w-100 text-white" (click)="prec()">{{button_prec_text}}</a>
+                                </div>
+                                <div class="col-sm-3 col-md-3 col-12">
+                                    <a class="btn btn-primary btn-block w-100 text-white" (click)="next()">{{button_suiv_text}}</a>
+                                </div>
+                            </div>
+                                
+                            
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

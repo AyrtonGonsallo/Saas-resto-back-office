@@ -392,4 +392,44 @@ export const dashData: Routes = [
     canActivate: [RoleGuard],
     loadChildren: () => import('../../pages/abonnements/abonnements.routes').then(r => r.AbonnementsRoutes),
   },
+  {
+    path: 'creneaux',
+    data: {
+      title: 'Créneaux',
+      breadcrumb: 'Créneaux',
+     roles: ['super-admin',]
+    },
+    canActivate: [RoleGuard],
+    loadChildren: () => import('../../pages/creneaux/creneaux.routes').then(r => r.CreneauxRoutes),
+  },
+  {
+    path: 'services',
+    data: {
+      title: 'Services',
+      breadcrumb: 'Services',
+      roles: ['super-admin','gestionnaire-societe','admin','gestionnaire-restaurant','lecteur-planning','lecteur-cuisine','employé',]
+    },
+    canActivate: [RoleGuard],
+    loadChildren: () => import('../../pages/services/services.routes').then(r => r.ServicesRoutes),
+  },
+  {
+    path: 'tags',
+    data: {
+      title: 'Tags',
+      breadcrumb: 'Tags',
+      roles: ['super-admin','gestionnaire-societe','admin','gestionnaire-restaurant','lecteur-planning','lecteur-cuisine','employé',]
+    },
+    canActivate: [RoleGuard],
+    loadChildren: () => import('../../pages/tags/tags.routes').then(r => r.TagsRoutes),
+  },
+  {
+    path: 'reservations',
+    data: {
+      title: 'Réservations',
+      breadcrumb: 'Réservations',
+      roles: ['super-admin','gestionnaire-societe','admin','gestionnaire-restaurant','lecteur-planning','lecteur-cuisine','employé',]
+    },
+    canActivate: [RoleGuard],
+    loadChildren: () => import('../../pages/reservations/reservations.routes').then(r => r.ReservationsRoutes),
+  },
 ];
