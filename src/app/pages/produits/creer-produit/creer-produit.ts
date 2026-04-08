@@ -164,12 +164,37 @@ categories_produits: any[] = [];
   ];
 
   selectedFile: File | null = null;
+    previewUrl : any = null;
+    previewNewimageUrl: any = null;
+  maxSize = 2 * 1024 * 1024;
 
   onFileSelected(event: any) {
     
     this.selectedFile = event.target.files[0];
+    let filesize = this.selectedFile?.size??0
+    if (filesize > this.maxSize) {
+      alert('Fichier trop volumineux (max 2MB)');
+      return;
+    }
     console.log("upload",this.selectedFile)
+    if (this.selectedFile) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.previewUrl = reader.result as string;
+      };
+      reader.readAsDataURL(this.selectedFile);
+    }
   }
+  isZoomed = false;
+
+  openZoom() {
+    this.isZoomed = true;
+  }
+
+  closeZoom() {
+    this.isZoomed = false;
+  }
+
 
   
   restaurants:any[]

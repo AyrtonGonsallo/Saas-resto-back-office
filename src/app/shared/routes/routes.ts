@@ -397,7 +397,7 @@ export const dashData: Routes = [
     data: {
       title: 'Créneaux',
       breadcrumb: 'Créneaux',
-     roles: ['super-admin',]
+     roles: ['super-admin','gestionnaire-societe','admin','gestionnaire-restaurant',]
     },
     canActivate: [RoleGuard],
     loadChildren: () => import('../../pages/creneaux/creneaux.routes').then(r => r.CreneauxRoutes),

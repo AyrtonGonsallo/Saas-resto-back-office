@@ -39,9 +39,9 @@
           <thead>
             <tr>
               <th scope="col" sortable="id" (sort)="onSort($event)">ID</th>
-              <th scope="col" sortable="heure_debut" (sort)="onSort($event)">heure de début</th>
-              <th scope="col" sortable="heure_fin" (sort)="onSort($event)">heure de fin</th>
-              <th scope="col" sortable="nb_reservations_actuel" (sort)="onSort($event)">Nombre de réservations actuel</th>
+              <th scope="col" sortable="heure_debut" (sort)="onSort($event)">Heure de début</th>
+              <th scope="col" sortable="heure_fin" (sort)="onSort($event)">Heure de fin</th>
+              <th scope="col" sortable="statut" (sort)="onSort($event)">Statut</th>
               <th scope="col" sortable="nb_reservations_max" (sort)="onSort($event)">Nombre max de réservations</th>
               <th scope="col" sortable="restaurant_id" (sort)="onSort($event)">Restaurant</th>
               <th scope="col" sortable="societe_id" (sort)="onSort($event)">Société</th>
@@ -63,7 +63,7 @@
                 <ngb-highlight [result]="data.heure_fin" [term]="service.searchTerm" />
               </td>
               <td>
-                <ngb-highlight [result]="data.nb_reservations_actuel" [term]="service.searchTerm" />
+                <ngb-highlight [result]="data.statut" [term]="service.searchTerm" />
               </td>
               <td>
                 <ngb-highlight [result]="data.nb_reservations_max" [term]="service.searchTerm" />

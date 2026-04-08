@@ -1,1 +1,80 @@
-<p>modifier-creneau works!</p>
+<form class="card" [formGroup]="formData" (ngSubmit)="onSubmit()">
+    <div class="card-header">
+        <h4 class="card-title mb-0">Modifier un créneau</h4>
+    </div>
+
+    <div class="card-body">
+        <div class="row">
+            <div class="col-sm-6 col-md-6">
+                <label class="form-label">Heure début <span class="text-danger">*</span></label>
+                <ng-select [items]="heures_deb" bindLabel="label" bindValue="label" [multiple]="false"
+                    placeholder="choisir une heure" formControlName="heure_debut"  />
+                    <div *ngIf="formData.get('heure_debut')?.touched && formData.get('heure_debut')?.invalid" class="text-danger">
+                    L'heure est invalide
+                </div>
+            </div>
+            <div class="col-sm-6 col-md-6">
+                <label class="form-label">heure fin <span class="text-danger">*</span></label>
+                <ng-select [items]="heures_fin" bindLabel="label" bindValue="label" [multiple]="false"
+                    placeholder="choisir une heure" formControlName="heure_fin"  />
+                    <div *ngIf="formData.get('heure_fin')?.touched && formData.get('heure_fin')?.invalid" class="text-danger">
+                    L'heure est invalide
+                </div>
+            </div>
+          
+
+            <!-- TEXTE -->
+            <div  class="col-md-12">
+                <div class="mb-3">
+                    <label class="form-label">nombre de réservations maximal <span class="text-danger">*</span></label>
+                    <input class="form-control" type="number" formControlName="nb_reservations_max" placeholder="nombre de réservations maximal">
+
+                    <div *ngIf="formData.get('nb_reservations_max')?.touched && formData.get('nb_reservations_max')?.invalid" class="text-danger">
+                    Le nombre de réservations maximal est invalide
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-12 col-md-12">
+                <div class="mb-3">
+                <label class="form-label">Statut <span class="text-danger">*</span></label>
+                <ng-select [items]="statuts" bindLabel="key" bindValue="key" [multiple]="false" placeholder="Statut"
+                    formControlName="statut" />
+                <div *ngIf="formData.get('statut')?.touched && formData.get('statut')?.invalid" class="text-danger">
+                    Le statut est requis
+                </div>
+                </div>
+            </div>
+
+            
+
+             <div class="col-sm-12 col-md-12">
+                <label class="form-label">Société <span class="text-danger">*</span></label>
+            
+                <ng-select [items]="societes" bindLabel="titre" bindValue="id" [multiple]="false"
+                    placeholder="choisir une société" formControlName="societe_id"  />
+                    <div *ngIf="formData.get('societe_id')?.touched && formData.get('societe_id')?.invalid" class="text-danger">
+                    La sociéte est invalide
+                </div>
+            </div>
+            
+             <div class="col-sm-12 col-md-12">
+                <label class="form-label">Restaurant <span class="text-danger">*</span></label>
+            
+                <ng-select [items]="restaurants" bindLabel="nom" bindValue="id" [multiple]="false"
+                    placeholder="choisir un restaurant" formControlName="restaurant_id"  />
+                    <div *ngIf="formData.get('restaurant_id')?.touched && formData.get('restaurant_id')?.invalid" class="text-danger">
+                    Le restaurant est invalide
+                </div>
+            </div>
+            
+
+            
+
+        </div>
+    </div>
+
+    <div class="card-footer text-end">
+        <button class="btn btn-primary" type="submit">Modifier</button>
+    </div>
+</form>

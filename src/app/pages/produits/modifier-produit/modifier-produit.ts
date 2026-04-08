@@ -21,6 +21,7 @@ import { RestaurantService } from '../../../shared/services/user/user.service';
 })
 export class ModifierProduit {
   public imagesUrl = environment.imagesUrl
+  previewNewimageUrl: any = null;
   private router = inject(Router);
   data_id=0
   
@@ -165,14 +166,35 @@ export class ModifierProduit {
     { key: 'indisponible', name: 'Indisponible' },
   ];
 
+  previewUrl : any = null;
   selectedFile: File | null = null;
-
+  maxSize = 2 * 1024 * 1024;
   onFileSelected(event: any) {
     
     this.selectedFile = event.target.files[0];
+    let filesize = this.selectedFile?.size??0
+    if (filesize > this.maxSize) {
+      alert('Fichier trop volumineux (max 2MB)');
+      return;
+    }
     console.log("upload",this.selectedFile)
+    if (this.selectedFile) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.previewUrl = reader.result as string;
+      };
+      reader.readAsDataURL(this.selectedFile);
+    }
+  }
+  isZoomed = false;
+
+  openZoom() {
+    this.isZoomed = true;
   }
 
+  closeZoom() {
+    this.isZoomed = false;
+  }
 
   
    data:any
@@ -184,7 +206,7 @@ export class ModifierProduit {
       next: (res) => {
         this.data=res
         console.log("this.data",this.data)
-
+        this.previewUrl = this.imagesUrl+this.data?.image
         
         this.categories_produits = this.allCategories.filter(cat =>
           cat.restaurant_id === this.data.restaurant_id

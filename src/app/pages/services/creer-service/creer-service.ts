@@ -131,11 +131,11 @@ export class CreerService {
       });
     }
 
-     types = [
-    { key: 'Midi', },
-    { key: 'Soir',  },
-    { key: 'Évenement', },
-  ];
+    types = [
+      { key: 'Midi', },
+      { key: 'Soir',  },
+      { key: 'Évenement', },
+    ];
  
 
     

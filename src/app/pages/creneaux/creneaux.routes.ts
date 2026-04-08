@@ -11,7 +11,7 @@ export const CreneauxRoutes : Routes = [
         data: {
           title: 'Créer un créneau',
           breadcrumb: 'Créer un créneau',
-          parentpath: 'creneaus/liste-creneaus'
+          parentpath: 'creneaus/liste-creneaux'
         },
       },
       {

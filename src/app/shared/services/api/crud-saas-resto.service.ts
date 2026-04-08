@@ -107,6 +107,14 @@ export class CrudSaasRestoService {
     return this.http.get<any[]>(url);
   }
 
+  getRestaurantsWithParametres(restaurantId:number | null): Observable<any[]> {
+    let url = `${environment.apiUrl}/get_all_restaurants_with_parametres`;
+    if (restaurantId) {
+      url += `?restaurant_id=${restaurantId}`;
+    }
+    return this.http.get<any[]>(url);
+  }
+
   getRestaurantById(id: number): Observable<any> {
   const url = `${environment.apiUrl}/get_restaurant_by_id/${id}`;
   return this.http.get<any>(url);
@@ -247,6 +255,17 @@ export class CrudSaasRestoService {
     const url = `${environment.apiUrl}/get_parametre_by_id/${id}`;
     return this.http.get<any>(url);
   }
+
+  getParametreByTypeAndRestaurant(type:string,restaurant_id: number): Observable<any> {
+    const url = `${environment.apiUrl}/get_parametre_by_type_and_restaurant/${type}/${restaurant_id}`;
+    return this.http.get<any>(url);
+  }
+
+  recreateParametresRestaurant(resto_id: number): Observable<any> {
+    const url = `${environment.apiUrl}/recreate_parametres_restaurant/${resto_id}`;
+    return this.http.get<any>(url);
+  }
+
 
   deleteParametre(id: number): Observable<any> {
     const url = `${environment.apiUrl}/delete_parametre/${id}`;

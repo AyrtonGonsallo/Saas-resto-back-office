@@ -1,9 +1,192 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { CrudSaasRestoService } from '../../../shared/services/api/crud-saas-resto.service';
+import { NotificationsService } from '../../../shared/services/notifications/notifications.service';
+import { CommonModule } from '@angular/common';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { ActivatedRoute, Router, } from '@angular/router';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import Swal from 'sweetalert2';
+import { AuthSaasRestoService } from '../../../shared/services/auth/auth-saas-resto.service';
+import { AngularEditorModule } from '@kolkov/angular-editor';
+import { RestaurantService } from '../../../shared/services/user/user.service';
+
+
 
 @Component({
   selector: 'app-modifier-creneau',
-  imports: [],
+  imports: [ReactiveFormsModule,CommonModule, ReactiveFormsModule, NgSelectModule, NgbModule,AngularEditorModule,],
   templateUrl: './modifier-creneau.html',
   styleUrl: './modifier-creneau.scss',
 })
-export class ModifierCreneau {}
+export class ModifierCreneau {
+  private router = inject(Router);
+  restaurant_id:number|null
+  formData!: FormGroup;
+  user:any
+    data_id=0
+  constructor(private route: ActivatedRoute,private authSerivce:AuthSaasRestoService, private restaurantService:RestaurantService,private fb: FormBuilder, private crudSaasService:CrudSaasRestoService, private notificationsService:NotificationsService,) {}
+
+  ngOnInit(): void {
+
+    this.restaurant_id = this.restaurantService.getRestaurant()
+    console.log('this.restaurant_id',this.restaurant_id)
+    this.get_all_restaurants()
+
+    this.get_all_societes()
+
+    this.data_id = parseInt(this.route.snapshot.paramMap.get('id')??'');
+
+    this.user = this.authSerivce.getUser();
+    console.log('user recuperé',this.user )
+
+    this.load_data(this.data_id )
+   
+    this.formData = this.fb.group({
+      heure_debut: ['', [Validators.required, ]],
+      heure_fin: ['', [Validators.required, ]],
+      nb_reservations_max: ['', Validators.required],
+      statut: ['disponible', Validators.required],
+      societe_id: [this.user.datas.societe_id, Validators.required],
+      restaurant_id: [this.restaurant_id, Validators.required],
+      utilisateur_id: [this.user.datas.id, Validators.required],
+    });
+
+   
+    this.formData.get('societe_id')?.valueChanges.subscribe((societeID) => {
+
+      console.log("société choisi:", societeID);
+
+      if (!societeID) {
+        this.restaurants = this.allRestaurants;
+      } else {
+        this.restaurants = this.allRestaurants.filter(cat =>
+          cat.societe_id === societeID
+        );
+      }
+
+      // 🔥 reset catégorie sélectionnée
+      this.formData.patchValue({ restaurant_id: null });
+
+    });
+
+  }
+
+
+   statuts = [
+    { key: 'disponible', },
+    { key: 'bloqué', },
+  ];
+
+  onSubmit() {
+    
+    if (this.formData.invalid) {
+      this.notificationsService.error("Formulaire invalide","Echec")
+      this.formData.markAllAsTouched();
+      return;
+    }
+   
+    console.log(this.formData.value);
+   
+    this.crudSaasService.updateCreneau(this.data_id,this.formData.value).subscribe({
+      next: (res) => {
+        Swal.fire({
+              position: 'bottom-end',
+              icon: 'success',
+              title: 'L\'élément a bien été modifié',
+              showConfirmButton: false,
+            });
+        setTimeout(() => {
+          this.router.navigate(['/creneaux/liste-creneaux']);
+        }, 2000);
+      },
+      error: (err) => {
+        this.notificationsService.error("Erreur lors de la modification","Echec")
+      }
+    });
+
+
+    // appel API ici
+  }
+
+ 
+
+
+  restaurants:any[]
+  allRestaurants:any[]
+   societes:any[]
+
+  get_all_restaurants(){
+
+    
+      this.crudSaasService.getRestaurants(this.restaurant_id).subscribe({
+        next: (res) => {
+          this.restaurants=res
+          this.allRestaurants=res
+          console.log("getRestaurants",this.restaurants)
+        },
+        error: (err) => {
+          this.notificationsService.error("Erreur lors de la récupération des restaurants","Echec")
+        }
+      });
+  }
+
+   get_all_societes(){
+      this.crudSaasService.getSocietes().subscribe({
+        next: (res) => {
+          this.societes=res
+          console.log("getSocietes",this.societes)
+        },
+        error: (err) => {
+          this.notificationsService.error("Erreur lors de la récupération des sociétés","Echec")
+        }
+      });
+    }
+
+    heures_deb = this.get_heures()
+
+    heures_fin = this.get_heures()
+
+     get_heures(){
+      let res= Array.from({ length: 24 }, (_, i) => {
+        const heure = i.toString().padStart(2, '0') + ':00';
+        return {
+          position: i + 1,
+          label: heure
+        };
+      });
+      return res
+    }
+
+    
+  
+   data:any
+
+
+  load_data(id:number){
+
+    this.crudSaasService.getCreneauById(id).subscribe({
+      next: (res) => {
+        this.data=res
+        console.log("this.data",this.data)
+
+        this.formData = this.fb.group({
+          heure_debut: [this.data.heure_debut, [Validators.required, ]],
+          heure_fin: [this.data.heure_fin, [Validators.required, ]],
+          nb_reservations_max: [this.data.nb_reservations_max, Validators.required],
+          statut: [this.data.statut, Validators.required],
+          societe_id: [this.data.societe_id, Validators.required],
+          restaurant_id: [this.data.restaurant_id, Validators.required],
+          utilisateur_id: [this.data.utilisateur_id, Validators.required],
+        });
+        
+      },
+      error: (err) => {
+        this.notificationsService.error("Erreur lors de la récupération","Echec")
+      }
+    });
+
+  }
+
+
+}

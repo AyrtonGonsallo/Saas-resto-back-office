@@ -1,1 +1,148 @@
-<p>modifier-reservation works!</p>
+<form class="card" [formGroup]="formData" (ngSubmit)="onSubmit()">
+    <div class="card-header">
+        <h4 class="card-title mb-0">Modifier une réservation</h4>
+        
+    </div>
+
+    <div class="card-body">
+        
+        <div class="row">
+           
+            
+           
+
+            <div class="date-picker">
+                <div class="mb-3 row g-3">
+                    
+                    <!-- DATE -->
+                    <label class="col-sm-3 col-form-label text-sm-start">
+                        Date de réservation <span class="text-danger">*</span>
+                    </label>
+                    <div class="col-xl-9 col-sm-9">
+                        <div class="input-group">
+                            <input
+                            class="form-control digits"
+                            placeholder="yyyy-mm-dd"
+                            formControlName="date_reservation"
+                            ngbDatepicker
+                            #d="ngbDatepicker"
+                            (click)="d.toggle()"
+                            />
+                        </div>
+                        <div *ngIf="formData.get('date_reservation')?.touched && formData.get('date_reservation')?.invalid" class="text-danger">
+                            La date est invalide
+                        </div>
+                    </div>
+
+                    <!-- TIME -->
+                    <label class="col-sm-3 col-form-label text-sm-start">
+                        Heure <span class="text-danger">*</span>
+                    </label>
+                    <div class="col-xl-9 col-sm-9">
+                        <ngb-timepicker
+                            formControlName="heure_reservation"
+                            [spinners]="true"
+                            [seconds]="false"
+                        ></ngb-timepicker>
+                        <div *ngIf="formData.get('heure_reservation')?.touched && formData.get('heure_reservation')?.invalid" class="text-danger">
+                            L'heure est invalide
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-12">
+                <div class="mb-3">
+                    <label class="form-label">Service <span class="text-danger">*</span></label>
+                    <ng-select [items]="services" bindLabel="type" bindValue="id" [multiple]="false" placeholder="choisir un service"
+                        formControlName="service_id" />
+                    <div *ngIf="formData.get('service_id')?.touched && formData.get('service_id')?.invalid" class="text-danger">
+                        Le service est requis
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-12">
+                <div class="mb-3">
+                    <label class="form-label">Créneau <span class="text-danger">*</span></label>
+                    <ng-select [items]="crenaux" bindLabel="fullName" bindValue="id" [multiple]="false" placeholder="choisir un créneau"
+                        formControlName="creneau_id" />
+                    <div *ngIf="formData.get('creneau_id')?.touched && formData.get('creneau_id')?.invalid" class="text-danger">
+                        Le créneau est requis
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-12">
+                <div class="mb-3">
+                    <label class="form-label">Table <span class="text-danger">*</span></label>
+                    <ng-select [items]="tables" bindLabel="fullName" bindValue="id" [multiple]="false" placeholder="choisir une table"
+                        formControlName="table_id" />
+                    <div *ngIf="formData.get('table_id')?.touched && formData.get('table_id')?.invalid" class="text-danger">
+                        La table est requise
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-12 col-md-12">
+                <div class="mb-3">
+                    <label class="form-label">Tags </label>
+                    <ng-select [items]="tags" bindLabel="titre" bindValue="id" [multiple]="true" placeholder="choisir des tags"
+                        formControlName="tags" />
+                    <div *ngIf="formData.get('tags')?.touched && formData.get('tags')?.invalid" class="text-danger">
+                        Les tags sont requis
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-12">
+                <div class="mb-3">
+                    <label class="form-label">Nombre de personnes</label>
+                    <input class="form-control" type="number" formControlName="nombre_de_personnes" placeholder="nombre de personnes">
+                    <div *ngIf="formData.get('nombre_de_personnes')?.touched && formData.get('nombre_de_personnes')?.invalid" class="text-danger">
+                        Le nombre de personnes est invalide
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="mb-3">
+                    <label class="form-label">Nombre de couverts</label>
+                    <input class="form-control" type="number" formControlName="nb_couverts" placeholder="nombre de couverts">
+                    <div *ngIf="formData.get('nb_couverts')?.touched && formData.get('nb_couverts')?.invalid" class="text-danger">
+                        Le nombre de couverts est invalide
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-12">
+                <div class="mb-3">
+                    <label class="form-label">Notes</label>
+                    <angular-editor [placeholder]="'Vos notes...'" formControlName="notes"  />
+                </div>
+            </div>
+
+            <div class="col-sm-12 col-md-12">
+                <div class="mb-3">
+                    <label class="form-label">Demandes spéciales</label>
+                    <angular-editor [placeholder]="'Vos demandes...'" formControlName="demandes_speciales"  />
+                </div>
+            </div>
+
+
+            <div class="col-sm-12 col-md-12">
+                <label class="form-label">Statut <span class="text-danger">*</span></label>
+            
+                <ng-select [items]="statuts" bindLabel="key" bindValue="key" [multiple]="false"
+                    placeholder="choisir un statut" formControlName="statut"  />
+                    
+                    <div *ngIf="formData.get('statut')?.touched && formData.get('statut')?.invalid" class="text-danger">
+                    Le statut est invalide
+                </div>
+            </div>
+            
+
+        </div>
+    </div>
+
+    <div class="card-footer text-end">
+        <button class="btn btn-primary" type="submit">Modifier</button>
+    </div>
+</form>
+

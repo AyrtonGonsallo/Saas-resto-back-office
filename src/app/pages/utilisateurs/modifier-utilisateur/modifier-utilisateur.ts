@@ -8,6 +8,7 @@ import { ActivatedRoute, Router, } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { RestaurantService } from '../../../shared/services/user/user.service';
+import { AuthSaasRestoService } from '../../../shared/services/auth/auth-saas-resto.service';
 
 @Component({
   selector: 'app-modifier-utilisateur',
@@ -19,9 +20,12 @@ export class ModifierUtilisateur {
   private router = inject(Router);
   formData!: FormGroup;
    data_id=0
-  constructor(private route: ActivatedRoute, private restaurantService: RestaurantService, private fb: FormBuilder, private crudSaasService:CrudSaasRestoService, private notificationsService:NotificationsService,) {}
+   user:any
+  constructor(private authSerivce:AuthSaasRestoService,private route: ActivatedRoute, private restaurantService: RestaurantService, private fb: FormBuilder, private crudSaasService:CrudSaasRestoService, private notificationsService:NotificationsService,) {}
 
   ngOnInit(): void {
+
+     this.user = this.authSerivce.getUser();
 
     this.data_id = parseInt(this.route.snapshot.paramMap.get('id')??'');
 
@@ -44,6 +48,26 @@ export class ModifierUtilisateur {
     this.load_data(this.data_id)
   }
 
+
+  verifier_roles_et_societes(user:any,currentUser:any){
+    console.log('user',user)
+    console.log('currentUser',currentUser)
+    let prioriteRoleUser = user.datas.Role.priorite
+    let prioriteCurrentRoleUser = currentUser.Role.priorite
+    let societeUser = user.datas.societe_id
+    let societeCurrentUser = currentUser.societe_id
+    if(prioriteRoleUser>prioriteCurrentRoleUser){
+      console.log(prioriteRoleUser,prioriteCurrentRoleUser)
+      this.notificationsService.error("Vous avez un rôle inférieur","Echec")
+      this.router.navigate(['/dashboard/default']);
+    }
+    if(societeUser!=societeCurrentUser){
+      console.log(societeUser,societeCurrentUser)
+      this.notificationsService.error("Vous ne faites pas parti de la même société","Echec")
+      this.router.navigate(['/dashboard/default']);
+    }
+
+  }
 
 
   onSubmit() {
@@ -123,6 +147,7 @@ export class ModifierUtilisateur {
           console.log("roles",this.roles)
         },
         error: (err) => {
+          console.log(err.error)
           this.notificationsService.error("Erreur lors de la récupération des rôles","Echec")
         }
       });
@@ -138,7 +163,7 @@ export class ModifierUtilisateur {
       this.crudSaasService.getUtilisateurById(id).subscribe({
       next: (res) => {
         this.data=res
-        console.log('datas',this.data)
+        this.verifier_roles_et_societes(this.user,this.data)
 
         this.formData = this.fb.group({
           nom: [this.data.nom, Validators.required],

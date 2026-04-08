@@ -14,13 +14,15 @@ import { CrudSaasRestoService } from '../../shared/services/api/crud-saas-resto.
 import { NotificationsService } from '../../shared/services/notifications/notifications.service';
 import { environment } from '../../environment';
 import { RestaurantService } from '../../shared/services/user/user.service';
+import { StripHtmlPipe } from '../../shared/pipes/strip-html.pipe';
+import { CleanTextPipe } from '../../shared/pipes/clean-text.pipe';
 
 @Component({
   selector: 'app-tags',
   imports: [FormsModule,
     NgbdSortableHeaderDirective,
     ReactiveFormsModule,CommonModule,
-    NgbModule,
+    NgbModule,CleanTextPipe,
     AsyncPipe,],
   templateUrl: './tags.html',
   styleUrl: './tags.scss',
@@ -85,40 +87,39 @@ export class Tags {
   }
 
   supprimer_data(id:number){
+    Swal.fire({
+      title: 'Voulez-vous vraiment supprimer cet élément?',
+      text: "Cette action est irreversible!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Oui, supprimer!',
+      cancelButtonText: 'annuler',
+    }).then(result => {
+      if (result.isConfirmed) {
 
-    
-        Swal.fire({
-          title: 'Voulez-vous vraiment supprimer cet élément?',
-          text: "Cette action est irreversible!",
-          icon: 'warning',
-          showCancelButton: true,
-          confirmButtonColor: '#3085d6',
-          cancelButtonColor: '#d33',
-          confirmButtonText: 'Oui, supprimer!',
-          cancelButtonText: 'annuler',
-        }).then(result => {
-          if (result.isConfirmed) {
-
-            this.crudSaasService.deleteTag(id).subscribe({
-              next: (res) => {
-                console.log("res supp",res)
-                //this.notificationsService.success("Rôle supprimé !","Succès")
-                this.get_all_datas()
-              },
-              error: (err) => {
-                this.notificationsService.error("Erreur lors de la suppression de l'élément","Echec")
-              }
-            });
-
-            Swal.fire({
-              title: 'Suppression faite!',
-              text: 'L\'élément à bien été supprimé.',
-              icon: 'success',
-            });
+        this.crudSaasService.deleteTag(id).subscribe({
+          next: (res) => {
+            console.log("res supp",res)
+            //this.notificationsService.success("Rôle supprimé !","Succès")
+            this.get_all_datas()
+          },
+          error: (err) => {
+            this.notificationsService.error("Erreur lors de la suppression de l'élément","Echec")
           }
         });
-      
 
-    
+        Swal.fire({
+          title: 'Suppression faite!',
+          text: 'L\'élément à bien été supprimé.',
+          icon: 'success',
+        });
+      }
+    });
   }
+
+  
+
+
 }

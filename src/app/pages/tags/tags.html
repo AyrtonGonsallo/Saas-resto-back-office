@@ -58,7 +58,7 @@
                 <ngb-highlight [result]="data.titre" [term]="service.searchTerm" />
               </td>
               <td>
-                <ngb-highlight [result]="data.description" [term]="service.searchTerm" />
+                <ngb-highlight [result]="data.description | cleanText" [term]="service.searchTerm" />
               </td>
               
               <td>

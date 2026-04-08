@@ -25,6 +25,7 @@ export class CreerRole {
       titre: ['', Validators.required],
       type: ['', Validators.required],
       priorite: ['', Validators.required],
+      commentaire: ['', ],
     });
   }
 

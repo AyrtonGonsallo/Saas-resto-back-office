@@ -40,6 +40,7 @@ export class CreerCreneau {
       heure_debut: ['', [Validators.required, ]],
       heure_fin: ['', [Validators.required, ]],
       nb_reservations_max: ['', Validators.required],
+      statut: ['disponible', Validators.required],
       societe_id: [this.user.datas.societe_id, Validators.required],
       restaurant_id: [this.restaurant_id, Validators.required],
       utilisateur_id: [this.user.datas.id, Validators.required],

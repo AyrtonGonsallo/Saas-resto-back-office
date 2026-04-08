@@ -61,9 +61,20 @@
             <div class="col-sm-12 col-md-12">
                 <label class="form-label">Image</label>
                 <div class="input-group">
-                    <input formControlName="image"  (change)="onFileSelected($event)" class="form-control" id="inputGroupFile01" type="file">
+                    <input formControlName="image" accept="image/png, image/jpeg, image/webp" (change)="onFileSelected($event)" class="form-control" id="inputGroupFile01" type="file">
                 </div>
-               
+               <img 
+                *ngIf="previewUrl" 
+                [src]="previewUrl" 
+                width="150"
+                (click)="openZoom()"
+                style="cursor: zoom-in"
+                />
+
+                <!-- Modal -->
+                <div class="zoom-modal" *ngIf="isZoomed" (click)="closeZoom()">
+                    <img [src]="previewUrl" class="zoom-image" />
+                </div>
             </div>
 
             

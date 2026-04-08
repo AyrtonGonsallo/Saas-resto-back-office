@@ -45,6 +45,20 @@ export class ModifierCategorieProduit {
     });
   }
 
+  
+  verifier_roles_et_societes(user:any,currentData:any){
+    console.log('user',user)
+    console.log('currentData',currentData)
+    let societeUser = user.datas.societe_id
+    let societeCurrentData = currentData.societe_id
+    if(societeUser!=societeCurrentData){
+      console.log(societeUser,societeCurrentData)
+      this.notificationsService.error("Vous ne faites pas parti de la même société","Echec")
+      this.router.navigate(['/dashboard/default']);
+    }
+
+  }
+
 
   onSubmit() {
     
@@ -83,8 +97,7 @@ export class ModifierCategorieProduit {
     this.crudSaasService.getCategorieProduitById(id).subscribe({
       next: (res) => {
         this.data=res
-        console.log("this.data",this.data)
-
+        this.verifier_roles_et_societes(this.user,this.data)
         this.formData = this.fb.group({
           titre: [this.data.titre, Validators.required],
           description: [this.data.description, ],

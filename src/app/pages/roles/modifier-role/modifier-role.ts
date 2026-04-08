@@ -27,6 +27,7 @@ export class ModifierRole {
       titre: ['', Validators.required],
       type: ['', Validators.required],
       priorite: [0, Validators.required],
+      commentaire: ['', ],
     });
     this.load_data(this.data_id )
     
@@ -88,6 +89,7 @@ export class ModifierRole {
           titre: [this.data.titre, Validators.required],
           type: [this.data.type, Validators.required],
           priorite: [this.data.priorite, Validators.required],
+          commentaire: [this.data.commentaire, ],
         });
         
       },

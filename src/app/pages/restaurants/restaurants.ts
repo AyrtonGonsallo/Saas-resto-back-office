@@ -80,6 +80,23 @@ export class Restaurants {
      modifier_data(id:number){
        this.router.navigate(['/restaurants/modifier-restaurant', id]);
      }
+
+     recreer_parametres_restaurant(restoid:number){
+        this.crudSaasService.recreateParametresRestaurant(restoid).subscribe({
+          next: (res) => {
+            Swal.fire({
+                 title: `Parametres recrées !`,
+                 text: `Parametres recrées pour le restaurant #${restoid}`,
+                 icon: 'success',
+               });
+          },
+          error: (err) => {
+            this.notificationsService.error(err.error.message,"Echec")
+          }
+        });
+     }
+
+   
    
      supprimer_data(id:number){
    

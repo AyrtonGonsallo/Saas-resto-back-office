@@ -82,3 +82,9 @@ D:\telechargement\Saas resto back office\public\assets\i18n\fr.json
 importer ce module 
 import { TranslateModule } from '@ngx-translate/core'; 
 et le charger puis faire {{title | translate}}
+
+
+isolation
+D:\telechargement\Saas resto back office\src\app\pages\utilisateurs\modifier-utilisateur\modifier-utilisateur.ts
+D:\telechargement\Saas resto back office\src\app\pages\categories-produit\modifier-categorie-produit\modifier-categorie-produit.ts
+

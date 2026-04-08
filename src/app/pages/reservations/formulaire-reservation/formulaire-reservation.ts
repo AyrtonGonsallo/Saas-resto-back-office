@@ -72,7 +72,7 @@ progression=0
       service_id: [null, Validators.required], //etape 3
       table_id: [null, Validators.required], //etape 3
       creneau_id: [null, Validators.required], //etape 3
-      tags: [null, Validators.required], //etape 3
+      tags: [null, ], //etape 3
       societe_id: [this.societe_id, Validators.required], //pas d'etape 
       restaurant_id: [null, Validators.required], //etape 2
       client_id: [null, ], //pas d'etape 
@@ -167,8 +167,8 @@ progression=0
           }, 2000);
         },
         error: (err) => {
-          this.notificationsService.error("Erreur lors de la réservation","Echec")
-          console.log(err)
+          this.notificationsService.error(err.error.message,"Echec")
+          console.log(err.error.message)
         }
       });
   
@@ -205,14 +205,24 @@ progression=0
     }
   
     get_all_restaurants(){
-      this.crudSaasService.getRestaurants(null).subscribe({
+      this.crudSaasService.getRestaurantsWithParametres(null).subscribe({
         next: (res) => {
-          this.restaurants=res.filter(cat =>
-          cat.societe_id === this.societe_id
-        );
-          this.allRestaurants=res.filter(cat =>
-          cat.societe_id === this.societe_id
-        );
+          this.restaurants=res.filter(r =>
+            r.societe_id === this.societe_id &&
+            r.parametres?.some((p:any) =>
+              p.type === 'etat_des_reservations' &&
+              p.est_actif &&
+              p.valeur == 1
+            )
+          );
+          this.allRestaurants=res.filter(r =>
+            r.societe_id === this.societe_id &&
+            r.parametres?.some((p:any) =>
+              p.type === 'etat_des_reservations' &&
+              p.est_actif &&
+              p.valeur == 1
+            )
+          );
           console.log("getRestaurants",this.allRestaurants)
         },
         error: (err) => {
@@ -220,6 +230,7 @@ progression=0
         }
       });
     }
+
 
     get_all_creneaux(){
       this.crudSaasService.getCreneaux(null).subscribe({
@@ -327,6 +338,8 @@ progression=0
     };
   }
 
+  heure_pas_dans_creneau=false
+
   valider_formulaire_etape(num_etape: number): boolean {
     let champs: string[] = [];
 
@@ -348,6 +361,14 @@ progression=0
           'table_id',
           'creneau_id'
         ];
+        let heure_dans_limites = this.verif_heure_dans_limites()
+        if(!heure_dans_limites){
+          champs.forEach(champ => {
+            this.formData.get(champ)?.markAsTouched();
+            this.formData.get(champ)?.updateValueAndValidity();
+          });
+          return false;
+        }
         break;
       case 4:
         return true
@@ -363,6 +384,40 @@ progression=0
 
     // ✅ Vérifier validité
     return champs.every(champ => this.formData.get(champ)?.valid);
+  }
+
+  verif_heure_dans_limites(): boolean {
+    console.log('verif heure dans chrono')
+
+    const heure = this.formData.get('heure_reservation')?.value;
+    const creneau_id = this.formData.get('creneau_id')?.value;
+
+    if (!heure || !creneau_id) return false;
+
+    // 🔎 trouver le créneau
+    const creneau = this.crenaux.find(c => c.id == creneau_id);
+
+    if (!creneau) return false;
+
+    // 🕒 convertir heure sélectionnée → minutes
+    const heureSelected =
+      heure.hour * 60 + heure.minute;
+
+    // 🕒 convertir "15:00" → minutes
+    const [hDebut, mDebut] = creneau.heure_debut.split(':').map(Number);
+    const [hFin, mFin] = creneau.heure_fin.split(':').map(Number);
+
+    const debut = hDebut * 60 + mDebut;
+    const fin = hFin * 60 + mFin;
+
+    // ✅ vérification
+    const isValid = heureSelected >= debut && heureSelected <= fin;
+
+    this.heure_pas_dans_creneau = !isValid;
+
+    console.log('verif heure dans chrono',isValid)
+
+    return isValid;
   }
  
 }

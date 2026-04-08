@@ -138,6 +138,9 @@
                                                     <div *ngIf="formData.get('heure_reservation')?.touched && formData.get('heure_reservation')?.invalid" class="text-danger">
                                                         L'heure est invalide
                                                     </div>
+                                                    <div *ngIf="heure_pas_dans_creneau" class="text-danger">
+                                                        L'heure doit etre dans les limites du créneau
+                                                    </div>
                                                 </div>
                                                 
                                             </div>
@@ -159,6 +162,9 @@
                                                     formControlName="creneau_id" />
                                                 <div *ngIf="formData.get('creneau_id')?.touched && formData.get('creneau_id')?.invalid" class="text-danger">
                                                     Le créneau est requis
+                                                </div>
+                                                <div *ngIf="heure_pas_dans_creneau" class="text-danger">
+                                                    L'heure doit etre dans les limites du créneau
                                                 </div>
                                             </div>
                                         </div>

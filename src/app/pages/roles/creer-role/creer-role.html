@@ -36,6 +36,17 @@
                 </div>
                 </div>
             </div>
+
+            <div class="col-md-12">
+                <div class="mb-3">
+                <label class="form-label">Commentaire</label>
+                <textarea class="form-control"  formControlName="commentaire" rows="3"></textarea>
+                
+                <div *ngIf="formData.get('commentaire')?.touched && formData.get('commentaire')?.invalid" class="text-danger">
+                    Le commentaire est invalide
+                </div>
+                </div>
+            </div>
             
 
         </div>
