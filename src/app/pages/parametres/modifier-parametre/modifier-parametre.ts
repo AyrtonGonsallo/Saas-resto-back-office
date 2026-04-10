@@ -69,6 +69,7 @@ export class ModifierParametre {
     finalFormData.append('description', this.formData.value.description);
     finalFormData.append('valeur', this.formData.value.valeur);
     finalFormData.append('est_actif', this.formData.value.est_actif);
+    finalFormData.append('est_important', this.formData.value.est_important);
    
     finalFormData.append('societe_id', this.formData.value.societe_id);
     finalFormData.append('restaurant_id', this.formData.value.restaurant_id);

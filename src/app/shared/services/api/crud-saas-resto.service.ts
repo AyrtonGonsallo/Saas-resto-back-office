@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environment';
+import { ReservationDataResponse } from '../../interface/custom/reservation-datas-response';
 
 @Injectable({
   providedIn: 'root',
@@ -406,6 +407,19 @@ export class CrudSaasRestoService {
     const url = `${environment.apiUrl}/update_reservation/${id}`;
     return this.http.put<any>(url, parametre);
   }
+
+  getReservationDataBySocieteId(societeID:number | null): Observable<ReservationDataResponse> {
+    let url = `${environment.apiUrl}/get_reservation_data_by_societeID/${societeID}`;
+    
+    return this.http.get<ReservationDataResponse>(url);
+  }
+
+  getStripePaymentLinkForReservation(restaurantId:number | null, datas: any): Observable<any> {
+    let url = `${environment.apiUrl}/get_stripe_payment_link_for_resto/${restaurantId}`;
+   
+    return this.http.post<any>(url, datas);
+  }
+
 
 
 }

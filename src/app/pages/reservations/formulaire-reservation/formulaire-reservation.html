@@ -31,8 +31,7 @@
                                             <button [ngClass]="stepClass(1)">Infos générales</button>
                                             <button [ngClass]="stepClass(2)">Restaurant</button>
                                             <button [ngClass]="stepClass(3)">Réservation</button>
-                                            <button [ngClass]="stepClass(4)">Paiement</button>
-                                            <button [ngClass]="stepClass(5)">Récap</button>
+                                            <button [ngClass]="stepClass(4)">Récap</button>
                                         </div>
                                         </div>
                                     </div>
@@ -118,6 +117,7 @@
                                                         ngbDatepicker
                                                         #d="ngbDatepicker"
                                                         (click)="d.toggle()"
+                                                        [minDate]="minDate"
                                                         />
                                                     </div>
                                                     <div *ngIf="formData.get('date_reservation')?.touched && formData.get('date_reservation')?.invalid" class="text-danger">
@@ -192,7 +192,7 @@
                                         
                                         <div class="col-md-12">
                                             <div class="mb-3">
-                                                <label class="form-label">Nombre de personnes</label>
+                                                <label class="form-label">Nombre de personnes <span class="text-danger">*</span></label>
                                                 <input class="form-control" type="number" formControlName="nombre_de_personnes" placeholder="nombre de personnes">
                                                 <div *ngIf="formData.get('nombre_de_personnes')?.touched && formData.get('nombre_de_personnes')?.invalid" class="text-danger">
                                                     Le nombre de personnes est invalide
@@ -224,12 +224,31 @@
                                         
                                         
                                     </div>
+                                   
                                     <div *ngIf="current_step==4">
-                                        <h4 class="card-title mb-0">Paiement</h4>
-                                        
-                                    </div>
-                                    <div *ngIf="current_step==5">
-                                        <h4 class="card-title mb-0">Récapitulatif</h4>
+                                        <h4 class="card-title mb-0" *ngIf="paymentRestoActive && urlPayment">Paiement</h4>
+                                        <div *ngIf="paymentRestoActive && urlPayment">
+                                            <div class="clipboaard-container">
+                                                <p class="card-description">Voici le lien du Paiement à faire pour confirmer la reservation : </p>
+                                                <h6 class="border rounded card-body f-w-300">
+                                                    {{urlPayment}}
+                                                </h6>
+                                                <div class="mt-3 text-end">
+                                                    <button class="btn btn-info btn-clipboard" type="button" (click)="copyFunction(urlPayment)">
+                                                        <i class="fa fa-copy"></i> Copy
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div *ngIf="!paymentRestoActive">
+                                            Le paiement est désactvié
+                                        </div>
+                                        <br><br>
+                                        <div *ngIf="!final_reservation">
+                                            Faites suivant pour continuer
+                                        </div>
+
+                                        <h4 class="card-title mb-0" *ngIf="final_reservation">Récapitulatif</h4>
                                         <div *ngIf="final_reservation">
                                             
                                             <h5>Votre réservation a bien été enregistrée</h5>

@@ -4,7 +4,7 @@ import { CommonLoginForm } from '../../../component/pages/authentication/common-
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDateStruct, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { RestaurantService } from '../../../shared/services/user/user.service';
 import { CrudSaasRestoService } from '../../../shared/services/api/crud-saas-resto.service';
 import { NotificationsService } from '../../../shared/services/notifications/notifications.service';
@@ -25,8 +25,11 @@ button_prec_text='Précédent'
 current_step=1
 societe_id=0
 progression=0
-
-
+restaurantID = null
+selectedRestaurant : any
+urlPayment = null
+paymentRestoActive = true
+minDate: NgbDateStruct;
 
   constructor(private route: ActivatedRoute,private fb: FormBuilder, private crudSaasService:CrudSaasRestoService, private restaurantService: RestaurantService, private notificationsService:NotificationsService,) {}
   
@@ -34,19 +37,17 @@ progression=0
     
   ngOnInit(): void {
 
+    const today = new Date();
+
+    this.minDate = {
+      year: today.getFullYear(),
+      month: today.getMonth() + 1,
+      day: today.getDate()
+    };
+
     this.societe_id = parseInt(this.route.snapshot.paramMap.get('societe_id')??'');
     this.load_societe_data(this.societe_id )
-    this.get_all_restaurants()
-
-    this.get_all_societes()
-
-     this.get_all_services()
-
-    this.get_all_tables()
-
-    this.get_all_tags()
-
-    this.get_all_creneaux()
+    
     
     this.formData = this.fb.group({
       nom: ['', Validators.required], //etape 1
@@ -78,9 +79,21 @@ progression=0
       client_id: [null, ], //pas d'etape 
     });
 
+    
+
     this.formData.get('restaurant_id')?.valueChanges.subscribe((restaurant_id) => {
 
       console.log("restaurant_id choisi:", restaurant_id);
+      this.restaurantID = restaurant_id
+      this.selectedRestaurant = this.restaurants.filter((r:any) =>
+        r.id === restaurant_id &&
+        r.parametres?.some((p:any) =>
+          p.type === 'etat_paiement_acompte_reservation' &&
+          p.est_actif 
+        )
+      );
+      this.paymentRestoActive = (this.selectedRestaurant )?true:false;
+      console.log('this.selectedRestaurant',this.selectedRestaurant)
 
       if (!restaurant_id) {
         this.tables = this.allTables;
@@ -127,18 +140,18 @@ progression=0
 
   next(){
     let res = this.valider_formulaire_etape(this.current_step)
-    if(this.current_step<5 && res){
-      this.progression+=25
+    if(this.current_step<4 && res){
+      this.progression+=33
       this.current_step++
-    }else if(this.current_step==5){
-      console.log('this.formData.value',this.formData.value);
+    }else if(this.current_step==4){
+     
       this.onSubmit()
     }
     
   }
   prec(){
     if(this.current_step>1){
-      this.progression-=25
+      this.progression-=33
       this.current_step--
     }
     console.log("this.current_step",this.current_step)
@@ -157,6 +170,8 @@ progression=0
       this.crudSaasService.ajouterReservation(this.formData.value).subscribe({
         next: (res) => {
           this.final_reservation=res
+          console.log('final_reservation',res)
+          this.get_pay_link()
           Swal.fire({
                 position: 'bottom-end',
                 icon: 'success',
@@ -194,9 +209,32 @@ progression=0
 
 
     load_societe_data(id:number){
-      this.crudSaasService.getSocieteById(id).subscribe({
+      
+
+      this.crudSaasService.getReservationDataBySocieteId(id).subscribe({
         next: (res) => {
-          this.societeData=res
+          console.log('getReservationDataBySocieteId',res)
+          this.societeData=res.societe//ereur La propriété 'societe' n'existe pas sur le type 'any[]'
+          this.set_all_creneaux(res.creneaux)//ereur La propriété 'creneaux' n'existe pas sur le type 'any[]'
+          this.set_all_restaurants(res.restaurants)//ereur La propriété 'restaurants' n'existe pas sur le type 'any[]'
+          this.set_all_services(res.services)//ereur La propriété 'services' n'existe pas sur le type 'any[]'
+          this.set_all_tables(res.tables)//ereur La propriété 'tables' n'existe pas sur le type 'any[]'
+          this.set_all_tags(res.tags)//ereur La propriété 'tags' n'existe pas sur le type 'any[]'
+        },
+        error: (err) => {
+          this.notificationsService.error("Erreur lors de la récupération","Echec")
+        }
+      });
+
+      
+    }
+
+    get_pay_link(){
+      
+      this.crudSaasService.getStripePaymentLinkForReservation(this.restaurantID,this.final_reservation).subscribe({
+        next: (res) => {
+          console.log('Lien de paiement ',res)
+          this.urlPayment = res.url
         },
         error: (err) => {
           this.notificationsService.error("Erreur lors de la récupération","Echec")
@@ -204,10 +242,9 @@ progression=0
       });
     }
   
-    get_all_restaurants(){
-      this.crudSaasService.getRestaurantsWithParametres(null).subscribe({
-        next: (res) => {
-          this.restaurants=res.filter(r =>
+    set_all_restaurants(res:any){
+      
+          this.restaurants=res.filter((r:any) =>
             r.societe_id === this.societe_id &&
             r.parametres?.some((p:any) =>
               p.type === 'etat_des_reservations' &&
@@ -215,7 +252,7 @@ progression=0
               p.valeur == 1
             )
           );
-          this.allRestaurants=res.filter(r =>
+          this.allRestaurants=res.filter((r:any) =>
             r.societe_id === this.societe_id &&
             r.parametres?.some((p:any) =>
               p.type === 'etat_des_reservations' &&
@@ -224,111 +261,78 @@ progression=0
             )
           );
           console.log("getRestaurants",this.allRestaurants)
-        },
-        error: (err) => {
-          this.notificationsService.error("Erreur lors de la récupération des restaurants","Echec")
-        }
-      });
+        
+      
     }
 
 
-    get_all_creneaux(){
-      this.crudSaasService.getCreneaux(null).subscribe({
-        next: (res) => {
-          this.crenaux=res.filter(creneau =>
+    set_all_creneaux(res:any){
+     
+          this.crenaux=res.filter((creneau:any) =>
             creneau.societe_id === this.societe_id
-          ).map(creneau => ({
+          ).map((creneau:any) => ({
             ...creneau,
             fullName: creneau.heure_debut + ' - ' + creneau.heure_fin
           }));
-          this.allCrenaux=res.filter(creneau =>
+          this.allCrenaux=res.filter((creneau:any) =>
             creneau.societe_id === this.societe_id
-          ).map(creneau => ({
+          ).map((creneau:any) => ({
             ...creneau,
             fullName: creneau.heure_debut + ' - ' + creneau.heure_fin
           }));
 
           console.log("getCreneaux",this.allCrenaux)
-        },
-        error: (err) => {
-          this.notificationsService.error("Erreur lors de la récupération des crenaux","Echec")
-        }
-      });
+       
     }
 
 
-    get_all_services(){
-      this.crudSaasService.getServices(null).subscribe({
-        next: (res) => {
-          this.services=res.filter(service =>
+    set_all_services(res:any){
+      
+          this.services=res.filter((service:any) =>
             service.societe_id === this.societe_id
           );
-          this.allServices=res.filter(service =>
+          this.allServices=res.filter((service:any)  =>
             service.societe_id === this.societe_id
           );
 
           console.log("getServices",this.allServices)
-        },
-        error: (err) => {
-          this.notificationsService.error("Erreur lors de la récupération des crenaux","Echec")
-        }
-      });
+       
     }
 
-     get_all_tags(){
-      this.crudSaasService.getTags(null).subscribe({
-        next: (res) => {
-          this.tags=res.filter(tag =>
+     set_all_tags(res:any){
+      
+          this.tags=res.filter((tag:any) =>
             tag.societe_id === this.societe_id
           );
-          this.allTags=res.filter(tag =>
+          this.allTags=res.filter((tag:any) =>
             tag.societe_id === this.societe_id
           );
 
           console.log("getTags",this.allTags)
-        },
-        error: (err) => {
-          this.notificationsService.error("Erreur lors de la récupération des tags","Echec")
-        }
-      });
+        
     }
 
-    get_all_tables(){
-      this.crudSaasService.getTables(null).subscribe({
-        next: (res) => {
-          this.tables=res.filter(table =>
+    set_all_tables(res:any){
+     
+          this.tables=res.filter((table:any) =>
             table.societe_id === this.societe_id
-          ).map(table => ({
+          ).map((table:any) => ({
             ...table,
             fullName: table.numero + ' ' + table.nb_places + ' places' 
           }));
 
-          this.allTables=res.filter(table =>
+          this.allTables=res.filter((table:any) =>
             table.societe_id === this.societe_id
-          ).map(table => ({
+          ).map((table:any) => ({
             ...table,
             fullName: table.numero + ' ' + table.nb_places + ' places' 
           }));
 
           console.log("getTables",this.allTables)
-        },
-        error: (err) => {
-          this.notificationsService.error("Erreur lors de la récupération des tables","Echec")
-        }
-      });
+        
     }
   
-    get_all_societes(){
-      this.crudSaasService.getSocietes().subscribe({
-        next: (res) => {
-          this.societes=res
-          console.log("getSocietes",this.societes)
-        },
-        error: (err) => {
-          this.notificationsService.error("Erreur lors de la récupération des sociétés","Echec")
-        }
-      });
-    }
+   
 
   stepClass(step: number) {
     return {
@@ -371,8 +375,6 @@ progression=0
         }
         break;
       case 4:
-        return true
-      case 5:
         return true
     }
 
@@ -418,6 +420,11 @@ progression=0
     console.log('verif heure dans chrono',isValid)
 
     return isValid;
+  }
+
+  copyFunction(txt: string) {
+    navigator.clipboard.writeText(txt);
+    alert('Copied');
   }
  
 }
