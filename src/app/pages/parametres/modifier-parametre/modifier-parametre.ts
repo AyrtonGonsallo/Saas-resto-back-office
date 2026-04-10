@@ -10,7 +10,7 @@ import Swal from 'sweetalert2';
 import { AuthSaasRestoService } from '../../../shared/services/auth/auth-saas-resto.service';
 import { AngularEditorModule } from '@kolkov/angular-editor';
 import { RestaurantService } from '../../../shared/services/user/user.service';
-
+import { types } from '../../../shared/constants/types-parametres';
 
 @Component({
   selector: 'app-modifier-parametre',
@@ -45,6 +45,7 @@ export class ModifierParametre {
       valeur: ['', Validators.required],
       description: ['', ],
       est_actif: [true, Validators.required],
+      est_important: [false, Validators.required],
       societe_id: [this.user.datas?.societe_id, Validators.required],
       restaurant_id: [this.user.datas.Restaurants[0]?.id, Validators.required],
       utilisateur_id: [this.user.datas.id, Validators.required],
@@ -105,20 +106,7 @@ export class ModifierParametre {
 
 
 
-   types = [
-    { key: 'tva', name: 'Tva' },
-    { key: 'coefficient', name: 'Coefficient' },
-    { key: 'max_commandes_par_minutes', name: 'Max commandes par minute' },
-    { key: 'alerte_stocke_min', name: 'Stocke minimun avant alerte' },
-    { key: 'max_couverts_par_jour', name: 'Max couverts par jour' },
-    { key: 'delai_rappel_reservation', name: 'Delai avant rappel lors d\'une réservation' },
-    { key: 'cle_publique_stripe', name: 'Clé publique stripe' },
-    { key: 'cle_privee_stripe', name: 'Clé privée stripe' },
-    { key: 'etat_des_reservations', name: 'État des réservations' },
-    //{ key: 'logo', name: 'Logo' },
-    //{ key: 'couleur_principale', name: 'Couleur principale' },
-    //{ key: 'couleur_secondaire', name: 'Couleur secondaire' },
-  ];
+   types = types;
 
   selectedFile: File | null = null;
 
@@ -152,6 +140,7 @@ export class ModifierParametre {
           valeur: [this.data.valeur, Validators.required],
           description: [this.data.description, ],
           est_actif: [this.data.est_actif, Validators.required],
+          est_important: [this.data.est_important, Validators.required],
           societe_id: [this.data.societe_id, Validators.required],
           restaurant_id: [this.data.restaurant_id, Validators.required],
           utilisateur_id: [this.data.utilisateur_id, Validators.required],

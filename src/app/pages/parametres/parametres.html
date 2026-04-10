@@ -40,10 +40,10 @@
             <tr>
               <th scope="col" sortable="id" (sort)="onSort($event)">ID</th>
               <th scope="col" sortable="type" (sort)="onSort($event)">Type</th>
-              <th scope="col" sortable="titre" (sort)="onSort($event)">Titre</th>
               <th scope="col" sortable="description" (sort)="onSort($event)">Restaurant</th>
               <th scope="col" sortable="valeur" (sort)="onSort($event)">Valeur</th>
               <th scope="col" sortable="est_actif" (sort)="onSort($event)">Actif ?</th>
+              <th scope="col" sortable="est_important" (sort)="onSort($event)">Important ?</th>
               
               <th scope="col">Action</th>
             </tr>
@@ -56,11 +56,7 @@
                 <ngb-highlight [result]="data.id" [term]="service.searchTerm" />
               </td>
               <td>
-                <ngb-highlight [result]="data.type" [term]="service.searchTerm" />
-              </td>
-              <td>
-                
-                <ngb-highlight [result]="data.titre" [term]="service.searchTerm"/>
+                <ngb-highlight [result]="getTypeNameFromkey(data.type)" [term]="service.searchTerm" />
               </td>
               <td>
                 <ngb-highlight [result]="data.Restaurant?.nom" [term]="service.searchTerm" />
@@ -77,7 +73,10 @@
                 <ngb-highlight [result]="data.valeur" [term]="service.searchTerm" *ngIf="data.type!='logo'"/>
               </td>
               <td>
-                <ngb-highlight [result]="data.est_actif" [term]="service.searchTerm" />
+                <div [innerHTML]="getStatus(data.est_actif)"></div>
+              </td>
+              <td>
+                <ngb-highlight [result]="data.est_important" [term]="service.searchTerm" />
               </td>
               
               <td>

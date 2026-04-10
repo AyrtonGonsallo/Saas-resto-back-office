@@ -14,6 +14,7 @@ import { CrudSaasRestoService } from '../../shared/services/api/crud-saas-resto.
 import { NotificationsService } from '../../shared/services/notifications/notifications.service';
 import { environment } from '../../environment';
 import { RestaurantService } from '../../shared/services/user/user.service';
+import { types,getTypeName } from '../../shared/constants/types-parametres';
 
 
 @Component({
@@ -34,6 +35,7 @@ export class Parametres {
   public tableData$: Observable<any[]> = this.service.supportdata$;
   public total$: Observable<number> = this.service.total$;
   public Data: any[];
+  types = types
 
   readonly headers = viewChildren(NgbdSortableHeaderDirective);
 
@@ -61,6 +63,17 @@ export class Parametres {
 
   parametres:any
 
+  getTypeNameFromkey(key:string){
+    return getTypeName(key)
+  }
+
+  getStatus(status:boolean){
+    if(status){
+      return '<i class="fa-solid fa-check font-primary"></i>';
+    }else{
+      return '<i class="fa-solid fa-x font-danger"></i>';
+    }
+  }
 
   get_all_datas(){
 
