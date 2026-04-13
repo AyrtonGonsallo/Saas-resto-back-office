@@ -31,20 +31,24 @@ export class ModifierTable {
 
     this.get_all_societes()
 
+    this.get_all_zones()
+
     this.load_data(this.data_id )
     
     this.formData = this.fb.group({
       numero: ['', Validators.required],
       nb_places: [2, [Validators.min(2),Validators.max(50)]],
       statut: ['libre', Validators.required],
+      zone_id: [0, [Validators.required, ]],
       societe_id: [0, [Validators.required, ]],
       restaurant_id: [0, [Validators.required, ]],
     });
   }
 
-  statuts = [
+    statuts = [
     { key: 'occupée', name: 'Occupée' },
     { key: 'libre', name: 'Libre' },
+    { key: 'réservée', name: 'Réservée' },
   ];
 
   onSubmit() {
@@ -83,6 +87,8 @@ export class ModifierTable {
 restaurants:any[]
 allRestaurants:any[]
 societes:any[]
+zones_restaurant:any[]
+allZones:any[]
 
   get_all_restaurants(){
 
@@ -99,25 +105,39 @@ societes:any[]
       });
   }
 
-    get_all_societes(){
-      this.crudSaasService.getSocietes().subscribe({
-        next: (res) => {
-          this.societes=res
-          console.log("getSocietes",this.societes)
-        },
-        error: (err) => {
-          this.notificationsService.error("Erreur lors de la récupération des sociétés","Echec")
-        }
-      });
-    }
+  get_all_societes(){
+    this.crudSaasService.getSocietes().subscribe({
+      next: (res) => {
+        this.societes=res
+        console.log("getSocietes",this.societes)
+      },
+      error: (err) => {
+        this.notificationsService.error("Erreur lors de la récupération des sociétés","Echec")
+      }
+    });
+  }
+     
+  get_all_zones(){
+
+    let restaurant_id = this.restaurantService.getRestaurant()
+    this.crudSaasService.getZonesRestaurant(restaurant_id).subscribe({
+      next: (res) => {
+        this.allZones=res
+        this.zones_restaurant=res
+        console.log("zones_restaurant",this.zones_restaurant)
+      },
+      error: (err) => {
+        this.notificationsService.error("Erreur lors de la récupération des catégories","Echec")
+      }
+    });
+  }
 
     
-   data:any
+  data:any
 
+  load_data(id:number){
 
-    load_data(id:number){
-
-      this.crudSaasService.getTableById(id).subscribe({
+    this.crudSaasService.getTableById(id).subscribe({
       next: (res) => {
         this.data=res
 
@@ -125,12 +145,16 @@ societes:any[]
           numero: [this.data.numero, Validators.required],
           nb_places: [this.data.nb_places, [Validators.min(2),Validators.max(50)]],
           statut: [this.data.statut, Validators.required],
+          zone_id: [this.data.zone_id, [Validators.required, ]],
           societe_id: [this.data.societe_id, [Validators.required, ]],
           restaurant_id: [this.data.restaurant_id, [Validators.required, ]],
         });
 
-         this.restaurants = this.allRestaurants.filter(cat =>
+        this.restaurants = this.allRestaurants?.filter(cat =>
           cat.societe_id === this.data.societe_id
+        );
+        this.zones_restaurant = this.allZones?.filter(rest =>
+          rest.restaurant_id === this.data.restaurant_id
         );
 
         this.formData.get('societe_id')?.valueChanges.subscribe((societeID) => {
@@ -145,8 +169,25 @@ societes:any[]
             );
           }
 
-          // 🔥 reset catégorie sélectionnée
+          //  reset catégorie sélectionnée
           this.formData.patchValue({ restaurant_id: null });
+
+        });
+
+        this.formData.get('restaurant_id')?.valueChanges.subscribe((restaurantID) => {
+
+          console.log("restaurantID choisi:", restaurantID);
+
+          if (!restaurantID) {
+            this.zones_restaurant = this.allZones;
+          } else {
+            this.zones_restaurant = this.allZones.filter(rest =>
+              rest.restaurant_id === restaurantID
+            );
+          }
+
+          //  reset catégorie sélectionnée
+          this.formData.patchValue({ zone_id: null });
 
         });
 
@@ -156,7 +197,7 @@ societes:any[]
       }
     });
 
-    }
+  }
 
 
 }

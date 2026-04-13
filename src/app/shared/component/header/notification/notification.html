@@ -3,7 +3,7 @@
         <use href="assets/svg/iconly-sprite.svg#Bell"></use>
     </svg>
 </a>
-<span class="badge rounded-pill badge-secondary">3</span>
+<span class="badge rounded-pill badge-secondary">{{custom_notifications.length}}</span>
 <span >
     <div class="custom-menu notification-dropdown py-0 overflow-hidden" [class.show]="notifications">
         <h5 class="title bg-primary-light">Notifications 
@@ -12,33 +12,17 @@
             </a>
         </h5>
         <ul class="activity-update">
-            <li class="d-flex align-items-center b-l-primary">
-                <div class="flex-grow-1"> <span>Just Now</span><a [routerLink]="'/chat/private-chat'">
-                        <h5>What`s the project report update?</h5>
+            <li class="d-flex align-items-center b-l-primary" *ngFor="let custom_notification of custom_notifications">
+                <div class="flex-grow-1"> <span>{{custom_notification.created_at | date:'dd/MM/yyyy HH:mm'}}</span><a [routerLink]="'/notifications/voir-notification/'+custom_notification.id">
+                        <h5>{{custom_notification.titre}}</h5>
                     </a>
-                    <h6>Rick Novak</h6>
+                    <h6>{{custom_notification.type}}</h6>
                 </div>
                 <div class="flex-shrink-0"> <img class="b-r-15 img-40" src="assets/images/avatar/10.jpg" alt=""></div>
             </li>
-            <li class="d-flex align-items-center b-l-secondary">
-                <div class="flex-grow-1"> <span>12:47 am</span><a [routerLink]="'/chat/private-chat'">
-                        <h5>James created changelog page</h5>
-                    </a>
-                    <h6>Susan Connor</h6>
-                </div>
-                <div class="flex-shrink-0"> <img class="b-r-15 img-40" src="assets/images/avatar/4.jpg" alt=""></div>
-            </li>
-            <li class="d-flex align-items-center b-l-tertiary">
-                <div class="flex-grow-1"> <span>06:10 pm</span><a [routerLink]="'/chat/private-chat'">
-                        <h5>Polly edited Contact page</h5>
-                    </a>
-                    <h6>Roger Lum</h6>
-                </div>
-                <div class="flex-shrink-0"> <img class="b-r-15 img-40" src="assets/images/avatar/1.jpg" alt=""></div>
-            </li>
+            
             <li class="mt-3 d-flex justify-content-center">
-                <div class="button-group"><a class="btn btn-secondary" [routerLink]="'/chat/private-chat'">All
-                        Notification</a></div>
+                <div class="button-group"><a class="btn btn-secondary" [routerLink]="'/notifications/liste-notifications'">Toutes les notifications</a></div>
             </li>
         </ul>
     </div>

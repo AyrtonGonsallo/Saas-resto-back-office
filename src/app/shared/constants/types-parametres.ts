@@ -5,6 +5,8 @@ export const  types = [
     { key: 'alerte_stocke_min', name: 'Stocke minimun avant alerte' },
     { key: 'max_couverts_par_jour', name: 'Max couverts par jour' },
     { key: 'delai_rappel_reservation', name: 'Delai avant rappel lors d\'une réservation' },
+    { key: 'delai_annulation_reservation', name: 'Delai avant annulation d\'une réservation' },
+    { key: 'delai_invitation_avis', name: 'Delai avant envoi du lien du formulaire d\'avis sur une réservation' },
     { key: 'cle_publique_stripe', name: 'Clé publique stripe' },
     { key: 'cle_privee_stripe', name: 'Clé privée stripe' },
     { key: 'etat_des_reservations', name: 'État des réservations' },

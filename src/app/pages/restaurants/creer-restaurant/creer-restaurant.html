@@ -17,12 +17,32 @@
                 </div>
             </div>
 
-            <div class="col-sm-12 col-md-12">
+            <div class="col-sm-6 col-md-6">
                 <div class="mb-3">
                 <label class="form-label">Adresse <span class="text-danger">*</span></label>
-                <input class="form-control" type="text" formControlName="lieu" placeholder="Adresse">
-                <div *ngIf="formData.get('lieu')?.touched && formData.get('lieu')?.invalid" class="text-danger">
+                <input class="form-control" type="text" formControlName="adresse" placeholder="Adresse">
+                <div *ngIf="formData.get('adresse')?.touched && formData.get('adresse')?.invalid" class="text-danger">
                     L'adresse est invalide
+                </div>
+                </div>
+            </div>
+
+            <div class="col-sm-6 col-md-6">
+                <div class="mb-3">
+                <label class="form-label">ville <span class="text-danger">*</span></label>
+                <input class="form-control" type="text" formControlName="ville" placeholder="Ville">
+                <div *ngIf="formData.get('ville')?.touched && formData.get('ville')?.invalid" class="text-danger">
+                    La ville est invalide
+                </div>
+                </div>
+            </div>
+
+            <div class="col-sm-12 col-md-12">
+                <div class="mb-3">
+                <label class="form-label">Coordonnées google maps </label>
+                <input class="form-control" type="text" formControlName="coordonnees_google_maps" placeholder="Coordonnées google maps">
+                <div *ngIf="formData.get('coordonnees_google_maps')?.touched && formData.get('coordonnees_google_maps')?.invalid" class="text-danger">
+                    Coordonnées google maps invalides
                 </div>
                 </div>
             </div>

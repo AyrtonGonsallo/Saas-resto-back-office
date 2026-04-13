@@ -1,0 +1,36 @@
+<div class="card right-sidebar-chat" (clickOutside)="clickOutside()">
+    <div class="right-sidebar-title">
+        <div class="common-space">
+            <div class="chat-time">
+                <div class="active-profile">
+                    <img class="img-fluid rounded-circle" src="assets/images/avatar/1.jpg" alt="user">
+                    <div class="status bg-success"></div>
+                </div>
+                <div> <span>{{user?.datas.prenom}} {{user?.datas.nom}}</span>
+                    <p>Online </p>
+                </div>
+            </div>
+          
+        </div>
+    </div>
+    <div class="right-sidebar-Chats">
+        <div class="msger">
+            <div class="msger-chat">
+                
+                <div class="msg right-msg">
+                    <div class="msg-img"></div>
+                    <div class="msg-bubble">
+                        <div class="msg-info">
+                            <div class="msg-info-name">{{data.type}}</div>
+                            <div class="msg-info-time">{{data.date_rappel| date:'dd/MM/yyyy HH:mm'}}</div>
+                        </div>
+                        <div class="msg-text">{{data.texte}}
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+           
+        </div>
+    </div>
+</div>

@@ -13,6 +13,7 @@
                         <form class="theme-form" [formGroup]="formData">
                             <h2 class="text-center">{{societeData?.titre}}</h2>
                             <h3 class="text-center">Réserver une table</h3>
+                            <h4 class="text-center" *ngIf="selectedRestaurant">Restaurant : {{selectedRestaurant?.nom}}</h4>
                             <p class="text-center">Entrez les informations suivantes</p>
 
 

@@ -423,6 +423,36 @@ export const dashData: Routes = [
     loadChildren: () => import('../../pages/tags/tags.routes').then(r => r.TagsRoutes),
   },
   {
+    path: 'menus',
+    data: {
+      title: 'Menus',
+      breadcrumb: 'Menus',
+      roles: ['super-admin','gestionnaire-societe','admin','gestionnaire-restaurant','lecteur-planning','lecteur-cuisine','employé',]
+    },
+    canActivate: [RoleGuard],
+    loadChildren: () => import('../../pages/menus/menus.routes').then(r => r.MenusRoutes),
+  },
+  {
+    path: 'types-de-cuisine',
+    data: {
+      title: 'Types de cuisine',
+      breadcrumb: 'Types de cuisine',
+      roles: ['super-admin','gestionnaire-societe','admin','gestionnaire-restaurant','lecteur-planning','lecteur-cuisine','employé',]
+    },
+    canActivate: [RoleGuard],
+    loadChildren: () => import('../../pages/types-de-cuisine/types-de-cuisine.routes').then(r => r.TypesDeCuisineRoutes),
+  },
+  {
+    path: 'zones-restaurant',
+    data: {
+      title: 'Zones de restautant',
+      breadcrumb: 'Zones de restautant',
+      roles: ['super-admin','gestionnaire-societe','admin','gestionnaire-restaurant','lecteur-planning','lecteur-cuisine','employé',]
+    },
+    canActivate: [RoleGuard],
+    loadChildren: () => import('../../pages/zones-restaurant/zones-restaurant.routes').then(r => r.ZonesRestaurantRoutes),
+  },
+  {
     path: 'reservations',
     data: {
       title: 'Réservations',
@@ -431,5 +461,15 @@ export const dashData: Routes = [
     },
     canActivate: [RoleGuard],
     loadChildren: () => import('../../pages/reservations/reservations.routes').then(r => r.ReservationsRoutes),
+  },
+  {
+    path: 'notifications',
+    data: {
+      title: 'Notifications',
+      breadcrumb: 'Notifications',
+      roles: ['super-admin','gestionnaire-societe','admin','gestionnaire-restaurant','lecteur-planning','lecteur-cuisine','employé',]
+    },
+    canActivate: [RoleGuard],
+    loadChildren: () => import('../../pages/notifications/notifications.routes').then(r => r.NotificationsRoutes),
   },
 ];

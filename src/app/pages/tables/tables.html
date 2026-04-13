@@ -42,6 +42,7 @@
               <th scope="col" sortable="numero" (sort)="onSort($event)">Numéro</th>
               <th scope="col" sortable="nb_places" (sort)="onSort($event)">Nombre de places</th>
               <th scope="col" sortable="statut" (sort)="onSort($event)">Statut</th>
+              <th scope="col" sortable="zone_id" (sort)="onSort($event)">Zone</th>
               <th scope="col" sortable="societe_id" (sort)="onSort($event)">Société</th>
               <th scope="col" sortable="restaurant_id" (sort)="onSort($event)">Restaurant</th>
               
@@ -63,6 +64,9 @@
               </td>
                <td>
                 <ngb-highlight [result]="data.statut" [term]="service.searchTerm" />
+              </td>
+              <td>
+                <ngb-highlight [result]="data.ZoneTable.titre" [term]="service.searchTerm" />
               </td>
                <td>
                 <ngb-highlight [result]="data.Societe?.titre" [term]="service.searchTerm" />

@@ -35,7 +35,9 @@ export class ModifierRestaurant {
     
     this.formData = this.fb.group({
       nom: ['', Validators.required],
-      lieu: ['', Validators.required],
+      adresse: ['', Validators.required],
+      ville: ['', Validators.required],
+      coordonnees_google_maps: ['', ],
       heure_debut: ['', [Validators.required, ]],
       heure_fin: ['', [Validators.required, ]],
       heure_cc_debut: ['', [, ]],
@@ -152,7 +154,9 @@ export class ModifierRestaurant {
       
          this.formData = this.fb.group({
           nom: [this.data.nom, Validators.required],
-          lieu: [this.data.lieu, Validators.required],
+          adresse: [this.data.adresse, Validators.required],
+          ville: [this.data.ville, Validators.required],
+          coordonnees_google_maps: [this.data.coordonnees_google_maps, ],
           heure_debut: [this.data.heure_debut, [Validators.required, ]],
           heure_fin: [this.data.heure_fin, [Validators.required, ]],
           heure_cc_debut: [this.data.heure_cc_debut, [, ]],

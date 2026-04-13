@@ -1,0 +1,53 @@
+<div class="left-sidebar-wrapper card">
+
+    <div class="advance-options">
+        <ul class="nav border-tab" ngbNav #nav="ngbNav" [(activeId)]="active">
+            <li class="nav-item" [ngbNavItem]="1"><a class="nav-link f-w-600" ngbNavLink>notifications</a>
+                <ng-template ngbNavContent>
+                    <div class="tab-pane fade show">
+                        <div class="common-space">
+                            <p>Recentes notifications</p>
+                            <div class="header-top">
+                                <a class="btn badge-light-primary f-w-500" href="javascript:void(0);">
+                                    <i class="fa fa-plus"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <ul class="chats-user">
+                            @for( item of custom_notifications; track item){
+                            <li class="common-space" >
+                                
+                                <div class="chat-time">
+                                    <div class="active-profile">
+                                        @if(item.img){
+                                        <img class="img-fluid rounded-circle" src="{{item.img}}" alt="user">
+                                        }
+                                        <div class="status {{get_class(item.statut_lecture)}}"></div>
+                                    </div>
+                                    <div>
+                                        <span>{{item.type}}</span>
+                                        <p>{{item.titre}}</p>
+                                        <a [routerLink]="'/notifications/voir-notification/'+item.id">Voir</a>
+                                    </div>
+                                </div>
+                                <div>
+                                    <p>{{item.date_rappel | date:'dd/MM/yyyy HH:mm'}}</p>
+                                    @if(item.padding){
+                                    <div class="badge badge-light-success">{{item.padding}}</div>
+                                    }
+                                </div>
+                                
+                            </li>
+                            }
+                            
+                        </ul>
+                    </div>
+                </ng-template>
+            </li>
+            
+        </ul>
+        <div class="tab-content">
+            <div [ngbNavOutlet]="nav"></div>
+        </div>
+    </div>
+</div>

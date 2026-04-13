@@ -420,6 +420,76 @@ export class CrudSaasRestoService {
     return this.http.post<any>(url, datas);
   }
 
+  ajouterTypeCuisine(userData: any): Observable<any> {
+    return this.http.post<any>(`${environment.apiUrl}/ajouter_type_cuisine`, userData);
+  }
+
+  getTypesCuisine(restaurantId:number | null): Observable<any[]> {
+    let url = `${environment.apiUrl}/get_all_types_cuisine`;
+    if (restaurantId) {
+      url += `?restaurant_id=${restaurantId}`;
+    }
+    return this.http.get<any[]>(url);
+  }
+
+  getTypeCuisineById(id: number): Observable<any> {
+    const url = `${environment.apiUrl}/get_type_cuisine_by_id/${id}`;
+    return this.http.get<any>(url);
+  }
+
+  deleteTypeCuisine(id: number): Observable<any> {
+    const url = `${environment.apiUrl}/delete_type_cuisine/${id}`;
+    return this.http.delete<any>(url);
+  }
+
+  updateTypeCuisine(id: number, parametre: any): Observable<any> {
+    const url = `${environment.apiUrl}/update_type_cuisine/${id}`;
+    return this.http.put<any>(url, parametre);
+  }
+
+  ajouterZoneRestaurant(userData: any): Observable<any> {
+    return this.http.post<any>(`${environment.apiUrl}/ajouter_zone_table`, userData);
+  }
+
+  getZonesRestaurant(restaurantId:number | null): Observable<any[]> {
+    let url = `${environment.apiUrl}/get_all_zones_table`;
+    if (restaurantId) {
+      url += `?restaurant_id=${restaurantId}`;
+    }
+    return this.http.get<any[]>(url);
+  }
+
+  getZoneRestaurantById(id: number): Observable<any> {
+    const url = `${environment.apiUrl}/get_zone_table_by_id/${id}`;
+    return this.http.get<any>(url);
+  }
+
+  deleteZoneRestaurant(id: number): Observable<any> {
+    const url = `${environment.apiUrl}/delete_zone_table/${id}`;
+    return this.http.delete<any>(url);
+  }
+
+  updateZoneRestaurant(id: number, parametre: any): Observable<any> {
+    const url = `${environment.apiUrl}/update_zone_table/${id}`;
+    return this.http.put<any>(url, parametre);
+  }
+
+  updateNotification(id: number, parametre: any): Observable<any> {
+    const url = `${environment.apiUrl}/update_notification/${id}`;
+    return this.http.put<any>(url, parametre);
+  }
+
+  getNotificationById(id: number): Observable<any> {
+    const url = `${environment.apiUrl}/get_notification_by_id/${id}`;
+    return this.http.get<any>(url);
+  }
+
+  getAllNotificationsByUserID(userID:number | null): Observable<any[]> {
+    let url = `${environment.apiUrl}/get_all_notifications_by_id/${userID}`;
+  
+    return this.http.get<any[]>(url);
+  }
+
 
 
 }

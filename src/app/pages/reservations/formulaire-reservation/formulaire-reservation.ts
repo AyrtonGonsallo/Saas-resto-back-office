@@ -86,14 +86,16 @@ minDate: NgbDateStruct;
       console.log("restaurant_id choisi:", restaurant_id);
       this.restaurantID = restaurant_id
       this.selectedRestaurant = this.restaurants.filter((r:any) =>
-        r.id === restaurant_id &&
-        r.parametres?.some((p:any) =>
+        r.id === restaurant_id
+      )[0];
+      let paramrestoactif=this.selectedRestaurant.parametres?.some((p:any) =>
           p.type === 'etat_paiement_acompte_reservation' &&
           p.est_actif 
         )
-      );
-      this.paymentRestoActive = (this.selectedRestaurant )?true:false;
+      
+      this.paymentRestoActive = (paramrestoactif )?true:false;
       console.log('this.selectedRestaurant',this.selectedRestaurant)
+      console.log('this.paymentRestoActive',this.paymentRestoActive)
 
       if (!restaurant_id) {
         this.tables = this.allTables;
@@ -171,7 +173,11 @@ minDate: NgbDateStruct;
         next: (res) => {
           this.final_reservation=res
           console.log('final_reservation',res)
-          this.get_pay_link()
+          console.log('this.paymentRestoActive',this.paymentRestoActive)
+          if(this.paymentRestoActive){
+            this.get_pay_link()
+          }
+          
           Swal.fire({
                 position: 'bottom-end',
                 icon: 'success',

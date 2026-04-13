@@ -30,6 +30,7 @@ export class CreerTable {
     console.log('this.restaurant_id',this.restaurant_id)
     this.get_all_restaurants()
     this.get_all_societes()
+    this.get_all_zones()
 
     this.user = this.authSerivce.getUser();
     console.log('user recuperé',this.user )
@@ -38,24 +39,42 @@ export class CreerTable {
       numero: ['', Validators.required],
       nb_places: [2, [Validators.min(2),Validators.max(50)]],
       statut: ['libre', Validators.required],
+      zone_id: [0, Validators.required],
       societe_id: [this.user.datas.societe_id, Validators.required],
       restaurant_id: [this.restaurant_id, Validators.required],
     });
 
     this.formData.get('societe_id')?.valueChanges.subscribe((societeID) => {
 
-        console.log("société choisi:", societeID);
+      console.log("société choisi:", societeID);
 
-        if (!societeID) {
-          this.restaurants = this.allRestaurants;
+      if (!societeID) {
+        this.restaurants = this.allRestaurants;
+      } else {
+        this.restaurants = this.allRestaurants.filter(cat =>
+          cat.societe_id === societeID
+        );
+      }
+
+      // 🔥 reset catégorie sélectionnée
+      this.formData.patchValue({ restaurant_id: null });
+
+    });
+
+    this.formData.get('restaurant_id')?.valueChanges.subscribe((restaurantID) => {
+
+        console.log("restaurantID choisi:", restaurantID);
+
+        if (!restaurantID) {
+          this.zones_restaurant = this.allZones;
         } else {
-          this.restaurants = this.allRestaurants.filter(cat =>
-            cat.societe_id === societeID
+          this.zones_restaurant = this.allZones.filter(rest =>
+            rest.restaurant_id === restaurantID
           );
         }
 
-        // 🔥 reset catégorie sélectionnée
-        this.formData.patchValue({ restaurant_id: null });
+        //  reset catégorie sélectionnée
+        this.formData.patchValue({ zone_id: null });
 
       });
   }
@@ -63,6 +82,7 @@ export class CreerTable {
   statuts = [
     { key: 'occupée', name: 'Occupée' },
     { key: 'libre', name: 'Libre' },
+    { key: 'réservée', name: 'Réservée' },
   ];
 
   onSubmit() {
@@ -77,27 +97,27 @@ export class CreerTable {
 
     console.log(this.formData.value);
 
-     this.crudSaasService.ajouterTable(this.formData.value).subscribe({
-          next: (res) => {
-            Swal.fire({
-                  position: 'bottom-end',
-                  icon: 'success',
-                  title: 'L\'élément a bien été crée',
-                  showConfirmButton: false,
-                });
-            setTimeout(() => {
-              this.router.navigate(['/tables/liste-tables']);
-            }, 2000);
-          },
-          error: (err) => {
-            if(err.error.message == "Validation error"){
-              this.notificationsService.error("Le numéro de table existe déja dans ce restaurant","Echec")
-            }else{
-              this.notificationsService.error("Erreur lors de l’ajout","Echec")
-            }
-            
-          }
-        });
+    this.crudSaasService.ajouterTable(this.formData.value).subscribe({
+      next: (res) => {
+        Swal.fire({
+              position: 'bottom-end',
+              icon: 'success',
+              title: 'L\'élément a bien été crée',
+              showConfirmButton: false,
+            });
+        setTimeout(() => {
+          this.router.navigate(['/tables/liste-tables']);
+        }, 2000);
+      },
+      error: (err) => {
+        if(err.error.message == "Validation error"){
+          this.notificationsService.error("Le numéro de table existe déja dans ce restaurant","Echec")
+        }else{
+          this.notificationsService.error("Erreur lors de l’ajout","Echec")
+        }
+        
+      }
+    });
 
 
     // appel API ici
@@ -106,6 +126,8 @@ export class CreerTable {
   allRestaurants:any[]
   restaurants:any[]
   societes:any[]
+  zones_restaurant:any[]
+  allZones:any[]
 
   get_all_restaurants(){
 
@@ -122,16 +144,31 @@ export class CreerTable {
       });
   }
 
-    get_all_societes(){
-      this.crudSaasService.getSocietes().subscribe({
-        next: (res) => {
-          this.societes=res
-          console.log("getSocietes",this.societes)
-        },
-        error: (err) => {
-          this.notificationsService.error("Erreur lors de la récupération des sociétés","Echec")
-        }
-      });
-    }
+  get_all_societes(){
+    this.crudSaasService.getSocietes().subscribe({
+      next: (res) => {
+        this.societes=res
+        console.log("getSocietes",this.societes)
+      },
+      error: (err) => {
+        this.notificationsService.error("Erreur lors de la récupération des sociétés","Echec")
+      }
+    });
+  }
+
+   get_all_zones(){
+
+    let restaurant_id = this.restaurantService.getRestaurant()
+    this.crudSaasService.getZonesRestaurant(restaurant_id).subscribe({
+      next: (res) => {
+        this.zones_restaurant=res
+        this.allZones = res
+        console.log("zones_restaurant",this.zones_restaurant)
+      },
+      error: (err) => {
+        this.notificationsService.error("Erreur lors de la récupération des catégories","Echec")
+      }
+    });
+  }
 
 }
