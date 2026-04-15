@@ -494,6 +494,34 @@ export class CrudSaasRestoService {
     return this.http.get<any[]>(url);
   }
 
+  
+  ajouterMenu(userData: any): Observable<any> {
+    return this.http.post<any>(`${environment.apiUrl}/ajouter_menu`, userData);
+  }
+
+  getMenus(restaurantId:number | null): Observable<any[]> {
+    let url = `${environment.apiUrl}/get_all_menus`;
+    if (restaurantId) {
+      url += `?restaurant_id=${restaurantId}`;
+    }
+    return this.http.get<any[]>(url);
+  }
+
+  getMenuById(id: number): Observable<any> {
+    const url = `${environment.apiUrl}/get_menu_by_id/${id}`;
+    return this.http.get<any>(url);
+  }
+
+  deleteMenu(id: number): Observable<any> {
+    const url = `${environment.apiUrl}/delete_menu/${id}`;
+    return this.http.delete<any>(url);
+  }
+
+  updateMenu(id: number, parametre: any): Observable<any> {
+    const url = `${environment.apiUrl}/update_menu/${id}`;
+    return this.http.put<any>(url, parametre);
+  }
+
 
 
 }

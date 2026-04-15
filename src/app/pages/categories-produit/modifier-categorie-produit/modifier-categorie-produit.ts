@@ -107,7 +107,7 @@ export class ModifierCategorieProduit {
           utilisateur_id: [this.user.datas.id, Validators.required],
         });
 
-         this.restaurants = this.allRestaurants.filter(cat =>
+         this.restaurants = this.allRestaurants?.filter(cat =>
           cat.societe_id === this.data.societe_id
         );
 
@@ -118,7 +118,7 @@ export class ModifierCategorieProduit {
           if (!societeID) {
             this.restaurants = this.allRestaurants;
           } else {
-            this.restaurants = this.allRestaurants.filter(cat =>
+            this.restaurants = this.allRestaurants?.filter(cat =>
               cat.societe_id === societeID
             );
           }

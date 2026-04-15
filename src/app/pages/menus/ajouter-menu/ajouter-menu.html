@@ -1,1 +1,111 @@
-<p>ajouter-menu works!</p>
+<form class="card" [formGroup]="formData" (ngSubmit)="onSubmit()">
+    <div class="card-header">
+        <h4 class="card-title mb-0">Ajouter un menu</h4>
+        
+    </div>
+
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="mb-3">
+                <label class="form-label">Titre <span class="text-danger">*</span></label>
+                <input class="form-control" type="text" formControlName="titre" placeholder="titre">
+                <div *ngIf="formData.get('titre')?.touched && formData.get('titre')?.invalid" class="text-danger">
+                    Le titre est invalide
+                </div>
+                </div>
+            </div>
+
+            <div class="col-sm-12 col-md-12">
+                <label class="form-label">Type <span class="text-danger">*</span></label>
+            
+                <ng-select [items]="types" bindLabel="key" bindValue="key" [multiple]="false"
+                    placeholder="choisir un type" formControlName="type"  />
+                    <div *ngIf="formData.get('type')?.touched && formData.get('type')?.invalid" class="text-danger">
+                    Le type est invalide
+                </div>
+            </div>
+
+             <div class="col-sm-12 col-md-12">
+                <label class="form-label">Société <span class="text-danger">*</span></label>
+            
+                <ng-select [items]="societes" bindLabel="titre" bindValue="id" [multiple]="false"
+                    placeholder="choisir une société" formControlName="societe_id"  />
+                    <div *ngIf="formData.get('societe_id')?.touched && formData.get('societe_id')?.invalid" class="text-danger">
+                    La sociéte est invalide
+                </div>
+            </div>
+
+            <div class="col-sm-12 col-md-12">
+                <label class="form-label">Restaurant <span class="text-danger">*</span></label>
+            
+                <ng-select [items]="restaurants" bindLabel="nom" bindValue="id" [multiple]="false"
+                    placeholder="choisir un restaurant" formControlName="restaurant_id"  />
+                    <div *ngIf="formData.get('restaurant_id')?.touched && formData.get('restaurant_id')?.invalid" class="text-danger">
+                    Le restaurant est invalide
+                </div>
+            </div>
+
+            <div class="col-sm-12 col-md-12">
+                <label class="form-label">Produits <span class="text-danger">*</span></label>
+            
+                <ng-select [items]="produits" bindLabel="fullName" bindValue="id" [multiple]="true"
+                    placeholder="choisir des produits" formControlName="liste_produits"  />
+                    <div *ngIf="formData.get('liste_produits')?.touched && formData.get('liste_produits')?.invalid" class="text-danger">
+                    Les produits sont invalides
+                </div>
+            </div>
+
+
+            <div class="col-sm-12 col-md-12">
+                <label class="form-label">Image</label>
+                <div class="input-group">
+                    <input formControlName="image"  (change)="onFileSelected($event)" class="form-control" id="inputGroupFile01" type="file">
+                </div>
+               <img 
+                *ngIf="previewUrl" 
+                [src]="previewUrl" 
+                width="150"
+                (click)="openZoom()"
+                style="cursor: zoom-in"
+                />
+
+                <!-- Modal -->
+                <div class="zoom-modal" *ngIf="isZoomed" (click)="closeZoom()">
+                    <img [src]="previewUrl" class="zoom-image" />
+                </div>
+            </div>
+
+            
+
+            <div class="col-sm-12 col-md-12">
+                <div class="mb-3">
+                    <label class="form-label">Description</label>
+                    <angular-editor [placeholder]="'Enter text here...'" formControlName="description"  />
+                </div>
+            </div>
+
+         
+
+            <div class="col-sm-12 col-md-12">
+                <div class="mb-3">
+                    <label class="form-label">Actif ? <span class="text-danger">*</span></label>
+                    <div>
+                         <label class="switch">
+                        <input type="checkbox" formControlName="actif">
+                        <span class="switch-state"></span>
+                    </label>
+                    </div>
+                </div>
+            </div>
+
+           
+            
+
+        </div>
+    </div>
+
+    <div class="card-footer text-end">
+        <button class="btn btn-primary" type="submit">Envoyer</button>
+    </div>
+</form>
