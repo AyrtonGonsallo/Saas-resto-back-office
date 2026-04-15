@@ -56,7 +56,7 @@ export class ModifierReservation {
       service_id: [null, Validators.required], //etape 3
       table_id: [null, Validators.required], //etape 3
       creneau_id: [null, Validators.required], //etape 3
-      creneau_du_jour_id: [null, Validators.required], //etape 3
+      total_reservations_creneau_par_jour_id: [null, Validators.required], //etape 3
       tags: [null, Validators.required], 
     });
   }
@@ -147,7 +147,7 @@ export class ModifierReservation {
           service_id: [this.data.service_id, Validators.required], //etape 3
           table_id: [this.data.table_id, Validators.required], //etape 3
           creneau_id: [this.data.creneau_id, Validators.required], //etape 3
-          creneau_du_jour_id: [this.data.creneau_du_jour_id, Validators.required],
+          total_reservations_creneau_par_jour_id: [this.data.total_reservations_creneau_par_jour_id, Validators.required],
           tags: [Array.isArray(this.data.tags) 
             ? this.data.tags.map((tag:any) => tag.id) 
             : [Validators.required]

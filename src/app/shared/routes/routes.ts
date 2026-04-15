@@ -467,9 +467,7 @@ export const dashData: Routes = [
     data: {
       title: 'Notifications',
       breadcrumb: 'Notifications',
-      roles: ['super-admin','gestionnaire-societe','admin','gestionnaire-restaurant','lecteur-planning','lecteur-cuisine','employé',]
     },
-    canActivate: [RoleGuard],
     loadChildren: () => import('../../pages/notifications/notifications.routes').then(r => r.NotificationsRoutes),
   },
 ];

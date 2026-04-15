@@ -128,4 +128,20 @@ export class VoirNotification {
     clickOutside(): void {
       this.isopen = false;
     }
+
+    get_bg_class(statut:string){
+      let res = ''
+      switch (statut) {
+        case 'non lue':
+          res = 'right-msg'
+          break;
+        case 'lue':
+          res = 'left-msg'
+          break;
+      
+        default:
+          break;
+      }
+      return res
+    }
 }

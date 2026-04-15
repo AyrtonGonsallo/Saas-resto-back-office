@@ -17,14 +17,14 @@
         <div class="msger">
             <div class="msger-chat">
                 
-                <div class="msg right-msg">
+                <div class="msg {{get_bg_class(data?.statut_lecture)}}">
                     <div class="msg-img"></div>
                     <div class="msg-bubble">
                         <div class="msg-info">
-                            <div class="msg-info-name">{{data.type}}</div>
-                            <div class="msg-info-time">{{data.date_rappel| date:'dd/MM/yyyy HH:mm'}}</div>
+                            <div class="msg-info-name">{{data?.type}}</div>
+                            <div class="msg-info-time">{{data?.date_rappel| date:'dd/MM/yyyy HH:mm'}}</div>
                         </div>
-                        <div class="msg-text">{{data.texte}}
+                        <div class="msg-text">{{data?.texte}}
                         </div>
                     </div>
                 </div>

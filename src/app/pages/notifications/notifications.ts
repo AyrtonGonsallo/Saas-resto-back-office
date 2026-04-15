@@ -62,6 +62,18 @@ export class Notifications {
   }
 
   get_class(statut:string){
-    return 'bg-success'
+    let res = ''
+    switch (statut) {
+      case 'non lue':
+        res = 'bg-success'
+        break;
+      case 'lue':
+        res = 'bg-warning'
+        break;
+    
+      default:
+        break;
+    }
+    return res
   }
 }

@@ -486,7 +486,11 @@ export class CrudSaasRestoService {
 
   getAllNotificationsByUserID(userID:number | null): Observable<any[]> {
     let url = `${environment.apiUrl}/get_all_notifications_by_id/${userID}`;
-  
+    return this.http.get<any[]>(url);
+  }
+
+  getAllUnreadNotificationsByUserID(userID:number | null): Observable<any[]> {
+    let url = `${environment.apiUrl}/get_all_unread_notifications_by_id/${userID}`;
     return this.http.get<any[]>(url);
   }
 

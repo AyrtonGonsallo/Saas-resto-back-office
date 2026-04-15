@@ -38,7 +38,7 @@ export class Notification {
 
   get_all_custom_notifications(){
 
-    this.crudSaasService.getAllNotificationsByUserID(this.user?.datas.id).subscribe({
+    this.crudSaasService.getAllUnreadNotificationsByUserID(this.user?.datas.id).subscribe({
       next: (res) => {
         this.custom_notifications=res;
         console.log("custom_notifications",this.custom_notifications)
