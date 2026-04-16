@@ -8,6 +8,7 @@ import { ActivatedRoute, Router, } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { RestaurantService } from '../../../shared/services/user/user.service';
+import { environment } from '../../../environment';
 
 @Component({
   selector: 'app-modifier-restaurant',
@@ -18,6 +19,7 @@ import { RestaurantService } from '../../../shared/services/user/user.service';
 export class ModifierRestaurant {
   
   private router = inject(Router);
+  public imagesUrl = environment.imagesUrl
   formData!: FormGroup;
   constructor(private route: ActivatedRoute,private fb: FormBuilder, private restaurantService: RestaurantService, private crudSaasService:CrudSaasRestoService, private notificationsService:NotificationsService,) {}
 
@@ -38,6 +40,7 @@ export class ModifierRestaurant {
       adresse: ['', Validators.required],
       ville: ['', Validators.required],
       coordonnees_google_maps: ['', ],
+      image: ['', ],
       heure_debut: ['', [Validators.required, ]],
       heure_fin: ['', [Validators.required, ]],
       heure_cc_debut: ['', [, ]],
@@ -57,11 +60,28 @@ export class ModifierRestaurant {
       return;
     }
 
-  
+    const finalFormData = new FormData();
 
-    console.log(this.formData.value);
+    finalFormData.append('nom', this.formData.value.nom);
+    finalFormData.append('adresse', this.formData.value.adresse);
+    finalFormData.append('ville', this.formData.value.ville);
+    finalFormData.append('coordonnees_google_maps', this.formData.value.coordonnees_google_maps);
+    finalFormData.append('heure_debut', this.formData.value.heure_debut);
+    finalFormData.append('heure_fin', this.formData.value.heure_fin);
+    finalFormData.append('heure_cc_debut', this.formData.value.heure_cc_debut);
+    finalFormData.append('heure_cc_fin', this.formData.value.heure_cc_fin);
+    finalFormData.append('telephone', this.formData.value.telephone);
+    finalFormData.append('societe_id', this.formData.value.societe_id);
 
-     this.crudSaasService.updateRestaurant(this.data_id,this.formData.value).subscribe({
+    //  fichier image
+    if (this.selectedFile) {
+      console.log("image envoyee",this.selectedFile)
+      finalFormData.append('image', this.selectedFile);
+    }
+
+    console.log('finalFormData',finalFormData);
+
+     this.crudSaasService.updateRestaurant(this.data_id,finalFormData).subscribe({
           next: (res) => {
             Swal.fire({
                   position: 'bottom-end',
@@ -157,6 +177,7 @@ export class ModifierRestaurant {
           adresse: [this.data.adresse, Validators.required],
           ville: [this.data.ville, Validators.required],
           coordonnees_google_maps: [this.data.coordonnees_google_maps, ],
+          image: ['', ],
           heure_debut: [this.data.heure_debut, [Validators.required, ]],
           heure_fin: [this.data.heure_fin, [Validators.required, ]],
           heure_cc_debut: [this.data.heure_cc_debut, [, ]],
@@ -190,5 +211,38 @@ export class ModifierRestaurant {
     });
 
     }
+
+
+    
+  previewUrl : any = null;
+  selectedFile: File | null = null;
+  maxSize = 2 * 1024 * 1024;
+  onFileSelected(event: any) {
+    
+    this.selectedFile = event.target.files[0];
+    let filesize = this.selectedFile?.size??0
+    if (filesize > this.maxSize) {
+      alert('Fichier trop volumineux (max 2MB)');
+      return;
+    }
+    console.log("upload",this.selectedFile)
+    if (this.selectedFile) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.previewUrl = reader.result as string;
+      };
+      reader.readAsDataURL(this.selectedFile);
+    }
+  }
+  isZoomed = false;
+
+  openZoom() {
+    this.isZoomed = true;
+  }
+
+  closeZoom() {
+    this.isZoomed = false;
+  }
+
 
 }

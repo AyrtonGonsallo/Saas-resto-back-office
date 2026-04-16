@@ -39,6 +39,7 @@
           <thead>
             <tr>
               <th scope="col" sortable="id" (sort)="onSort($event)">ID</th>
+              <th scope="col" sortable="image" (sort)="onSort($event)">Image</th>
               <th scope="col" sortable="nom" (sort)="onSort($event)">Nom</th>
               <th scope="col" sortable="adresse" (sort)="onSort($event)">Adresse</th>
               <th scope="col" sortable="heure_debut" (sort)="onSort($event)">Horaires</th>
@@ -55,6 +56,16 @@
               
               <td>
                 <ngb-highlight [result]="data.id" [term]="service.searchTerm" />
+              </td>
+              <td>
+                <div class="customers text-center social-group" *ngIf="data.image">
+                  <ul>
+                    <li class="d-inline-block">
+                      <img class="img-40 rounded-circle" [src]="imagesUrl+data.image" alt="images" />
+                    </li>
+                    
+                  </ul>
+                </div>
               </td>
               <td>
                 <ngb-highlight [result]="data.nom" [term]="service.searchTerm" />

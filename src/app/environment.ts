@@ -1,7 +1,7 @@
 // environment.ts
 
 export const environment = {
-    production: true,
+    production: false,
     apiUrl: 'http://localhost:2026/api/v1', // URL de l'API locale
     //apiUrl: 'https://api.resto.orocom.io/api/v1', // URL de l'API sur le dev
     //apiUrl: 'https://api.resto.orocom.io/api/v1', // URL de l'API en prod

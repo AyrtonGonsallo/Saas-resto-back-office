@@ -38,6 +38,7 @@ export class CreerCategorieProduit {
     this.formData = this.fb.group({
       titre: ['', Validators.required],
       description: ['', ],
+      ordre: [, [Validators.pattern(/^[0-9]+$/), Validators.min(1), Validators.max(100)]],
       est_actif: [true, Validators.required],
       societe_id: [this.user.datas?.societe_id, Validators.required],
       restaurant_id: [this.restaurant_id, Validators.required],

@@ -470,4 +470,14 @@ export const dashData: Routes = [
     },
     loadChildren: () => import('../../pages/notifications/notifications.routes').then(r => r.NotificationsRoutes),
   },
+  {
+    path: 'commandes',
+    data: {
+      title: 'Commandes',
+      breadcrumb: 'Commandes',
+      roles: ['super-admin','gestionnaire-societe','admin','gestionnaire-restaurant','lecteur-planning','lecteur-cuisine','employé',]
+    },
+    canActivate: [RoleGuard],
+    loadChildren: () => import('../../pages/click-and-collects/click-and-collects.routes').then(r => r.ClickAndCollectRoutes),
+  },
 ];

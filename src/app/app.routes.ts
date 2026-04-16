@@ -34,4 +34,13 @@ export const routes: Routes = [
       parentpath: 'reservations/liste-reservations'
     },
   },
+  {
+    path: 'click-and-collects/formulaire-click-and-collect/:societe_id',
+    loadComponent: () => import('./pages/click-and-collects/formulaire-click-and-collect/formulaire-click-and-collect').then(m => m.FormulaireClickAndCollect),
+    data: {
+      title: 'Formulaire de click and collect',
+      breadcrumb: 'Formulaire de click and collect',
+      parentpath: 'commandes/liste-commandes'
+    },
+  },
 ];

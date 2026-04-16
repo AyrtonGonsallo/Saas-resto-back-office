@@ -204,6 +204,14 @@ export class NavmenuService {
       active: false,
     },
     {
+      id: 49,
+      level: 1,
+      title: 'Commandes',
+      path: '/commandes/liste-commandes',
+      icon: 'order-product',
+      active: false,
+    },
+    {
       headTitle1: 'Applications',
       line: true,
       devOnly: true,

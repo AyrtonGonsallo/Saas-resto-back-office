@@ -24,6 +24,16 @@
                 </div>
             </div>
 
+            <div class="col-md-12">
+                <div class="mb-3">
+                <label class="form-label">Ordre</label>
+                <input class="form-control" type="number" formControlName="ordre" placeholder="ordre">
+                <div *ngIf="formData.get('ordre')?.touched && formData.get('ordre')?.invalid" class="text-danger">
+                    L'ordre est invalide
+                </div>
+                </div>
+            </div>
+
             <div class="col-sm-12 col-md-12">
                 <div class="mb-3">
                     <label class="form-label">Actif ? <span class="text-danger">*</span></label>

@@ -9,11 +9,11 @@ import { RestaurantService } from '../../../shared/services/user/user.service';
 import { CrudSaasRestoService } from '../../../shared/services/api/crud-saas-resto.service';
 import { NotificationsService } from '../../../shared/services/notifications/notifications.service';
 import Swal from 'sweetalert2';
-import { AngularEditorModule } from '@kolkov/angular-editor';
+
 
 @Component({
   selector: 'app-formulaire-reservation',
-  imports: [RouterModule, CommonLoginForm,ReactiveFormsModule,CommonModule,ReactiveFormsModule, NgSelectModule, NgbModule,AngularEditorModule,   ],
+  imports: [RouterModule, CommonLoginForm,ReactiveFormsModule,CommonModule,ReactiveFormsModule, NgSelectModule, NgbModule,   ],
   templateUrl: './formulaire-reservation.html',
   styleUrl: './formulaire-reservation.scss',
 })

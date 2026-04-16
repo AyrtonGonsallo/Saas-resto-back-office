@@ -5,6 +5,20 @@
     </div>
 
     <div class="card-body">
+
+
+        <div class="blog-single mb-5">
+            <div class="blog-box blog-details">
+                <img *ngIf="data?.image" class="img-fluid w-100" [src]="imagesUrl+data?.image" alt="blog-main">
+                <div class="blog-details">
+                    <ul class="blog-social">
+                        <li><i class="icofont icofont-calendar"></i>Créé le <span>{{data?.created_at | date:'dd/MM/yyyy'}} </span></li>
+                        <li><i class="icofont icofont-pencil"></i>modifié le <span>{{data?.updated_at | date:'dd/MM/yyyy'}}</span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
         <div class="row">
 
             <div class="col-sm-12 col-md-12">
@@ -44,6 +58,25 @@
                 <div *ngIf="formData.get('coordonnees_google_maps')?.touched && formData.get('coordonnees_google_maps')?.invalid" class="text-danger">
                     Coordonnées google maps invalides
                 </div>
+                </div>
+            </div>
+
+             <div class="col-sm-12 col-md-12">
+                <label class="form-label">Image</label>
+                <div class="input-group">
+                    <input formControlName="image"  (change)="onFileSelected($event)" class="form-control" id="inputGroupFile01" type="file">
+                </div>
+               <img 
+                *ngIf="previewUrl" 
+                [src]="previewUrl" 
+                width="150"
+                (click)="openZoom()"
+                style="cursor: zoom-in"
+                />
+
+                <!-- Modal -->
+                <div class="zoom-modal" *ngIf="isZoomed" (click)="closeZoom()">
+                    <img [src]="previewUrl" class="zoom-image" />
                 </div>
             </div>
 

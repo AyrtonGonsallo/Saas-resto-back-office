@@ -1,4 +1,4 @@
-import { DecimalPipe, AsyncPipe } from '@angular/common';
+import { DecimalPipe, AsyncPipe, CommonModule } from '@angular/common';
 import { Component, inject, viewChildren } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import Swal from 'sweetalert2';
@@ -13,12 +13,14 @@ import { TableService } from '../../shared/services/table.service';
 import { CrudSaasRestoService } from '../../shared/services/api/crud-saas-resto.service';
 import { NotificationsService } from '../../shared/services/notifications/notifications.service';
 import { RestaurantService } from '../../shared/services/user/user.service';
+import { environment } from '../../environment';
 
 @Component({
   selector: 'app-restaurants',
   imports: [FormsModule,
     NgbdSortableHeaderDirective,
     ReactiveFormsModule,
+    CommonModule,
     NgbModule,
     AsyncPipe,],
   templateUrl: './restaurants.html',
@@ -28,6 +30,7 @@ import { RestaurantService } from '../../shared/services/user/user.service';
 export class Restaurants {
   public service = inject(TableService);
      private router = inject(Router);
+    public imagesUrl = environment.imagesUrl
    
      public tableData$: Observable<any[]> = this.service.supportdata$;
      public total$: Observable<number> = this.service.total$;

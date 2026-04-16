@@ -223,14 +223,14 @@
                                         <div class="col-sm-12 col-md-12">
                                             <div class="mb-3">
                                                 <label class="form-label">Notes</label>
-                                                <angular-editor [placeholder]="'Vos notes...'" formControlName="notes"  />
+                                                <textarea class="form-control" formControlName="notes" rows="3"></textarea>
                                             </div>
                                         </div>
 
                                         <div class="col-sm-12 col-md-12">
                                             <div class="mb-3">
                                                 <label class="form-label">Demandes spéciales</label>
-                                                <angular-editor [placeholder]="'Vos demandes...'" formControlName="demandes_speciales"  />
+                                                <textarea class="form-control" formControlName="demandes_speciales" rows="3"></textarea>
                                             </div>
                                         </div>
                                         
@@ -253,7 +253,7 @@
                                             </div>
                                         </div>
                                         <div *ngIf="!paymentRestoActive">
-                                            Le paiement est désactvié
+                                            Le paiement est désactivé
                                         </div>
                                         <br><br>
                                         <div *ngIf="!final_reservation">
