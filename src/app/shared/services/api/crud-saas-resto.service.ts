@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environment';
-import { ReservationDataResponse } from '../../interface/custom/reservation-datas-response';
+import { ReservationDatasResponse } from '../../interface/custom/reservation-datas-response';
+import { CommandeDatasResponse } from '../../interface/custom/commande-datas-response';
 
 @Injectable({
   providedIn: 'root',
@@ -408,15 +409,25 @@ export class CrudSaasRestoService {
     return this.http.put<any>(url, parametre);
   }
 
-  getReservationDataBySocieteId(societeID:number | null): Observable<ReservationDataResponse> {
-    let url = `${environment.apiUrl}/get_reservation_data_by_societeID/${societeID}`;
+  getReservationDatasBySocieteId(societeID:number | null): Observable<ReservationDatasResponse> {
+    let url = `${environment.apiUrl}/get_reservation_datas_by_societeID/${societeID}`;
     
-    return this.http.get<ReservationDataResponse>(url);
+    return this.http.get<ReservationDatasResponse>(url);
+  }
+
+  getCommandeDatasBySocieteId(societeID:number | null): Observable<CommandeDatasResponse> {
+    let url = `${environment.apiUrl}/get_commande_datas_by_societeID/${societeID}`;
+    
+    return this.http.get<CommandeDatasResponse>(url);
   }
 
   getStripePaymentLinkForReservation(restaurantId:number | null, datas: any): Observable<any> {
-    let url = `${environment.apiUrl}/get_stripe_payment_link_for_resto/${restaurantId}`;
-   
+    let url = `${environment.apiUrl}/get_stripe_payment_link_for_reservation/${restaurantId}`;
+    return this.http.post<any>(url, datas);
+  }
+
+  getStripePaymentLinkForCommande(restaurantId:number | null, datas: any): Observable<any> {
+    let url = `${environment.apiUrl}/get_stripe_payment_link_for_commande/${restaurantId}`;
     return this.http.post<any>(url, datas);
   }
 
@@ -520,6 +531,10 @@ export class CrudSaasRestoService {
   updateMenu(id: number, parametre: any): Observable<any> {
     const url = `${environment.apiUrl}/update_menu/${id}`;
     return this.http.put<any>(url, parametre);
+  }
+
+  ajouterCommande(userData: any): Observable<any> {
+    return this.http.post<any>(`${environment.apiUrl}/ajouter_commande`, userData);
   }
 
 

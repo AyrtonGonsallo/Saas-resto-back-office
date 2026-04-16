@@ -3,9 +3,7 @@ import { Component } from '@angular/core';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 
-import { Feathericon } from '../../shared/component/feathericon/feathericon';
 import { Chats, Contacts } from '../../shared/data/chat/chat';
-import { ClickOutsideDirective } from '../../shared/directives/outside.directive';
 import { CrudSaasRestoService } from '../../shared/services/api/crud-saas-resto.service';
 import { NotificationsService } from '../../shared/services/notifications/notifications.service';
 import { AuthSaasRestoService } from '../../shared/services/auth/auth-saas-resto.service';
@@ -14,7 +12,7 @@ import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-notifications',
-  imports: [ NgbModule, Feathericon,RouterModule, ClickOutsideDirective,CommonModule],
+  imports: [ NgbModule,RouterModule,CommonModule],
   templateUrl: './notifications.html',
   styleUrl: './notifications.scss',
 })

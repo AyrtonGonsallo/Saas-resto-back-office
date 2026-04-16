@@ -87,9 +87,10 @@ export class Restaurants {
      recreer_parametres_restaurant(restoid:number){
         this.crudSaasService.recreateParametresRestaurant(restoid).subscribe({
           next: (res) => {
+            console.log(res)
             Swal.fire({
                  title: `Parametres recrées !`,
-                 text: `Parametres recrées pour le restaurant #${restoid}`,
+                 text: `${res.total} Parametres recrées pour le restaurant #${restoid}`,
                  icon: 'success',
                });
           },

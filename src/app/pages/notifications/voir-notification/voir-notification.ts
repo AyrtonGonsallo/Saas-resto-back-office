@@ -10,13 +10,12 @@ import Swal from 'sweetalert2';
 import { AuthSaasRestoService } from '../../../shared/services/auth/auth-saas-resto.service';
 import { AngularEditorModule } from '@kolkov/angular-editor';
 import { RestaurantService } from '../../../shared/services/user/user.service';
-import { Feathericon } from '../../../shared/component/feathericon/feathericon';
 import { ClickOutsideDirective } from '../../../shared/directives/outside.directive';
 
 
 @Component({
   selector: 'app-voir-notification',
-  imports: [ReactiveFormsModule,CommonModule, ReactiveFormsModule, NgSelectModule, NgbModule,AngularEditorModule,Feathericon, ClickOutsideDirective],
+  imports: [ReactiveFormsModule,CommonModule, ReactiveFormsModule, NgSelectModule, NgbModule,AngularEditorModule, ClickOutsideDirective],
   templateUrl: './voir-notification.html',
   styleUrl: './voir-notification.scss',
 })

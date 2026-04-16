@@ -1,1 +1,359 @@
-<p>formulaire-click-and-collect works!</p>
+<div class="container-fluid p-0">
+    <div class="row m-0">
+        <div class="col-12 p-0">
+            <div class="login-card login-dark" >
+                <div>
+                    <div>
+                        <a class="logo" [routerLink]="['/dashboard/default']">
+                            <img class="img-fluid for-light" src="assets/images/logo/logo.png" alt="looginpage">
+                            <img class="img-fluid for-dark m-auto" src="assets/images/logo/dark-logo.png" alt="logo">
+                        </a>
+                    </div>
+                    <div class="login-main" >
+                        
+                            <h2 class="text-center">{{societeData?.titre}}</h2>
+                            <h3 class="text-center">Click & Collect </h3>
+                            <h4 class="text-center" *ngIf="selectedRestaurant">Restaurant : {{selectedRestaurant?.nom}}</h4>
+                            <p class="text-center">Entrez les informations suivantes</p>
+
+
+                            <div class="card">
+                                
+                                <div class="card-body">
+                                    <div class="position-relative mx-3 my-4 progress-number">
+                                        
+
+                                        <div class="progress-wrapper">
+                                        <div class="progress">
+                                            <div class="progress-bar" [style.width.%]="progression"></div>
+                                        </div>
+
+                                        <div class="steps">
+                                            <button [ngClass]="stepClass(1)">Restaurant</button>
+                                            <button [ngClass]="stepClass(2)">Menus</button>
+                                            <button [ngClass]="stepClass(3)">Produits</button>
+                                            <button [ngClass]="stepClass(4)">Commande</button>
+                                            <button [ngClass]="stepClass(5)">Récap</button>
+                                        </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card">
+                                
+                                <div class="card-body">
+                                    
+                                    <div *ngIf="current_step==1">
+                                        
+                                        <h2 class="card-title mb-4">Restaurant</h2>
+
+                                        <div class="input-group mb-3 flex-nowrap">
+                                            <input class="form-control-plaintext recherche-resto" type="search" placeholder="Rechercher.." [(ngModel)]="search_term" (input)="recherche()"><span
+                                                class="btn bg-primary input-group-text"><i class="fa fa-magnifying-glass"></i></span>
+                                        </div>
+
+                                        <div class="row">
+                                            @for( restaurant of restaurants; track restaurant){
+                                                <div class="col-xxl-3 col-md-4 box-col-6">
+                                                    <div class="card features-faq product-box restaurant-box">
+                                                        <div class="faq-image product-img">
+                                                            <img class="img-fluid" [src]="imagesUrl+restaurant.image" alt="img">
+                                                            <div class="product-hover">
+                                                                
+                                                            </div>
+                                                        </div>
+                                                        <div class="card-body">
+                                                            <h5 class="text-center ms-2 me-2">{{ restaurant.nom}}</h5>
+                                                            
+                                                            
+                                                            <div class="form-check ps-0 main-icon-checkbox">
+                                                                <ul class="checkbox-wrapper nogap mt-3">
+                                                                    <li class="little-tags">
+                                                                        <label class="form-check-label">
+                                                                            <span>{{restaurant.ville}}</span>
+                                                                        </label>
+                                                                    </li>
+                                                                    @for(type_cuisine of restaurant.types_de_cuisine; track type_cuisine){
+                                                                        <li class="little-tags">
+                                                                            <label class="form-check-label">
+                                                                                <span>{{type_cuisine.titre}}</span>
+                                                                            </label>
+                                                                        </li>
+                                                                    }
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                        <div class="card-footer">
+                                                            <a class="btn btn-primary btn-block w-100 text-white" (click)="choisirRestaurant(restaurant.id)">Commander</a>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            }
+                                        </div>
+                                    </div>
+
+                                    <div *ngIf="current_step==2">
+                                        <h2 class="card-title mb-4">Menus</h2>
+
+                                        <div class="row">
+                                            @for( menu of menus; track menu){
+                                                <div class="col-xxl-3 col-md-4 box-col-6">
+                                                    <div class="card features-faq product-box restaurant-box">
+                                                        <div class="faq-image product-img">
+                                                            <img class="img-fluid" [src]="imagesUrl+menu.image" alt="img">
+                                                            <div class="product-hover">
+                                                                
+                                                            </div>
+                                                        </div>
+                                                        <div class="card-body ps-2 pe-2">
+                                                            <h5 class="text-center ms-2 me-2">{{ menu.titre}}</h5>
+                                                            <p class="text-center ms-2 me-2">{{ menu.type}}</p>
+                                                            <div [innerHTML]="cut_description(menu.description)" class="text-center ms-2 me-2"></div>
+                                                        </div>
+                                                        <div class="card-footer">
+                                                            <a class="btn btn-primary btn-block w-100 text-white" (click)="choisirMenu(menu.id)">Voir les produits</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            }
+                                        </div>
+                                        
+                                    </div>
+
+                                    <div *ngIf="current_step==3">
+                                        <h2 class="card-title mb-0">Produits</h2>
+                                        @for( group of produits_groupes_par_cat; track group){
+                                            <h3 class="mt-4 mb-3">{{group.categorie.titre}}</h3>
+                                            <div class="row">
+                                                @for( produit of group.produits; track produit){
+                                                <div class="col-xxl-3 col-md-4 box-col-6">
+                                                    <div class="card features-faq product-box restaurant-box">
+                                                        <div class="faq-image product-img">
+                                                            <img class="img-fluid" [src]="imagesUrl+produit.image" alt="img">
+                                                            <div class="product-hover">
+                                                                
+                                                            </div>
+                                                        </div>
+                                                        <div class="card-body ps-2 pe-2">
+                                                            <h5 class="text-center ms-2 me-2">{{ produit.titre}}</h5>
+                                                            <div [innerHTML]="cut_description(produit.description)" class="text-center ms-2 me-2"></div>
+                                                        </div>
+                                                        <div class="card-footer">
+                                                            
+                                                            <div *ngIf="!(produit.variations.length>0)" >
+                                                                <button class="btn btn-primary px-xl-2 px-xxl-3" type="button" (click)="ouvrirAjouterProduitModal(ajouterProduitTemplate,produit,0)">Ajouter +</button>
+                                                            </div>
+                                                            <div *ngIf="(produit.variations.length>0)">
+                                                                <button class="btn btn-secondary px-xl-2 px-xxl-3" type="button" (click)="ouvrirChoixVariationsModal(variationsChoiceTemplate,produit)">Choix des variations</button>
+                                                                <ng-template #variationsChoiceTemplate let-modal>
+                                                                    <div class="modal-content">
+                                                                        <div class="modal-body">
+                                                                            <div class="modal-toggle-wrapper">
+                                                                                <h4>choisir des options</h4>
+                                                                                <div class="row">
+                                                                                    @for( variation of produit.variations; track variation){
+                                                                                    <div class="col-xxl-6 col-md-6 box-col-6">
+                                                                                        <div class="card features-faq product-box restaurant-box">
+                                                                                            <div class="faq-image product-img">
+                                                                                                <img class="img-fluid" [src]="imagesUrl+produit.image" alt="img">
+                                                                                                <div class="product-hover">
+                                                                                                    
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div class="card-body ps-2 pe-2">
+                                                                                                <h5 class="text-center ms-2 me-2">{{ variation.titre}}</h5>
+                                                                                                <div [innerHTML]="cut_description(variation.description)" class="text-center ms-2 me-2"></div>
+                                                                                            </div>
+                                                                                            <div class="card-footer">
+                                                                                                <button class="btn btn-primary px-xl-2 px-xxl-3" type="button" (click)="ouvrirAjouterProduitModal(ajouterProduitTemplate,produit,variation)">Ajouter +</button>
+
+                                                                                                
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    }
+                                                                                </div>
+                                                                                
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </ng-template>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                }
+                                            </div>
+                                        }
+                                    </div>
+
+                                    <div *ngIf="current_step==4">
+                                        <h2 class="card-title mb-4">Commande</h2>
+
+                                        <form class="theme-form" [formGroup]="formData">
+
+                                            <div class="col-sm-12 col-md-12">
+                                                <div class="mb-3">
+                                                <label class="form-label">Nom <span class="text-danger">*</span></label>
+                                                <input class="form-control" type="text" formControlName="nom" placeholder="Nom">
+                                                <div *ngIf="formData.get('nom')?.touched && formData.get('nom')?.invalid" class="text-danger">
+                                                    Le nom est invalide
+                                                </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-sm-12 col-md-12">
+                                                <div class="mb-3">
+                                                <label class="form-label">Prénom <span class="text-danger">*</span></label>
+                                                <input class="form-control" type="text" formControlName="prenom" placeholder="Prénom">
+                                                <div *ngIf="formData.get('prenom')?.touched && formData.get('prenom')?.invalid" class="text-danger">
+                                                    Le prénom est invalide
+                                                </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-sm-12 col-md-12">
+                                                <div class="mb-3">
+                                                <label class="form-label">Adresse email <span class="text-danger">*</span></label>
+                                                <input class="form-control" type="email" formControlName="email" placeholder="Email">
+                                                <div *ngIf="formData.get('email')?.touched && formData.get('email')?.invalid" class="text-danger">
+                                                    L'adresse email est invalide
+                                                </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-12">
+                                                <div class="mb-3">
+                                                <label class="form-label">Téléphone</label>
+                                                <input class="form-control" type="text" formControlName="telephone" placeholder="Téléphone">
+                                                <div *ngIf="formData.get('telephone')?.touched && formData.get('telephone')?.invalid" class="text-danger">
+                                                    Le téléphone est invalide
+                                                </div>
+                                                </div>
+                                            </div>
+
+                                        
+                                            <div class="date-picker">
+                                                <div class="mb-3 row g-3">
+                                                    
+                                                    <!-- DATE -->
+                                                    <label class="col-sm-3 col-form-label text-sm-start">
+                                                        Date de retrait <span class="text-danger">*</span>
+                                                    </label>
+                                                    <div class="col-xl-9 col-sm-9">
+                                                        <div class="input-group">
+                                                            <input
+                                                            class="form-control digits"
+                                                            placeholder="yyyy-mm-dd"
+                                                            formControlName="date_retrait"
+                                                            ngbDatepicker
+                                                            #d="ngbDatepicker"
+                                                            (click)="d.toggle()"
+                                                            [minDate]="minDate"
+                                                            />
+                                                        </div>
+                                                        <div *ngIf="formData.get('date_retrait')?.touched && formData.get('date_retrait')?.invalid" class="text-danger">
+                                                            La date est invalide
+                                                        </div>
+                                                    </div>
+
+
+                                                    <!-- TIME -->
+                                                    <label class="col-sm-3 col-form-label text-sm-start">
+                                                        Heure <span class="text-danger">*</span>
+                                                    </label>
+                                                    <div class="col-xl-9 col-sm-9">
+                                                        <ngb-timepicker
+                                                            formControlName="heure_retrait"
+                                                            [spinners]="true"
+                                                            [seconds]="false"
+                                                        ></ngb-timepicker>
+                                                        <div *ngIf="formData.get('heure_retrait')?.touched && formData.get('heure_retrait')?.invalid" class="text-danger">
+                                                            L'heure est invalide
+                                                        </div>
+                                                    </div>
+                                                    
+                                                </div>
+                                            </div>
+                                        
+                                        
+                                        </form>
+                                        
+                                    </div>
+                                   
+                                    <div *ngIf="current_step==5">
+                                        <h2 class="card-title mb-4" *ngIf="paymentRestoActive && urlPayment">Paiement</h2>
+                                        <div *ngIf="paymentRestoActive && urlPayment">
+                                            <div class="clipboaard-container">
+                                                <p class="card-description">Voici le lien du Paiement à faire pour confirmer la reservation : </p>
+                                                <h6 class="border rounded card-body f-w-300">
+                                                    {{urlPayment}}
+                                                </h6>
+                                                <div class="mt-3 text-end">
+                                                    <button class="btn btn-info btn-clipboard" type="button" (click)="copyFunction(urlPayment)">
+                                                        <i class="fa fa-copy"></i> Copy
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div *ngIf="!paymentRestoActive">
+                                            Le paiement est désactivé
+                                        </div>
+                                        <br><br>
+                                        <div *ngIf="!final_commande">
+                                            Faites suivant pour continuer
+                                        </div>
+
+                                        <h2 class="card-title mb-4" *ngIf="final_commande">Récapitulatif</h2>
+                                        <div *ngIf="final_commande">
+                                            
+                                            <h5>Votre réservation a bien été enregistrée</h5>
+                                            
+
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                            <div class="row">
+                                <div class="col-sm-3 col-md-3 col-12">
+                                    <a class="btn btn-primary btn-block w-100 text-white" (click)="prec()">{{button_prec_text}}</a>
+                                </div>
+                                <div class="col-sm-3 col-md-3 col-12">
+                                    <a class="btn btn-primary btn-block w-100 text-white" (click)="next()">{{button_suiv_text}}</a>
+                                </div>
+                            </div>
+                                
+                            
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #ajouterProduitTemplate let-modal>
+    <div class="modal-content">
+        <div class="modal-body">
+            <div class="modal-toggle-wrapper">
+                <span>Produit : {{produitActuel.titre}} - {{produitActuel.prix_ht}} €</span><br>
+                <span *ngIf="variationActuelle">Supplément : {{variationActuelle.titre}} - {{variationActuelle.supplement_prix}} €</span>
+                <div class="col-md-12">
+                    <div class="mb-3">
+                    <label class="form-label">Quantite</label>
+                    <input class="form-control" type="number" value="0" min='1' [max]="produitActuel.stock" [(ngModel)]="quantite_produit_actuel">
+                
+                    </div>
+                </div>
+                <a  class="btn btn-primary btn-block w-100 text-white" >Ajouter +</a>
+            </div>
+        </div>
+    </div>
+</ng-template>

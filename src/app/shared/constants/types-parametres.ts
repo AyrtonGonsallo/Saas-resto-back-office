@@ -10,6 +10,7 @@ export const  types = [
     { key: 'cle_publique_stripe', name: 'Clé publique stripe' },
     { key: 'cle_privee_stripe', name: 'Clé privée stripe' },
     { key: 'etat_des_reservations', name: 'État des réservations' },
+    { key: 'etat_du_click_and_collect', name: 'État du click & collect' },
     { key: 'etat_paiement_acompte_reservation', name: 'État du paiement de l\'acompte des réservations' },
     { key: 'montant_paiement_acompte_reservation', name: 'Montant du paiement de l\'acompte des réservations' },
     { key: 'etat_paiement_acompte_click_and_collect', name: 'État du paiement de l\'acompte du click and collect' },

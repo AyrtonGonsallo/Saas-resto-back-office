@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
-import { CommonLoginForm } from '../../../component/pages/authentication/common-login-form/common-login-form';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -13,7 +12,7 @@ import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-formulaire-reservation',
-  imports: [RouterModule, CommonLoginForm,ReactiveFormsModule,CommonModule,ReactiveFormsModule, NgSelectModule, NgbModule,   ],
+  imports: [RouterModule,ReactiveFormsModule,CommonModule,ReactiveFormsModule, NgSelectModule, NgbModule,   ],
   templateUrl: './formulaire-reservation.html',
   styleUrl: './formulaire-reservation.scss',
 })
@@ -130,9 +129,6 @@ minDate: NgbDateStruct;
         );
       }
 
-      //  reset catégorie sélectionnée
-      this.formData.patchValue({ utilisateur_id: null });
-      
 
     });
 
@@ -268,7 +264,7 @@ minDate: NgbDateStruct;
     load_societe_data(id:number){
       
 
-      this.crudSaasService.getReservationDataBySocieteId(id).subscribe({
+      this.crudSaasService.getReservationDatasBySocieteId(id).subscribe({
         next: (res) => {
           console.log('getReservationDataBySocieteId',res)
           this.societeData=res.societe//ereur La propriété 'societe' n'existe pas sur le type 'any[]'

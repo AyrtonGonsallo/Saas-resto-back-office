@@ -1,4 +1,4 @@
-export interface ReservationDataResponse {
+export interface ReservationDatasResponse {
   societe: any;
   creneaux: any[];
   restaurants: any[];
