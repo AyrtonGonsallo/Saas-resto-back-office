@@ -191,6 +191,8 @@ export class FormulaireClickAndCollect {
     this.quantite_produit_actuel = 1;
     this.produitActuel=produit
     this.modalService.open(variationsChoiceTemplate);
+    let group = this.grouperVariations(produit.variations)
+    console.log('group',group)
   }
 
   ouvrirAjouterProduitModal(ajouterProduitTemplate: TemplateRef<NgbModal>,produit:any,variation:any) {
@@ -198,6 +200,7 @@ export class FormulaireClickAndCollect {
     this.produitActuel=produit
     this.variationActuelle=variation
     this.modalService.open(ajouterProduitTemplate);
+    
   }
 
   ajouter_produit(produit_id:number){
@@ -347,6 +350,14 @@ export class FormulaireClickAndCollect {
   }
 
 
+  swal_alert(texte:string){
+    Swal.fire({
+      title: 'Données incomplètes',
+      text: texte,
+      icon: 'error',
+    });
+  }
+
   group_by_categorie(produits: any[]) {
 
     const map = new Map();
@@ -382,6 +393,32 @@ export class FormulaireClickAndCollect {
     if (plainText.length <= 100) return plainText;
 
     return plainText.slice(0, 100) + '...';
+  }
+
+  grouperVariations(variations: any[]) {
+    const map = new Map();
+
+    variations.forEach(v => {
+      const cat = v.categorie;
+
+      if (!cat) return;
+
+      if (!map.has(cat.id)) {
+        map.set(cat.id, {
+          categorie: cat,
+          variations: []
+        });
+      }
+
+      map.get(cat.id).variations.push(v);
+    });
+
+    return Array.from(map.values());
+  }
+
+  get_class(id: number): string {
+    const classes = ['primary', 'secondary', 'tertiary', 'danger', 'info'];
+    return classes[id % classes.length];
   }
 
 

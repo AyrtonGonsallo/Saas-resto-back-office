@@ -138,6 +138,7 @@
                                                         </div>
                                                         <div class="card-body ps-2 pe-2">
                                                             <h5 class="text-center ms-2 me-2">{{ produit.titre}}</h5>
+                                                            <div class="text-center ms-2 me-2">Prix : <b>{{produit.prix_ht}} €</b></div>
                                                             <div [innerHTML]="cut_description(produit.description)" class="text-center ms-2 me-2"></div>
                                                         </div>
                                                         <div class="card-footer">
@@ -147,40 +148,6 @@
                                                             </div>
                                                             <div *ngIf="(produit.variations.length>0)">
                                                                 <button class="btn btn-secondary px-xl-2 px-xxl-3" type="button" (click)="ouvrirChoixVariationsModal(variationsChoiceTemplate,produit)">Choix des variations</button>
-                                                                <ng-template #variationsChoiceTemplate let-modal>
-                                                                    <div class="modal-content">
-                                                                        <div class="modal-body">
-                                                                            <div class="modal-toggle-wrapper">
-                                                                                <h4>choisir des options</h4>
-                                                                                <div class="row">
-                                                                                    @for( variation of produit.variations; track variation){
-                                                                                    <div class="col-xxl-6 col-md-6 box-col-6">
-                                                                                        <div class="card features-faq product-box restaurant-box">
-                                                                                            <div class="faq-image product-img">
-                                                                                                <img class="img-fluid" [src]="imagesUrl+produit.image" alt="img">
-                                                                                                <div class="product-hover">
-                                                                                                    
-                                                                                                </div>
-                                                                                            </div>
-                                                                                            <div class="card-body ps-2 pe-2">
-                                                                                                <h5 class="text-center ms-2 me-2">{{ variation.titre}}</h5>
-                                                                                                <div [innerHTML]="cut_description(variation.description)" class="text-center ms-2 me-2"></div>
-                                                                                            </div>
-                                                                                            <div class="card-footer">
-                                                                                                <button class="btn btn-primary px-xl-2 px-xxl-3" type="button" (click)="ouvrirAjouterProduitModal(ajouterProduitTemplate,produit,variation)">Ajouter +</button>
-
-                                                                                                
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    }
-                                                                                </div>
-                                                                                
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </ng-template>
-
                                                             </div>
                                                         </div>
                                                     </div>
@@ -322,10 +289,10 @@
 
 
                             <div class="row">
-                                <div class="col-sm-3 col-md-3 col-12">
+                                <div class="col-sm-3 col-md-3 col-12" *ngIf="current_step>1">
                                     <a class="btn btn-primary btn-block w-100 text-white" (click)="prec()">{{button_prec_text}}</a>
                                 </div>
-                                <div class="col-sm-3 col-md-3 col-12">
+                                <div class="col-sm-3 col-md-3 col-12" *ngIf="current_step>2">
                                     <a class="btn btn-primary btn-block w-100 text-white" (click)="next()">{{button_suiv_text}}</a>
                                 </div>
                             </div>
@@ -343,7 +310,22 @@
     <div class="modal-content">
         <div class="modal-body">
             <div class="modal-toggle-wrapper">
-                <span>Produit : {{produitActuel.titre}} - {{produitActuel.prix_ht}} €</span><br>
+
+                <div class="card-body">
+                    
+                    <div class="flex-space flex-wrap align-items-center">
+                    <img class="tab-img" [src]="imagesUrl+produitActuel.image" alt="profile" />
+                    <p>
+                        <strong>Titre : </strong> {{produitActuel.titre}}<br />
+                        <strong>Prix :</strong> {{produitActuel.prix_ht}} €<br />
+                    </p>
+                    </div>
+                    
+                    <p class="mb-0" [innerHTML]="produitActuel.desc"></p>
+                </div>
+
+
+                
                 <span *ngIf="variationActuelle">Supplément : {{variationActuelle.titre}} - {{variationActuelle.supplement_prix}} €</span>
                 <div class="col-md-12">
                     <div class="mb-3">
@@ -353,6 +335,80 @@
                     </div>
                 </div>
                 <a  class="btn btn-primary btn-block w-100 text-white" >Ajouter +</a>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #variationsChoiceTemplate let-modal>
+    <div class="modal-content">
+        <div class="modal-body">
+            <div class="modal-toggle-wrapper">
+                <div class="card-body">
+                    
+                    <div class="flex-space flex-wrap align-items-center">
+                        <img class="tab-img" [src]="imagesUrl+produitActuel.image" alt="profile" />
+                        <p>
+                            <strong>Titre : </strong> {{produitActuel.titre}}<br />
+                            <strong>Prix :</strong> {{produitActuel.prix_ht}} €<br />
+                        </p>
+                    </div>
+                    
+                    <p class="mb-0" [innerHTML]="produitActuel.desc"></p>
+                </div>
+                <h4>choisir des options</h4>
+                <div class="row">
+                    @for (group of grouperVariations(produitActuel.variations); track group.categorie.id) {
+                        <div class="col-12">
+                            <div class="card-wrapper solid-border rounded-3">
+                                <h5>{{ group.categorie.titre }} <span class="text-danger" *ngIf="group.categorie.obligatoire">*</span></h5> 
+
+                                <div class="row">
+                                    @for (variation of group.variations; track variation.id) {
+                                        <div class="col-12">
+                                            <label class="d-block" [for]="variation.id">
+                                                <input
+                                                class="radio radio-border-{{ get_class(variation.id) }} radio-{{ get_class(variation.id) }}"
+                                                [id]="variation.id"
+                                                type="radio"
+                                                [name]="'radio_' + group.categorie.id"   
+                                                [value]="variation.id"
+                                                />
+                                                {{ variation.titre }} - {{variation.supplement_prix}} €
+                                            </label>
+                                        </div>
+                                    }
+                                    <div class="col-12" *ngIf="!group.categorie.obligatoire">
+                                        <label class="d-block" [for]="0">
+                                            <input
+                                            class="radio radio-border-info radio-info"
+                                            [id]="0"
+                                            type="radio"
+                                            [name]="'radio_' + group.categorie.id"   
+                                            value="0"
+                                            checked
+                                            />
+                                            Aucun
+                                        </label>
+                                    </div>
+
+                                    
+                                </div>
+
+                            </div>
+                        </div>
+                    }
+                </div>
+
+                <div class="col-md-12">
+                    <div class="mb-3">
+                    <label class="form-label">Quantite</label>
+                    <input class="form-control" type="number" value="0" min='1' [max]="produitActuel.stock" [(ngModel)]="quantite_produit_actuel">
+                
+                    </div>
+                </div>
+                <a  class="btn btn-primary btn-block w-100 text-white" >Ajouter +</a>
+                
             </div>
         </div>
     </div>

@@ -105,3 +105,8 @@
 .restaurant-box{
     border: 1px solid var(--theme-deafult);
 }
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  opacity: 1;
+  display: block;
+}
