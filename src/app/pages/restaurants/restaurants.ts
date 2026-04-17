@@ -31,6 +31,8 @@ export class Restaurants {
   public service = inject(TableService);
      private router = inject(Router);
     public imagesUrl = environment.imagesUrl
+    public reservation_url = environment.reservation_url
+    public click_and_collect_url = environment.click_and_collect_url
    
      public tableData$: Observable<any[]> = this.service.supportdata$;
      public total$: Observable<number> = this.service.total$;
@@ -136,8 +138,11 @@ export class Restaurants {
              }
            });
          
-   
-       
      }
+
+     copyFunction(txt: string) {
+        navigator.clipboard.writeText(txt);
+        alert('Copied');
+      }
    }
    

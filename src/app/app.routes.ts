@@ -26,7 +26,7 @@ export const routes: Routes = [
     children: fullRoutes,
   },
   {
-    path: 'reservations/formulaire-reservation/:societe_id',
+    path: 'reservations/formulaire-reservation/:societe_id/:restaurant_id',
     loadComponent: () => import('./pages/reservations/formulaire-reservation/formulaire-reservation').then(m => m.FormulaireReservation),
     data: {
       title: 'Formulaire de réservation',

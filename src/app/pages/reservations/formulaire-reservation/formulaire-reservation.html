@@ -29,10 +29,10 @@
                                         </div>
 
                                         <div class="steps">
-                                            <button [ngClass]="stepClass(1)">Infos générales</button>
-                                            <button [ngClass]="stepClass(2)">Restaurant</button>
-                                            <button [ngClass]="stepClass(3)">Réservation</button>
-                                            <button [ngClass]="stepClass(4)">Récap</button>
+                                            <button [ngClass]="stepClass(1)">Informations personnelles</button>
+                                            <button [ngClass]="stepClass(2)">Réservation</button>
+                                            <button [ngClass]="stepClass(3)">Paiement</button>
+                                            <button [ngClass]="stepClass(4)">Récapitulatif</button>
                                         </div>
                                         </div>
                                     </div>
@@ -43,7 +43,7 @@
                                 
                                 <div class="card-body">
                                     <div *ngIf="current_step==1">
-                                        <h4 class="card-title mb-0">Infos générales</h4>
+                                        <h4 class="card-title mb-0">Informations personnelles</h4>
                                         <div class="col-sm-12 col-md-12">
                                             <div class="mb-3">
                                             <label class="form-label">Nom <span class="text-danger">*</span></label>
@@ -85,22 +85,8 @@
                                         </div>
                                         
                                     </div>
+                                    
                                     <div *ngIf="current_step==2">
-                                        
-                                        <h4 class="card-title mb-0">Restaurant</h4>
-                                        <div class="col-sm-12 col-md-12">
-                                            <div class="mb-3">
-                                            <label class="form-label">Restaurant <span class="text-danger">*</span></label>
-                                            <ng-select [items]="restaurants" bindLabel="nom" bindValue="id" [multiple]="false" placeholder="choisir un restaurant"
-                                                formControlName="restaurant_id" />
-                                            <div *ngIf="formData.get('restaurant_id')?.touched && formData.get('restaurant_id')?.invalid" class="text-danger">
-                                                Le restaurant est requis
-                                            </div>
-                                            </div>
-                                        </div>
-                                        
-                                    </div>
-                                    <div *ngIf="current_step==3">
                                         <h4 class="card-title mb-0">Réservation</h4>
                                         <div class="date-picker">
                                             <div class="mb-3 row g-3">
@@ -145,7 +131,7 @@
                                                             Le créneau est requis
                                                         </div>
                                                         <div *ngIf="heure_pas_dans_creneau" class="text-danger">
-                                                            L'heure doit etre dans les limites du créneau
+                                                            L'heure doit être entre comprise le début et 20 minutes avant la fin du créneau
                                                         </div>
                                                     </div>
                                                 </div>
@@ -164,7 +150,7 @@
                                                         L'heure est invalide
                                                     </div>
                                                     <div *ngIf="heure_pas_dans_creneau" class="text-danger">
-                                                        L'heure doit etre dans les limites du créneau
+                                                        L'heure doit être entre comprise le début et 20 minutes avant la fin du créneau
                                                     </div>
                                                 </div>
                                                 
@@ -236,8 +222,9 @@
                                         
                                         
                                     </div>
-                                   
-                                    <div *ngIf="current_step==4">
+
+                                    <div *ngIf="current_step==3">
+                                        
                                         <h4 class="card-title mb-0" *ngIf="paymentRestoActive && urlPayment">Paiement</h4>
                                         <div *ngIf="paymentRestoActive && urlPayment">
                                             <div class="clipboaard-container">
@@ -253,12 +240,16 @@
                                             </div>
                                         </div>
                                         <div *ngIf="!paymentRestoActive">
-                                            Le paiement est désactivé
+                                            Le paiement d'un acompte n'est pas requis pour cette réservation
                                         </div>
                                         <br><br>
-                                        <div *ngIf="!final_reservation">
-                                            Faites suivant pour continuer
-                                        </div>
+                                       
+                                        
+                                        
+                                    </div>
+                                   
+                                    <div *ngIf="current_step==4">
+                                        
 
                                         <h4 class="card-title mb-0" *ngIf="final_reservation">Récapitulatif</h4>
                                         <div *ngIf="final_reservation">

@@ -24,7 +24,7 @@ button_prec_text='Précédent'
 current_step=1
 societe_id=0
 progression=0
-restaurantID = null
+restaurantID = 0
 selectedRestaurant : any
 urlPayment = null
 paymentRestoActive = true
@@ -45,6 +45,7 @@ minDate: NgbDateStruct;
     };
 
     this.societe_id = parseInt(this.route.snapshot.paramMap.get('societe_id')??'');
+    this.restaurantID = parseInt(this.route.snapshot.paramMap.get('restaurant_id')??'');
     this.load_societe_data(this.societe_id )
     
     
@@ -74,13 +75,32 @@ minDate: NgbDateStruct;
       creneau_id: [null, Validators.required], //etape 3
       tags: [null, ], //etape 3
       societe_id: [this.societe_id, Validators.required], //pas d'etape 
-      restaurant_id: [null, Validators.required], //etape 2
+      restaurant_id: [this.restaurantID, Validators.required], //etape 2
       client_id: [null, ], //pas d'etape 
     });
 
     
 
-    this.formData.get('restaurant_id')?.valueChanges.subscribe((restaurant_id) => {
+    
+
+    this.formData.get('table_id')?.valueChanges.subscribe(() => {
+      this.couvertsEtPlacesValidator();
+    });
+
+    this.formData.get('nb_couverts')?.valueChanges.subscribe(() => {
+      this.couvertsEtPlacesValidator();
+    });
+
+    this.formData.get('nombre_de_personnes')?.valueChanges.subscribe((nombre_de_personnes) => {
+      this.formData.get('nb_couverts')?.setValue(nombre_de_personnes, { emitEvent: false });
+      this.couvertsEtPlacesValidator();
+    });
+
+  
+  }
+
+
+  load_restaurant(restaurant_id:number) {
 
       console.log("restaurant_id choisi:", restaurant_id);
       this.restaurantID = restaurant_id
@@ -107,7 +127,7 @@ minDate: NgbDateStruct;
           table.restaurant_id === restaurant_id
         ).map(table => ({
           ...table,
-          fullName: 'Table : '+table.numero + ' - Zone : '+table.ZoneTable.titre + ' - '  + table.nb_places + ' places'  
+          fullName: 'Table '+table.nb_places + ' personnes - '+table.ZoneTable.titre
         }));
 
         this.crenaux=this.allCrenaux.filter(creneau =>
@@ -128,27 +148,7 @@ minDate: NgbDateStruct;
           tag.restaurant_id === restaurant_id
         );
       }
-
-
-    });
-
-    this.formData.get('table_id')?.valueChanges.subscribe(() => {
-      this.couvertsEtPlacesValidator();
-    });
-
-    this.formData.get('nb_couverts')?.valueChanges.subscribe(() => {
-      this.couvertsEtPlacesValidator();
-    });
-
-    this.formData.get('nombre_de_personnes')?.valueChanges.subscribe((nombre_de_personnes) => {
-      this.formData.get('nb_couverts')?.setValue(nombre_de_personnes, { emitEvent: false });
-      this.couvertsEtPlacesValidator();
-    });
-
-  
-
-
-  }
+  };
 
   selected_table:any
   couvertsInsuffisants = false;
@@ -188,11 +188,11 @@ minDate: NgbDateStruct;
   next(){
     let res = this.valider_formulaire_etape(this.current_step)
     if(this.current_step<4 && res){
+      if(this.current_step==2){
+        this.onSubmit()
+      }
       this.progression+=33
       this.current_step++
-    }else if(this.current_step==4){
-     
-      this.onSubmit()
     }
     
   }
@@ -273,6 +273,8 @@ minDate: NgbDateStruct;
           this.set_all_services(res.services)//ereur La propriété 'services' n'existe pas sur le type 'any[]'
           this.set_all_tables(res.tables)//ereur La propriété 'tables' n'existe pas sur le type 'any[]'
           this.set_all_tags(res.tags)//ereur La propriété 'tags' n'existe pas sur le type 'any[]'
+
+          this.load_restaurant(this.restaurantID)
         },
         error: (err) => {
           this.notificationsService.error("Erreur lors de la récupération","Echec")
@@ -371,14 +373,14 @@ minDate: NgbDateStruct;
             table.societe_id === this.societe_id
           ).map((table:any) => ({
             ...table,
-            fullName: 'Table : '+table.numero + ' - Zone : '+table.ZoneTable.titre + ' - '  + table.nb_places + ' places' 
+            fullName: 'Table '+table.nb_places + ' personnes - '+table.ZoneTable.titre 
           }));
 
           this.allTables=res.filter((table:any) =>
             table.societe_id === this.societe_id
           ).map((table:any) => ({
             ...table,
-            fullName: 'Table : '+table.numero + ' - Zone : '+table.ZoneTable.titre + ' - '  + table.nb_places + ' places'  
+            fullName: 'Table '+table.nb_places + ' personnes - '+table.ZoneTable.titre  
           }));
 
           console.log("getTables",this.allTables)
@@ -405,11 +407,11 @@ minDate: NgbDateStruct;
         champs = ['nom', 'prenom', 'email', 'telephone'];
         break;
 
-      case 2:
-        champs = ['restaurant_id'];
+      case 3:
+        return true
         break;
 
-      case 3:
+      case 2:
         champs = [
           'date_reservation',
           'heure_reservation',
@@ -463,7 +465,7 @@ minDate: NgbDateStruct;
     const [hFin, mFin] = creneau.heure_fin.split(':').map(Number);
 
     const debut = hDebut * 60 + mDebut;
-    const fin = hFin * 60 + mFin;
+    const fin = hFin * 60 + mFin - 20;// si 22:00 il peux au max 21:40
 
     // ✅ vérification
     const isValid = heureSelected >= debut && heureSelected <= fin;

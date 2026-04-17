@@ -1,7 +1,7 @@
 // environment.ts
 
 export const environment = {
-    production: false,
+    production: true,
     apiUrl: 'http://localhost:2026/api/v1', // URL de l'API locale
     //apiUrl: 'https://api.resto.orocom.io/api/v1', // URL de l'API sur le dev
     //apiUrl: 'https://api.resto.orocom.io/api/v1', // URL de l'API en prod
@@ -15,6 +15,15 @@ export const environment = {
     assetsUrl: 'https://resto.orocom.io/assets/', // URL de assets sur le dev
 
     url_de_retour:"https://resto.orocom.io/",
+
+    //site_url:"https://resto.orocom.io/",
+    site_url:"http://localhost:4400/",
+
+    //reservation_url:"https://resto.orocom.io/reservations/formulaire-reservation/",
+    reservation_url:"http://localhost:4400/reservations/formulaire-reservation/",
+
+    //click_and_collect_url:"https://resto.orocom.io/click-and-collects/formulaire-click-and-collect/",
+    click_and_collect_url:"http://localhost:4400/click-and-collects/formulaire-click-and-collect/",
 
 
   

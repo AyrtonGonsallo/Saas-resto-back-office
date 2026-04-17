@@ -90,6 +90,12 @@
                   <a style="cursor: pointer;" (click)="recreer_parametres_restaurant(data.id)"><i class="fa fa-list font-primary pe-2" ></i></a>
                   <a style="cursor: pointer;" (click)="modifier_data(data.id)"><i class="fa fa-pen font-primary pe-2" ></i></a>
                   <a style="cursor: pointer;" (click)="supprimer_data(data.id)"><i class="fa fa-trash font-danger ps-2" ></i></a>
+                  <button class="btn btn-info btn-clipboard" type="button" (click)="copyFunction(reservation_url+data.societe_id+'/'+data.id)">
+                      <i class="fa fa-copy"></i> Copy
+                  </button>
+                  <button class="btn btn-info btn-clipboard" type="button" (click)="copyFunction(reservation_url+data.societe_id+'/'+data.id)">
+                      <i class="fa fa-copy"></i> Copy
+                  </button>
                 </ul>
               </td>
             </tr>
