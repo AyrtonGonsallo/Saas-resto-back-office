@@ -9,6 +9,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import Swal from 'sweetalert2';
 import { AuthSaasRestoService } from '../../../shared/services/auth/auth-saas-resto.service';
 import { AngularEditorModule } from '@kolkov/angular-editor';
+import { RestaurantService } from '../../../shared/services/user/user.service';
 
 @Component({
   selector: 'app-modifier-variation-produit',
@@ -21,9 +22,11 @@ private router = inject(Router);
   data_id=0
   formData!: FormGroup;
   user:any
-  constructor(private route: ActivatedRoute,private authSerivce:AuthSaasRestoService,private fb: FormBuilder, private crudSaasService:CrudSaasRestoService, private notificationsService:NotificationsService,) {}
+  constructor(private route: ActivatedRoute,private restaurantService: RestaurantService,private authSerivce:AuthSaasRestoService,private fb: FormBuilder, private crudSaasService:CrudSaasRestoService, private notificationsService:NotificationsService,) {}
 
   ngOnInit(): void {
+
+    this.get_all_variations()
     this.data_id = parseInt(this.route.snapshot.paramMap.get('id')??'');
 
    this.load_data()
@@ -35,9 +38,9 @@ private router = inject(Router);
       produit_id:[0, Validators.required],
       titre:['', Validators.required],
       description:['', ],
-      obligatoire:[true, Validators.required],
       supplement_prix:[0, ],
       stock: [0, ],
+      categorie_id: [null, Validators.required],
       societe_id: [this.user.datas.societe_id, Validators.required],
       restaurant_id: [this.user.datas.Restaurants[0]?.id, Validators.required],
       utilisateur_id: [this.user.datas.id, Validators.required],
@@ -94,9 +97,9 @@ private router = inject(Router);
           produit_id:[this.data.produit_id, Validators.required],
           titre:[this.data.titre, Validators.required],
           description:[this.data.description, ],
-          obligatoire:[this.data.obligatoire, Validators.required],
           supplement_prix:[this.data.supplement_prix, ],
           stock: [this.data.stock, ],
+          categorie_id: [this.data.categorie_id, Validators.required],
           societe_id: [this.data.societe_id, Validators.required],
           restaurant_id: [this.data.restaurant_id, Validators.required],
           utilisateur_id: [this.data.utilisateur_id, ],
@@ -122,6 +125,23 @@ private router = inject(Router);
       }
     });
 
+  }
+
+  categories_variations:any
+
+
+  get_all_variations(){
+
+    let restaurant_id = this.restaurantService.getRestaurant()
+    this.crudSaasService.getCategorieVariations(restaurant_id).subscribe({
+      next: (res) => {
+        this.categories_variations=(res);
+        console.log("categories_variations",this.categories_variations)
+      },
+      error: (err) => {
+        this.notificationsService.error("Erreur lors de la récupération des catégories","Echec")
+      }
+    });
   }
 
 }

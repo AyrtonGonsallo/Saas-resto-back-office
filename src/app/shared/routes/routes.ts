@@ -353,6 +353,16 @@ export const dashData: Routes = [
     loadChildren: () => import('../../pages/produits/produits.routes').then(r => r.ProduitsRoutes),
   },
   {
+    path: 'categories-variation',
+    data: {
+      title: 'Catégories de variation',
+      breadcrumb: 'Catégories de variation',
+     roles: ['super-admin','gestionnaire-societe','admin','gestionnaire-restaurant','lecteur-planning','lecteur-cuisine','employé',]
+    },
+    canActivate: [RoleGuard],
+    loadChildren: () => import('../../pages/categories-variation/categories-variation.routes').then(r => r.CategoriesVariationRoutes),
+  },
+  {
     path: 'variations-produit',
     data: {
       title: 'Variations de produit',

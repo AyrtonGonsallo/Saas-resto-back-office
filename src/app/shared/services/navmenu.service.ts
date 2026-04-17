@@ -156,6 +156,14 @@ export class NavmenuService {
       active: false,
     },
     {
+      id: 50,
+      level: 1,
+      title: 'Catégories de variations',
+      path: '/categories-variation/liste-categories-variation',
+      icon: 'Category',
+      active: false,
+    },
+    {
       id: 42,
       level: 1,
       title: 'Variations de produits',

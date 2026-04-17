@@ -25,18 +25,7 @@
                 </div>
             </div>
 
-            <div class="col-sm-12 col-md-12">
-                <div class="mb-3">
-                    <label class="form-label">Obligatoire ? <span class="text-danger">*</span></label>
-                    <div>
-                         <label class="switch">
-                        <input type="checkbox" formControlName="obligatoire">
-                        <span class="switch-state"></span>
-                    </label>
-                    </div>
-                </div>
-            </div>
-
+            
             <div class="col-md-12">
                 <div class="mb-3">
                 <label class="form-label">Supplément de prix HT</label>
@@ -54,6 +43,16 @@
                 <div *ngIf="formData.get('stock')?.touched && formData.get('stock')?.invalid" class="text-danger">
                     Le stock est invalide
                 </div>
+                </div>
+            </div>
+
+            <div class="col-sm-12 col-md-12">
+                <label class="form-label">Catégorie <span class="text-danger">*</span></label>
+            
+                <ng-select [items]="categories_variations" bindLabel="titre" bindValue="id" [multiple]="false"
+                    placeholder="choisir une catégorie" formControlName="categorie_id"  />
+                    <div *ngIf="formData.get('categorie_id')?.touched && formData.get('categorie_id')?.invalid" class="text-danger">
+                    La catégorie est invalide
                 </div>
             </div>
 

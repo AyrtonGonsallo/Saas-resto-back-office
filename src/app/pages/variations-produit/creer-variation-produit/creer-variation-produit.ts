@@ -9,6 +9,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import Swal from 'sweetalert2';
 import { AuthSaasRestoService } from '../../../shared/services/auth/auth-saas-resto.service';
 import { AngularEditorModule } from '@kolkov/angular-editor';
+import { RestaurantService } from '../../../shared/services/user/user.service';
 
 
 @Component({
@@ -23,11 +24,11 @@ export class CreerVariationProduit {
   formData!: FormGroup;
   user:any
   
-  constructor(private route: ActivatedRoute,private authSerivce:AuthSaasRestoService,private fb: FormBuilder, private crudSaasService:CrudSaasRestoService, private notificationsService:NotificationsService,) {}
+  constructor(private route: ActivatedRoute,private restaurantService: RestaurantService,private authSerivce:AuthSaasRestoService,private fb: FormBuilder, private crudSaasService:CrudSaasRestoService, private notificationsService:NotificationsService,) {}
 
   ngOnInit(): void {
 
-    
+    this.get_all_variations()
     this.produit_id = parseInt(this.route.snapshot.paramMap.get('produit_id')??'');
 
    this.load_parent_data()
@@ -39,9 +40,9 @@ export class CreerVariationProduit {
       produit_id:[this.produit_id, Validators.required],
       titre:['', Validators.required],
       description:['', ],
-      obligatoire:[true, Validators.required],
       supplement_prix:[0, ],
       stock: [0, ],
+      categorie_id: [null, Validators.required],
       societe_id: [this.user.datas.societe_id, Validators.required],
       restaurant_id: [0, Validators.required],
       utilisateur_id: [this.user.datas.id, Validators.required],
@@ -100,6 +101,23 @@ export class CreerVariationProduit {
       }
     });
 
+  }
+
+  categories_variations:any
+
+
+  get_all_variations(){
+
+    let restaurant_id = this.restaurantService.getRestaurant()
+    this.crudSaasService.getCategorieVariations(restaurant_id).subscribe({
+      next: (res) => {
+        this.categories_variations=(res);
+        console.log("categories_variations",this.categories_variations)
+      },
+      error: (err) => {
+        this.notificationsService.error("Erreur lors de la récupération des catégories","Echec")
+      }
+    });
   }
 
 }

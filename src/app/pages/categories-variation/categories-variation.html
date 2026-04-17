@@ -39,14 +39,11 @@
           <thead>
             <tr>
               <th scope="col" sortable="id" (sort)="onSort($event)">ID</th>
+              <th scope="col" sortable="titre" (sort)="onSort($event)">Titre</th>
+              <th scope="col" sortable="obligatoire" (sort)="onSort($event)">Obligatoire</th>
+              <th scope="col" sortable="ordre" (sort)="onSort($event)">Ordre</th>
+              <th scope="col" sortable="est_actif" (sort)="onSort($event)">Actif</th>
               <th scope="col" sortable="restaurant_id" (sort)="onSort($event)">Restaurant</th>
-              <th scope="col" sortable="produit_id" (sort)="onSort($event)">Titre produit</th>
-              <th scope="col" sortable="produit_id" (sort)="onSort($event)">Prix HT produit</th>
-              <th scope="col" sortable="produit_id" (sort)="onSort($event)">Tva produit</th>
-              <th scope="col" sortable="categorie_id" (sort)="onSort($event)">Catégorie variation</th>
-              <th scope="col" sortable="titre" (sort)="onSort($event)">Titre variation</th>
-              <th scope="col" sortable="supplement_prix" (sort)="onSort($event)">Supplément prix HT</th>
-              <th scope="col" sortable="stock" (sort)="onSort($event)">Stock</th>
               
               <th scope="col">Action</th>
             </tr>
@@ -59,28 +56,19 @@
                 <ngb-highlight [result]="data.id" [term]="service.searchTerm" />
               </td>
               <td>
-                <ngb-highlight [result]="data.Restaurant?.nom" [term]="service.searchTerm" />
-              </td>
-              <td>
-                <ngb-highlight [result]="data.produit?.titre" [term]="service.searchTerm" />
-              </td>
-              <td>
-                <ngb-highlight [result]="data.produit?.prix_ht" [term]="service.searchTerm" />
-              </td>
-              <td>
-                <ngb-highlight [result]="data.produit?.tva" [term]="service.searchTerm" />
-              </td>
-              <td>
-                <ngb-highlight [result]="data.categorie?.titre" [term]="service.searchTerm" />
-              </td>
-              <td>
                 <ngb-highlight [result]="data.titre" [term]="service.searchTerm" />
               </td>
               <td>
-                <ngb-highlight [result]="data.supplement_prix" [term]="service.searchTerm" />
+                <ngb-highlight [result]="data.obligatoire" [term]="service.searchTerm" />
               </td>
               <td>
-                <ngb-highlight [result]="data.stock" [term]="service.searchTerm" />
+                <ngb-highlight [result]="data.ordre" [term]="service.searchTerm" />
+              </td>
+              <td>
+                <ngb-highlight [result]="data.est_actif" [term]="service.searchTerm" />
+              </td>
+              <td>
+                <ngb-highlight [result]="data.Restaurant?.nom" [term]="service.searchTerm" />
               </td>
               
               
@@ -112,5 +100,10 @@
     </div>
   </form>
 
-    
+    <div class="add-task-btn-wrapper">
+        <span class="add-task-btn" >
+            <button class="btn btn-primary" (click)="redirect_add()">
+            <i class="icon-plus"></i> Ajouter une catégorie</button>
+        </span>
+    </div>
 </div>

@@ -537,6 +537,33 @@ export class CrudSaasRestoService {
     return this.http.post<any>(`${environment.apiUrl}/ajouter_commande`, userData);
   }
 
+  ajouterCategorieVariation(userData: any): Observable<any> {
+    return this.http.post<any>(`${environment.apiUrl}/ajouter_categorie_variation`, userData);
+  }
+
+  getCategorieVariations(restaurantId:number | null): Observable<any[]> {
+    let url = `${environment.apiUrl}/get_all_categorie_variations`;
+    if (restaurantId) {
+      url += `?restaurant_id=${restaurantId}`;
+    }
+    return this.http.get<any[]>(url);
+  }
+
+  getCategorieVariationById(id: number): Observable<any> {
+    const url = `${environment.apiUrl}/get_categorie_variation_by_id/${id}`;
+    return this.http.get<any>(url);
+  }
+
+  deleteCategorieVariation(id: number): Observable<any> {
+    const url = `${environment.apiUrl}/delete_categorie_variation/${id}`;
+    return this.http.delete<any>(url);
+  }
+
+  updateCategorieVariation(id: number, parametre: any): Observable<any> {
+    const url = `${environment.apiUrl}/update_categorie_variation/${id}`;
+    return this.http.put<any>(url, parametre);
+  }
+
 
 
 }
