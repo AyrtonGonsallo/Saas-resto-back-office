@@ -1,1 +1,76 @@
-<p>modifier-commande works!</p>
+<form class="card" [formGroup]="formData" (ngSubmit)="onSubmit()">
+    <div class="card-header">
+        <h4 class="card-title mb-0">Modifier une réservation</h4>
+        
+    </div>
+
+    <div class="card-body">
+        
+        <div class="row">
+           
+            
+           
+
+            <div class="date-picker">
+                <div class="mb-3 row g-3">
+                    
+                    <!-- DATE -->
+                    <label class="col-sm-3 col-form-label text-sm-start">
+                        Date de réservation <span class="text-danger">*</span>
+                    </label>
+                    <div class="col-xl-9 col-sm-9">
+                        <div class="input-group">
+                            <input
+                            class="form-control digits"
+                            placeholder="yyyy-mm-dd"
+                            formControlName="date_retrait"
+                            ngbDatepicker
+                            #d="ngbDatepicker"
+                            (click)="d.toggle()"
+                            />
+                        </div>
+                        <div *ngIf="formData.get('date_retrait')?.touched && formData.get('date_retrait')?.invalid" class="text-danger">
+                            La date est invalide
+                        </div>
+                    </div>
+
+                    <!-- TIME -->
+                    <label class="col-sm-3 col-form-label text-sm-start">
+                        Heure <span class="text-danger">*</span>
+                    </label>
+                    <div class="col-xl-9 col-sm-9">
+                        <ngb-timepicker
+                            formControlName="heure_retrait"
+                            [spinners]="true"
+                            [seconds]="false"
+                        ></ngb-timepicker>
+                        <div *ngIf="formData.get('heure_retrait')?.touched && formData.get('heure_retrait')?.invalid" class="text-danger">
+                            L'heure est invalide
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+            
+
+
+            <div class="col-sm-12 col-md-12">
+                <label class="form-label">Statut <span class="text-danger">*</span></label>
+            
+                <ng-select [items]="statuts" bindLabel="key" bindValue="key" [multiple]="false"
+                    placeholder="choisir un statut" formControlName="statut"  />
+                    
+                    <div *ngIf="formData.get('statut')?.touched && formData.get('statut')?.invalid" class="text-danger">
+                    Le statut est invalide
+                </div>
+            </div>
+            
+
+        </div>
+    </div>
+
+    <div class="card-footer text-end">
+        <button class="btn btn-primary" type="submit">Modifier</button>
+    </div>
+</form>
+

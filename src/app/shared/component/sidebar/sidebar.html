@@ -34,29 +34,36 @@
             </a>
             }
             @else{
-            @if(!item.headTitle1){
-            <a [class]="{'sidebar-link' : item.level === 1, 'submenu-title' : item.level === 2 ,'actived': item.active && item.level === 1}"
-                [routerLink]="item.path" (click)="toggleMenu(item)" routerLinkActive="active"
-                [routerLinkActiveOptions]="{exact:true}">
-                @if(item.icon && item.level === 1){
-                <app-svg-icon [icon]="item.icon" />
+                @if((item.id>1 && item.id < 50) || !item.id){
+                    @if(!item.headTitle1 ){
+                    <a [class]="{'sidebar-link' : item.level === 1, 'submenu-title' : item.level === 2 ,'actived': item.active && item.level === 1}"
+                        [routerLink]="item.path" (click)="toggleMenu(item)" routerLinkActive="active"
+                        [routerLinkActiveOptions]="{exact:true}">
+                        @if(item.level === 1){
+                            @if(item.custom_icon_class){
+                                <span [innerHTML]="item.custom_icon_class" ></span>
+                            }
+                            @if(!item.custom_icon_class && item.icon){
+                            <app-svg-icon [icon]="item.icon" />
+                            }
+                        }
+                        @if(item.level === 1){
+                        <span> {{item.title | translate }}</span>
+                        @if(item.badge === true){
+                        <div class="badge badge-primary rounded-pill">3</div>
+                        }
+                        }@else{
+                        <svg class="svg-menu">
+                            <use href="assets/svg/iconly-sprite.svg#right-3"></use>
+                        </svg>
+                        {{item.title | translate }}
+                        }
+                        @if(item.children){
+                        <app-feather-icon [icon]="'chevron-right'" class="ms-auto" />
+                        }
+                    </a>
+                    }
                 }
-                @if(item.level === 1){
-                <span> {{item.title | translate }}</span>
-                @if(item.badge === true){
-                <div class="badge badge-primary rounded-pill">3</div>
-                }
-                }@else{
-                <svg class="svg-menu">
-                    <use href="assets/svg/iconly-sprite.svg#right-3"></use>
-                </svg>
-                {{item.title | translate }}
-                }
-                @if(item.children){
-                <app-feather-icon [icon]="'chevron-right'" class="ms-auto" />
-                }
-            </a>
-            }
             }
             @if(item.children){
             <ul [class]="{ 'sidebar-submenu': item.level === 1, 'according-submenu' : item.level === 2 }"

@@ -54,6 +54,52 @@ export class ModifierParametre {
     
   }
 
+   verifier_roles_et_societes(user: any, currentData: any) {
+    const prioriteRoleUser = user?.datas?.Role?.priorite;
+    const societeUser = user?.datas?.societe_id;
+    const societeCurrentData = currentData?.societe_id;
+    const restaurantCurrentData = currentData?.restaurant_id;
+
+    const restaurantsAutorises =
+      user?.datas?.Restaurants?.map((r: any) => r.id) || [];
+
+    // super admin → accès total
+    if (prioriteRoleUser === 1) return;
+
+    // société différente
+    if (societeUser !== societeCurrentData) {
+      this.notificationsService.error(
+        "Vous ne pouvez pas modifier un paramètre d'une autre société",
+        "Echec"
+      );
+      this.router.navigate(['/dashboard/default']);
+      return;
+    }
+
+    // gestionnaire restaurant → seulement ses restaurants
+    if (prioriteRoleUser === 4) {
+      const canAccess =
+        restaurantsAutorises.includes(restaurantCurrentData);
+
+      if (!canAccess) {
+        this.notificationsService.error(
+          "Vous ne pouvez pas modifier ce paramètre",
+          "Echec"
+        );
+        this.router.navigate(['/dashboard/default']);
+        return;
+      }
+    }
+
+    if (prioriteRoleUser >= 5) {
+    this.notificationsService.error(
+      "Vous n'avez pas les permissions nécessaires",
+      "Echec"
+    );
+    this.router.navigate(['/dashboard/default']);
+    return;
+  }
+  }
 
   onSubmit() {
     
@@ -133,7 +179,7 @@ export class ModifierParametre {
       next: (res) => {
         this.data=res
         console.log("this.data",this.data)
-
+        this.verifier_roles_et_societes(this.user, this.data);
        
         this.formData = this.fb.group({
           titre: [this.data.titre, Validators.required],
@@ -179,7 +225,14 @@ export class ModifierParametre {
         
       },
       error: (err) => {
-        this.notificationsService.error("Erreur lors de la récupération","Echec")
+        if (err.status === 404) {
+        this.notificationsService.error("parametre introuvable", "Echec");
+      } else if (err.status === 400) {
+        this.notificationsService.error("ID parametre invalide", "Echec");
+      } else {
+        this.notificationsService.error("Erreur lors de la récupération", "Echec");
+      }
+      this.router.navigate(['/parametres/liste-parametres']);
       }
     });
   }

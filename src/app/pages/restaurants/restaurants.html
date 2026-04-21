@@ -87,15 +87,26 @@
               
               <td>
                 <ul class="action">
-                  <a style="cursor: pointer;" (click)="recreer_parametres_restaurant(data.id)"><i class="fa fa-list font-primary pe-2" ></i></a>
+                  @if(canRecreate()){
+                  <a class="example-popover" triggers="mouseenter:mouseleave" 
+                  popoverTitle="Recréer les paramètres" ngbPopover="Cliquez ici pour initialiser les nouveaux paramètres du restaurant (délai avant l'envoi de l'alerte au client lord d'une réservation, état du paiement de l'acompte...) en conservant les anciens" placement="bottom" 
+                  style="cursor: pointer;" (click)="recreer_parametres_restaurant(data.id)"><i class="fa fa-list font-primary pe-2" ></i></a>
+                  }
+                  @if(canEdit()) {
                   <a style="cursor: pointer;" (click)="modifier_data(data.id)"><i class="fa fa-pen font-primary pe-2" ></i></a>
-                  <a style="cursor: pointer;" (click)="supprimer_data(data.id)"><i class="fa fa-trash font-danger ps-2" ></i></a>
-                  <button class="btn btn-info btn-clipboard" type="button" (click)="copyFunction(reservation_url+data.societe_id+'/'+data.id)">
-                      <i class="fa fa-copy"></i> Copy
-                  </button>
-                  <button class="btn btn-info btn-clipboard" type="button" (click)="copyFunction(reservation_url+data.societe_id+'/'+data.id)">
-                      <i class="fa fa-copy"></i> Copy
-                  </button>
+                    }
+                  @if(canDelete()){
+                  <a style="cursor: pointer;" (click)="supprimer_data(data.id)"><i class="fa fa-trash font-danger pe-2" ></i></a>
+                  }
+                  <a class="example-popover" triggers="mouseenter:mouseleave"
+                    popoverTitle="Lien de reservation" ngbPopover="Cliquez ici pour copier le lien de réservation du restaurant" placement="bottom"  (click)="copyFunction(reservation_url+data.societe_id+'/'+data.id)">
+                      <i class="fa fa-copy  font-info pe-2"></i>
+                    </a>
+                  <a class="example-popover "  triggers="mouseenter:mouseleave"
+                    popoverTitle="Lien click & collect" ngbPopover="Cliquez ici pour copier le lien de click and collect du restaurant" placement="bottom"  (click)="copyFunction(click_and_collect_url+data.societe_id)">
+                      <i class="fa fa-copy  font-info pe-2"></i>
+                  </a>
+                 
                 </ul>
               </td>
             </tr>

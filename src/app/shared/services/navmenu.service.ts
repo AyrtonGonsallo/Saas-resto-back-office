@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { environment } from '../../environment';
+import { RestaurantService } from './user/user.service';
 
 export interface Menu {
   headTitle1?: string;
@@ -11,6 +12,8 @@ export interface Menu {
   line?: boolean;
   title?: string;
   icon?: string;
+  custom_icon_class?: string;
+  hideforuser?: boolean;
   type?: string;
   active?: boolean;
   id?: number;
@@ -19,6 +22,7 @@ export interface Menu {
   children?: Menu[];
   horizontalList?: boolean;
   items?: Menu[];
+  roles?: string[];
 }
 
 @Injectable({
@@ -29,7 +33,7 @@ export class NavmenuService {
   public isShow: boolean = false;
   public closeSidebar: boolean = false;
 
-  constructor() {}
+  constructor(private userService:RestaurantService) {}
 
   MENUITEMS: Menu[] = [
     {
@@ -73,6 +77,8 @@ export class NavmenuService {
       title: 'Rôles',
       path: '/roles/liste-roles',
       icon: 'Shield',
+      roles: ['super-admin',],
+      custom_icon_class: '<i class="fa fa-shield"></i>',
       active: false,
     },
     {
@@ -80,15 +86,20 @@ export class NavmenuService {
       level: 1,
       title: 'Sociétés',
       path: '/societes/liste-societes',
+      custom_icon_class: '<i class="icofont icofont-building-alt"></i>',//icone personalisee
       icon: 'Bag',
+      roles: ['super-admin','gestionnaire-societe',],
       active: false,
+      //hideforuser : this.userService.hideforuser(36)//cacher un page donner l'id en param
     },
     {
       id: 43,
       level: 1,
       title: 'Paramètres',
       path: '/parametres/liste-parametres',
+      custom_icon_class: '<i class="icon-settings"></i>',
       icon: 'Setting',
+      roles: ['super-admin','gestionnaire-societe','admin','gestionnaire-restaurant',],
       active: false,
     },
     {
@@ -96,7 +107,9 @@ export class NavmenuService {
       level: 1,
       title: 'Restaurants',
       path: '/restaurants/liste-restaurants',
+      custom_icon_class: '<i class="icofont icofont-restaurant"></i>',
       icon: 'Home',
+      roles: ['super-admin','gestionnaire-societe','admin','gestionnaire-restaurant','lecteur-planning','lecteur-cuisine','employé'],
       active: false,
     },
     {
@@ -104,7 +117,9 @@ export class NavmenuService {
       level: 1,
       title: 'Type de cuisine',
       path: '/types-de-cuisine/liste-types-cuisine',
+      custom_icon_class: '<i class="icofont icofont-fast-food"></i>',
       icon: 'order-product',
+      roles: ['super-admin','gestionnaire-societe','admin','gestionnaire-restaurant','lecteur-planning','lecteur-cuisine','employé',],
       active: false,
     },
     {
@@ -113,6 +128,7 @@ export class NavmenuService {
       title: 'Utilisateurs',
       path: '/utilisateurs/liste-utilisateurs',
       icon: 'Profile',
+      roles: ['super-admin','gestionnaire-societe','admin','gestionnaire-restaurant'],
       active: false,
     },
     {
@@ -120,7 +136,9 @@ export class NavmenuService {
       level: 1,
       title: 'Zones du restaurant',
       path: '/zones-restaurant/liste-zones-restaurant',
+      custom_icon_class: '<i class="fas fa-map-marker-alt"></i>',
       icon: 'order-product',
+      roles: ['super-admin','gestionnaire-societe','admin','gestionnaire-restaurant','lecteur-planning','lecteur-cuisine','employé',],
       active: false,
     },
     {
@@ -128,6 +146,7 @@ export class NavmenuService {
       level: 1,
       title: 'Notifications',
       path: '/notifications/liste-notifications',
+      custom_icon_class: '<i class="icofont icofont-notification"></i>',
       icon: 'order-product',
       active: false,
     },
@@ -136,7 +155,9 @@ export class NavmenuService {
       level: 1,
       title: 'Tables',
       path: '/tables/liste-tables',
+      custom_icon_class: '<i class="fas fa-th-large"></i>',
       icon: 'Work',
+      roles: ['super-admin','gestionnaire-societe','admin','gestionnaire-restaurant','lecteur-planning','lecteur-cuisine','employé',],
       active: false,
     },
     {
@@ -144,7 +165,9 @@ export class NavmenuService {
       level: 1,
       title: 'Catégories de produits',
       path: '/categories-produit/liste-categories-produit',
+      custom_icon_class: '<i class="fas fa-layer-group"></i> ',
       icon: 'Category',
+      roles: ['super-admin','gestionnaire-societe','admin','gestionnaire-restaurant','lecteur-planning','lecteur-cuisine','employé',],
       active: false,
     },
     {
@@ -152,7 +175,9 @@ export class NavmenuService {
       level: 1,
       title: 'Produits',
       path: '/produits/liste-produits',
+      custom_icon_class: '<i class="icofont icofont-burger"></i>',
       icon: 'Buy',
+      roles: ['super-admin','gestionnaire-societe','admin','gestionnaire-restaurant','lecteur-planning','lecteur-cuisine','employé',],
       active: false,
     },
     {
@@ -168,7 +193,9 @@ export class NavmenuService {
       level: 1,
       title: 'Variations de produits',
       path: '/variations-produit/liste-variations-produit',
+      custom_icon_class: '<i class="fas fa-sliders-h"></i>',
       icon: 'order-product',
+      roles: ['super-admin','gestionnaire-societe','admin','gestionnaire-restaurant','lecteur-planning','lecteur-cuisine','employé',],
       active: false,
     },
     {
@@ -176,7 +203,9 @@ export class NavmenuService {
       level: 1,
       title: 'Menus',
       path: '/menus/liste-menus',
+      custom_icon_class: '<i class="icofont icofont-restaurant-menu"></i>',
       icon: 'order-product',
+      roles: ['super-admin','gestionnaire-societe','admin','gestionnaire-restaurant','lecteur-planning','lecteur-cuisine','employé',],
       active: false,
     },
     {
@@ -184,7 +213,9 @@ export class NavmenuService {
       level: 1,
       title: 'Créneaux',
       path: '/creneaux/liste-creneaux',
+      custom_icon_class: '<i class="icofont icofont-time"></i>',
       icon: 'order-product',
+      roles: ['super-admin','gestionnaire-societe','admin','gestionnaire-restaurant','lecteur-planning','lecteur-cuisine','employé',],
       active: false,
     },
     {
@@ -192,7 +223,9 @@ export class NavmenuService {
       level: 1,
       title: 'Services',
       path: '/services/liste-services',
+      custom_icon_class: '<i class="icofont icofont-ui-alarm"></i>',
       icon: 'order-product',
+      roles: ['super-admin','gestionnaire-societe','admin','gestionnaire-restaurant','lecteur-planning','lecteur-cuisine','employé',],
       active: false,
     },
     {
@@ -200,7 +233,9 @@ export class NavmenuService {
       level: 1,
       title: 'Tags',
       path: '/tags/liste-tags',
+      custom_icon_class: '<i class="icofont icofont-tags"></i>',
       icon: 'order-product',
+      roles: ['super-admin','gestionnaire-societe','admin','gestionnaire-restaurant','lecteur-planning','lecteur-cuisine','employé',],
       active: false,
     },
     {
@@ -208,7 +243,9 @@ export class NavmenuService {
       level: 1,
       title: 'Réservations',
       path: '/reservations/liste-reservations',
+      custom_icon_class: '<i class="fas fa-calendar-check"></i>',
       icon: 'order-product',
+      roles: ['super-admin','gestionnaire-societe','admin','gestionnaire-restaurant','lecteur-planning','lecteur-cuisine','employé',],
       active: false,
     },
     {
@@ -216,7 +253,9 @@ export class NavmenuService {
       level: 1,
       title: 'Commandes',
       path: '/commandes/liste-commandes',
+      custom_icon_class: '<i class="icon-shopping-cart"></i>', 
       icon: 'order-product',
+      roles: ['super-admin','gestionnaire-societe','admin','gestionnaire-restaurant','lecteur-planning','lecteur-cuisine','employé',],
       active: false,
     },
     {

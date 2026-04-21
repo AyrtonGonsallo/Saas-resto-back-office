@@ -41,4 +41,21 @@ export class RestaurantService {
     return user;
 
   }
+
+  hideforuser(menupageid:number){
+    let result = false
+    let user = this.getUser()
+    let rolePriority = user.datas.Role.priorite
+    switch (menupageid) {
+      case 36:
+        result = rolePriority>4
+        break;
+    
+      default:
+        break;
+    }
+    return result
+
+
+  }
 }

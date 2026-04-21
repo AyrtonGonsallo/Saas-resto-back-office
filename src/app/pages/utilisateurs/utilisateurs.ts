@@ -135,5 +135,49 @@ export class Utilisateurs {
    
        
      }
+
+canEdit(user: any): boolean {
+  let currentUser = this.restaurantService.getUser();
+
+  let priorite_connected_user = currentUser?.datas?.Role?.priorite;
+  let societe_connected_user = currentUser?.datas?.societe_id;
+
+  let priorite_target_user = user?.Role?.priorite;
+  let societe_target_user = user?.societe_id;
+
+  // super admin peut tout modifier
+  if (priorite_connected_user === 1) {
+    return true;
+  }
+
+  // société différente = interdit
+  if (societe_connected_user != societe_target_user) {
+    return false;
+  }
+
+  // peut modifier seulement les rôles inférieurs
+  if (priorite_connected_user >= priorite_target_user) {
+    return false;
+  }
+
+  return true;
+}
+
+canDelete(user: any): boolean {
+  const currentUser = this.restaurantService.getUser();
+  const currentPriority = currentUser?.datas?.Role?.priorite;
+  const currentSociete = currentUser?.datas?.societe_id;
+  const targetPriority = user?.Role?.priorite;
+  const targetSociete = user?.societe_id;
+
+  // Super admin peut tout supprimer
+  if (currentPriority === 1) return true;
+
+  // société différente → interdit
+  if (currentSociete !== targetSociete) return false;
+
+  // ne peut supprimer que les rôles STRICTEMENT inférieurs
+  return targetPriority > currentPriority;
+}
    }
    

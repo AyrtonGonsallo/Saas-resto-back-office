@@ -21,7 +21,8 @@ export class Sidebar {
   public navServices = inject(NavmenuService);
   public layout = inject(LayoutService);
   private router = inject(Router);
-  public menuItems = this.navServices.MENUITEMS;
+  //public menuItems = this.navServices.MENUITEMS;
+  public menuItems: Menu[] = [];
   public margin: number = 0;
   public width: number = window.innerWidth;
   public leftArrowNone: boolean = true;
@@ -30,13 +31,17 @@ export class Sidebar {
   public screenHeight!: number;
   public pined: boolean = false;
   public pinedItem: number[] = [];
+  public userRole: string = '';
 
   constructor() {
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
+    this.userRole = user?.datas?.Role?.type;
+    console.log('ROLE =', this.userRole);
     if (window.innerWidth < 1185) {
       this.navServices.closeSidebar = true;
     }
     this.navServices.item.subscribe((menuItems: Menu[]) => {
-      this.menuItems = menuItems;
+      this.menuItems = this.filterMenuByRole(menuItems);
       this.router.events.subscribe(event => {
         if (event instanceof NavigationEnd) {
           menuItems.filter(items => {
@@ -147,4 +152,26 @@ export class Sidebar {
       this.pined = true;
     }
   }
+
+  filterMenuByRole(menu: Menu[]): Menu[] {
+  return menu
+    .map(item => {
+      if (item.children) {
+        item.children = this.filterMenuByRole(item.children);
+      }
+      return item;
+    })
+    .filter(item => {
+      // 1. si pas de roles → visible pour tous
+      if (!item.roles) return true;
+
+      // 2. sinon vérifier rôle
+      if (!item.roles.includes(this.userRole)) return false;
+
+      // 3. cacher parent si enfants supprimés
+      if (item.children && item.children.length === 0) return false;
+
+      return true;
+    });
+}
 }

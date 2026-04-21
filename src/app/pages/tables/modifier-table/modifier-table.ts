@@ -8,6 +8,7 @@ import { ActivatedRoute, Router, } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { RestaurantService } from '../../../shared/services/user/user.service';
+import { AuthSaasRestoService } from '../../../shared/services/auth/auth-saas-resto.service';
 
 @Component({
   selector: 'app-modifier-table',
@@ -20,12 +21,15 @@ export class ModifierTable {
   private router = inject(Router);
   formData!: FormGroup;
   data_id=0
-  constructor(private route: ActivatedRoute,private fb: FormBuilder,private restaurantService: RestaurantService, private crudSaasService:CrudSaasRestoService, private notificationsService:NotificationsService,) {}
+  user:any
+  constructor(private route: ActivatedRoute, private authSerivce: AuthSaasRestoService, private fb: FormBuilder,private restaurantService: RestaurantService, private crudSaasService:CrudSaasRestoService, private notificationsService:NotificationsService,) {}
 
   ngOnInit(): void {
 
      this.data_id = parseInt(this.route.snapshot.paramMap.get('id')??'');
      
+    this.user = this.authSerivce.getUser();
+    console.log('user recuperé',this.user )
 
      this.get_all_restaurants()
 
@@ -50,6 +54,56 @@ export class ModifierTable {
     { key: 'libre', name: 'Libre' },
     { key: 'réservée', name: 'Réservée' },
   ];
+
+  verifier_roles_et_societes(user: any, currentRestaurant: any) {
+    console.log('user', user);
+    console.log('restaurant', currentRestaurant);
+
+    const prioriteRoleUser = user?.datas?.Role?.priorite;
+    const societeUser = user?.datas?.societe_id;
+
+    const societeRestaurant = currentRestaurant?.societe_id;
+    const restaurantId = currentRestaurant?.restaurant_id;
+
+    const restaurantsAutorises =
+      user?.datas?.Restaurants?.map((r: any) => r.id) || [];
+
+    // super admin
+    if (prioriteRoleUser === 1) return;
+
+    // autre société
+    if (societeUser !== societeRestaurant) {
+      this.notificationsService.error(
+        "Vous ne pouvez pas modifier une table d'une autre société",
+        "Echec"
+      );
+      this.router.navigate(['/dashboard/default']);
+      return;
+    }
+
+    // gestionnaire restaurant → seulement ses restos
+    if (prioriteRoleUser === 4) {
+      const canAccess = restaurantsAutorises.includes(restaurantId);
+
+      if (!canAccess) {
+        this.notificationsService.error(
+          "Vous ne pouvez pas modifier cette table",
+          "Echec"
+        );
+        this.router.navigate(['/dashboard/default']);
+        return;
+      }
+    }
+
+    if (prioriteRoleUser >= 5) {
+    this.notificationsService.error(
+      "Vous n'avez pas les permissions nécessaires",
+      "Echec"
+    );
+    this.router.navigate(['/dashboard/default']);
+    return;
+  }
+  }
 
   onSubmit() {
     
@@ -140,7 +194,7 @@ allZones:any[]
     this.crudSaasService.getTableById(id).subscribe({
       next: (res) => {
         this.data=res
-
+        this.verifier_roles_et_societes(this.user,this.data)
         this.formData = this.fb.group({
           numero: [this.data.numero, Validators.required],
           nb_places: [this.data.nb_places, [Validators.min(2),Validators.max(50)]],
@@ -193,8 +247,15 @@ allZones:any[]
 
       },
       error: (err) => {
-        this.notificationsService.error("Erreur lors de la récupération","Echec")
+        if (err.status === 404) {
+        this.notificationsService.error("table introuvable", "Echec");
+      } else if (err.status === 400) {
+        this.notificationsService.error("ID table invalide", "Echec");
+      } else {
+        this.notificationsService.error("Erreur lors de la récupération", "Echec");
       }
+      this.router.navigate(['/tables/liste-tables']);
+    }
     });
 
   }

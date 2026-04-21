@@ -60,6 +60,21 @@ export class Reservations {
 
   reservations:any
 
+  getCurrentPriority(): number {
+       return this.restaurantService.getUser()?.datas?.Role?.priorite;
+    }
+
+     canDelete(): boolean {
+       const p = this.getCurrentPriority();
+       return p <= 4;
+      }
+
+     canEdit(): boolean {
+       const p = this.getCurrentPriority();
+       return p <= 4;
+      }
+
+
 
   get_all_datas(){
 
@@ -81,10 +96,18 @@ export class Reservations {
   }
 
   modifier_data(id:number){
+     if (!this.canEdit()) {
+       this.notificationsService.error("Accès refusé", "Echec");
+       return;
+      }
     this.router.navigate(['/reservations/modifier-reservation', id]);
   }
 
   supprimer_data(id:number){
+    if (!this.canDelete()) {
+           this.notificationsService.error("Accès refusé", "Echec");
+           return;
+          }
 
     
         Swal.fire({

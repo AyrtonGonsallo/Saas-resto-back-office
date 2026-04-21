@@ -377,7 +377,7 @@ export const dashData: Routes = [
     data: {
       title: 'Paramètres',
       breadcrumb: 'Paramètres',
-     roles: ['super-admin','gestionnaire-societe','admin','gestionnaire-restaurant','lecteur-planning',]
+     roles: ['super-admin','gestionnaire-societe','admin','gestionnaire-restaurant',]
     },
     canActivate: [RoleGuard],
     loadChildren: () => import('../../pages/parametres/parametres.routes').then(r => r.ParametresRoutes),
@@ -407,7 +407,7 @@ export const dashData: Routes = [
     data: {
       title: 'Créneaux',
       breadcrumb: 'Créneaux',
-     roles: ['super-admin','gestionnaire-societe','admin','gestionnaire-restaurant',]
+     roles: ['super-admin','gestionnaire-societe','admin','gestionnaire-restaurant','lecteur-planning','lecteur-cuisine','employé',]
     },
     canActivate: [RoleGuard],
     loadChildren: () => import('../../pages/creneaux/creneaux.routes').then(r => r.CreneauxRoutes),

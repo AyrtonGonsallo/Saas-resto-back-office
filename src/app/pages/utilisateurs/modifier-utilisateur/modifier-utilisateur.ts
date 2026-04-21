@@ -56,8 +56,10 @@ export class ModifierUtilisateur {
     let prioriteCurrentRoleUser = currentUser.Role.priorite
     let societeUser = user.datas.societe_id
     let societeCurrentUser = currentUser.societe_id
-    if(prioriteRoleUser>prioriteCurrentRoleUser){
-      console.log(prioriteRoleUser,prioriteCurrentRoleUser)
+    // Super admin peut tout faire
+    if (prioriteRoleUser === 1) return;
+    if(prioriteRoleUser >= prioriteCurrentRoleUser){
+      console.log("bbbb",prioriteRoleUser,prioriteCurrentRoleUser)
       this.notificationsService.error("Vous avez un rôle inférieur","Echec")
       this.router.navigate(['/dashboard/default']);
     }
@@ -198,7 +200,14 @@ export class ModifierUtilisateur {
         
       },
       error: (err) => {
-        this.notificationsService.error("Erreur lors de la récupération","Echec")
+         if (err.status === 404) {
+        this.notificationsService.error("Utilisateur introuvable", "Echec");
+      } else if (err.status === 400) {
+        this.notificationsService.error("ID utilisateur invalide", "Echec");
+      } else {
+        this.notificationsService.error("Erreur lors de la récupération", "Echec");
+      }
+      this.router.navigate(['utilisateurs/liste-utilisateurs']);
       }
     });
 

@@ -60,6 +60,20 @@ export class ZonesRestaurant {
 
   zones_restaurant:any
 
+   getCurrentPriority(): number {
+       return this.restaurantService.getUser()?.datas?.Role?.priorite;
+    }
+
+     canDelete(): boolean {
+       const p = this.getCurrentPriority();
+       return p <= 4;
+      }
+
+     canEdit(): boolean {
+       const p = this.getCurrentPriority();
+       return p <= 4;
+      }
+
 
   get_all_datas(){
 
@@ -80,11 +94,18 @@ export class ZonesRestaurant {
   }
 
   modifier_data(id:number){
+     if (!this.canEdit()) {
+       this.notificationsService.error("Accès refusé", "Echec");
+       return;
+      }
     this.router.navigate(['/zones-restaurant/modifier-zone', id]);
   }
 
   supprimer_data(id:number){
-
+    if (!this.canDelete()) {
+           this.notificationsService.error("Accès refusé", "Echec");
+           return;
+          }
     
         Swal.fire({
           title: 'Voulez-vous vraiment supprimer cet élément?',

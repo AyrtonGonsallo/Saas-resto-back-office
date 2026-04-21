@@ -78,12 +78,15 @@ export class FormulaireClickAndCollect {
   next(){
     let res = this.valider_formulaire_etape(this.current_step)
     if(this.current_step<5 && res){
-      this.progression+=25
-      this.current_step++
-      console.log(this.progression)
-    }else if(this.current_step==5){
-     
-      this.onSubmit()
+      if(this.current_step==4){
+        this.onSubmit()
+      }else{
+        this.progression+=25
+        this.current_step++
+
+      }
+      
+      console.log('this.current_step',this.current_step)
     }
     
   }
@@ -102,12 +105,18 @@ export class FormulaireClickAndCollect {
       this. formData.markAllAsTouched();
       return;
     }
-    
-    console.log(this. formData.value);
+    const elements_panier = this.panierService.get_panier();
+
+    const payload = {
+      commandeDatas: this.formData.value,
+      elements_panier: elements_panier
+    };
+
+    console.log('payload', payload);
 
     
     
-    this.crudSaasService.ajouterCommande(this. formData.value).subscribe({
+    this.crudSaasService.ajouterCommande(payload).subscribe({
       next: (res) => {
         this.final_commande=res
         console.log('final_commande',res)
@@ -124,6 +133,8 @@ export class FormulaireClickAndCollect {
             });
         setTimeout(() => {
         }, 2000);
+        this.progression+=25
+        this.current_step++
       },
       error: (err) => {
         this.notificationsService.error(err.error.message,"Echec")
@@ -185,30 +196,112 @@ export class FormulaireClickAndCollect {
   produitActuel: any = null;
   variationActuelle: any = null;
   quantite_produit_actuel = 1;
-  
+  formVariations!: FormGroup;
+  formProduit!: FormGroup;
+  groups: any[] = [];
+  total_elements_panier=0
 
   ouvrirChoixVariationsModal(variationsChoiceTemplate: TemplateRef<NgbModal>,produit:any) {
     this.quantite_produit_actuel = 1;
     this.produitActuel=produit
+    let existant = this.panierService.getElementDatas(produit.id)
+    console.log('existant',existant)
+
+    const variationsGroup: any = {};
+
+    this.groups = this.grouperVariations(produit.variations)
+    console.log('group',this.groups)
+
+    this.groups.forEach(group => {
+      variationsGroup[group.categorie.id] = [
+        null,
+        group.categorie.obligatoire ? Validators.required : []
+      ];
+    });
+
+    this.formVariations = this.fb.group({
+      variations: this.fb.group(variationsGroup), // ici le regroupement
+      quantite: [(existant)?existant.quantite:1, [Validators.required, Validators.min(1)]],
+      prix_ht: [this.produitActuel.prix_ht],
+      titre: [this.produitActuel.titre],
+      tva: [this.produitActuel.tva]
+    });
+
     this.modalService.open(variationsChoiceTemplate);
-    let group = this.grouperVariations(produit.variations)
-    console.log('group',group)
   }
 
-  ouvrirAjouterProduitModal(ajouterProduitTemplate: TemplateRef<NgbModal>,produit:any,variation:any) {
+  ouvrirAjouterProduitModal(ajouterProduitTemplate: TemplateRef<NgbModal>,produit:any) {
+    let existant = this.panierService.getElementDatas(produit.id)
+    console.log('existant',existant)
     this.quantite_produit_actuel = 1;
     this.produitActuel=produit
-    this.variationActuelle=variation
+
+    const formControls: any = {};
+
+    formControls['quantite'] = [(existant)?existant.quantite:1, [Validators.required, Validators.min(1)]];
+    formControls['prix_ht'] = [this.produitActuel.prix_ht,];
+    formControls['titre'] = [this.produitActuel.titre,];
+    formControls['tva'] = [this.produitActuel.tva,];
+
+    this.formProduit = this.fb.group(formControls);
+
+    
     this.modalService.open(ajouterProduitTemplate);
     
   }
 
-  ajouter_produit(produit_id:number){
-    this.panierService.ajouter_produit(produit_id)
+  ajouter_produit(){
+    console.log('formProduit',this.formProduit.value);
+    let res = this.panierService.ajouter_produit(this.produitActuel,this.formProduit.value)
+    this.total_elements_panier=this.panierService.getTotalElements()
+    if(res){
+       Swal.fire({
+          position: 'bottom-end',
+          icon: 'success',
+          title: 'Produit ajouté au panier',
+          showConfirmButton: false,
+        });
+      setTimeout(() => {
+      }, 1000);
+      this.modalService.dismissAll()
+    }
+   
   }
 
-  ajouter_variation(produit_id:number,variation_id:number){
-    this.panierService.ajouter_variation(produit_id,variation_id)
+  ajouter_variation(){
+    console.log('formVariations',this.formVariations.value);
+    let res = this.panierService.ajouter_variation(this.produitActuel,this.formVariations.value)
+    this.total_elements_panier=this.panierService.getTotalElements()
+    if(res){
+       Swal.fire({
+          position: 'bottom-end',
+          icon: 'success',
+          title: 'Produit ajouté au panier',
+          showConfirmButton: false,
+        });
+      setTimeout(() => {
+      }, 1000);
+      this.modalService.dismissAll()
+    }
+  }
+
+  retirer_produit(pid:number){
+    let res = this.panierService.retirer_produit(pid)
+    this.total_elements_panier=this.panierService.getTotalElements()
+    if(res){
+       Swal.fire({
+          position: 'bottom-end',
+          icon: 'success',
+          title: 'Produit supprimé du panier',
+          showConfirmButton: false,
+        });
+      setTimeout(() => {
+      }, 1000);
+    }
+  }
+
+  is_product_in_cart(pid:number){
+    return this.panierService.isProduitDansPanier(pid)
   }
 
   recherche() {
@@ -323,8 +416,7 @@ export class FormulaireClickAndCollect {
         return true
 
       case 3:
-        return false
-        break;
+        return this.check_panier()
 
       case 4:
         champs = ['nom', 'prenom', 'email', 'telephone','date_retrait','heure_retrait'];
@@ -356,6 +448,15 @@ export class FormulaireClickAndCollect {
       text: texte,
       icon: 'error',
     });
+  }
+
+  check_panier(){
+    if(this.total_elements_panier<1){
+      this.swal_alert('Votre panier est vide')
+      return false
+    }else{
+      return true
+    }
   }
 
   group_by_categorie(produits: any[]) {
@@ -421,6 +522,32 @@ export class FormulaireClickAndCollect {
     return classes[id % classes.length];
   }
 
+
+  get_unit_cummul_price_ht(item:any){
+    let prix = 0 
+    prix = item.prix_ht
+    item.variations.forEach((v:any) => {
+      prix += v.prix_supplement
+    });
+    return prix
+  }
+
+  get_cummul_price_ht(item:any){
+    let prix = 0 
+    prix = item.prix_ht
+    item.variations.forEach((v:any) => {
+      prix += v.prix_supplement
+    });
+    return prix * item.quantite
+  }
+
+  get_sous_total_price_ht(items:any){
+    let prix = 0 
+    items.forEach((i:any) => {
+      prix += this.get_cummul_price_ht(i)
+    });
+    return prix
+  }
 
  
 }

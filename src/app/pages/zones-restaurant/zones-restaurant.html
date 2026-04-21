@@ -62,8 +62,12 @@
               
               <td>
                 <ul class="action">
+                  @if(canEdit()) {
                   <a style="cursor: pointer;" (click)="modifier_data(data.id)"><i class="fa fa-pen font-primary pe-2" ></i></a>
+                  }
+                  @if(canDelete()) {
                   <a style="cursor: pointer;" (click)="supprimer_data(data.id)"><i class="fa fa-trash font-danger ps-2" ></i></a>
+                  }
                 </ul>
               </td>
             </tr>

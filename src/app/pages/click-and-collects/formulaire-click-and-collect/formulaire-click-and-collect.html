@@ -15,6 +15,16 @@
                             <h3 class="text-center">Click & Collect </h3>
                             <h4 class="text-center" *ngIf="selectedRestaurant">Restaurant : {{selectedRestaurant?.nom}}</h4>
                             <p class="text-center">Entrez les informations suivantes</p>
+                           
+                          
+                                <div class="animated-badge" *ngIf="total_elements_panier>0">
+                                    <ul class="d-flex-end">
+                                        <li class="bg-common-primary"><span class="dote-primary">{{total_elements_panier}}</span>
+                                            <i class="fa-solid fa-cart-arrow-down"></i>
+                                        </li>
+                                    </ul>
+                                </div>
+                           
 
 
                             <div class="card">
@@ -55,7 +65,7 @@
 
                                         <div class="row">
                                             @for( restaurant of restaurants; track restaurant){
-                                                <div class="col-xxl-3 col-md-4 box-col-6">
+                                                <div class="col-xxl-4 col-md-4 box-col-6">
                                                     <div class="card features-faq product-box restaurant-box">
                                                         <div class="faq-image product-img">
                                                             <img class="img-fluid" [src]="imagesUrl+restaurant.image" alt="img">
@@ -86,7 +96,6 @@
                                                         </div>
                                                         <div class="card-footer">
                                                             <a class="btn btn-primary btn-block w-100 text-white" (click)="choisirRestaurant(restaurant.id)">Commander</a>
-
                                                         </div>
                                                     </div>
                                                 </div>
@@ -99,7 +108,7 @@
 
                                         <div class="row">
                                             @for( menu of menus; track menu){
-                                                <div class="col-xxl-3 col-md-4 box-col-6">
+                                                <div class="col-xxl-4 col-md-4 box-col-6">
                                                     <div class="card features-faq product-box restaurant-box">
                                                         <div class="faq-image product-img">
                                                             <img class="img-fluid" [src]="imagesUrl+menu.image" alt="img">
@@ -128,8 +137,11 @@
                                             <h3 class="mt-4 mb-3">{{group.categorie.titre}}</h3>
                                             <div class="row">
                                                 @for( produit of group.produits; track produit){
-                                                <div class="col-xxl-3 col-md-4 box-col-6">
-                                                    <div class="card features-faq product-box restaurant-box">
+                                                <div class="col-xxl-4 col-md-4 box-col-6">
+                                                    <div class="card card-absolute features-faq  restaurant-box">
+                                                        <div class="card-header bg-info" *ngIf="is_product_in_cart(produit.id)">
+                                                            Ajouté au panier
+                                                        </div>
                                                         <div class="faq-image product-img">
                                                             <img class="img-fluid" [src]="imagesUrl+produit.image" alt="img">
                                                             <div class="product-hover">
@@ -144,10 +156,14 @@
                                                         <div class="card-footer">
                                                             
                                                             <div *ngIf="!(produit.variations.length>0)" >
-                                                                <button class="btn btn-primary px-xl-2 px-xxl-3" type="button" (click)="ouvrirAjouterProduitModal(ajouterProduitTemplate,produit,0)">Ajouter +</button>
+                                                                <button class="btn btn-primary px-xl-2 px-xxl-3 mb-3 me-3" type="button" (click)="ouvrirAjouterProduitModal(ajouterProduitTemplate,produit)">Ajouter +</button>
+                                                                <button *ngIf="is_product_in_cart(produit.id)" class="btn btn-danger px-xl-2 px-xxl-3" type="button" (click)="retirer_produit(produit.id)">Retirer</button>
+
                                                             </div>
                                                             <div *ngIf="(produit.variations.length>0)">
-                                                                <button class="btn btn-secondary px-xl-2 px-xxl-3" type="button" (click)="ouvrirChoixVariationsModal(variationsChoiceTemplate,produit)">Choix des variations</button>
+                                                                <button class="btn btn-secondary px-xl-2 px-xxl-3 mb-3 me-3" type="button" (click)="ouvrirChoixVariationsModal(variationsChoiceTemplate,produit)">Choix des variations</button>
+                                                                <button *ngIf="is_product_in_cart(produit.id)" class="btn btn-danger px-xl-2 px-xxl-3" type="button" (click)="retirer_produit(produit.id)">Retirer</button>
+
                                                             </div>
                                                         </div>
                                                     </div>
@@ -267,17 +283,60 @@
                                             </div>
                                         </div>
                                         <div *ngIf="!paymentRestoActive">
-                                            Le paiement est désactivé
+                                            Le paiement d'un acompte n'est pas requis pour cette commande
                                         </div>
                                         <br><br>
-                                        <div *ngIf="!final_commande">
-                                            Faites suivant pour continuer
-                                        </div>
 
                                         <h2 class="card-title mb-4" *ngIf="final_commande">Récapitulatif</h2>
                                         <div *ngIf="final_commande">
                                             
-                                            <h5>Votre réservation a bien été enregistrée</h5>
+                                            <h5>Votre commande a bien été enregistrée</h5>
+
+                                            ID : {{final_commande.id}}<br>
+                                            Client : {{final_commande.client.prenom}} {{final_commande.client.nom}}<br>
+                                            Date de la réservation : {{final_commande.date_retrait |  date:'dd/MM/yyyy HH:mm' }}<br>
+                                            Prix TTC : {{final_commande.totalPrice}} € <br>
+                                            <div class="mt-5 mb-3">
+                                                <table class="table">
+                                                    <thead class="table-dark">
+                                                    <tr>
+                                                        <th scope="col">Produit</th>
+                                                        <th scope="col">Variations</th>
+                                                        <th scope="col">Quantité</th>
+                                                        <th scope="col">Prix unitaire HT</th>
+                                                        <th scope="col">Prix HT</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @for( item of final_commande.items; track item){
+                                                            <tr>
+                                                                <th scope="row">{{ item.titre }} ({{ item.prix_ht }} €)</th>
+                                                                <td>
+                                                                    <ul>
+                                                                        <li *ngFor="let v of item.variations">
+                                                                            {{ v.titre }} (+{{ v.prix_supplement || v.prix }} €)
+                                                                        </li>
+                                                                    </ul>
+                                                                </td>
+                                                                <td>{{ item.quantite }}</td>
+                                                                <td>{{get_unit_cummul_price_ht(item)}} €</td>
+                                                                <td>{{get_cummul_price_ht(item)}} €</td>
+                                                            </tr>
+                                                        }
+                                                        <tr>
+                                                            <td colspan="4">Sous total</td>
+                                                            <td>{{get_sous_total_price_ht(final_commande.items)}} €</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td colspan="4">Total TTC</td>
+                                                            <td>{{final_commande.totalPrice}} €</td>
+                                                        </tr>
+                                                    </tbody>
+                                                    
+                                                </table>
+                                            </div>
+                                            
+                                            
                                             
 
                                         </div>
@@ -325,16 +384,38 @@
                 </div>
 
 
-                
-                <span *ngIf="variationActuelle">Supplément : {{variationActuelle.titre}} - {{variationActuelle.supplement_prix}} €</span>
-                <div class="col-md-12">
-                    <div class="mb-3">
-                    <label class="form-label">Quantite</label>
-                    <input class="form-control" type="number" value="0" min='1' [max]="produitActuel.stock" [(ngModel)]="quantite_produit_actuel">
-                
+                <form [formGroup]="formProduit" (ngSubmit)="ajouter_produit()">
+
+                    <div class="row">
+                       
+                        <!-- Quantité -->
+                         <div class="col-4">
+                            <label class="form-label">Quantite</label>
+                        </div>
+                        <div class="col-8">
+                            <input
+                                class="form-control"
+                                type="number"
+                                formControlName="quantite"
+                                min="1"
+                                [max]="produitActuel.stock"
+                            />
+                        </div>
+                        <div *ngIf="formProduit.get('quantite')?.touched && formProduit.get('quantite')?.invalid" class="text-danger">
+                            La quantité est supérieure au stock actuel du produit
+                        </div>
+
                     </div>
-                </div>
-                <a  class="btn btn-primary btn-block w-100 text-white" >Ajouter +</a>
+
+                    <!-- bouton -->
+                    <button class="btn btn-primary" [disabled]="formProduit.invalid">
+                        Ajouter +
+                    </button>
+
+                </form>
+                
+                
+        
             </div>
         </div>
     </div>
@@ -356,58 +437,88 @@
                     
                     <p class="mb-0" [innerHTML]="produitActuel.desc"></p>
                 </div>
-                <h4>choisir des options</h4>
-                <div class="row">
-                    @for (group of grouperVariations(produitActuel.variations); track group.categorie.id) {
-                        <div class="col-12">
+                <h4 class="mt-3 mb-2">choisir des options</h4>
+                <form [formGroup]="formVariations" (ngSubmit)="ajouter_variation()">
+
+                    <div class="row" >
+                        @for (group of groups; track group.categorie.id) {
+
+                        <div class="col-12 mb-3">
                             <div class="card-wrapper solid-border rounded-3">
-                                <h5>{{ group.categorie.titre }} <span class="text-danger" *ngIf="group.categorie.obligatoire">*</span></h5> 
 
-                                <div class="row">
-                                    @for (variation of group.variations; track variation.id) {
-                                        <div class="col-12">
-                                            <label class="d-block" [for]="variation.id">
-                                                <input
-                                                class="radio radio-border-{{ get_class(variation.id) }} radio-{{ get_class(variation.id) }}"
-                                                [id]="variation.id"
-                                                type="radio"
-                                                [name]="'radio_' + group.categorie.id"   
-                                                [value]="variation.id"
-                                                />
-                                                {{ variation.titre }} - {{variation.supplement_prix}} €
-                                            </label>
-                                        </div>
-                                    }
-                                    <div class="col-12" *ngIf="!group.categorie.obligatoire">
-                                        <label class="d-block" [for]="0">
-                                            <input
-                                            class="radio radio-border-info radio-info"
-                                            [id]="0"
-                                            type="radio"
-                                            [name]="'radio_' + group.categorie.id"   
-                                            value="0"
-                                            checked
-                                            />
-                                            Aucun
-                                        </label>
-                                    </div>
+                            <h5 class="mb-2">
+                                {{ group.categorie.titre }}
+                                <span class="text-danger" *ngIf="group.categorie.obligatoire">*</span>
+                            </h5>
 
-                                    
+                            <div class="row"  formGroupName="variations">
+
+                                @for (variation of group.variations; track variation.id) {
+                                <div class="col-12">
+                                    <label class="d-block">
+                                    <input
+                                        class="radio radio-border-{{ get_class(variation.id) }} radio-{{ get_class(variation.id) }}"
+                                        type="radio"
+                                         [formControlName]="group.categorie.id"
+                                        [value]="variation.id+':'+variation.supplement_prix+':'+variation.titre"
+                                    />
+                                    {{ variation.titre }} - {{ variation.supplement_prix }} €
+                                    </label>
+                                </div>
+                                }
+
+                                <!-- Aucun -->
+                                <div class="col-12" *ngIf="!group.categorie.obligatoire">
+                                <label class="d-block">
+                                    <input
+                                    type="radio"
+                                    class="radio radio-border-info radio-info"
+                                     [formControlName]="group.categorie.id"
+                                    value="0"
+                                    />
+                                    Aucun
+                                </label>
+                                </div>
+
+                                <div *ngIf="formVariations.get('variations.' + group.categorie.id)?.touched && formVariations.get('variations.' + group.categorie.id)?.invalid" class="text-danger">
+                                    Vous devez choisir une option
                                 </div>
 
                             </div>
-                        </div>
-                    }
-                </div>
 
-                <div class="col-md-12">
-                    <div class="mb-3">
-                    <label class="form-label">Quantite</label>
-                    <input class="form-control" type="number" value="0" min='1' [max]="produitActuel.stock" [(ngModel)]="quantite_produit_actuel">
-                
+                            </div>
+                        </div>
+
+                        }
+
+                        <!-- Quantité -->
+                         <div class="col-4">
+                            <label class="form-label">Quantite</label>
+                        </div>
+                        <div class="col-8">
+                            <input
+                                class="form-control"
+                                type="number"
+                                formControlName="quantite"
+                                min="1"
+                                [max]="produitActuel.stock"
+                            />
+                        </div>
+                        <div *ngIf="formVariations.get('quantite')?.touched && formVariations.get('quantite')?.invalid" class="text-danger">
+                            La quantité est supérieure au stock actuel du produit
+                        </div>
+
                     </div>
-                </div>
-                <a  class="btn btn-primary btn-block w-100 text-white" >Ajouter +</a>
+
+                    <!-- bouton -->
+                    <button class="btn btn-primary" [disabled]="formVariations.invalid">
+                        Ajouter +
+                    </button>
+
+                </form>
+
+                
+                
                 
             </div>
         </div>

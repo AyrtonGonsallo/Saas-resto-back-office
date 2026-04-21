@@ -21,6 +21,7 @@ export class ModifierRestaurant {
   private router = inject(Router);
   public imagesUrl = environment.imagesUrl
   formData!: FormGroup;
+  user:any;
   constructor(private route: ActivatedRoute,private fb: FormBuilder, private restaurantService: RestaurantService, private crudSaasService:CrudSaasRestoService, private notificationsService:NotificationsService,) {}
 
   data_id=0
@@ -49,6 +50,57 @@ export class ModifierRestaurant {
       societe_id: [0, Validators.required],
       utilisateur_id: [0, Validators.required],
     });
+  }
+
+
+  verifier_roles_et_societes(user: any, currentRestaurant: any) {
+    console.log('user', user);
+    console.log('restaurant', currentRestaurant);
+
+    const prioriteRoleUser = user?.datas?.Role?.priorite;
+    const societeUser = user?.datas?.societe_id;
+
+    const societeRestaurant = currentRestaurant?.societe_id;
+    const restaurantId = currentRestaurant?.id;
+
+    const restaurantsAutorises =
+      user?.datas?.Restaurants?.map((r: any) => r.id) || [];
+
+    // super admin
+    if (prioriteRoleUser === 1) return;
+
+    // autre société
+    if (societeUser !== societeRestaurant) {
+      this.notificationsService.error(
+        "Vous ne pouvez pas modifier un restaurant d'une autre société",
+        "Echec"
+      );
+      this.router.navigate(['/dashboard/default']);
+      return;
+    }
+
+    // gestionnaire restaurant → seulement ses restos
+    if (prioriteRoleUser === 4) {
+      const canAccess = restaurantsAutorises.includes(restaurantId);
+
+      if (!canAccess) {
+        this.notificationsService.error(
+          "Vous ne pouvez pas modifier ce restaurant",
+          "Echec"
+        );
+        this.router.navigate(['/dashboard/default']);
+        return;
+      }
+    }
+
+    if (prioriteRoleUser >= 5) {
+    this.notificationsService.error(
+      "Vous n'avez pas les permissions nécessaires",
+      "Echec"
+    );
+    this.router.navigate(['/dashboard/default']);
+    return;
+  }
   }
  
 
@@ -170,7 +222,8 @@ export class ModifierRestaurant {
       this.crudSaasService.getRestaurantById(id).subscribe({
       next: (res) => {
         this.data=res
-
+        const user = this.restaurantService.getUser();
+        this.verifier_roles_et_societes(user, this.data);
       
          this.formData = this.fb.group({
           nom: [this.data.nom, Validators.required],
@@ -206,7 +259,14 @@ export class ModifierRestaurant {
         
       },
       error: (err) => {
-        this.notificationsService.error("Erreur lors de la récupération","Echec")
+        if (err.status === 404) {
+        this.notificationsService.error("Restaurant introuvable", "Echec");
+      } else if (err.status === 400) {
+        this.notificationsService.error("ID restaurant invalide", "Echec");
+      } else {
+        this.notificationsService.error("Erreur lors de la récupération", "Echec");
+      }
+      this.router.navigate(['restaurants/liste-restaurants']);
       }
     });
 

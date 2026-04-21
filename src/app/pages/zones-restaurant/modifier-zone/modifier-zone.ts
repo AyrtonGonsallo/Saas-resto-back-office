@@ -46,17 +46,54 @@ export class ModifierZone {
   }
 
   
-  verifier_roles_et_societes(user:any,currentData:any){
-    console.log('user',user)
-    console.log('currentData',currentData)
-    let societeUser = user.datas.societe_id
-    let societeCurrentData = currentData.societe_id
-    if(societeUser!=societeCurrentData){
-      console.log(societeUser,societeCurrentData)
-      this.notificationsService.error("Vous ne faites pas parti de la même société","Echec")
+  verifier_roles_et_societes(user: any, currentRestaurant: any) {
+    console.log('user', user);
+    console.log('restaurant', currentRestaurant);
+
+    const prioriteRoleUser = user?.datas?.Role?.priorite;
+    const societeUser = user?.datas?.societe_id;
+
+    const societeRestaurant = currentRestaurant?.societe_id;
+    const restaurantId = currentRestaurant?.restaurant_id;
+
+    const restaurantsAutorises =
+      user?.datas?.Restaurants?.map((r: any) => r.id) || [];
+
+    // super admin
+    if (prioriteRoleUser === 1) return;
+
+    // autre société
+    if (societeUser !== societeRestaurant) {
+      this.notificationsService.error(
+        "Vous ne pouvez pas modifier un zone de restaurant d'une autre société",
+        "Echec"
+      );
       this.router.navigate(['/dashboard/default']);
+      return;
     }
 
+    // gestionnaire restaurant → seulement ses restos
+    if (prioriteRoleUser === 4) {
+      const canAccess = restaurantsAutorises.includes(restaurantId);
+
+      if (!canAccess) {
+        this.notificationsService.error(
+          "Vous ne pouvez pas modifier cette zone de restaurant",
+          "Echec"
+        );
+        this.router.navigate(['/dashboard/default']);
+        return;
+      }
+    }
+
+    if (prioriteRoleUser >= 5) {
+    this.notificationsService.error(
+      "Vous n'avez pas les permissions nécessaires",
+      "Echec"
+    );
+    this.router.navigate(['/dashboard/default']);
+    return;
+  }
   }
 
 
@@ -128,8 +165,15 @@ export class ModifierZone {
         
       },
       error: (err) => {
-        this.notificationsService.error("Erreur lors de la récupération","Echec")
+       if (err.status === 404) {
+        this.notificationsService.error("zone de restaurant introuvable", "Echec");
+      } else if (err.status === 400) {
+        this.notificationsService.error("ID zone de restaurant invalide", "Echec");
+      } else {
+        this.notificationsService.error("Erreur lors de la récupération", "Echec");
       }
+      this.router.navigate(['/zones-restaurant/liste-zones-restaurant']);
+    }
     });
 
   }
