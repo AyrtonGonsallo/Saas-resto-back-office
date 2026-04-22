@@ -74,3 +74,36 @@
     </div>
 </form>
 
+<div class="card-body">
+    <div class="row">
+        
+        <div class="col-xl-6 box-col-6 col-sm-6">
+            <div class="card bg-primary height_equal">
+                <div class="card-body">
+                    <div class="d-flex faq-widgets">
+                        
+                        <div class="flex-grow-1">
+                            <h4>{{data.totalPrice}} €</h4>
+                        </div>
+                        <app-feather-icon icon="file-text" />
+                    </div>
+                    <div class="d-flex faq-widgets">
+                        
+                        <div class="flex-grow-1">
+                            <div class="text-white" [innerHTML]="data.formule"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-6 box-col-6 col-sm-6">
+
+        </div>
+        <div class="col-xl-4 box-col-6 col-sm-6">
+            <button class="btn btn-primary" type="button" (click)="recalculer_formule()">Recalculer le prix</button>
+        </div>
+        
+        
+    </div>
+</div>
+

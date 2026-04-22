@@ -10,11 +10,12 @@ import Swal from 'sweetalert2';
 import { AuthSaasRestoService } from '../../../shared/services/auth/auth-saas-resto.service';
 import { AngularEditorModule } from '@kolkov/angular-editor';
 import { RestaurantService } from '../../../shared/services/user/user.service';
+import { Feathericon } from '../../../shared/component/feathericon/feathericon';
 
 
 @Component({
   selector: 'app-modifier-commande',
-  imports: [ReactiveFormsModule,CommonModule, ReactiveFormsModule, NgSelectModule, NgbModule,AngularEditorModule,],
+  imports: [ReactiveFormsModule,CommonModule, ReactiveFormsModule, NgSelectModule, NgbModule,AngularEditorModule,Feathericon],
   templateUrl: './modifier-commande.html',
   styleUrl: './modifier-commande.scss',
 })
@@ -192,7 +193,30 @@ export class ModifierCommande {
 
   }
 
-    societeData:any
+  societeData:any
+
+
+  recalculer_formule(){
+
+    this.crudSaasService.updateFormuleCommande(this.data_id).subscribe({
+      next: (res) => {
+        Swal.fire({
+              position: 'bottom-end',
+              icon: 'success',
+              title: 'Formule recalculée',
+              showConfirmButton: false,
+            });
+        setTimeout(() => {
+          this.data=res
+          console.log(res)
+        }, 2000);
+      },
+      error: (err) => {
+        this.notificationsService.error(err.error.message,"Echec")
+      }
+    });
+
+  }
 
 
 }

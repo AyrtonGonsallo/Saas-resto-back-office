@@ -1,7 +1,6 @@
 import { DecimalPipe, AsyncPipe, CommonModule } from '@angular/common';
 import { Component, inject, viewChildren } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import Swal from 'sweetalert2';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Observable } from 'rxjs';
 import { Router,  } from '@angular/router';
@@ -14,8 +13,6 @@ import { CrudSaasRestoService } from '../../shared/services/api/crud-saas-resto.
 import { NotificationsService } from '../../shared/services/notifications/notifications.service';
 import { environment } from '../../environment';
 import { RestaurantService } from '../../shared/services/user/user.service';
-import { CleanTextPipe } from '../../shared/pipes/clean-text.pipe';
-import { BarRatingModule } from 'ngx-bar-rating';
 
 
 @Component({
@@ -23,7 +20,7 @@ import { BarRatingModule } from 'ngx-bar-rating';
   imports: [FormsModule,
     NgbdSortableHeaderDirective,
     ReactiveFormsModule,CommonModule,
-    NgbModule,CleanTextPipe,BarRatingModule,
+    NgbModule,
     AsyncPipe,],
   templateUrl: './paiements.html',
   styleUrl: './paiements.scss',
@@ -87,13 +84,20 @@ export class Paiements {
     this.crudSaasService.getPaiements(restaurant_id).subscribe({
       next: (res) => {
         this.service.setData(res);
-        console.log("paiements",this.paiements)
       },
       error: (err) => {
         this.notificationsService.error("Erreur lors de la récupération des paiements","Echec")
         console.log(err.error)
       }
     });
+  }
+
+  get_reservation(id:number|null){
+    return (id)?`<a href="/reservations/modifier-reservation/${id}">Voir</a>`:''
+  }
+
+  get_commande(id:number|null){
+    return (id)?`<a href="/commandes/modifier-commande/${id}">Voir</a>`:''
   }
 
 }

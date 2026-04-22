@@ -587,6 +587,12 @@ export class CrudSaasRestoService {
     return this.http.put<any>(url, parametre);
   }
 
+   updateFormuleCommande(id: number,): Observable<any> {
+    const url = `${environment.apiUrl}/update_formule_commande/${id}`;
+    return this.http.put<any>(url,null);
+  }
+
+
   ajouterAvis(userData: any): Observable<any> {
     return this.http.post<any>(`${environment.apiUrl}/ajouter_avis`, userData);
   }
@@ -624,6 +630,15 @@ export class CrudSaasRestoService {
     }
     return this.http.get<any[]>(url);
   }
+  getPaniers(restaurantId:number | null): Observable<any[]> {
+    let url = `${environment.apiUrl}/get_all_paniers`;
+    if (restaurantId) {
+      url += `?restaurant_id=${restaurantId}`;
+    }
+    return this.http.get<any[]>(url);
+  }
+
+  
 
 
 
