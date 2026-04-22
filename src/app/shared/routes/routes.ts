@@ -490,4 +490,28 @@ export const dashData: Routes = [
     canActivate: [RoleGuard],
     loadChildren: () => import('../../pages/click-and-collects/click-and-collects.routes').then(r => r.ClickAndCollectRoutes),
   },
+  {
+    path: 'paiements',
+    data: {
+      title: 'Paiements',
+      breadcrumb: 'Paiements',
+    },
+    loadChildren: () => import('../../pages/paiements/paiements.routes').then(r => r.PaiementsRoutes),
+  },
+  {
+    path: 'paniers',
+    data: {
+      title: 'Paniers',
+      breadcrumb: 'Paniers',
+    },
+    loadChildren: () => import('../../pages/paniers/paniers.routes').then(r => r.PaniersRoutes),
+  },
+  {
+    path: 'avis',
+    data: {
+      title: 'Avis',
+      breadcrumb: 'Avis',
+    },
+    loadChildren: () => import('../../pages/avis/avis.routes').then(r => r.AvisRoutes),
+  },
 ];

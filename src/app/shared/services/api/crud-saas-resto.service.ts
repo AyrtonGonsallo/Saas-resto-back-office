@@ -587,6 +587,45 @@ export class CrudSaasRestoService {
     return this.http.put<any>(url, parametre);
   }
 
+  ajouterAvis(userData: any): Observable<any> {
+    return this.http.post<any>(`${environment.apiUrl}/ajouter_avis`, userData);
+  }
+  getAvis(restaurantId:number | null): Observable<any[]> {
+    let url = `${environment.apiUrl}/get_all_avis`;
+    if (restaurantId) {
+      url += `?restaurant_id=${restaurantId}`;
+    }
+    return this.http.get<any[]>(url);
+  }
+  getAvisReservationById(id: number): Observable<any> {
+    const url = `${environment.apiUrl}/get_avis_reservation_by_id/${id}`;
+    return this.http.get<any>(url);
+  }
+  getAvisCommandeById(id: number): Observable<any> {
+    const url = `${environment.apiUrl}/get_avis_commande_by_id/${id}`;
+    return this.http.get<any>(url);
+  }
+  deleteAvis(id: number): Observable<any> {
+    const url = `${environment.apiUrl}/delete_avis/${id}`;
+    return this.http.delete<any>(url);
+  }
+  getAvisById(id: number): Observable<any> {
+    const url = `${environment.apiUrl}/get_avis_by_id/${id}`;
+    return this.http.get<any>(url);
+  }
+  updateAvis(id: number, data: any): Observable<any> {
+    const url = `${environment.apiUrl}/update_avis/${id}`;
+    return this.http.put<any>(url, data);
+  }
+  getPaiements(restaurantId:number | null): Observable<any[]> {
+    let url = `${environment.apiUrl}/get_all_paiements`;
+    if (restaurantId) {
+      url += `?restaurant_id=${restaurantId}`;
+    }
+    return this.http.get<any[]>(url);
+  }
+
+
 
 
 }

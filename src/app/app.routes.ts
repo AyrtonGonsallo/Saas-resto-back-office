@@ -43,4 +43,13 @@ export const routes: Routes = [
       parentpath: 'commandes/liste-commandes'
     },
   },
+  {
+    path: 'ajouter-avis/:type_id/:objet_id',
+    loadComponent: () => import('./pages/avis/ajouter-avis/ajouter-avis').then(m => m.AjouterAvis),
+    data: {
+      title: 'Ajouter un avis',
+      breadcrumb: 'Ajouter un avis',
+      parentpath: 'avis/liste-avis'
+    },
+  },
 ];

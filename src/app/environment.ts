@@ -6,11 +6,9 @@ export const environment = {
     //apiUrl: 'https://api.resto.orocom.io/api/v1', // URL de l'API sur le dev
     //apiUrl: 'https://api.resto.orocom.io/api/v1', // URL de l'API en prod
     
-
     imagesUrl: 'http://localhost:2026/api/v1/files/', // URL des images de l'API locale
     //imagesUrl: 'https://api.resto.orocom.io/api/v1/files/', // URL des images de l'API sur le dev
     //imagesUrl: 'https://api.resto.orocom.io/api/v1/files/', // URL des images de l'API sur le prod
-
 
     assetsUrl: 'https://resto.orocom.io/assets/', // URL de assets sur le dev
 
@@ -24,6 +22,9 @@ export const environment = {
 
     //click_and_collect_url:"https://resto.orocom.io/click-and-collects/formulaire-click-and-collect/",
     click_and_collect_url:"http://localhost:4400/click-and-collects/formulaire-click-and-collect/",
+
+    //avis_url:"https://resto.orocom.io/ajouter-avis/",
+    avis_url:"http://localhost:4400/ajouter-avis/",
 
 
   

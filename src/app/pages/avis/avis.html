@@ -39,16 +39,15 @@
           <thead>
             <tr>
               <th scope="col" sortable="id" (sort)="onSort($event)">ID</th>
-              <th scope="col" sortable="date_creation" (sort)="onSort($event)">Date de création</th>
-              <th scope="col" sortable="date_reservation" (sort)="onSort($event)">Date réservation</th>
-              <th scope="col" sortable="client_id" (sort)="onSort($event)">Client</th>
+              <th scope="col" sortable="created_at" (sort)="onSort($event)">Date</th>
+              <th scope="col" sortable="objet" (sort)="onSort($event)">Objet</th>
+              <th scope="col" sortable="reservation_id" (sort)="onSort($event)">Réservation</th>
+              <th scope="col" sortable="commande_id" (sort)="onSort($event)">Commande</th>
+              <th scope="col" sortable="note" (sort)="onSort($event)">Note</th>
+              <th scope="col" sortable="texte" (sort)="onSort($event)">Texte</th>
+              <th scope="col" sortable="approuve" (sort)="onSort($event)">Approuvé</th>
               <th scope="col" sortable="societe_id" (sort)="onSort($event)">Société</th>
               <th scope="col" sortable="restaurant_id" (sort)="onSort($event)">Restaurant</th>
-              <th scope="col" sortable="statut" (sort)="onSort($event)">Statut</th>
-              <th scope="col" sortable="table_id" (sort)="onSort($event)">Table</th>
-              <th scope="col" sortable="nb_couverts" (sort)="onSort($event)">Nb couverts</th>
-              <th scope="col" sortable="nombre_de_personnes" (sort)="onSort($event)">Nb personnes</th>
-              <th scope="col" sortable="creneau_id" (sort)="onSort($event)">Créneau</th>
               
               <th scope="col">Action</th>
             </tr>
@@ -56,54 +55,51 @@
           <tbody>
             @for(data of tableData$ | async; track data; let i = $index){
             <tr>
+              
               <td>
                 <ngb-highlight [result]="data.id" [term]="service.searchTerm" />
               </td>
               <td>
-                <ngb-highlight [result]="(data.date_creation | date:'dd/MM/yyyy HH:mm')" [term]="service.searchTerm" />
+                <ngb-highlight [result]="(data.created_at | date:'dd/MM/yyyy HH:mm')" [term]="service.searchTerm" />
               </td>
               <td>
-                <ngb-highlight [result]="(data.date_reservation | date:'dd/MM/yyyy HH:mm')" [term]="service.searchTerm" />
+                <ngb-highlight [result]="(data.objet)" [term]="service.searchTerm" />
+              </td>
+               <td>
+                <ngb-highlight [result]="data.reservation_id" [term]="service.searchTerm" />
               </td>
               <td>
-                <ngb-highlight [result]="data.client.nom + ' ' + data.client.prenom" [term]="service.searchTerm" />
+                <ngb-highlight [result]="data.commande_id" [term]="service.searchTerm" />
               </td>
-              
+               <td>
+                
+                <div class="rating-container">
+                    <bar-rating class="star" [rate]="data.note" [readonly]="true"/>
+                </div>
+              </td>
               <td>
-                <ngb-highlight [result]="data.societe.titre" [term]="service.searchTerm" />
+                <ngb-highlight [result]="data.texte | cleanText" [term]="service.searchTerm" />
+              </td>
+              <td>
+                <ngb-highlight [result]="data.approuve" [term]="service.searchTerm" />
+              </td>
+               <td>
+                <ngb-highlight [result]="data.Societe.titre" [term]="service.searchTerm" />
               </td>
               <td>
                 <ngb-highlight [result]="data.Restaurant.nom" [term]="service.searchTerm" />
               </td>
-              <td>
-                <ngb-highlight [result]="data.statut" [term]="service.searchTerm" />
-              </td>
-              <td>
-                <ngb-highlight [result]="data.table.numero+ ' - ' + data.table.nb_places+ ' places'" [term]="service.searchTerm" />
-              </td>
-              <td>
-                <ngb-highlight [result]="data.nb_couverts" [term]="service.searchTerm" />
-              </td>
-              <td>
-                <ngb-highlight [result]="data.nombre_de_personnes" [term]="service.searchTerm" />
-              </td>
-              <td>
-                <ngb-highlight [result]="data.creneau.heure_debut + ' - ' + data.creneau.heure_fin" [term]="service.searchTerm" />
-              </td>
+             
               
               
               <td>
                 <ul class="action">
-                  @if(canEdit()) {
+                 @if(canEdit()) {
                   <a style="cursor: pointer;" (click)="modifier_data(data.id)"><i class="fa fa-pen font-primary pe-2" ></i></a>
                   }
                   @if(canDelete()) {
-                  <a style="cursor: pointer;" (click)="supprimer_data(data.id)"><i class="fa fa-trash font-danger  pe-2" ></i></a>
+                  <a style="cursor: pointer;" (click)="supprimer_data(data.id)"><i class="fa fa-trash font-danger ps-2" ></i></a>
                   }
-                  <a class="example-popover "  triggers="mouseenter:mouseleave"
-                    popoverTitle="Lien de l'évaluation" ngbPopover="Cliquez ici pour copier le lien du formulaire d'évaluation" placement="bottom"  (click)="copyFunction(avis_url+'1/'+data.id)">
-                      <i class="fa fa-copy  font-info pe-2"></i>
-                  </a>
                 </ul>
               </td>
             </tr>
@@ -128,5 +124,5 @@
     </div>
   </form>
 
-    
+   
 </div>

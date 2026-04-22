@@ -34,7 +34,7 @@
             </a>
             }
             @else{
-                @if((item.id>1 && item.id < 50) || !item.id){
+                @if((item.id>1 && item.id < 60) || !item.id){
                     @if(!item.headTitle1 ){
                     <a [class]="{'sidebar-link' : item.level === 1, 'submenu-title' : item.level === 2 ,'actived': item.active && item.level === 1}"
                         [routerLink]="item.path" (click)="toggleMenu(item)" routerLinkActive="active"

@@ -33,6 +33,7 @@ export class Reservations {
   public tableData$: Observable<any[]> = this.service.supportdata$;
   public total$: Observable<number> = this.service.total$;
   public Data: any[];
+  public avis_url = environment.avis_url
 
   readonly headers = viewChildren(NgbdSortableHeaderDirective);
 
@@ -141,8 +142,11 @@ export class Reservations {
           }
         });
       
+  }
 
-    
+  copyFunction(txt: string) {
+    navigator.clipboard.writeText(txt);
+    alert('Copied');
   }
 }
 

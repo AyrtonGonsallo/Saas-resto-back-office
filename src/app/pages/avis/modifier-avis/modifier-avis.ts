@@ -13,49 +13,45 @@ import { RestaurantService } from '../../../shared/services/user/user.service';
 
 
 @Component({
-  selector: 'app-modifier-commande',
+  selector: 'app-modifier-avis',
   imports: [ReactiveFormsModule,CommonModule, ReactiveFormsModule, NgSelectModule, NgbModule,AngularEditorModule,],
-  templateUrl: './modifier-commande.html',
-  styleUrl: './modifier-commande.scss',
+  templateUrl: './modifier-avis.html',
+  styleUrl: './modifier-avis.scss',
 })
-export class ModifierCommande {
-   private router = inject(Router);
-  data_id=0
+export class ModifierAvis {
+  private router = inject(Router);
+  restaurant_id:number|null
   formData!: FormGroup;
   user:any
-  constructor(private route: ActivatedRoute, private authSerivce:AuthSaasRestoService,private fb: FormBuilder, private crudSaasService:CrudSaasRestoService, private notificationsService:NotificationsService,) {}
+    data_id=0
+  constructor(private route: ActivatedRoute,private authSerivce:AuthSaasRestoService, private restaurantService:RestaurantService,private fb: FormBuilder, private crudSaasService:CrudSaasRestoService, private notificationsService:NotificationsService,) {}
 
   ngOnInit(): void {
 
     this.data_id = parseInt(this.route.snapshot.paramMap.get('id')??'');
-  
-    this.load_data(this.data_id)
-    
-    this.user = this.authSerivce.getUser();
-    console.log('user recuperé',this.user )
+    this.load_data(this.data_id )
    
     this.formData = this.fb.group({
-     
-      date_retrait: [null, [Validators.required ]], //etape 3
-      heure_retrait: [null, [Validators.required ]], //etape 3
-      statut: ['En attente', []], //etape 3
-      
+      approuve: [false, [Validators.required, ]],
     });
+
+    this.user = this.authSerivce.getUser();
+    console.log('user recuperé',this.user )
+
   }
 
 
   onSubmit() {
     
     if (this.formData.invalid) {
-      console.log("invalide",this.formData.value)
       this.notificationsService.error("Formulaire invalide","Echec")
       this.formData.markAllAsTouched();
       return;
     }
-    
+   
     console.log(this.formData.value);
    
-    this.crudSaasService.updateCommande(this.data_id,this.formData.value).subscribe({
+    this.crudSaasService.updateAvis(this.data_id,this.formData.value).subscribe({
       next: (res) => {
         Swal.fire({
               position: 'bottom-end',
@@ -64,27 +60,22 @@ export class ModifierCommande {
               showConfirmButton: false,
             });
         setTimeout(() => {
-          this.router.navigate(['/commandes/liste-commandes']);
+          this.router.navigate(['/avis/liste-avis']);
         }, 2000);
       },
       error: (err) => {
-        this.notificationsService.error(err.error.message,"Echec")
+        this.notificationsService.error("Erreur lors de la modification","Echec")
       }
     });
+
+
     // appel API ici
   }
 
-   statuts = [
-    { key: 'Nouvelle'},
-    { key: 'En préparation'},
-    { key: 'Prête'},
-    { key: 'Retirée'},
-    { key: 'Annulée'},
-  ];
   
   data:any
 
-   verifier_roles_et_societes(user: any, currentRestaurant: any) {
+  verifier_roles_et_societes(user: any, currentRestaurant: any) {
     console.log('user', user);
     console.log('restaurant', currentRestaurant);
 
@@ -99,11 +90,12 @@ export class ModifierCommande {
 
     // super admin
     if (prioriteRoleUser === 1) return;
+    console.log('societeUser',societeUser,'societeRestaurant',societeRestaurant)
 
     // autre société
     if (societeUser !== societeRestaurant) {
       this.notificationsService.error(
-        "Vous ne pouvez pas modifier une commande d'une autre société",
+        "Vous ne pouvez pas modifier un avis d'une autre société",
         "Echec"
       );
       this.router.navigate(['/dashboard/default']);
@@ -116,7 +108,7 @@ export class ModifierCommande {
 
       if (!canAccess) {
         this.notificationsService.error(
-          "Vous ne pouvez pas modifier cette commande",
+          "Vous ne pouvez pas modifier cette table",
           "Echec"
         );
         this.router.navigate(['/dashboard/default']);
@@ -125,74 +117,46 @@ export class ModifierCommande {
     }
 
     if (prioriteRoleUser >= 5) {
-    this.notificationsService.error(
-      "Vous n'avez pas les permissions nécessaires",
-      "Echec"
-    );
-    this.router.navigate(['/dashboard/default']);
-    return;
+      this.notificationsService.error(
+        "Vous n'avez pas les permissions nécessaires",
+        "Echec"
+      );
+      this.router.navigate(['/dashboard/default']);
+      return;
+    }
   }
-  }
+
 
   load_data(id:number){
 
-    this.crudSaasService.getCommandeById(id).subscribe({
+    this.crudSaasService.getAvisById(id).subscribe({
       next: (res) => {
         this.data=res
         console.log("this.data",this.data)
         this.verifier_roles_et_societes(this.user,this.data)
-       
-        const date_retrait = new Date(this.data.date_retrait);
 
-        const localDateReservation = new Date(
-          date_retrait.getUTCFullYear(),
-          date_retrait.getUTCMonth(),
-          date_retrait.getUTCDate(),
-          date_retrait.getUTCHours(),
-          date_retrait.getUTCMinutes()
-        );
-
-        console.log("localDateReservation",localDateReservation)
+     
 
         this.formData = this.fb.group({
-     
-          date_retrait: [null, [Validators.required ]], //etape 3
-          heure_retrait: [null, [Validators.required ]], //etape 3
-          statut: [this.data.statut, []], //etape 3
-          
+          approuve: [this.data.approuve, [Validators.required, ]],
         });
-
-        
-
-        this.formData.patchValue({
-          date_retrait: {
-            year: localDateReservation.getFullYear(),
-            month: localDateReservation.getMonth() + 1,
-            day: localDateReservation.getDate()
-          },
-          heure_retrait: {
-            hour: localDateReservation.getHours(),
-            minute: localDateReservation.getMinutes()
-          }
-        });
-
         
       },
       error: (err) => {
         if (err.status === 404) {
-        this.notificationsService.error("Produit introuvable", "Echec");
+        this.notificationsService.error("Avis introuvable", "Echec");
       } else if (err.status === 400) {
-        this.notificationsService.error("ID de produit invalide", "Echec");
+        this.notificationsService.error("ID de avis invalide", "Echec");
       } else {
         this.notificationsService.error("Erreur lors de la récupération", "Echec");
       }
-      this.router.navigate(['/commandes/liste-commandes']);
+      this.router.navigate(['/avis/liste-avis']);
       }
     });
 
   }
 
-    societeData:any
-
 
 }
+
+

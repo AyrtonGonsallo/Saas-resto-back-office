@@ -15,19 +15,21 @@ import { NotificationsService } from '../../shared/services/notifications/notifi
 import { environment } from '../../environment';
 import { RestaurantService } from '../../shared/services/user/user.service';
 import { CleanTextPipe } from '../../shared/pipes/clean-text.pipe';
+import { BarRatingModule } from 'ngx-bar-rating';
+
 
 @Component({
-  selector: 'app-tags',
+  selector: 'app-paiements',
   imports: [FormsModule,
     NgbdSortableHeaderDirective,
     ReactiveFormsModule,CommonModule,
-    NgbModule,CleanTextPipe,
+    NgbModule,CleanTextPipe,BarRatingModule,
     AsyncPipe,],
-  templateUrl: './tags.html',
-  styleUrl: './tags.scss',
+  templateUrl: './paiements.html',
+  styleUrl: './paiements.scss',
   providers: [TableService, DecimalPipe],
 })
-export class Tags {
+export class Paiements {
   public service = inject(TableService);
   private router = inject(Router);
   public imagesUrl = environment.imagesUrl
@@ -59,21 +61,22 @@ export class Tags {
     this.service.sortDirection = direction;
   }
 
-  tags:any
+  paiements:any
 
   getCurrentPriority(): number {
-       return this.restaurantService.getUser()?.datas?.Role?.priorite;
-    }
+    return this.restaurantService.getUser()?.datas?.Role?.priorite;
+  }
 
-     canDelete(): boolean {
-       const p = this.getCurrentPriority();
-       return p <= 4;
-      }
+  canDelete(): boolean {
+    const p = this.getCurrentPriority();
+    return p <= 4;
+  }
 
-     canEdit(): boolean {
-       const p = this.getCurrentPriority();
-       return p <= 4;
-      }
+  canEdit(): boolean {
+    const p = this.getCurrentPriority();
+    return p <= 4;
+  }
+
 
 
 
@@ -81,65 +84,17 @@ export class Tags {
 
     let restaurant_id = this.restaurantService.getRestaurant()
     console.log("restaurant_id",restaurant_id)
-    this.crudSaasService.getTags(restaurant_id).subscribe({
+    this.crudSaasService.getPaiements(restaurant_id).subscribe({
       next: (res) => {
         this.service.setData(res);
-        console.log("tags",this.tags)
+        console.log("paiements",this.paiements)
       },
       error: (err) => {
-        this.notificationsService.error("Erreur lors de la récupération des rôles","Echec")
-      }
-    });
-  }
-
-  redirect_add(){
-    this.router.navigate(['/tags/creer-tag']);
-  }
-
-  modifier_data(id:number){
-     if (!this.canEdit()) {
-       this.notificationsService.error("Accès refusé", "Echec");
-       return;
-      }
-    this.router.navigate(['/tags/modifier-tag', id]);
-  }
-
-  supprimer_data(id:number){
-    
-  if (!this.canDelete()) {
-           this.notificationsService.error("Accès refusé", "Echec");
-           return;
-          }
-    Swal.fire({
-      title: 'Voulez-vous vraiment supprimer cet élément?',
-      text: "Cette action est irreversible!",
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Oui, supprimer!',
-      cancelButtonText: 'annuler',
-    }).then(result => {
-      if (result.isConfirmed) {
-
-        this.crudSaasService.deleteTag(id).subscribe({
-          next: (res) => {
-            console.log("res supp",res)
-            //this.notificationsService.success("Rôle supprimé !","Succès")
-            this.get_all_datas()
-          },
-          error: (err) => {
-            this.notificationsService.error("Erreur lors de la suppression de l'élément","Echec")
-          }
-        });
-
-        Swal.fire({
-          title: 'Suppression faite!',
-          text: 'L\'élément à bien été supprimé.',
-          icon: 'success',
-        });
+        this.notificationsService.error("Erreur lors de la récupération des paiements","Echec")
+        console.log(err.error)
       }
     });
   }
 
 }
+

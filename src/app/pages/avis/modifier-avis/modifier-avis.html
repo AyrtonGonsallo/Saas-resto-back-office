@@ -1,0 +1,28 @@
+<form class="card" [formGroup]="formData" (ngSubmit)="onSubmit()">
+    <div class="card-header">
+        <h4 class="card-title mb-0">Modifier un avis</h4>
+        
+    </div>
+
+    <div class="card-body">
+        <div class="row">
+           
+            <div class="col-sm-12 col-md-12">
+                <div class="mb-3">
+                    <label class="form-label">Approuvé ? <span class="text-danger">*</span></label>
+                    <div>
+                         <label class="switch">
+                        <input type="checkbox" formControlName="approuve">
+                        <span class="switch-state"></span>
+                    </label>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="card-footer text-end">
+        <button class="btn btn-primary" type="submit">modifier</button>
+    </div>
+</form>

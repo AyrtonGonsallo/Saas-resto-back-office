@@ -1,0 +1,78 @@
+<div class="container-fluid p-0">
+    <div class="row m-0">
+        <div class="col-12 p-0">
+            <div class="login-card login-dark" >
+                <div>
+                    <div>
+                        <a class="logo" [routerLink]="['/dashboard/default']">
+                            <img class="img-fluid for-light" src="assets/images/logo/logo.png" alt="looginpage">
+                            <img class="img-fluid for-dark m-auto" src="assets/images/logo/dark-logo.png" alt="logo">
+                        </a>
+                    </div>
+                    <div class="login-main" *ngIf="!data?.avis_envoye">
+                        
+                            <h2 class="text-center">{{data?.societe?.titre}}</h2>
+                            <h3 class="text-center" *ngIf="data?.Restaurant?.nom">Restaurant : {{data?.Restaurant?.nom}}</h3>
+
+                            <h4 class="text-center">{{typeString}} </h4>
+                            <p class="text-center" *ngIf="data">Date de création : {{data.date_creation | date:'dd/MM/yyyy HH:mm'}}</p>
+                            <p class="text-center" *ngIf="type_id==2 && data">Date de retrait : {{ data.date_retrait | date:'dd/MM/yyyy HH:mm'}}</p>
+                            <p class="text-center" *ngIf="type_id==2 && data">Nombre d'articles : {{ data.items.length}}</p>
+                            <p class="text-center" *ngIf="type_id==1 && data">Date de reservation : {{data.date_reservation | date:'dd/MM/yyyy HH:mm'}}</p>
+                            <p class="text-center" *ngIf="type_id==1 && data">Nombre de personnes : {{ data.nombre_de_personnes}}</p>
+                           
+                          
+
+                            <div class="card">
+                                
+                                <div class="card-body">
+                                    
+                                    <div *ngIf="formData">
+                                        
+
+                                        <form class="theme-form" [formGroup]="formData" (ngSubmit)="onSubmit()">
+
+                                            
+                                            <div class="col-sm-12 col-md-12">
+                                                <div class="mb-3">
+                                                    <label class="form-label">Description</label>
+                                                    <angular-editor [placeholder]="'Enter text here...'" formControlName="texte"  />
+                                                    <div *ngIf="formData.get('texte')?.touched && formData.get('texte')?.invalid" class="text-danger">
+                                                        Le texte est invalide
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-12">
+                                                <div class="mb-3">
+                                                <label class="form-label">Note</label>
+                                                <div class="rating-container">
+                                                    <bar-rating class="star" formControlName="note" [max]="5" />
+                                                </div>
+                                                <div *ngIf="formData.get('note')?.touched && formData.get('note')?.invalid" class="text-danger">
+                                                    La note est invalide
+                                                </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-12">
+                                                <button class="btn btn-primary" type="submit">Envoyer</button>
+                                            </div>
+                                        
+                                        
+                                        </form>
+                                        
+                                    </div>
+                                   
+                                    
+                                </div>
+                            </div>
+
+ 
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -91,8 +91,12 @@
                   <a style="cursor: pointer;" (click)="modifier_data(data.id)"><i class="fa fa-pen font-primary pe-2" ></i></a>
                   }
                   @if(canDelete()) {
-                  <a style="cursor: pointer;" (click)="supprimer_data(data.id)"><i class="fa fa-trash font-danger ps-2" ></i></a>
+                  <a style="cursor: pointer;" (click)="supprimer_data(data.id)"><i class="fa fa-trash font-danger pe-2" ></i></a>
                   }
+                  <a class="example-popover "  triggers="mouseenter:mouseleave"
+                    popoverTitle="Lien de l'évaluation" ngbPopover="Cliquez ici pour copier le lien du formulaire d'évaluation" placement="bottom"  (click)="copyFunction(avis_url+'2/'+data.id)">
+                      <i class="fa fa-copy  font-info pe-2"></i>
+                  </a>
                 </ul>
               </td>
             </tr>

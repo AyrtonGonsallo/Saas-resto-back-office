@@ -14,28 +14,27 @@ import { CrudSaasRestoService } from '../../shared/services/api/crud-saas-resto.
 import { NotificationsService } from '../../shared/services/notifications/notifications.service';
 import { environment } from '../../environment';
 import { RestaurantService } from '../../shared/services/user/user.service';
-
+import { CleanTextPipe } from '../../shared/pipes/clean-text.pipe';
+import { BarRatingModule } from 'ngx-bar-rating';
 
 @Component({
-  selector: 'app-click-and-collects',
+  selector: 'app-avis',
   imports: [FormsModule,
     NgbdSortableHeaderDirective,
     ReactiveFormsModule,CommonModule,
-    NgbModule,
+    NgbModule,CleanTextPipe,BarRatingModule,
     AsyncPipe,],
-  templateUrl: './click-and-collects.html',
-  styleUrl: './click-and-collects.scss',
+  templateUrl: './avis.html',
+  styleUrl: './avis.scss',
   providers: [TableService, DecimalPipe],
 })
-export class ClickAndCollects {
-
-   public service = inject(TableService);
+export class Avis {
+  public service = inject(TableService);
   private router = inject(Router);
   public imagesUrl = environment.imagesUrl
   public tableData$: Observable<any[]> = this.service.supportdata$;
   public total$: Observable<number> = this.service.total$;
   public Data: any[];
-  public avis_url = environment.avis_url
 
   readonly headers = viewChildren(NgbdSortableHeaderDirective);
 
@@ -61,21 +60,22 @@ export class ClickAndCollects {
     this.service.sortDirection = direction;
   }
 
-  commandes:any
+  avis:any
 
   getCurrentPriority(): number {
-       return this.restaurantService.getUser()?.datas?.Role?.priorite;
-    }
+    return this.restaurantService.getUser()?.datas?.Role?.priorite;
+  }
 
-     canDelete(): boolean {
-       const p = this.getCurrentPriority();
-       return p <= 4;
-      }
+  canDelete(): boolean {
+    const p = this.getCurrentPriority();
+    return p <= 4;
+  }
 
-     canEdit(): boolean {
-       const p = this.getCurrentPriority();
-       return p <= 4;
-      }
+  canEdit(): boolean {
+    const p = this.getCurrentPriority();
+    return p <= 4;
+  }
+
 
 
 
@@ -83,19 +83,16 @@ export class ClickAndCollects {
 
     let restaurant_id = this.restaurantService.getRestaurant()
     console.log("restaurant_id",restaurant_id)
-    this.crudSaasService.getCommandes(restaurant_id).subscribe({
+    this.crudSaasService.getAvis(restaurant_id).subscribe({
       next: (res) => {
         this.service.setData(res);
-        console.log("commandes",this.commandes)
+        console.log("avis",this.avis)
       },
       error: (err) => {
-        this.notificationsService.error("Erreur lors de la récupération des rôles","Echec")
+        this.notificationsService.error("Erreur lors de la récupération des avis","Echec")
+        console.log(err.error)
       }
     });
-  }
-
-  redirect_add(){
-    this.router.navigate(['/commandes/creer-commande']);
   }
 
   modifier_data(id:number){
@@ -103,15 +100,15 @@ export class ClickAndCollects {
        this.notificationsService.error("Accès refusé", "Echec");
        return;
       }
-    this.router.navigate(['/commandes/modifier-commande', id]);
+    this.router.navigate(['/avis/modifier-avis', id]);
   }
 
   supprimer_data(id:number){
-    if (!this.canDelete()) {
-      this.notificationsService.error("Accès refusé", "Echec");
-      return;
-    }
-
+    
+  if (!this.canDelete()) {
+           this.notificationsService.error("Accès refusé", "Echec");
+           return;
+          }
     Swal.fire({
       title: 'Voulez-vous vraiment supprimer cet élément?',
       text: "Cette action est irreversible!",
@@ -124,7 +121,7 @@ export class ClickAndCollects {
     }).then(result => {
       if (result.isConfirmed) {
 
-        this.crudSaasService.deleteCommande(id).subscribe({
+        this.crudSaasService.deleteAvis(id).subscribe({
           next: (res) => {
             console.log("res supp",res)
             //this.notificationsService.success("Rôle supprimé !","Succès")
@@ -144,8 +141,4 @@ export class ClickAndCollects {
     });
   }
 
-  copyFunction(txt: string) {
-    navigator.clipboard.writeText(txt);
-    alert('Copied');
-  }
 }
