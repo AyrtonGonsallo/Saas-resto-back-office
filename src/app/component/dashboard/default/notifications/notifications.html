@@ -13,29 +13,22 @@
     </div>
   </div>
   <div class="card-body p-0">
-    @for( data of notificationData ; track data){
+    @for( data of notifications ; track data){
     <div class="d-flex {{data.class}} gap-3">
       <div class="flex-shrink-0">
         @if(data.text){
-        <span class="bg-{{ data.color }}">{{data.text}}</span>
-        } @if(data.img){
-        <img class="img-40 b-r-15" src="{{data.img}}" alt="Use1" />
-        }
+        <span class="bg-{{get_status_class(data.statut_lecture)}}">{{data.titre}}</span>
+        } 
       </div>
       <div class="flex-grow-1">
-        <a [routerLink]="'/user/users-profile'">
-          <h6>{{data.des}}</h6> </a
-        ><span>{{data.timedata}}</span>
-        @if( data.btn === true){
-        <div class="d-flex gap-2 p-0 mt-2">
-          <button class="btn btn-outline-dark">Decline</button>
-          <button class="btn btn-primary">Accept</button>
-        </div>
-        }
+        <a >
+          <h6>{{data.titre}}</h6> </a
+        ><span>{{data.type}}</span>
+        <span>{{data.created_at | date:'dd/MM/yyyy HH:mm'}}</span>
+        
       </div>
-      @if( data.dot === true){
-      <div class="circle-dot-primary"><span></span></div>
-      }
+      <div class="circle-dot-{{get_status_class(data.statut_lecture)}}"><span></span></div>
+      
     </div>
     }
   </div>

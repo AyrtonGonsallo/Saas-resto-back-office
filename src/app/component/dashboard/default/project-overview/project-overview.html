@@ -1,6 +1,6 @@
 <div class="card project-card" (clickOutside)="clickOutside()">
     <div class="card-header">
-        <h4>Project Overview</h4>
+        <h4>Société : {{stats?.societe.titre}}</h4>
         <div class="dropdown icon-dropdown">
             <button class="btn dropdown-toggle" type="button" (click)="open()">
                 <i class="icon-more-alt"></i>
@@ -13,44 +13,67 @@
         </div>
     </div>
     <div class="card-body pt-0">
-        <h4>56<span class="ms-1">Project</span></h4>
+        <h4>{{stats?.totalClients}}<span class="ms-1">Clients</span></h4>
+        <div class="row align-items-center">
+            
+            <div class="col-7 d-sm-none d-md-block">
+                <ul class="overview-details">
+                    <li class="d-flex align-items-center">
+                        <div class="circle-dot-primary"><span></span></div>
+                        <h5>{{stats?.totalRestaurants}}<span class="font-light ms-1">Restaurants</span></h5>
+                    </li>
+                    <li class="d-flex align-items-center">
+                        <div class="circle-dot-secondary"><span></span></div>
+                        <h5>{{stats?.totalReservations}}<span class="font-light ms-1">Réservations</span></h5>
+                    </li>
+                    <li class="d-flex align-items-center">
+                        <div class="circle-dot-tertiary"><span></span></div>
+                        <h5>{{stats?.totalCommandes}}<span class="font-light ms-1">Commandes</span></h5>
+                    </li>
+                    <li class="d-flex align-items-center">
+                        <div class="circle-dot-tertiary"><span></span></div>
+                        <h5>{{stats?.totalAvis}}<span class="font-light ms-1">Avis clients</span></h5>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
         <div class="row align-items-center">
             <div class="col-5 custom-width">
                 <div class="progress progress-striped-primary">
-                    <div class="progress-bar" style="width: 55%"></div>
+                    <div class="progress-bar" 
+                    [style.width.%]="getPourcentage(stats.totalCommandesFinies, stats.totalCommandes)"
+                    
+                    ></div>
                 </div>
                 <div class="progress progress-striped-secondary">
-                    <div class="progress-bar" style="width: 60%"></div>
+                    <div class="progress-bar" 
+                    [style.width.%]="getPourcentage(stats.totalReservationsFinies, stats.totalReservations)"
+                    ></div>
                 </div>
                 <div class="progress progress-striped-tertiary">
-                    <div class="progress-bar" style="width: 45%"></div>
+                    <div class="progress-bar" 
+                    [style.width.%]="getPourcentage(stats.totalpaniersPayes, stats.totalpaniers)"
+                    ></div>
                 </div>
             </div>
             <div class="col-7 d-sm-none d-md-block">
                 <ul class="overview-details">
                     <li class="d-flex align-items-center">
                         <div class="circle-dot-primary"><span></span></div>
-                        <h5>15<span class="font-light ms-1">Signed</span></h5>
+                        <h5>{{stats?.totalCommandesFinies}}<span class="font-light ms-1">Commandes terminées</span></h5>
                     </li>
                     <li class="d-flex align-items-center">
                         <div class="circle-dot-secondary"><span></span></div>
-                        <h5>62<span class="font-light ms-1">Manager Review</span></h5>
+                        <h5>{{stats?.totalReservationsFinies}}<span class="font-light ms-1">Réservations terminées</span></h5>
                     </li>
                     <li class="d-flex align-items-center">
-                        <div class="circle-dot-tertiary"><span></span></div>
-                        <h5>20<span class="font-light ms-1">Client Review</span></h5>
+                        <div class="circle-dot-secondary"><span></span></div>
+                        <h5>{{stats?.totalpaniersPayes}}<span class="font-light ms-1">Paniers payés</span></h5>
                     </li>
                 </ul>
             </div>
         </div>
-        <button class="view-btn btn bg-light d-block w-100 position-relative" type="button" (click)="open2()">View
-            project
-            <app-feather-icon [icon]="'chevron-down'" />
-            <ul class="dropdown-menu dropdown-block" [class.show]="isopen2">
-                <li><a class="dropdown-item" href="javascript:void(0)">Project</a></li>
-                <li><a class="dropdown-item" href="javascript:void(0)">Ecommerce</a></li>
-                <li><a class="dropdown-item" href="javascript:void(0)">Crypto</a></li>
-            </ul>
-        </button>
+        
     </div>
 </div>

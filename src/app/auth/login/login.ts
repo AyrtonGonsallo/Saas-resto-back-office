@@ -9,6 +9,7 @@ import {
 import { Router, RouterModule } from '@angular/router';
 import { AuthSaasRestoService } from '../../shared/services/auth/auth-saas-resto.service';
 import Swal from 'sweetalert2';
+import { RestaurantService } from '../../shared/services/user/user.service';
 
 @Component({
   selector: 'app-login',
@@ -23,7 +24,7 @@ export class Login {
   private fb = inject(FormBuilder);
   private router = inject(Router);
 
-  constructor(private authSerivce:AuthSaasRestoService) {
+  constructor(private authSerivce:AuthSaasRestoService,private restaurantService:RestaurantService,) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
@@ -48,7 +49,7 @@ export class Login {
         showConfirmButton: false,
       });
 
-      let user_recupéré = {
+      let user_recupere = {
         email: user_connected.email,
         password: user_connected.mot_de_passe,
         name: user_connected.prenom+' '+user_connected.nom,
@@ -56,9 +57,13 @@ export class Login {
         accessToken:e.accessToken
       };
 
-      localStorage.setItem('user', JSON.stringify(user_recupéré));
+      localStorage.setItem('user', JSON.stringify(user_recupere));
 
-      this.authSerivce.setUser(user_recupéré);
+      this.authSerivce.setUser(user_recupere);
+
+       this.restaurantService.getStatsHome().subscribe(res => {
+        console.log('this.stats',res)
+      });
       this.router.navigate(['/dashboard/default']);
     },
     error: err => {

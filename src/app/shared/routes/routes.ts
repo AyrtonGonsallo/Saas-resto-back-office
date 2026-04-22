@@ -467,7 +467,7 @@ export const dashData: Routes = [
     data: {
       title: 'Réservations',
       breadcrumb: 'Réservations',
-      roles: ['super-admin','gestionnaire-societe','admin','gestionnaire-restaurant','lecteur-planning','lecteur-cuisine','employé',]
+      roles: [  'super-admin','admin', 'client', 'public',  'gestionnaire-restaurant', 'gestionnaire-societe', 'lecteur-planning', 'lecteur-cuisine',  'employé',   ],
     },
     canActivate: [RoleGuard],
     loadChildren: () => import('../../pages/reservations/reservations.routes').then(r => r.ReservationsRoutes),
@@ -485,7 +485,7 @@ export const dashData: Routes = [
     data: {
       title: 'Commandes',
       breadcrumb: 'Commandes',
-      roles: ['super-admin','gestionnaire-societe','admin','gestionnaire-restaurant','lecteur-planning','lecteur-cuisine','employé',]
+      roles: [  'super-admin','admin', 'client', 'public',  'gestionnaire-restaurant', 'gestionnaire-societe', 'lecteur-planning', 'lecteur-cuisine',  'employé',   ],
     },
     canActivate: [RoleGuard],
     loadChildren: () => import('../../pages/click-and-collects/click-and-collects.routes').then(r => r.ClickAndCollectRoutes),
@@ -495,6 +495,8 @@ export const dashData: Routes = [
     data: {
       title: 'Paiements',
       breadcrumb: 'Paiements',
+      roles: [  'super-admin','admin', 'client', 'public',  'gestionnaire-restaurant', 'gestionnaire-societe', 'lecteur-planning', 'lecteur-cuisine',  'employé',   ],
+
     },
     loadChildren: () => import('../../pages/paiements/paiements.routes').then(r => r.PaiementsRoutes),
   },
@@ -503,6 +505,8 @@ export const dashData: Routes = [
     data: {
       title: 'Paniers',
       breadcrumb: 'Paniers',
+      roles: [  'super-admin','admin', 'client', 'public',  'gestionnaire-restaurant', 'gestionnaire-societe', 'lecteur-planning', 'lecteur-cuisine',  'employé',   ],
+
     },
     loadChildren: () => import('../../pages/paniers/paniers.routes').then(r => r.PaniersRoutes),
   },

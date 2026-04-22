@@ -19,9 +19,7 @@
                 <table class="table datatable-table">
                         <thead>
                             <tr>
-                                <th>
-                                    <input class="form-check-input" type="checkbox">
-                                </th>
+                                
                                 <th>Id</th>
                                 <th>Client</th>
                                 <th>Nb places</th>
@@ -37,9 +35,7 @@
                         <tbody>
                             @for( data of reservations;track data){
                             <tr>
-                                <td>
-                                    <input class="form-check-input" type="checkbox">
-                                </td>
+                                
                                 <td>{{data.id}}</td>
                                 <td>
                                     <div class="d-flex align-items-center gap-2">
@@ -49,15 +45,15 @@
                                             </a><span class="font-light f-w-400 f-13">{{data.client.email}}</span></div>
                                     </div>
                                 </td>
-                                
-                                <td>{{data.creneau.heure_debut}}</td>
-                                 <td>{{data.nombre_de_personnes}}</td>
+                                <td>{{data.nombre_de_personnes}}</td>
+                                <td>{{data.creneau.heure_debut}} - {{data.creneau.heure_fin}}</td>
+                                 
                                 <td>{{data.Restaurant.nom}}</td>
                                
                                 <td class="d-lg-none">{{data.date_reservation | date:'dd/MM/yyyy HH:mm'}}</td>
                                 
                                 <td>
-                                    <button class="btn edge-btn f-13 w-100 btn-light-{{data.class}}">{{data.statut}}</button>
+                                    <button class="btn edge-btn f-13 w-100 btn-light-{{get_status_class(data.statut)}}">{{data.statut}}</button>
                                 </td>
                             </tr>
                             }

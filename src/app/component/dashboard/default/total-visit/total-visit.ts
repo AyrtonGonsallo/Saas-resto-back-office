@@ -22,4 +22,7 @@ export class TotalVisit {
   clickOutside(): void {
     this.isopen = false;
   }
+
+
+   
 }

@@ -46,6 +46,9 @@ export class ModifierRole {
     { key: 'livreur', name: 'Livreur' },
   ];
 
+  //'super-admin','admin', 'client', 'public',  'gestionnaire-restaurant', 'gestionnaire-societe', 'lecteur-planning', 'lecteur-cuisine',  'employé',  'livreur', 
+
+
   onSubmit() {
     
     if (this.formData.invalid) {

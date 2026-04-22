@@ -18,11 +18,11 @@ export class AllInvoices {
   public InvoiceData = AllInvoice;
   public isopen: boolean = false;
 
-    constructor(private crudSaasService:CrudSaasRestoService, private restaurantService: RestaurantService, private notificationsService:NotificationsService,) {}
-  
-    ngOnInit(): void {
-      this.get_all_datas()
-    }
+  constructor(private crudSaasService:CrudSaasRestoService, private restaurantService: RestaurantService, private notificationsService:NotificationsService,) {}
+
+  ngOnInit(): void {
+    this.get_all_datas()
+  }
 
   open() {
     this.isopen = !this.isopen;
@@ -49,4 +49,38 @@ export class AllInvoices {
       }
     });
   }
+
+  //'En attente', 'Confirmée','En cours','Annulée','Terminée','No-show'
+
+  get_status_class(statut:string){
+    let res = ''
+    switch (statut) {
+      case 'Confirmée':
+        res = 'primary'
+        break;
+      case 'En cours':
+        res = 'primary'
+        break;
+      case 'En attente':
+        res = 'tertiary'
+        break;
+      case 'Terminée':
+        res = 'secondary'
+        break;
+      case 'Annulée':
+        res = 'danger'
+        break;
+      case 'No-show':
+        res = 'danger'
+        break;
+    
+      default:
+        res = 'primary'
+        break;
+    }
+    return res
+
+  }
+
+  
 }

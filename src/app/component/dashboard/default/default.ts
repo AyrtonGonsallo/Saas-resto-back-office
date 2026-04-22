@@ -15,6 +15,8 @@ import { TotalEarning } from './total-earning/total-earning';
 import { TotalInvestment } from './total-investment/total-investment';
 import { TotalVisit } from './total-visit/total-visit';
 import { TotalClients, NewProject } from '../../../shared/data/dashboard/default/default-charts';
+import { environment } from '../../../environment';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-default',
@@ -24,6 +26,7 @@ import { TotalClients, NewProject } from '../../../shared/data/dashboard/default
     Investing,
     MonthlyOverview,
     Notifications,
+    CommonModule,
     ProjectOverview,
     ScheduleTime,
     TaskList,
@@ -40,4 +43,5 @@ import { TotalClients, NewProject } from '../../../shared/data/dashboard/default
 export class Default {
   public TotalClientsData = TotalClients;
   public newProjectData = NewProject;
+  cleanInterface = environment.cleanInterface
 }

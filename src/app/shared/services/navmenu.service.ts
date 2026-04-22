@@ -186,6 +186,8 @@ export class NavmenuService {
       title: 'Catégories de variations',
       path: '/categories-variation/liste-categories-variation',
       icon: 'Category',
+      roles: [  'super-admin','admin', 'gestionnaire-restaurant', 'gestionnaire-societe', 'lecteur-planning', 'lecteur-cuisine',  'employé',   ],
+
       active: false,
     },
     {
@@ -245,7 +247,7 @@ export class NavmenuService {
       path: '/reservations/liste-reservations',
       custom_icon_class: '<i class="fas fa-calendar-check"></i>',
       icon: 'order-product',
-      roles: ['super-admin','gestionnaire-societe','admin','gestionnaire-restaurant','lecteur-planning','lecteur-cuisine','employé',],
+      roles: [  'super-admin','admin', 'client', 'public',  'gestionnaire-restaurant', 'gestionnaire-societe', 'lecteur-planning', 'lecteur-cuisine',  'employé',   ],
       active: false,
     },
     {
@@ -255,7 +257,7 @@ export class NavmenuService {
       path: '/commandes/liste-commandes',
       custom_icon_class: '<i class="icon-shopping-cart"></i>', 
       icon: 'order-product',
-      roles: ['super-admin','gestionnaire-societe','admin','gestionnaire-restaurant','lecteur-planning','lecteur-cuisine','employé',],
+      roles: [  'super-admin','admin', 'client', 'public',  'gestionnaire-restaurant', 'gestionnaire-societe', 'lecteur-planning', 'lecteur-cuisine',  'employé',   ],
       active: false,
     },
     {
@@ -264,7 +266,7 @@ export class NavmenuService {
       title: 'Paniers',
       path: '/paniers/liste-paniers',
       icon: 'Category',
-      roles: ['super-admin','gestionnaire-societe','admin','gestionnaire-restaurant','lecteur-planning','lecteur-cuisine','employé',],
+      roles: [  'super-admin','admin', 'client', 'public',  'gestionnaire-restaurant', 'gestionnaire-societe', 'lecteur-planning', 'lecteur-cuisine',  'employé',   ],
       active: false,
     },
     {
@@ -273,7 +275,7 @@ export class NavmenuService {
       title: 'Paiements',
       path: '/paiements/liste-paiements',
       icon: 'Category',
-      roles: ['super-admin','gestionnaire-societe','admin','gestionnaire-restaurant','lecteur-planning','lecteur-cuisine','employé',],
+      roles: [  'super-admin','admin', 'client', 'public',  'gestionnaire-restaurant', 'gestionnaire-societe', 'lecteur-planning', 'lecteur-cuisine',  'employé',   ],
       active: false,
     },
     {
@@ -282,7 +284,7 @@ export class NavmenuService {
       title: 'Avis',
       path: '/avis/liste-avis',
       icon: 'Category',
-      roles: ['super-admin','gestionnaire-societe','admin','gestionnaire-restaurant','lecteur-planning','lecteur-cuisine','employé',],
+      roles: [  'super-admin','admin', 'client', 'public',  'gestionnaire-restaurant', 'gestionnaire-societe', 'lecteur-planning', 'lecteur-cuisine',  'employé',   ],
       active: false,
     },
     {
@@ -883,7 +885,7 @@ export class NavmenuService {
   item = new BehaviorSubject<Menu[]>(this.MENUITEMS.filter(item => {
     //console.log(item.title,item.devOnly,environment.production)
     // cacher si devOnly et qu'on est en prod
-    if (item.devOnly && environment.production) {
+    if (item.devOnly && environment.cleanInterface) {
       
       return false;
     }

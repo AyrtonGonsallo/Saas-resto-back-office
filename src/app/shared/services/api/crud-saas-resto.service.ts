@@ -500,12 +500,16 @@ export class CrudSaasRestoService {
     return this.http.get<any[]>(url);
   }
 
-  getAllUnreadNotificationsByUserID(userID:number | null): Observable<any[]> {
-    let url = `${environment.apiUrl}/get_all_unread_notifications_by_id/${userID}`;
+  getAllUnreadNotificationsByUserID(userID:number | null,max:number): Observable<any[]> {
+    let url = `${environment.apiUrl}/get_all_unread_notifications_by_id/${userID}/${max}`;
     return this.http.get<any[]>(url);
   }
 
-  
+  getAllStatistiques(): Observable<any[]> {
+    let url = `${environment.apiUrl}/get_all_statistiques`;
+    return this.http.get<any[]>(url);
+  }
+
   ajouterMenu(userData: any): Observable<any> {
     return this.http.post<any>(`${environment.apiUrl}/ajouter_menu`, userData);
   }

@@ -12,4 +12,6 @@ import { DashboardWidgetOption } from '../../../../shared/interface/dashboard/ch
 })
 export class TopCommonChart {
   readonly data = input<DashboardWidgetOption>();
+
+   
 }
