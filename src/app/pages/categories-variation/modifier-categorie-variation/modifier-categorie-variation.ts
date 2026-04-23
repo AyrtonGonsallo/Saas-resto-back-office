@@ -52,14 +52,17 @@ export class ModifierCategorieVariation {
   verifier_roles_et_societes(user:any,currentData:any){
     console.log('user',user)
     console.log('currentData',currentData)
-    let societeUser = user.datas.societe_id
-    let societeCurrentData = currentData.societe_id
-    if(societeUser!=societeCurrentData){
-      console.log(societeUser,societeCurrentData)
-      this.notificationsService.error("Vous ne faites pas parti de la même société","Echec")
-      this.router.navigate(['/dashboard/default']);
+    if(user.datas.Role.priorite==1){//super admin
+      
+    }else{
+      let societeUser = user.datas.societe_id
+      let societeCurrentData = currentData.societe_id
+      if(societeUser!=societeCurrentData){
+        console.log(societeUser,societeCurrentData)
+        this.notificationsService.error("Vous ne faites pas parti de la même société","Echec")
+        this.router.navigate(['/dashboard/default']);
+      }
     }
-
   }
 
 

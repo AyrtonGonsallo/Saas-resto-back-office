@@ -394,6 +394,14 @@ export class CrudSaasRestoService {
     return this.http.get<any[]>(url);
   }
 
+   getMaxReservations(restaurantId:number | null): Observable<any[]> {
+    let url = `${environment.apiUrl}/get_max_reservations`;
+    if (restaurantId) {
+      url += `?restaurant_id=${restaurantId}`;
+    }
+    return this.http.get<any[]>(url);
+  }
+
   getReservationById(id: number): Observable<any> {
     const url = `${environment.apiUrl}/get_reservation_by_id/${id}`;
     return this.http.get<any>(url);
@@ -570,6 +578,14 @@ export class CrudSaasRestoService {
 
   getCommandes(restaurantId:number | null): Observable<any[]> {
     let url = `${environment.apiUrl}/get_all_commandes`;
+    if (restaurantId) {
+      url += `?restaurant_id=${restaurantId}`;
+    }
+    return this.http.get<any[]>(url);
+  }
+
+  getMaxCommandes(restaurantId:number | null): Observable<any[]> {
+    let url = `${environment.apiUrl}/get_max_commandes`;
     if (restaurantId) {
       url += `?restaurant_id=${restaurantId}`;
     }

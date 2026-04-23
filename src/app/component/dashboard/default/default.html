@@ -3,10 +3,17 @@
         <div class="col-sm-6 col-xl-4">
             <app-top-card />
         </div>
-        <div class="col-sm-6 col-xl-3 personnalise" id="bloc-stats-generales">
+        <div class="col-sm-6 col-xl-7 personnalise" id="bloc-stats-generales">
             <app-project-overview />
         </div>
-        <div class="col-sm-6 col-xl-2">
+        
+        <div class="col-sm-6 col-xl-5 order-1 order-xl-0 personnalise" id="bloc-dernieres-connexions">
+            <app-schedule-time />
+        </div>
+        <div class="col-sm-6 col-xl-5 personnalise" id="bloc-dernieres-notifications">
+            <app-notifications />
+        </div>
+        <div class="col-sm-6 col-xl-6" *ngIf="!cleanInterface">
             <div class="row">
                 <div class="col-6 col-sm-12">
                     <app-top-common-chart [data]="TotalClientsData" />
@@ -16,8 +23,11 @@
                 </div>
             </div>
         </div>
-        <div class="col-sm-6 col-xl-3" *ngIf="!cleanInterface">
+        <div class="col-sm-6 col-xl-5 personnalise" id="bloc-ca-par-sociétés">
             <app-investing />
+        </div>
+          <div class="col-md-6 col-xl-5 personnalise" id="bloc-ca-par-restaurants">
+            <app-total-investment [investment]="true" />
         </div>
         <div class="col-12 col-md-6 personnalise" id="bloc-reservations">
             <app-all-invoices />
@@ -25,20 +35,15 @@
         <div class="col-12 col-md-5 personnalise" id="bloc-commandes">
             <app-courses-highlighted />
         </div>
-        <div class="col-md-6 col-xl-3" *ngIf="!cleanInterface">
-            <app-total-investment [investment]="true" />
-        </div>
+      
         <div class="col-md-6 col-xl-3" *ngIf="!cleanInterface">
             <app-task-list />
         </div>
-        <div class="col-md-6 col-lg-6 col-xl-7">
+        <div class="col-md-6 col-lg-6 col-xl-7" *ngIf="!cleanInterface">
             <app-monthly-overview />
         </div>
         <div class="col-md-6 col-xl-5" *ngIf="!cleanInterface">
             <app-task-summary />
-        </div>
-        <div class="col-sm-6 col-xl-3 order-1 order-xl-0" *ngIf="!cleanInterface">
-            <app-schedule-time />
         </div>
         <div class="col-sm-12 col-xl-2 custom-margin" *ngIf="!cleanInterface">
             <div class="row">
@@ -50,8 +55,6 @@
                 </div>
             </div>
         </div>
-        <div class="col-sm-6 col-xl-3 custom-margin">
-            <app-notifications />
-        </div>
+        
     </div>
 </div>

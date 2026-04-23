@@ -1,4 +1,4 @@
-import { NgClass } from '@angular/common';
+import { CommonModule, NgClass } from '@angular/common';
 import { Component } from '@angular/core';
 
 import { Friday } from './friday/friday';
@@ -10,13 +10,14 @@ import { ClickOutsideDirective } from '../../../../shared/directives/outside.dir
 
 @Component({
   selector: 'app-schedule-time',
-  imports: [Monday, Thursday, Wednesday, Tuesday, Friday, ClickOutsideDirective, NgClass],
+  imports: [Monday, CommonModule, NgClass,],
   templateUrl: './schedule-time.html',
   styleUrl: './schedule-time.scss',
 })
 export class ScheduleTime {
   public openTab: string = 'mon';
   public isopen: boolean = false;
+  today:any
 
   open() {
     this.isopen = !this.isopen;
@@ -28,5 +29,9 @@ export class ScheduleTime {
 
   public tabbed(val: string) {
     this.openTab = val;
+  }
+
+  ngOnInit(): void {
+    this.today=new Date()
   }
 }

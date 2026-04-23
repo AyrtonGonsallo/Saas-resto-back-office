@@ -61,9 +61,11 @@ export class Login {
 
       this.authSerivce.setUser(user_recupere);
 
-       this.restaurantService.getStatsHome().subscribe(res => {
+     
+      this.restaurantService.getStatsHome().subscribe(res => {
         console.log('this.stats',res)
       });
+      
       this.router.navigate(['/dashboard/default']);
     },
     error: err => {

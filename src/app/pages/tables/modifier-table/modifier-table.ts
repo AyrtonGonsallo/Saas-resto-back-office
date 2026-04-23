@@ -204,6 +204,10 @@ allZones:any[]
           restaurant_id: [this.data.restaurant_id, [Validators.required, ]],
         });
 
+        this.zones_restaurant = this.allZones.filter(rest =>
+              rest.restaurant_id === this.data.restaurant_id
+            );
+
         this.restaurants = this.allRestaurants?.filter(cat =>
           cat.societe_id === this.data.societe_id
         );

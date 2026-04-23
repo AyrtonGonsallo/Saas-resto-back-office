@@ -48,20 +48,19 @@ export class RestaurantService {
 
   }
 
-  getStatsHome() {
-    const stored = localStorage.getItem('statistisques_home');
-
-    if (stored) {
-      this.statistisques_home = JSON.parse(stored);
-      return of(this.statistisques_home);
-    }
-
-    return this.crudSaasService.getAllStatistiques().pipe(
-      tap((res: any) => {
-        this.statistisques_home = res;
-        localStorage.setItem('statistisques_home', JSON.stringify(res));
-      })
-    );
+  getStatsHome() {//les super admin n'ont pas de societe et doivent pas fzaire cet appel
+      const stored = localStorage.getItem('statistisques_home_for_one_society');
+      if (stored) {
+        this.statistisques_home = JSON.parse(stored);
+        return of(this.statistisques_home);
+      }
+      return this.crudSaasService.getAllStatistiques().pipe(
+        tap((res: any) => {
+          this.statistisques_home = res;
+          localStorage.setItem('statistisques_home', JSON.stringify(res));
+        })
+      );
+    
   }
 
   hideforuser(menupageid:number){

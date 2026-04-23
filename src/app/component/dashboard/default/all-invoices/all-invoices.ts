@@ -39,7 +39,7 @@ export class AllInvoices {
 
     let restaurant_id = this.restaurantService.getRestaurant()
     console.log("restaurant_id",restaurant_id)
-    this.crudSaasService.getReservations(restaurant_id).subscribe({
+    this.crudSaasService.getMaxReservations(restaurant_id).subscribe({
       next: (res) => {
         this.reservations = (res);
         console.log("reservations",this.reservations)

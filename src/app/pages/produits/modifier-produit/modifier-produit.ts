@@ -82,7 +82,7 @@ export class ModifierProduit {
     finalFormData.append('restaurant_id', this.formData.value.restaurant_id);
     finalFormData.append('utilisateur_id', this.formData.value.utilisateur_id);
 
-    // 🔥 fichier image
+    //  fichier image
     if (this.selectedFile) {
       console.log("image envoyee",this.selectedFile)
       finalFormData.append('image', this.selectedFile);

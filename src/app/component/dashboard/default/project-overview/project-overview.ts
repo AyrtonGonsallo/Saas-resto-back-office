@@ -3,16 +3,19 @@ import { Component } from '@angular/core';
 import { Feathericon } from '../../../../shared/component/feathericon/feathericon';
 import { ClickOutsideDirective } from '../../../../shared/directives/outside.directive';
 import { RestaurantService } from '../../../../shared/services/user/user.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-project-overview',
-  imports: [ClickOutsideDirective, Feathericon],
+  imports: [ClickOutsideDirective, Feathericon,CommonModule],
   templateUrl: './project-overview.html',
   styleUrl: './project-overview.scss',
 })
 export class ProjectOverview {
   public isopen: boolean = false;
   public isopen2: boolean = false;
+  user:any
+  is_super_admin=false
 
   open() {
     this.isopen = !this.isopen;
@@ -30,6 +33,8 @@ export class ProjectOverview {
     
     ngOnInit(): void {
       this.get_all_stats()
+      this.user = this.restaurantService.getUser()
+      this.is_super_admin=(this.user.datas.Role.priorite==1)
     }
     
     stats:any

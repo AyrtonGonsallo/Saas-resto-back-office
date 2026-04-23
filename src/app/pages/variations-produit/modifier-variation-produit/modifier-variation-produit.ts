@@ -155,6 +155,10 @@ private router = inject(Router);
           utilisateur_id: [this.data.utilisateur_id, ],
         });
 
+        this.categories_variations = this.all_categories_variations.filter((cat:any) =>
+          cat.restaurant_id === this.data.restaurant_id
+        );
+
       },
       error: (err) => {
         if (err.status === 404) {
@@ -184,6 +188,7 @@ private router = inject(Router);
 
   }
 
+  all_categories_variations:any
   categories_variations:any
 
 
@@ -193,6 +198,7 @@ private router = inject(Router);
     this.crudSaasService.getCategorieVariations(restaurant_id).subscribe({
       next: (res) => {
         this.categories_variations=(res);
+        this.all_categories_variations=(res);
         console.log("categories_variations",this.categories_variations)
       },
       error: (err) => {

@@ -256,7 +256,7 @@
                                             
                                             <h5>Votre réservation a bien été enregistrée</h5>
                                             ID : {{final_reservation.id}}<br>
-                                            Date de la réservation:{{final_reservation.date_reservation |  date:'dd/MM/yyyy HH:mm' }}<br>
+                                            Date de la réservation:{{final_reservation.date_reservation |  date:'dd/MM/yyyy HH:mm':'UTC' }}<br>
                                             Nombre de personnes : {{final_reservation.nombre_de_personnes}}<br>
                                             Nombre de couverts : {{final_reservation.nb_couverts}}<br>
                                             Note : {{final_reservation.notes}}<br>

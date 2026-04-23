@@ -37,17 +37,7 @@
                 </div>
             </div>
 
-            <div class="col-sm-12 col-md-12">
-                <label class="form-label">Zone <span class="text-danger">*</span></label>
-            
-                <ng-select [items]="zones_restaurant" bindLabel="titre" bindValue="id" [multiple]="false"
-                    placeholder="choisir une zone" formControlName="zone_id"  />
-                    <div *ngIf="formData.get('zone_id')?.touched && formData.get('zone_id')?.invalid" class="text-danger">
-                    La zone est invalide
-                </div>
-            </div>
-
-            <div class="col-sm-12 col-md-12">
+              <div class="col-sm-12 col-md-12">
                 <label class="form-label">Société <span class="text-danger">*</span></label>
             
                 <ng-select [items]="societes" bindLabel="titre" bindValue="id" [multiple]="false"
@@ -66,6 +56,18 @@
                     Le restaurant est invalide
                 </div>
             </div>
+
+            <div class="col-sm-12 col-md-12">
+                <label class="form-label">Zone <span class="text-danger">*</span></label>
+            
+                <ng-select [items]="zones_restaurant" bindLabel="titre" bindValue="id" [multiple]="false"
+                    placeholder="choisir une zone" formControlName="zone_id"  />
+                    <div *ngIf="formData.get('zone_id')?.touched && formData.get('zone_id')?.invalid" class="text-danger">
+                    La zone est invalide
+                </div>
+            </div>
+
+          
             
             
                 

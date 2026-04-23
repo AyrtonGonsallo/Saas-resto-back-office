@@ -95,6 +95,10 @@ export class CreerVariationProduit {
         this.formData.patchValue({ restaurant_id: this.parent_data.restaurant_id });
         this.formData.patchValue({ societe_id: this.parent_data.societe_id });
 
+         this.categories_variations = this.all_categories_variations.filter((cat:any) =>
+          cat.restaurant_id === this.parent_data.restaurant_id
+        );
+
       },
       error: (err) => {
         this.notificationsService.error("Erreur lors de la récupération","Echec")
@@ -104,6 +108,7 @@ export class CreerVariationProduit {
   }
 
   categories_variations:any
+  all_categories_variations:any
 
 
   get_all_variations(){
@@ -112,6 +117,7 @@ export class CreerVariationProduit {
     this.crudSaasService.getCategorieVariations(restaurant_id).subscribe({
       next: (res) => {
         this.categories_variations=(res);
+        this.all_categories_variations=(res);
         console.log("categories_variations",this.categories_variations)
       },
       error: (err) => {

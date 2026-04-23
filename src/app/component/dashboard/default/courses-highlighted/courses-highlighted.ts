@@ -40,7 +40,7 @@ export class CoursesHighlighted {
   get_all_datas(){
     let restaurant_id = this.restaurantService.getRestaurant()
     console.log("restaurant_id",restaurant_id)
-    this.crudSaasService.getCommandes(restaurant_id).subscribe({
+    this.crudSaasService.getMaxCommandes(restaurant_id).subscribe({
       next: (res) => {
         this.commandes = (res);
         console.log("commandes",this.commandes)
