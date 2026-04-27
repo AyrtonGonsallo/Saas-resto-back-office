@@ -14,7 +14,7 @@
   </div>
   <div class="card-body p-0">
     <div>
-      <apx-chart
+      <apx-chart *ngIf="stats"
         [series]="Investmentchart.series"
         [chart]="Investmentchart.chart"
         [plotOptions]="Investmentchart.plotOptions"

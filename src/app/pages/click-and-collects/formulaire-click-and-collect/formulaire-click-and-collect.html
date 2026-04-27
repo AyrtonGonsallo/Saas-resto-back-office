@@ -14,6 +14,7 @@
                             <h2 class="text-center">{{societeData?.titre}}</h2>
                             <h3 class="text-center">Click & Collect </h3>
                             <h4 class="text-center" *ngIf="selectedRestaurant">Restaurant : {{selectedRestaurant?.nom}}</h4>
+                            <h5 class="text-center" *ngIf="selectedRestaurant?.heure_cc_debut && selectedRestaurant?.heure_cc_fin">Horaires de commande : {{selectedRestaurant?.heure_cc_debut}} - {{selectedRestaurant?.heure_cc_fin}}</h5>
                             <p class="text-center">Entrez les informations suivantes</p>
                            
                           
@@ -255,8 +256,15 @@
                                                             [seconds]="false"
                                                         ></ngb-timepicker>
                                                         <div *ngIf="formData.get('heure_retrait')?.touched && formData.get('heure_retrait')?.invalid" class="text-danger">
-                                                            L'heure est invalide
+                                                            L'heure est invalide.
                                                         </div>
+                                                         <div *ngIf="date_passee" class="text-danger">
+                                                            La date est passée.
+                                                        </div>
+                                                        <div *ngIf="heure_not_in_horaires_resto" class="text-danger">
+                                                            L'heure n'est pas dans les horaires du restaurant choisi pour ce service.
+                                                        </div>
+                                                        
                                                     </div>
                                                     
                                                 </div>

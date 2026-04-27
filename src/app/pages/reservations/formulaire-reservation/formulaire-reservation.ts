@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgbDateStruct, NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -54,8 +54,8 @@ minDate: NgbDateStruct;
       prenom: ['', Validators.required], //etape 1
       email: ['', [Validators.required, Validators.email]], //etape 1
       telephone: ['', [Validators.pattern(/^[0-9+\s\-()]{8,20}$/)]], //etape 1
-      date_reservation: [null, [Validators.required ]], //etape 3
-      heure_reservation: [null, [Validators.required ]], //etape 3
+      date_reservation: [null, [Validators.required, ]], //etape 3
+      heure_reservation: [null, [Validators.required, ]], //etape 3
       nombre_de_personnes: [1, [
         Validators.required,
         Validators.pattern(/^[0-9]+$/),
@@ -421,7 +421,11 @@ minDate: NgbDateStruct;
           'creneau_id'
         ];
         let heure_dans_limites = this.verif_heure_dans_limites()
-        if(!heure_dans_limites || this.couvertsInsuffisants || this.placeSupTableLimit){
+         let date_passee = this.dateHeureFutureValidator()
+         this.date_passee = !date_passee
+          let heure_not_in_horaires_resto = this.heureIsInHorairesSelectedRestoValidator()
+        this.heure_not_in_horaires_resto = !heure_not_in_horaires_resto
+        if(!heure_dans_limites || this.couvertsInsuffisants || this.placeSupTableLimit || this.date_passee || this.heure_not_in_horaires_resto){
           champs.forEach(champ => {
             this.formData.get(champ)?.markAsTouched();
             this.formData.get(champ)?.updateValueAndValidity();
@@ -433,13 +437,13 @@ minDate: NgbDateStruct;
         return true
     }
 
-    // 🔥 Marquer les champs comme touchés
+    //  Marquer les champs comme touchés
     champs.forEach(champ => {
       this.formData.get(champ)?.markAsTouched();
       this.formData.get(champ)?.updateValueAndValidity();
     });
 
-    // ✅ Vérifier validité
+    //  Vérifier validité
     return champs.every(champ => this.formData.get(champ)?.valid);
   }
 
@@ -451,16 +455,16 @@ minDate: NgbDateStruct;
 
     if (!heure || !creneau_id) return false;
 
-    // 🔎 trouver le créneau
+    //  trouver le créneau
     const creneau = this.crenaux.find(c => c.id == creneau_id);
 
     if (!creneau) return false;
 
-    // 🕒 convertir heure sélectionnée → minutes
+    //  convertir heure sélectionnée → minutes
     const heureSelected =
       heure.hour * 60 + heure.minute;
 
-    // 🕒 convertir "15:00" → minutes
+    //  convertir "15:00" → minutes
     const [hDebut, mDebut] = creneau.heure_debut.split(':').map(Number);
     const [hFin, mFin] = creneau.heure_fin.split(':').map(Number);
 
@@ -473,8 +477,35 @@ minDate: NgbDateStruct;
     this.heure_pas_dans_creneau = !isValid;
 
     console.log('verif heure dans chrono',isValid)
+    
 
     return isValid;
+  }
+
+  heure_not_in_horaires_resto = false
+  heureIsInHorairesSelectedRestoValidator() {
+    
+    const heureDebut =this.selectedRestaurant.heure_debut //string 12:00
+    const heureFin =this.selectedRestaurant.heure_fin //string 20:00
+    const time = this.formData.get('heure_reservation')?.value;
+    //verifier que time dans les limites de debut et fin
+
+    if (!heureDebut || !heureFin) return true;
+
+    const [hD, mD] = heureDebut.split(':').map(Number);
+    const [hF, mF] = heureFin.split(':').map(Number);
+
+    const debutMinutes = hD * 60 + mD;
+    const finMinutes   = hF * 60 + mF;
+
+    const selectedMinutes = time.hour * 60 + time.minute;
+
+    if (selectedMinutes < debutMinutes || selectedMinutes > finMinutes) {
+      return false
+    }
+
+
+    return true;
   }
 
   copyFunction(txt: string) {
@@ -482,4 +513,35 @@ minDate: NgbDateStruct;
     alert('Copied');
   }
  
+
+  date_passee=false
+  dateHeureFutureValidator() {
+    
+
+      const date = this.formData.get('date_reservation')?.value;
+      const time = this.formData.get('heure_reservation')?.value;
+
+      if (!date || !time) return null;
+
+      const now = new Date();
+
+      const selected = new Date(
+        date.year,
+        date.month - 1,
+        date.day,
+        time.hour,
+        time.minute,
+        0
+      );
+      console.log('heure',selected, now,selected < now)
+
+      if (selected < now) {
+        return false;
+      }
+
+      return true;
+    };
+  
+  
+
 }

@@ -1,6 +1,6 @@
 import { Component, inject, TemplateRef } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgbDateStruct, NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -62,8 +62,8 @@ export class FormulaireClickAndCollect {
       prenom: ['', Validators.required], //etape 1
       email: ['', [Validators.required, Validators.email]], //etape 1
       telephone: ['', [Validators.pattern(/^[0-9+\s\-()]{8,20}$/)]], //etape 1
-      date_retrait: [null, [Validators.required ]], //etape 3
-      heure_retrait: [null, [Validators.required ]], //etape 3     
+      date_retrait: [null, [Validators.required, ]], //etape 3
+      heure_retrait: [null, [Validators.required, ]], //etape 3     
       societe_id: [this.societe_id, Validators.required], //pas d'etape 
       restaurant_id: [null, Validators.required], //etape 2
       client_id: [null, ], //pas d'etape 
@@ -420,6 +420,17 @@ export class FormulaireClickAndCollect {
 
       case 4:
         champs = ['nom', 'prenom', 'email', 'telephone','date_retrait','heure_retrait'];
+        let date_passee = this.dateHeureFutureValidator()
+        let heure_not_in_horaires_resto = this.heureIsInHorairesSelectedRestoValidator()
+        this.heure_not_in_horaires_resto = !heure_not_in_horaires_resto
+        this.date_passee = !date_passee
+        if(this.date_passee || this.heure_not_in_horaires_resto){
+          champs.forEach(champ => {
+            this.formData.get(champ)?.markAsTouched();
+            this.formData.get(champ)?.updateValueAndValidity();
+          });
+          return false;
+        }
         break;
 
       case 5:
@@ -463,11 +474,19 @@ export class FormulaireClickAndCollect {
 
     const map = new Map();
 
+    let filtred_produits = produits.filter((p:any) =>
+        p.actif === true
+      )
+
     // 1️⃣ Grouper
-    produits.forEach((p) => {
+    filtred_produits.forEach((p) => {
       const catId = p.categorie?.id;
+      const catActive = p.categorie?.est_actif;
 
       if (!catId) return;
+
+      if (!catActive) return;
+      
 
       if (!map.has(catId)) {
         map.set(catId, {
@@ -549,5 +568,59 @@ export class FormulaireClickAndCollect {
     return prix
   }
 
+
+  date_passee=false
+  dateHeureFutureValidator() {
+    
+
+    const date = this.formData.get('date_retrait')?.value;
+    const time = this.formData.get('heure_retrait')?.value;
+
+    if (!date || !time) return null;
+
+    const now = new Date();
+
+    const selected = new Date(
+      date.year,
+      date.month - 1,
+      date.day,
+      time.hour,
+      time.minute,
+      0
+    );
+    console.log('heure',selected, now,selected < now)
+
+    if (selected < now) {
+      return false;
+    }
+
+    return true;
+  };
+
+  heure_not_in_horaires_resto = false
+  heureIsInHorairesSelectedRestoValidator() {
+    
+    const heureDebut =this.selectedRestaurant.heure_cc_debut //string 12:00
+    const heureFin =this.selectedRestaurant.heure_cc_fin //string 20:00
+    const time = this.formData.get('heure_retrait')?.value;
+    //verifier que time dans les limites de debut et fin
+
+    if (!heureDebut || !heureFin) return true;
+
+    const [hD, mD] = heureDebut.split(':').map(Number);
+    const [hF, mF] = heureFin.split(':').map(Number);
+
+    const debutMinutes = hD * 60 + mD;
+    const finMinutes   = hF * 60 + mF;
+
+    const selectedMinutes = time.hour * 60 + time.minute;
+
+    if (selectedMinutes < debutMinutes || selectedMinutes > finMinutes) {
+      return false
+    }
+
+
+    return true;
+  }
  
 }

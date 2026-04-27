@@ -237,6 +237,7 @@ export const investing: InvestingChartOptions = {
       '',
       'Sat',
     ],
+    
     offsetX: 0,
     offsetY: 0,
     axisBorder: {

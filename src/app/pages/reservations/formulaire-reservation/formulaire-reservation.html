@@ -14,6 +14,8 @@
                             <h2 class="text-center">{{societeData?.titre}}</h2>
                             <h3 class="text-center">Réserver une table</h3>
                             <h4 class="text-center" *ngIf="selectedRestaurant">Restaurant : {{selectedRestaurant?.nom}}</h4>
+                            <h5 class="text-center" *ngIf="selectedRestaurant?.heure_debut && selectedRestaurant?.heure_fin">Horaires de réservation : {{selectedRestaurant?.heure_debut}} - {{selectedRestaurant?.heure_fin}}</h5>
+
                             <p class="text-center">Entrez les informations suivantes</p>
 
 
@@ -133,6 +135,7 @@
                                                         <div *ngIf="heure_pas_dans_creneau" class="text-danger">
                                                             L'heure doit être entre comprise le début et 20 minutes avant la fin du créneau
                                                         </div>
+                                                        
                                                     </div>
                                                 </div>
 
@@ -151,6 +154,12 @@
                                                     </div>
                                                     <div *ngIf="heure_pas_dans_creneau" class="text-danger">
                                                         L'heure doit être entre comprise le début et 20 minutes avant la fin du créneau
+                                                    </div>
+                                                    <div *ngIf="date_passee" class="text-danger">
+                                                        La date est passée
+                                                    </div>
+                                                    <div *ngIf="heure_not_in_horaires_resto" class="text-danger">
+                                                        L'heure n'est pas dans les horaires du restaurant choisi pour ce service.
                                                     </div>
                                                 </div>
                                                 

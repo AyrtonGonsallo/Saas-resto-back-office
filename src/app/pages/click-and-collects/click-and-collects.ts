@@ -1,6 +1,6 @@
 import { DecimalPipe, AsyncPipe, CommonModule } from '@angular/common';
 import { Component, inject, viewChildren } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {  FormsModule, ReactiveFormsModule, } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Observable } from 'rxjs';
@@ -148,4 +148,6 @@ export class ClickAndCollects {
     navigator.clipboard.writeText(txt);
     alert('Copied');
   }
+
+  
 }
