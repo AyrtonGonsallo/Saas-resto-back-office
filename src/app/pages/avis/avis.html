@@ -81,7 +81,7 @@
                 <ngb-highlight [result]="data.texte | cleanText" [term]="service.searchTerm" />
               </td>
               <td>
-                <ngb-highlight [result]="data.approuve" [term]="service.searchTerm" />
+                <ngb-highlight [result]="data.approuve ? 'Oui' : 'Non'" [term]="service.searchTerm" />
               </td>
                <td>
                 <ngb-highlight [result]="data.Societe.titre" [term]="service.searchTerm" />

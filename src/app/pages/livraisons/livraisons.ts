@@ -1,6 +1,6 @@
 import { DecimalPipe, AsyncPipe, CommonModule } from '@angular/common';
 import { Component, inject, viewChildren } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {  FormsModule, ReactiveFormsModule, } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Observable } from 'rxjs';
@@ -15,18 +15,20 @@ import { NotificationsService } from '../../shared/services/notifications/notifi
 import { environment } from '../../environment';
 import { RestaurantService } from '../../shared/services/user/user.service';
 
+
 @Component({
-  selector: 'app-reservations',
+  selector: 'app-livraisons',
   imports:  [FormsModule,
     NgbdSortableHeaderDirective,
     ReactiveFormsModule,CommonModule,
     NgbModule,
     AsyncPipe,],
-  templateUrl: './reservations.html',
-  styleUrl: './reservations.scss',
+  templateUrl: './livraisons.html',
+  styleUrl: './livraisons.scss',
   providers: [TableService, DecimalPipe],
 })
-export class Reservations {
+export class Livraisons {
+  
    public service = inject(TableService);
   private router = inject(Router);
   public imagesUrl = environment.imagesUrl
@@ -59,7 +61,7 @@ export class Reservations {
     this.service.sortDirection = direction;
   }
 
-  reservations:any
+  livraisons:any
 
   getCurrentPriority(): number {
        return this.restaurantService.getUser()?.datas?.Role?.priorite;
@@ -81,10 +83,10 @@ export class Reservations {
 
     let restaurant_id = this.restaurantService.getRestaurant()
     console.log("restaurant_id",restaurant_id)
-    this.crudSaasService.getReservations(restaurant_id).subscribe({
+    this.crudSaasService.getLivraisons(restaurant_id).subscribe({
       next: (res) => {
         this.service.setData(res);
-        console.log("reservations",this.reservations)
+        console.log("livraisons",this.livraisons)
       },
       error: (err) => {
         this.notificationsService.error("Erreur lors de la récupération des rôles","Echec")
@@ -93,7 +95,7 @@ export class Reservations {
   }
 
   redirect_add(){
-    this.router.navigate(['/reservations/creer-reservation']);
+    this.router.navigate(['/livraisons/creer-livraison']);
   }
 
   modifier_data(id:number){
@@ -101,47 +103,45 @@ export class Reservations {
        this.notificationsService.error("Accès refusé", "Echec");
        return;
       }
-    this.router.navigate(['/reservations/modifier-reservation', id]);
+    this.router.navigate(['/livraisons/modifier-livraison', id]);
   }
 
   supprimer_data(id:number){
     if (!this.canDelete()) {
-           this.notificationsService.error("Accès refusé", "Echec");
-           return;
-          }
+      this.notificationsService.error("Accès refusé", "Echec");
+      return;
+    }
 
-    
-        Swal.fire({
-          title: 'Voulez-vous vraiment supprimer cet élément?',
-          text: "Cette action est irreversible!",
-          icon: 'warning',
-          showCancelButton: true,
-          confirmButtonColor: '#3085d6',
-          cancelButtonColor: '#d33',
-          confirmButtonText: 'Oui, supprimer!',
-          cancelButtonText: 'annuler',
-        }).then(result => {
-          if (result.isConfirmed) {
+    Swal.fire({
+      title: 'Voulez-vous vraiment supprimer cet élément?',
+      text: "Cette action est irreversible!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Oui, supprimer!',
+      cancelButtonText: 'annuler',
+    }).then(result => {
+      if (result.isConfirmed) {
 
-            this.crudSaasService.deleteReservation(id).subscribe({
-              next: (res) => {
-                console.log("res supp",res)
-                //this.notificationsService.success("Rôle supprimé !","Succès")
-                this.get_all_datas()
-              },
-              error: (err) => {
-                this.notificationsService.error("Erreur lors de la suppression de l'élément","Echec")
-              }
-            });
-
-            Swal.fire({
-              title: 'Suppression faite!',
-              text: 'L\'élément à bien été supprimé.',
-              icon: 'success',
-            });
+        this.crudSaasService.deleteLivraison(id).subscribe({
+          next: (res) => {
+            console.log("res supp",res)
+            //this.notificationsService.success("Rôle supprimé !","Succès")
+            this.get_all_datas()
+          },
+          error: (err) => {
+            this.notificationsService.error("Erreur lors de la suppression de l'élément","Echec")
           }
         });
-      
+
+        Swal.fire({
+          title: 'Suppression faite!',
+          text: 'L\'élément à bien été supprimé.',
+          icon: 'success',
+        });
+      }
+    });
   }
 
   copyFunction(txt: string) {
@@ -153,5 +153,5 @@ export class Reservations {
   const p = this.getCurrentPriority();
   return p <= 4; 
 }
+  
 }
-

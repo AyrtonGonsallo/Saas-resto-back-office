@@ -35,6 +35,8 @@ export class Notifications {
 
 
   notifications:any
+  low_produits:any
+  low_variations:any
 
 
   get_all_datas(){
@@ -49,6 +51,26 @@ export class Notifications {
       },
       error: (err) => {
         this.notificationsService.error("Erreur lors de la récupération des notifications","Echec")
+      }
+    });
+
+    this.crudSaasService.getLowsProduits(restaurant_id).subscribe({
+      next: (res) => {
+        this.low_produits = (res.slice(0,9));
+        console.log("produits bas",this.low_produits)
+      },
+      error: (err) => {
+        this.notificationsService.error("Erreur lors de la récupération des produits","Echec")
+      }
+    });
+
+    this.crudSaasService.getLowsVariationsProduits(restaurant_id).subscribe({
+      next: (res) => {
+        this.low_variations = (res.slice(0,9));
+        console.log("variations basses",this.low_variations)
+      },
+      error: (err) => {
+        this.notificationsService.error("Erreur lors de la récupération des produits","Echec")
       }
     });
   }
@@ -67,6 +89,36 @@ export class Notifications {
     
       default:
         res = 'tertiary'
+        break;
+    }
+    return res
+
+  }
+
+  
+//'non lue', 'lue'
+  get_status_class2(stock:number){
+    let res = ''
+    switch (stock) {
+      case 4:
+        res = 'primary'
+        break;
+      case 3:
+        res = 'secondary'
+        break;
+      case 2:
+        res = 'info'
+        break;
+      case 1:
+        res = 'tertiary'
+        break;
+      case 0:
+        res = 'danger'
+        break;
+      
+    
+      default:
+        res = 'info'
         break;
     }
     return res

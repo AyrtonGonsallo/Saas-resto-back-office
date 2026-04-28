@@ -279,6 +279,16 @@ export class NavmenuService {
       active: false,
     },
     {
+      id: 54,
+      level: 1,
+      title: 'Livraisons',
+      path: '/livraisons/liste-livraisons',
+      custom_icon_class: '<i class="icon-shopping-cart"></i>', 
+      icon: 'order-product',
+      roles: [  'super-admin','admin', 'client', 'public',  'gestionnaire-restaurant', 'gestionnaire-societe', 'lecteur-planning', 'lecteur-cuisine',  'employé','livreur'   ],
+      active: false,
+    },
+    {
       id: 53,
       level: 1,
       title: 'Avis',

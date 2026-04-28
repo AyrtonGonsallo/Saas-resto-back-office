@@ -511,6 +511,16 @@ export const dashData: Routes = [
     loadChildren: () => import('../../pages/paniers/paniers.routes').then(r => r.PaniersRoutes),
   },
   {
+    path: 'livraisons',
+    data: {
+      title: 'livraisons',
+      breadcrumb: 'Livraisons',
+      roles: ['super-admin','gestionnaire-societe','admin','gestionnaire-restaurant','lecteur-planning','lecteur-cuisine','employé','livreur']
+    },
+    canActivate: [RoleGuard],
+    loadChildren: () => import('../../pages/livraisons/livraisons.routes').then(r => r.LivraisonsRoutes),
+  },
+  {
     path: 'avis',
     data: {
       title: 'Avis',

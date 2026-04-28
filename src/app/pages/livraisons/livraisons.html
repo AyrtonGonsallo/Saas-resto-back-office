@@ -39,14 +39,16 @@
           <thead>
             <tr>
               <th scope="col" sortable="id" (sort)="onSort($event)">ID</th>
+              <th scope="col" sortable="date_creation" (sort)="onSort($event)">Date de création</th>
+              <th scope="col" sortable="date_retrait" (sort)="onSort($event)">Date livraison</th>
+              <th scope="col" sortable="societe_id" (sort)="onSort($event)">Société</th>
               <th scope="col" sortable="restaurant_id" (sort)="onSort($event)">Restaurant</th>
-              <th scope="col" sortable="categorie_id" (sort)="onSort($event)">Catégorie</th>
-              <th scope="col" sortable="image" (sort)="onSort($event)">Image</th>
-              <th scope="col" sortable="titre" (sort)="onSort($event)">Titre</th>
-              <th scope="col" sortable="actif" (sort)="onSort($event)">Actif</th>
-              <th scope="col" sortable="stock" (sort)="onSort($event)">Stock</th>
-              <th scope="col" sortable="prix_ht" (sort)="onSort($event)">Prix HT</th>
-              <th scope="col" sortable="tva" (sort)="onSort($event)">TVA</th>
+              <th scope="col" sortable="client_id" (sort)="onSort($event)">Commande</th>
+              <th scope="col" sortable="client_id" (sort)="onSort($event)">Client</th>
+              <th scope="col" sortable="livreur_id" (sort)="onSort($event)">Livreur</th>
+              <th scope="col" sortable="livreur_id" (sort)="onSort($event)">Frais de livraison</th>
+              <th scope="col" sortable="statut" (sort)="onSort($event)">Statut</th>
+             
               
               <th scope="col">Action</th>
             </tr>
@@ -54,41 +56,42 @@
           <tbody>
             @for(data of tableData$ | async; track data; let i = $index){
             <tr>
-              
               <td>
                 <ngb-highlight [result]="data.id" [term]="service.searchTerm" />
               </td>
               <td>
-                <ngb-highlight [result]="data.Restaurant?.nom" [term]="service.searchTerm" />
+                <ngb-highlight [result]="(data.created_at | date:'dd/MM/yyyy HH:mm')" [term]="service.searchTerm" />
               </td>
               <td>
-                <ngb-highlight [result]="data.categorie?.titre" [term]="service.searchTerm" />
+                <ngb-highlight [result]="(data.date_livraison | date:'dd/MM/yyyy HH:mm':'UTC' )" [term]="service.searchTerm" />
               </td>
               <td>
-                <div class="customers text-center social-group" *ngIf="data.image">
-                  <ul>
-                    <li class="d-inline-block">
-                      <img class="img-40 rounded-circle" [src]="imagesUrl+data.image" alt="images" />
-                    </li>
-                    
-                  </ul>
-                </div>
+                <ngb-highlight [result]="data.societe.titre" [term]="service.searchTerm" />
               </td>
               <td>
-                <ngb-highlight [result]="data.titre" [term]="service.searchTerm" />
+                <ngb-highlight [result]="data.Restaurant.nom" [term]="service.searchTerm" />
               </td>
               <td>
-                <div [innerHTML]="getStatus(data.actif)"></div>
+                <ngb-highlight [result]="'N°'+data.commande.id + ' montant ttc : ' + data.commande.totalPrice +' €'" [term]="service.searchTerm" />
               </td>
               <td>
-                <ngb-highlight [result]="data.stock" [term]="service.searchTerm" />
+                <ngb-highlight [result]="data.client.nom + ' ' + data.client.prenom" [term]="service.searchTerm" />
               </td>
               <td>
-                <ngb-highlight [result]="data.prix_ht" [term]="service.searchTerm" />
+                <ngb-highlight [result]="data.livreur?.nom + ' ' + data.livreur?.prenom" [term]="service.searchTerm" />
               </td>
+               <td>
+                <ngb-highlight [result]="data.frais_livraison+' €'" [term]="service.searchTerm" />
+              </td>
+              
+              
               <td>
-                <ngb-highlight [result]="data.tva" [term]="service.searchTerm" />
+                <ngb-highlight [result]="data.statut" [term]="service.searchTerm" />
               </td>
+              
+             
+           
+              
               
               <td>
                 <ul class="action">
@@ -96,7 +99,7 @@
                   <a style="cursor: pointer;" (click)="modifier_data(data.id)"><i class="fa fa-pen font-primary pe-2" ></i></a>
                   }
                   @if(canDelete()) {
-                  <a style="cursor: pointer;" (click)="supprimer_data(data.id)"><i class="fa fa-trash font-danger ps-2" ></i></a>
+                  <a style="cursor: pointer;" (click)="supprimer_data(data.id)"><i class="fa fa-trash font-danger pe-2" ></i></a>
                   }
                 </ul>
               </td>
@@ -122,10 +125,12 @@
     </div>
   </form>
 
-    <div class="add-task-btn-wrapper">
+   <div class="add-task-btn-wrapper">
         <span class="add-task-btn" >
             <button class="btn btn-primary" (click)="redirect_add()">
-            <i class="icon-plus"></i> Ajouter un produit</button>
+            <i class="icon-plus"></i> Ajouter une livraison</button>
         </span>
     </div>
+
+    
 </div>

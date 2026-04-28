@@ -1,35 +1,119 @@
-<div class="card notification-card" (clickOutside)="clickOutside()">
-  <div class="card-header">
-    <h4>Notifications</h4>
-    <div class="dropdown icon-dropdown">
-      <button class="btn dropdown-toggle" type="button" (click)="open()">
-        <i class="icon-more-alt"></i>
-      </button>
-      <div class="dropdown-menu dropdown-menu-end" [class.show]="isopen">
-        <a class="dropdown-item" href="javascript:void(0)">Weekly</a>
-        <a class="dropdown-item" href="javascript:void(0)">Monthly</a>
-        <a class="dropdown-item" href="javascript:void(0)">Yearly</a>
+<div class="row">
+  <div class="col-6">
+    <div class="card notification-card" (clickOutside)="clickOutside()">
+      <div class="card-header">
+        <h4>Notifications</h4>
+        <div class="dropdown icon-dropdown">
+          <button class="btn dropdown-toggle" type="button" (click)="open()">
+            <i class="icon-more-alt"></i>
+          </button>
+          <div class="dropdown-menu dropdown-menu-end" [class.show]="isopen">
+            <a class="dropdown-item" href="javascript:void(0)">Weekly</a>
+            <a class="dropdown-item" href="javascript:void(0)">Monthly</a>
+            <a class="dropdown-item" href="javascript:void(0)">Yearly</a>
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
-  <div class="card-body p-0">
-    @for( data of notifications ; track data){
-    <div class="d-flex {{data.class}} gap-3">
-      <div class="flex-shrink-0">
-        @if(data.text){
-        <span class="bg-{{get_status_class(data.statut_lecture)}}">{{data.titre}}</span>
-        } 
-      </div>
-      <div class="flex-grow-1">
-        <a >
-          <h6>{{data.titre}}</h6> </a
-        ><span>{{data.type}}</span>
-        <span>{{data.created_at | date:'dd/MM/yyyy HH:mm'}}</span>
+      <div class="card-body p-0">
+        @for( data of notifications ; track data){
+        <div class="d-flex {{data.class}} gap-3">
         
+          <div class="flex-grow-1">
+            <a >
+              <h6>{{data.titre}}</h6> </a
+            ><span>{{data.type}}</span>
+            <span>{{data.created_at | date:'dd/MM/yyyy HH:mm'}}</span>
+            
+          </div>
+          <div class="circle-dot-{{get_status_class(data.statut_lecture)}}"><span></span></div>
+          
+        </div>
+        }
       </div>
-      <div class="circle-dot-{{get_status_class(data.statut_lecture)}}"><span></span></div>
-      
     </div>
-    }
   </div>
+
+
+
+
+
+  <div class="col-sm-6 col-xl-6">
+    
+    <div class="card notification-card" (clickOutside)="clickOutside()">
+      <div class="card-header">
+        <h4>Produits au stock bas</h4>
+        <div class="dropdown icon-dropdown">
+          <button class="btn dropdown-toggle" type="button" (click)="open()">
+            <i class="icon-more-alt"></i>
+          </button>
+          <div class="dropdown-menu dropdown-menu-end" [class.show]="isopen">
+            <a class="dropdown-item" href="javascript:void(0)">Weekly</a>
+            <a class="dropdown-item" href="javascript:void(0)">Monthly</a>
+            <a class="dropdown-item" href="javascript:void(0)">Yearly</a>
+          </div>
+        </div>
+      </div>
+      <div class="card-body p-0">
+        @for( data of low_produits ; track data){
+        <div class="d-flex {{data.class}} gap-3">
+          <div class="flex-shrink-0">
+            
+            <span class="bg-{{get_status_class2(data.stock)}}">{{data.stock}}</span>
+            
+          </div>
+          <div class="flex-grow-1">
+            <a >
+              <h6>{{data.titre}}</h6> </a
+            ><span>{{data.categorie.titre}}</span>
+            <span>{{data.updated_at | date:'dd/MM/yyyy HH:mm'}}</span>
+            
+          </div>
+          <div class="circle-dot-{{get_status_class2(data.stock)}}"><span></span></div>
+          
+        </div>
+        }
+      </div>
+    </div>
+      
+  </div>
+  <div class="col-sm-6 col-xl-6">
+      
+
+    <div class="card notification-card" (clickOutside)="clickOutside()">
+      <div class="card-header">
+        <h4>Variations au stock bas</h4>
+        <div class="dropdown icon-dropdown">
+          <button class="btn dropdown-toggle" type="button" (click)="open()">
+            <i class="icon-more-alt"></i>
+          </button>
+          <div class="dropdown-menu dropdown-menu-end" [class.show]="isopen">
+            <a class="dropdown-item" href="javascript:void(0)">Weekly</a>
+            <a class="dropdown-item" href="javascript:void(0)">Monthly</a>
+            <a class="dropdown-item" href="javascript:void(0)">Yearly</a>
+          </div>
+        </div>
+      </div>
+      <div class="card-body p-0">
+        @for( data of low_variations ; track data){
+        <div class="d-flex {{data.class}} gap-3">
+          <div class="flex-shrink-0">
+            
+            <span class="bg-{{get_status_class2(data.stock)}}">{{data.stock}}</span>
+            
+          </div>
+          <div class="flex-grow-1">
+            <a >
+              <h6>{{data.titre}}</h6> </a
+            ><span>{{data.categorie?.titre}}</span>
+            <span>{{data.updated_at | date:'dd/MM/yyyy HH:mm'}}</span>
+            
+          </div>
+          <div class="circle-dot-{{get_status_class2(data.stock)}}"><span></span></div>
+          
+        </div>
+        }
+      </div>
+    </div>
+  </div>
+
 </div>

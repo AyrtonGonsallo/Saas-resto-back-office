@@ -62,6 +62,7 @@ export class FormulaireClickAndCollect {
       prenom: ['', Validators.required], //etape 1
       email: ['', [Validators.required, Validators.email]], //etape 1
       telephone: ['', [Validators.pattern(/^[0-9+\s\-()]{8,20}$/)]], //etape 1
+      adresse_livraison: [null, [Validators.required,]],
       date_retrait: [null, [Validators.required, ]], //etape 3
       heure_retrait: [null, [Validators.required, ]], //etape 3     
       societe_id: [this.societe_id, Validators.required], //pas d'etape 
@@ -419,7 +420,7 @@ export class FormulaireClickAndCollect {
         return this.check_panier()
 
       case 4:
-        champs = ['nom', 'prenom', 'email', 'telephone','date_retrait','heure_retrait'];
+        champs = ['nom', 'prenom', 'email', 'telephone','adresse_livraison','date_retrait','heure_retrait'];
         let date_passee = this.dateHeureFutureValidator()
         let heure_not_in_horaires_resto = this.heureIsInHorairesSelectedRestoValidator()
         this.heure_not_in_horaires_resto = !heure_not_in_horaires_resto
@@ -475,7 +476,8 @@ export class FormulaireClickAndCollect {
     const map = new Map();
 
     let filtred_produits = produits.filter((p:any) =>
-        p.actif === true
+        p.actif === true &&
+        p.stock > 1
       )
 
     // 1️⃣ Grouper
@@ -519,6 +521,7 @@ export class FormulaireClickAndCollect {
     const map = new Map();
 
     variations.forEach(v => {
+      if (v.stock<1) return;
       const cat = v.categorie;
 
       if (!cat) return;

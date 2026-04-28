@@ -15,6 +15,7 @@ export const  types = [
     { key: 'montant_paiement_acompte_reservation', name: 'Montant du paiement de l\'acompte des réservations' },
     { key: 'etat_paiement_acompte_click_and_collect', name: 'État du paiement de l\'acompte du click and collect' },
     { key: 'montant_paiement_acompte_click_and_collect', name: 'Montant du paiement de l\'acompte du click and collect' },
+    { key: 'montant_livraison_click_and_collect', name: 'Montant de la livraison du click and collect' },
     //{ key: 'logo', name: 'Logo' },
     //{ key: 'couleur_principale', name: 'Couleur principale' },
     //{ key: 'couleur_secondaire', name: 'Couleur secondaire' },

@@ -199,6 +199,26 @@ export class CrudSaasRestoService {
     return this.http.get<any[]>(url);
   }
 
+  getLowsProduits(restaurantId:number | null): Observable<any[]> {
+    let url = `${environment.apiUrl}/get_low_stocks_produits`;
+    if (restaurantId) {
+      url += `?restaurant_id=${restaurantId}`;
+    }
+    return this.http.get<any[]>(url);
+  }
+
+  getLowsVariationsProduits(restaurantId:number | null): Observable<any[]> {
+    let url = `${environment.apiUrl}/get_low_variations_produit`;
+    if (restaurantId) {
+      url += `?restaurant_id=${restaurantId}`;
+    }
+    return this.http.get<any[]>(url);
+  }
+
+
+  
+  
+
   getProduitById(id: number): Observable<any> {
     const url = `${environment.apiUrl}/get_produit_by_id/${id}`;
     return this.http.get<any>(url);
@@ -583,6 +603,7 @@ export class CrudSaasRestoService {
     }
     return this.http.get<any[]>(url);
   }
+  
 
   getMaxCommandes(restaurantId:number | null): Observable<any[]> {
     let url = `${environment.apiUrl}/get_max_commandes`;
@@ -658,6 +679,28 @@ export class CrudSaasRestoService {
     return this.http.get<any[]>(url);
   }
 
+  ajouterLivraison(userData: any): Observable<any> {
+    return this.http.post<any>(`${environment.apiUrl}/ajouter_livraison`, userData);
+  }
+  getLivraisons(restaurantId:number | null): Observable<any[]> {
+    let url = `${environment.apiUrl}/get_all_livraisons`;
+    if (restaurantId) {
+      url += `?restaurant_id=${restaurantId}`;
+    }
+    return this.http.get<any[]>(url);
+  }
+  deleteLivraison(id: number): Observable<any> {
+    const url = `${environment.apiUrl}/delete_livraison/${id}`;
+    return this.http.delete<any>(url);
+  }
+  getLivraisonById(id: number): Observable<any> {
+    const url = `${environment.apiUrl}/get_livraison_by_id/${id}`;
+    return this.http.get<any>(url);
+  }
+  updateLivraison(id: number, data: any): Observable<any> {
+    const url = `${environment.apiUrl}/update_livraison/${id}`;
+    return this.http.put<any>(url, data);
+  }
   
 
 

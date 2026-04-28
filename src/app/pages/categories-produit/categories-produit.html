@@ -61,7 +61,7 @@
                 <ngb-highlight [result]="data.ordre" [term]="service.searchTerm" />
               </td>
               <td>
-                <ngb-highlight [result]="data.est_actif" [term]="service.searchTerm" />
+                <div [innerHTML]="getStatus(data.est_actif)"></div>
               </td>
               <td>
                 <ngb-highlight [result]="data.Restaurant?.nom" [term]="service.searchTerm" />

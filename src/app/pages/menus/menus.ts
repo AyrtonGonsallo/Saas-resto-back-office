@@ -145,5 +145,13 @@ export class Menus {
 
     
   }
+
+   getStatus(status: boolean){
+  if(status){
+    return '<i class="fa-solid fa-check font-primary"></i>';
+  }else{
+    return '<i class="fa-solid fa-x font-danger"></i>';
+  }
+}
 }
 

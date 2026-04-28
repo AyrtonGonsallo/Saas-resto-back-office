@@ -149,5 +149,9 @@ export class ClickAndCollects {
     alert('Copied');
   }
 
+  canSeeAvis(): boolean {
+  const p = this.getCurrentPriority();
+  return p <= 4; 
+}
   
 }

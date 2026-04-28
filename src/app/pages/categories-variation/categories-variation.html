@@ -59,13 +59,13 @@
                 <ngb-highlight [result]="data.titre" [term]="service.searchTerm" />
               </td>
               <td>
-                <ngb-highlight [result]="data.obligatoire" [term]="service.searchTerm" />
+                <ngb-highlight  [result]="data.obligatoire ? 'Oui' : 'Non'"  [term]="service.searchTerm" />
               </td>
               <td>
                 <ngb-highlight [result]="data.ordre" [term]="service.searchTerm" />
               </td>
               <td>
-                <ngb-highlight [result]="data.est_actif" [term]="service.searchTerm" />
+                <div [innerHTML]="getStatus(data.est_actif)"></div>
               </td>
               <td>
                 <ngb-highlight [result]="data.Restaurant?.nom" [term]="service.searchTerm" />
@@ -74,8 +74,12 @@
               
               <td>
                 <ul class="action">
+                  @if(canEdit()) {
                   <a style="cursor: pointer;" (click)="modifier_data(data.id)"><i class="fa fa-pen font-primary pe-2" ></i></a>
+                  }
+                  @if(canDelete()) {
                   <a style="cursor: pointer;" (click)="supprimer_data(data.id)"><i class="fa fa-trash font-danger ps-2" ></i></a>
+                  }
                 </ul>
               </td>
             </tr>

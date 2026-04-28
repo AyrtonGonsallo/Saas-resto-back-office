@@ -1,0 +1,171 @@
+<form class="card" [formGroup]="formData" (ngSubmit)="onSubmit()">
+    <div class="card-header">
+        <h4 class="card-title mb-0">Ajouter une livraison</h4>
+        
+    </div>
+
+    <div class="card-body">
+        <div class="row">
+            <div class="col-sm-12 col-md-12">
+                <label class="form-label">Société <span class="text-danger">*</span></label>
+            
+                <ng-select [items]="societes" bindLabel="titre" bindValue="id" [multiple]="false"
+                    placeholder="choisir une société" formControlName="societe_id"  />
+                    <div *ngIf="formData.get('societe_id')?.touched && formData.get('societe_id')?.invalid" class="text-danger">
+                    La sociéte est invalide
+                </div>
+            </div>
+
+            <div class="col-sm-12 col-md-12">
+                <label class="form-label">Restaurant <span class="text-danger">*</span></label>
+            
+                <ng-select [items]="restaurants" bindLabel="nom" bindValue="id" [multiple]="false"
+                    placeholder="choisir un restaurant" formControlName="restaurant_id"  />
+                    <div *ngIf="formData.get('restaurant_id')?.touched && formData.get('restaurant_id')?.invalid" class="text-danger">
+                    Le restaurant est invalide
+                </div>
+            </div>
+
+            <div class="date-picker">
+                <!-- DATE -->
+                <label class="col-sm-3 col-form-label text-sm-start">
+                    Date de retrait <span class="text-danger">*</span>
+                </label>
+                <div class="col-xl-9 col-sm-9">
+                    <div class="input-group">
+                        <input
+                        class="form-control digits"
+                        placeholder="yyyy-mm-dd"
+                        formControlName="date_livraison"
+                        ngbDatepicker
+                        #d="ngbDatepicker"
+                        (click)="d.toggle()"
+                        [minDate]="minDate"
+                        />
+                    </div>
+                    <div *ngIf="formData.get('date_livraison')?.touched && formData.get('date_livraison')?.invalid" class="text-danger">
+                        La date est invalide
+                    </div>
+                </div>
+
+
+                <!-- TIME -->
+                <label class="col-sm-3 col-form-label text-sm-start">
+                    Heure <span class="text-danger">*</span>
+                </label>
+                <div class="col-xl-9 col-sm-9">
+                    <ngb-timepicker
+                        formControlName="heure_livraison"
+                        [spinners]="true"
+                        [seconds]="false"
+                    ></ngb-timepicker>
+                    <div *ngIf="formData.get('heure_livraison')?.touched && formData.get('heure_livraison')?.invalid" class="text-danger">
+                        L'heure est invalide.
+                    </div>
+                        <div *ngIf="date_passee" class="text-danger">
+                        La date est passée.
+                    </div>
+                    <div *ngIf="heure_not_in_horaires_resto" class="text-danger">
+                        L'heure n'est pas dans les horaires du restaurant choisi pour ce service.
+                    </div>
+                    
+                </div>
+
+
+            </div>
+                       
+            
+
+            <div class="col-md-12">
+                <div class="mb-3">
+                    <label class="form-label">Frais de livraison <span class="text-danger">*</span></label>
+                    <input class="form-control" type="number" formControlName="frais_livraison" placeholder="frais de livraisons">
+                    <div *ngIf="formData.get('frais_livraison')?.touched && formData.get('frais_livraison')?.invalid" class="text-danger">
+                        Les frais de livraison sont invalide
+                    </div>
+                </div>
+            </div>
+
+        
+
+            <div class="col-sm-12 col-md-12">
+                <div class="mb-3">
+                <label class="form-label">Ville </label>
+                <input class="form-control" type="text" formControlName="ville" placeholder="ville">
+                <div *ngIf="formData.get('ville')?.touched && formData.get('ville')?.invalid" class="text-danger">
+                    La ville est invalide
+                </div>
+                </div>
+            </div>
+
+            <div class="col-sm-12 col-md-12">
+                <div class="mb-3">
+                <label class="form-label">Code postal </label>
+                <input class="form-control" type="number" formControlName="code_postal" placeholder="Code postal">
+                <div *ngIf="formData.get('code_postal')?.touched && formData.get('code_postal')?.invalid" class="text-danger">
+                    Le code_postal est invalide
+                </div>
+                </div>
+            </div>
+
+             <div class="col-sm-12 col-md-12">
+                <div class="mb-3">
+                    <label class="form-label">Adresse de livraison <span class="text-danger">*</span></label>
+                    <textarea class="form-control" formControlName="adresse_livraison" rows="3"></textarea>
+                </div>
+            </div>
+
+                <div class="col-sm-12 col-md-12">
+                <div class="mb-3">
+                    <label class="form-label">Note du livreur</label>
+                    <textarea class="form-control" formControlName="notes_livreur" rows="3"></textarea>
+                </div>
+            </div>
+                
+            
+
+             
+
+            <div class="col-sm-12 col-md-12">
+                <label class="form-label">Commande <span class="text-danger">*</span></label>
+            
+                <ng-select [items]="commandes" bindLabel="fullName" bindValue="id" [multiple]="false"
+                    placeholder="choisir une commande" formControlName="commande_id"  />
+                    <div *ngIf="formData.get('commande_id')?.touched && formData.get('commande_id')?.invalid" class="text-danger">
+                    La commande  est invalide
+                </div>
+            </div>
+
+             <div class="col-sm-12 col-md-12">
+                <label class="form-label">Livreur <span class="text-danger">*</span></label>
+            
+                <ng-select [items]="livreurs" bindLabel="fullName" bindValue="id" [multiple]="false"
+                    placeholder="choisir un livreur" formControlName="livreur_id"  />
+                    <div *ngIf="formData.get('livreur_id')?.touched && formData.get('livreur_id')?.invalid" class="text-danger">
+                    Le livreur est invalide
+                </div>
+            </div>
+
+             <div class="col-sm-12 col-md-12">
+                <label class="form-label">Client<span class="text-danger">*</span></label>
+            
+                <ng-select [items]="clients" bindLabel="fullName" bindValue="id" [multiple]="false"
+                    placeholder="choisir un client" formControlName="client_id"  />
+                    <div *ngIf="formData.get('client_id')?.touched && formData.get('client_id')?.invalid" class="text-danger">
+                    Le client est invalide
+                </div>
+            </div>
+
+
+
+             
+            
+            
+
+        </div>
+    </div>
+
+    <div class="card-footer text-end">
+        <button class="btn btn-primary" type="submit">Envoyer</button>
+    </div>
+</form>
