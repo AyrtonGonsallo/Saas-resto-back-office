@@ -79,20 +79,39 @@ export class Livraisons {
 
 
 
-  get_all_datas(){
+ get_all_datas() {
+  const restaurant_id = this.restaurantService.getRestaurant();
+  const user = this.restaurantService.getUser();
 
-    let restaurant_id = this.restaurantService.getRestaurant()
-    console.log("restaurant_id",restaurant_id)
-    this.crudSaasService.getLivraisons(restaurant_id).subscribe({
-      next: (res) => {
-        this.service.setData(res);
-        console.log("livraisons",this.livraisons)
-      },
-      error: (err) => {
-        this.notificationsService.error("Erreur lors de la récupération des rôles","Echec")
+  const livreur_id = user?.datas?.id;
+  const priorite = user?.datas?.Role?.priorite;
+
+  console.log("restaurant_id", restaurant_id);
+  console.log("user", user);
+
+  this.crudSaasService.getLivraisons(restaurant_id).subscribe({
+    next: (res) => {
+
+      let filtered = res;
+
+      // SI LIVREUR 
+      if (priorite === 9) {
+        filtered = res.filter((l: any) => l.livreur_id === livreur_id);
       }
-    });
-  }
+
+      this.livraisons = filtered;
+      this.service.setData(filtered);
+
+      console.log("livraisons affichées", this.livraisons);
+    },
+    error: (err) => {
+      this.notificationsService.error(
+        "Erreur lors de la récupération des livraisons",
+        "Echec"
+      );
+    }
+  });
+}
 
   redirect_add(){
     this.router.navigate(['/livraisons/creer-livraison']);

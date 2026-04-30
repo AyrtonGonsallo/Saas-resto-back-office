@@ -56,7 +56,11 @@
                 <div class="progress progress-striped-primary">
                     <div class="progress-bar" 
                     [style.width.%]="getPourcentage(stats.totalCommandesFinies, stats.totalCommandes)"
-                    
+                    ></div>
+                </div>
+                <div class="progress progress-striped-info">
+                    <div class="progress-bar" 
+                    [style.width.%]="getPourcentage(stats.totalLivraisonsFinies, stats.totalLivraisons)"
                     ></div>
                 </div>
                 <div class="progress progress-striped-secondary">
@@ -75,6 +79,10 @@
                     <li class="d-flex align-items-center">
                         <div class="circle-dot-primary"><span></span></div>
                         <h5>{{stats?.totalCommandesFinies}}/{{stats?.totalCommandes}}<span class="font-light ms-1">Commandes terminées</span></h5>
+                    </li>
+                    <li class="d-flex align-items-center">
+                        <div class="circle-dot-info"><span></span></div>
+                        <h5>{{stats?.totalLivraisonsFinies}}/{{stats?.totalLivraisons}}<span class="font-light ms-1">Livraisons terminées</span></h5>
                     </li>
                     <li class="d-flex align-items-center">
                         <div class="circle-dot-secondary"><span></span></div>

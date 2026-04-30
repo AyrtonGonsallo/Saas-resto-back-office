@@ -1,4 +1,4 @@
-<div class="card" (clickOutside)="clickOutside()">
+<div *ngIf="canViewAdminBlocks()"  class="card" (clickOutside)="clickOutside()">
     <div class="card-header pb-0">
         <h4>Commandes</h4>
         <div class="dropdown icon-dropdown">

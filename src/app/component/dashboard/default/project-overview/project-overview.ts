@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
 
-import { Feathericon } from '../../../../shared/component/feathericon/feathericon';
+
 import { ClickOutsideDirective } from '../../../../shared/directives/outside.directive';
 import { RestaurantService } from '../../../../shared/services/user/user.service';
 import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-project-overview',
-  imports: [ClickOutsideDirective, Feathericon,CommonModule],
+  imports: [ClickOutsideDirective,CommonModule],
   templateUrl: './project-overview.html',
   styleUrl: './project-overview.scss',
 })

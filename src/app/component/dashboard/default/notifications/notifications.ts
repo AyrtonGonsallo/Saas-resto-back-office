@@ -124,4 +124,13 @@ export class Notifications {
     return res
 
   }
+
+  getPriority(): number {
+  return this.restaurantService.getUser().datas.Role?.priorite;
+}
+
+canViewAdminBlocks(): boolean {
+  const p = this.getPriority();
+  return p < 8;
+}
 }

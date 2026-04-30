@@ -26,36 +26,6 @@
                 </div>
             </div>
 
-            <div class="col-sm-12 col-md-12">
-                <label class="form-label">Commande <span class="text-danger">*</span></label>
-            
-                <ng-select [items]="commandes" bindLabel="fullName" bindValue="id" [multiple]="false"
-                    placeholder="choisir une commande" formControlName="commande_id"  />
-                    <div *ngIf="formData.get('commande_id')?.touched && formData.get('commande_id')?.invalid" class="text-danger">
-                    La commande  est invalide
-                </div>
-            </div>
-
-             <div class="col-sm-12 col-md-12">
-                <label class="form-label">Livreur <span class="text-danger">*</span></label>
-            
-                <ng-select [items]="livreurs" bindLabel="fullName" bindValue="id" [multiple]="false"
-                    placeholder="choisir un livreur" formControlName="livreur_id"  />
-                    <div *ngIf="formData.get('livreur_id')?.touched && formData.get('livreur_id')?.invalid" class="text-danger">
-                    Le livreur est invalide
-                </div>
-            </div>
-
-             <div class="col-sm-12 col-md-12">
-                <label class="form-label">Client<span class="text-danger">*</span></label>
-            
-                <ng-select [items]="clients" bindLabel="fullName" bindValue="id" [multiple]="false"
-                    placeholder="choisir un client" formControlName="client_id"  />
-                    <div *ngIf="formData.get('client_id')?.touched && formData.get('client_id')?.invalid" class="text-danger">
-                    Le client est invalide
-                </div>
-            </div>
-
             <div class="date-picker">
                 <!-- DATE -->
                 <label class="col-sm-3 col-form-label text-sm-start">
@@ -152,6 +122,39 @@
                 </div>
             </div>
                 
+            
+
+             
+
+            <div class="col-sm-12 col-md-12">
+                <label class="form-label">Commande <span class="text-danger">*</span></label>
+            
+                <ng-select [items]="commandes" bindLabel="fullName" bindValue="id" [multiple]="false"
+                    placeholder="choisir une commande" formControlName="commande_id"  />
+                    <div *ngIf="formData.get('commande_id')?.touched && formData.get('commande_id')?.invalid" class="text-danger">
+                    La commande  est invalide
+                </div>
+            </div>
+
+             <div class="col-sm-12 col-md-12">
+                <label class="form-label">Livreur <span class="text-danger">*</span></label>
+            
+                <ng-select [items]="livreurs" bindLabel="fullName" bindValue="id" [multiple]="false"
+                    placeholder="choisir un livreur" formControlName="livreur_id"  />
+                    <div *ngIf="formData.get('livreur_id')?.touched && formData.get('livreur_id')?.invalid" class="text-danger">
+                    Le livreur est invalide
+                </div>
+            </div>
+
+             <div class="col-sm-12 col-md-12">
+                <label class="form-label">Client<span class="text-danger">*</span></label>
+            
+                <ng-select [items]="clients" bindLabel="fullName" bindValue="id" [multiple]="false"
+                    placeholder="choisir un client" formControlName="client_id"  />
+                    <div *ngIf="formData.get('client_id')?.touched && formData.get('client_id')?.invalid" class="text-danger">
+                    Le client est invalide
+                </div>
+            </div>
 
             <div class="col-sm-12 col-md-12">
                 <label class="form-label">Statut <span class="text-danger">*</span></label>

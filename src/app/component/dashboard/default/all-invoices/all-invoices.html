@@ -1,4 +1,4 @@
-<div class="card invoice-card" (clickOutside)="clickOutside()">
+<div  *ngIf="canViewAdminBlocks()" class="card invoice-card" (clickOutside)="clickOutside()">
     <div class="card-header pb-0">
         <h4>Réservations</h4>
         <div class="dropdown icon-dropdown">
@@ -40,9 +40,10 @@
                                 <td>
                                     <div class="d-flex align-items-center gap-2">
                                         
-                                        <div class="flex-grow-1"><a  [routerLink]="'/user/users-profile'">
-                                                <h6 class="f-w-500">{{data.client.prenom}} {{data.client.nom}}</h6>
-                                            </a><span class="font-light f-w-400 f-13">{{data.client.email}}</span></div>
+                                        <div class="flex-grow-1">
+                                            <h6 class="f-w-500">{{data.client.prenom}} {{data.client.nom}}</h6>
+                                            <span class="font-light f-w-400 f-13">{{data.client.email}}</span>
+                                        </div>
                                     </div>
                                 </td>
                                 <td>{{data.nombre_de_personnes}}</td>

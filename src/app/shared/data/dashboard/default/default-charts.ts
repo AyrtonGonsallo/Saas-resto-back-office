@@ -253,7 +253,7 @@ export const investing: InvestingChartOptions = {
     max: 400,
     tickAmount: 4,
     labels: {
-      formatter: (val: number) => '$' + val, // prefix dollar sign
+      formatter: (val: number) => val+' €' , // prefix dollar sign
     },
   },
   fill: {

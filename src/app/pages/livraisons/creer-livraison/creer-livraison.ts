@@ -191,20 +191,11 @@ export class CreerLivraison {
     let restaurant_id = this.selectedRestaurant.id
       this.crudSaasService.getCommandes(restaurant_id).subscribe({
         next: (res) => {
-          this.commandes = res
-          .filter(r => r.restaurant_id === restaurant_id)
-          .map(g => {
-            const d = new Date(g.date_retrait);
-
-            const formattedDate =
-              d.toLocaleDateString('fr-FR') + ' ' +
-              d.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
-
-            return {
-              ...g,
-              fullName: `#${g.id} - ${g.client?.prenom ?? ''} ${g.client?.nom ?? ''} (${g.Restaurant?.nom ?? ''}) - à retirer le ${formattedDate}`
-            };
-          });
+          this.commandes=res.filter(r =>
+            r.restaurant_id === restaurant_id).map(g => ({
+            ...g,
+            fullName: g.client.prenom + ' ' + g.client.nom + ' (' + g.Restaurant.nom + ')'
+          }));
           this.allCommandes=this.commandes
           console.log("allCommandes",this.allCommandes)
         },

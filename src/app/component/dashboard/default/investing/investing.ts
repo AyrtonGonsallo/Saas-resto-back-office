@@ -72,6 +72,15 @@ export class Investing {
         this.investingChart.xaxis.categories = categories;
         
       }
+
+       getPriority(): number {
+         return this.restaurantService.getUser().datas.Role?.priorite;
+        }
+
+        canViewAdminBlocks(): boolean {
+          const p = this.getPriority();
+         return p < 8;
+        }
   
     
 }

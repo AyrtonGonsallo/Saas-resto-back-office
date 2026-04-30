@@ -27,8 +27,8 @@ export class TotalInvestment {
     this.isopen = false;
   }
 
-
-  series:any
+    totalGlobal:any
+    series:any
     categories:any
      constructor(private restaurantService: RestaurantService, ) {}
         
@@ -52,7 +52,15 @@ export class TotalInvestment {
         load_datas(){
           
           const data = Object.values(this.stats.ca_par_restaurants || {});
-          console.log('data',data)
+          console.log('data restaurants',data)
+
+          this.totalGlobal = data.reduce((sum, restaurant:any) => {
+            return sum + restaurant.paiements.reduce((s:any, p:any) => {
+              return s + parseFloat(p.montant);
+            }, 0);
+          }, 0);
+
+          console.log("TOTAL GLOBAL :", this.totalGlobal);
   
           // sociétés
           const categories = data.map((r: any) => r.nom);
@@ -60,23 +68,41 @@ export class TotalInvestment {
   
   
            const series = data.map((r: any) => Number(r.total || 0));
+            console.log('restaurants', categories);
   
          
           console.log('series',series)
 
+          this.categories = categories;
+          this.series = series;
+
           this.Investmentchart.series = series
           this.Investmentchart.yaxis.labels={
             formatter: function (val: number) {
-              return '$ ' + val;
+              return '€ ' + val;
             },
           }
-          this.Investmentchart.tooltip.y={
-            formatter: function (val: number) {
-              return '$ ' + val;
-            },
-          }
+          this.Investmentchart.tooltip = {
+            y: {
+              formatter: (val: number, opts: any) => {
+                const index = opts.dataPointIndex;
+                const name = this.categories[index];
+
+                return name + ' : ' + val + ' €';
+              }
+            }
+          };
   
   
           
+        }
+
+         getPriority(): number {
+         return this.restaurantService.getUser().datas.Role?.priorite;
+        }
+
+        canViewAdminBlocks(): boolean {
+          const p = this.getPriority();
+         return p < 8;
         }
 }

@@ -31,8 +31,8 @@
                                         </div>
 
                                         <div class="steps">
-                                            <button [ngClass]="stepClass(1)">Informations personnelles</button>
-                                            <button [ngClass]="stepClass(2)">Réservation</button>
+                                            <button [ngClass]="stepClass(1)">Réservation</button>
+                                            <button [ngClass]="stepClass(2)">Informations personnelles</button>
                                             <button [ngClass]="stepClass(3)">Paiement</button>
                                             <button [ngClass]="stepClass(4)">Récapitulatif</button>
                                         </div>
@@ -44,7 +44,7 @@
                             <div class="card">
                                 
                                 <div class="card-body">
-                                    <div *ngIf="current_step==1">
+                                    <div *ngIf="current_step==2">
                                         <h4 class="card-title mb-0">Informations personnelles</h4>
                                         <div class="col-sm-12 col-md-12">
                                             <div class="mb-3">
@@ -88,7 +88,7 @@
                                         
                                     </div>
                                     
-                                    <div *ngIf="current_step==2">
+                                    <div *ngIf="current_step==1">
                                         <h4 class="card-title mb-0">Réservation</h4>
                                         <div class="date-picker">
                                             <div class="mb-3 row g-3">

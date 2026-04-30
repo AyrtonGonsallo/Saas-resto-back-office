@@ -1,16 +1,13 @@
-<ul class="activity-update">
-    <li class="d-flex align-items-center b-l-info">
-        <div class="flex-grow-1"> <span>12:00 to 02:20 am</span>
-            <h5>What`s the project report update?</h5>
-            <h6>Loie Fenter</h6>
-        </div>
-        <div class="flex-shrink-0"> <img class="img-40 b-r-10" src="assets/images/avatar/2.jpg" alt=""></div>
-    </li>
-    <li class="d-flex align-items-center b-l-success">
-        <div class="flex-grow-1"> <span>04:00 to 08:20 am</span>
-            <h5>James created changelog page</h5>
-            <h6>Anna Catmire</h6>
-        </div>
-        <div class="flex-shrink-0"> <img class="img-40 b-r-10" src="assets/images/avatar/4.jpg" alt=""></div>
-    </li>
+<ul class="activity-update" *ngIf="stats">
+    
+    @for( data of stats.daily_shippings; track data){
+        <li class="d-flex align-items-center b-l-{{get_status_class(data?.commande.totalPrice)}}" >
+            <div class="flex-grow-1"> <span>{{data?.Restaurant?.nom}}</span>
+                <h5>Prix de la commande : {{data?.commande.totalPrice}} €</h5>
+                <h6>Client : {{data?.client.nom}} {{data?.client.prenom}}</h6>
+                <h6 *ngIf="data?.livreur">Livreur : {{data?.livreur?.nom}} {{data?.livreur?.prenom}}</h6>
+            </div>
+            <div class="flex-shrink-0"> {{data.date_livraison | date:'dd/MM/yyyy HH:mm'}}</div>
+        </li>
+    }
 </ul>

@@ -10,7 +10,7 @@ import { ClickOutsideDirective } from '../../../../shared/directives/outside.dir
 
 @Component({
   selector: 'app-schedule-time',
-  imports: [Monday, CommonModule, NgClass,],
+  imports: [Monday,Tuesday, CommonModule, NgClass,],
   templateUrl: './schedule-time.html',
   styleUrl: './schedule-time.scss',
 })

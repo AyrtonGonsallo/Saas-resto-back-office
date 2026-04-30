@@ -403,7 +403,7 @@ minDate: NgbDateStruct;
     let champs: string[] = [];
 
     switch (num_etape) {
-      case 1:
+      case 2:
         champs = ['nom', 'prenom', 'email', 'telephone'];
         break;
 
@@ -411,7 +411,7 @@ minDate: NgbDateStruct;
         return true
         break;
 
-      case 2:
+      case 1:
         champs = [
           'date_reservation',
           'heure_reservation',

@@ -1,4 +1,4 @@
-<div class="card invest-card" (clickOutside)="clickOutside()">
+<div *ngIf="canViewAdminBlocks()"  class="card invest-card" (clickOutside)="clickOutside()">
   <div class="card-header">
     <h4>Chiffre d'affaire par restaurants</h4>
     <div class="dropdown icon-dropdown">
@@ -32,15 +32,11 @@
     <ul>
       <li>
         <h5>Total</h5>
-        <h6>$ 34,4562</h6>
+        <h6>{{totalGlobal}} €</h6>
       </li>
       <li>
         <h5>Monthly</h5>
-        <h6>$ 12,463</h6>
-      </li>
-      <li>
-        <h5>Daily</h5>
-        <h6>$ 5000</h6>
+        <h6>{{totalGlobal}} €</h6>
       </li>
     </ul>
     }
