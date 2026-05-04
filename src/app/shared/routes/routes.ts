@@ -287,7 +287,7 @@ export const dashData: Routes = [
     data: {
       title: 'livraisons',
       breadcrumb: 'Livraisons',
-      roles: ['super-admin','gestionnaire-societe','admin','gestionnaire-restaurant','lecteur-planning','lecteur-cuisine','employé','livreur']
+      roles: ['super-admin','gestionnaire-societe','admin','gestionnaire-restaurant','lecteur-planning','lecteur-cuisine','employé','livreur','client']
     },
     canActivate: [RoleGuard],
     loadChildren: () => import('../../pages/livraisons/livraisons.routes').then(r => r.LivraisonsRoutes),

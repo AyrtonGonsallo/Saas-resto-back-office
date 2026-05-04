@@ -99,8 +99,8 @@ export class ModifierLivraison {
           date_livraison.getUTCFullYear(),
           date_livraison.getUTCMonth(),
           date_livraison.getUTCDate(),
-          date_livraison.getUTCHours(),
-          date_livraison.getUTCMinutes()
+          date_livraison.getHours(),
+          date_livraison.getMinutes()
         );
 
         console.log("localDateLivraison",localDateLivraison)

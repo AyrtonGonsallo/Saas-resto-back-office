@@ -287,7 +287,7 @@ export class NavmenuService {
       path: '/livraisons/liste-livraisons',
       custom_icon_class: '<i class="fas fa-truck"></i>', 
       icon: 'order-product',
-      roles: [  'super-admin','admin', 'gestionnaire-restaurant', 'gestionnaire-societe', 'lecteur-planning', 'lecteur-cuisine','employé','livreur'   ],
+      roles: [  'super-admin','admin', 'gestionnaire-restaurant', 'gestionnaire-societe', 'lecteur-planning', 'lecteur-cuisine','employé','livreur','client'   ],
       active: false,
     },
     {

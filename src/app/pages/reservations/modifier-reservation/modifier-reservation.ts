@@ -171,8 +171,8 @@ export class ModifierReservation {
           date_reservation.getUTCFullYear(),
           date_reservation.getUTCMonth(),
           date_reservation.getUTCDate(),
-          date_reservation.getUTCHours(),
-          date_reservation.getUTCMinutes()
+          date_reservation.getHours(),
+          date_reservation.getMinutes()
         );
 
         console.log("localDateReservation",localDateReservation)

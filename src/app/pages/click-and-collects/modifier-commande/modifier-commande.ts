@@ -149,8 +149,8 @@ export class ModifierCommande {
           date_retrait.getUTCFullYear(),
           date_retrait.getUTCMonth(),
           date_retrait.getUTCDate(),
-          date_retrait.getUTCHours(),
-          date_retrait.getUTCMinutes()
+          date_retrait.getHours(),
+          date_retrait.getMinutes()
         );
 
         console.log("localDateReservation",localDateReservation)

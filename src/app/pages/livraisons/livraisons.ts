@@ -83,8 +83,6 @@ export class Livraisons {
   const restaurant_id = this.restaurantService.getRestaurant();
   const user = this.restaurantService.getUser();
 
-  const livreur_id = user?.datas?.id;
-  const priorite = user?.datas?.Role?.priorite;
 
   console.log("restaurant_id", restaurant_id);
   console.log("user", user);
@@ -94,15 +92,12 @@ export class Livraisons {
 
       let filtered = res;
 
-      // SI LIVREUR 
-      if (priorite === 9) {
-        filtered = res.filter((l: any) => l.livreur_id === livreur_id);
-      }
+     
 
       this.livraisons = filtered;
       this.service.setData(filtered);
 
-      console.log("livraisons affichées", this.livraisons);
+      console.log("livraisons affichées", filtered);
     },
     error: (err) => {
       this.notificationsService.error(
