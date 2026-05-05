@@ -49,29 +49,37 @@
         width: 100%;
     }
     .steps {
-        justify-content: center;
         top: 1px;
         flex-wrap: wrap;
         gap: 15px;
         align-content: center;
-        flex-direction: column;
         align-items: center;
-    }
-    .progress-number .progress-wrapper {
-        height: 153px;
     }
     .progress-container {
         display: flex;
         justify-content: center;   /* centre horizontalement */
         align-items: center;       /* centre verticalement */
-        height: 100vh;             /* prend toute la hauteur écran */
-    }
-
-    .progress {             /* responsive */
-        transform: translate(0px, 90px) rotate(90deg); /* retourne la barre */
+                     /* prend toute la hauteur écran */
     }
 }
 
 .login-card {
     background: transparent;
+}
+
+@media (min-width: 680px) {
+    .steps button span.mobile{
+       display: none;
+    }
+    .steps button span.desktop{
+       display: block;
+    }
+}
+@media (max-width: 680px) {
+    .steps button span.mobile{
+       display: block;
+    }
+    .steps button span.desktop{
+       display: none;
+    }
 }
