@@ -82,4 +82,13 @@
     .steps button span.desktop{
        display: none;
     }
+     .btns-action-grid{
+        gap: 15px;
+        width: fit-content;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .login-card .login-main {
+        padding: 0;
+    }
 }

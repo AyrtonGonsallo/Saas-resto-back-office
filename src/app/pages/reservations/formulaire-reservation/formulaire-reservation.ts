@@ -510,7 +510,7 @@ minDate: NgbDateStruct;
 
   copyFunction(txt: string) {
     navigator.clipboard.writeText(txt);
-    alert('Copied');
+    alert('lien de paiement copié !');
   }
  
 

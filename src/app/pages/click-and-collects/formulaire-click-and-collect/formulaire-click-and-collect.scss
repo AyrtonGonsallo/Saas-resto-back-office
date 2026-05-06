@@ -144,4 +144,16 @@ input[type="number"]::-webkit-inner-spin-button {
     .steps button span.desktop{
        display: none;
     }
+    .btns-action-grid{
+        gap: 15px;
+        width: fit-content;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .animated-badge .d-flex-end {
+        width: 90%;
+    }
+    .login-card .login-main {
+        padding: 0;
+    }
 }
