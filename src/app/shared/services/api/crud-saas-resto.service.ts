@@ -207,6 +207,14 @@ export class CrudSaasRestoService {
     return this.http.get<any[]>(url);
   }
 
+  getLowsMenus(restaurantId:number | null): Observable<any[]> {
+    let url = `${environment.apiUrl}/get_low_stocks_menus`;
+    if (restaurantId) {
+      url += `?restaurant_id=${restaurantId}`;
+    }
+    return this.http.get<any[]>(url);
+  }
+
   getLowsVariationsProduits(restaurantId:number | null): Observable<any[]> {
     let url = `${environment.apiUrl}/get_low_variations_produit`;
     if (restaurantId) {

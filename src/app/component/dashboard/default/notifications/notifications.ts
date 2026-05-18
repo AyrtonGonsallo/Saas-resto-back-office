@@ -37,6 +37,7 @@ export class Notifications {
   notifications:any
   low_produits:any
   low_variations:any
+  low_menus:any
 
 
   get_all_datas(){
@@ -70,7 +71,17 @@ export class Notifications {
         console.log("variations basses",this.low_variations)
       },
       error: (err) => {
-        this.notificationsService.error("Erreur lors de la récupération des produits","Echec")
+        this.notificationsService.error("Erreur lors de la récupération des variations","Echec")
+      }
+    });
+
+    this.crudSaasService.getLowsMenus(restaurant_id).subscribe({
+      next: (res) => {
+        this.low_menus = (res.slice(0,9));
+        console.log("menus bass",this.low_menus)
+      },
+      error: (err) => {
+        this.notificationsService.error("Erreur lors de la récupération des menus","Echec")
       }
     });
   }
