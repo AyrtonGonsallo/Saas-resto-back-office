@@ -82,16 +82,6 @@
                 </div>
             </div>
 
-            <div class="col-sm-12 col-md-12">
-                <div class="mb-3">
-                    <label class="form-label">Tags </label>
-                    <ng-select [items]="tags" bindLabel="titre" bindValue="id" [multiple]="true" placeholder="choisir des tags"
-                        formControlName="tags" />
-                    <div *ngIf="formData.get('tags')?.touched && formData.get('tags')?.invalid" class="text-danger">
-                        Les tags sont requis
-                    </div>
-                </div>
-            </div>
             
             <div class="col-md-12">
                 <div class="mb-3">
@@ -111,17 +101,24 @@
                     </div>
                 </div>
             </div>
-            <div class="col-sm-12 col-md-12">
-                <div class="mb-3">
-                    <label class="form-label">Notes</label>
-                    <angular-editor [placeholder]="'Vos notes...'" formControlName="notes"  />
-                </div>
-            </div>
+
+            
 
             <div class="col-sm-12 col-md-12">
                 <div class="mb-3">
-                    <label class="form-label">Demandes spéciales</label>
-                    <angular-editor [placeholder]="'Vos demandes...'" formControlName="demandes_speciales"  />
+                    <label class="form-label">Demandes spéciales </label>
+                    <ng-select [items]="tags" bindLabel="titre" bindValue="id" [multiple]="true" placeholder="choisir des tags"
+                        formControlName="tags" />
+                    <div *ngIf="formData.get('tags')?.touched && formData.get('tags')?.invalid" class="text-danger">
+                        Les demandes spéciales sont requises
+                    </div>
+                </div>
+            </div>
+
+             <div class="col-sm-12 col-md-12">
+                <div class="mb-3">
+                    <label class="form-label">Commentaire</label>
+                    <angular-editor [placeholder]="'Commentaire...'" formControlName="notes"  />
                 </div>
             </div>
 

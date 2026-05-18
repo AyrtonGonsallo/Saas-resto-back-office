@@ -25,7 +25,33 @@ export class PanierService {
             quantite: form.quantite,
             prix_ht: parseFloat(form.prix_ht),
             tva: parseFloat(form.tva),
-            variations: []
+            variations: [],
+            type:'produit'
+            });
+        }
+
+        this.savePanier();
+        return true
+    }
+
+     ajouter_menu(menu: any, form: any) {
+
+        const menuId = menu.id;
+
+        const existing = this.panier.find(p =>
+            p.menuId === menuId && p.variations.length === 0
+        );
+
+        if (existing) {
+            existing.quantite = form.quantite;
+        } else {
+            this.panier.push({
+            menuId:menuId,
+            titre: form.titre,
+            quantite: form.quantite,
+            prix_ht: parseFloat(form.prix_ht),
+            tva: parseFloat(form.tva),
+            type:'menu'
             });
         }
 
@@ -63,7 +89,8 @@ export class PanierService {
             quantite: form.quantite,
             prix_ht: parseFloat(form.prix_ht),
             tva: parseFloat(form.tva),
-            variations
+            variations,
+            type:'variation-produit'
         };
 
         // trouver index au lieu de find
@@ -96,10 +123,26 @@ export class PanierService {
 
     retirer_produit(productId: number) {
 
-        console.log('retrait de ', productId);
+        console.log('retrait du produit ', productId);
 
         const index = this.panier.findIndex(p =>
             p.productId === productId 
+        );
+
+        if (index !== -1) {
+            this.panier.splice(index, 1);
+        }
+
+        this.savePanier();
+        return true
+    }
+
+    retirer_menu(menuId: number) {
+
+        console.log('retrait du menu ', menuId);
+
+        const index = this.panier.findIndex(p =>
+            p.menuId === menuId 
         );
 
         if (index !== -1) {
@@ -123,6 +166,16 @@ export class PanierService {
 
         return this.panier.some(p =>
             p.productId === productId 
+        );
+
+    }
+
+    isMenuDansPanier(menuId: number): boolean {
+       
+
+        return this.panier.some(p =>
+            p.menuId === menuId 
+            
         );
 
     }

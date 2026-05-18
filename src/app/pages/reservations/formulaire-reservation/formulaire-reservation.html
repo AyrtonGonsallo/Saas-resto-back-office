@@ -41,7 +41,17 @@
                                 </div>
                             </div>
 
-                            <div class="card">
+                             <div class="row btns-action-grid">
+                                <div class="col-auto">
+                                    <a class="btn btn-primary btn-block w-100 text-white" (click)="prec()">{{button_prec_text}}</a>
+                                </div>
+                                <div class="col-auto ms-auto">
+                                    <a class="btn btn-primary btn-block w-100 text-white" (click)="next()">{{button_suiv_text}}</a>
+                                </div>
+                            </div>
+
+
+                            <div class="card mt-3">
                                 
                                 <div class="card-body">
                                     <div *ngIf="current_step==2">
@@ -107,6 +117,7 @@
                                                         #d="ngbDatepicker"
                                                         (click)="d.toggle()"
                                                         [minDate]="minDate"
+                                                        [markDisabled]="isDateDisabled"
                                                         />
                                                     </div>
                                                     <div *ngIf="formData.get('date_reservation')?.touched && formData.get('date_reservation')?.invalid" class="text-danger">
@@ -114,16 +125,7 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="col-sm-12 col-md-12">
-                                                    <div class="mb-3">
-                                                        <label class="form-label">Service <span class="text-danger">*</span></label>
-                                                        <ng-select [items]="services" bindLabel="type" bindValue="id" [multiple]="false" placeholder="choisir un service"
-                                                            formControlName="service_id" />
-                                                        <div *ngIf="formData.get('service_id')?.touched && formData.get('service_id')?.invalid" class="text-danger">
-                                                            Le service est requis
-                                                        </div>
-                                                    </div>
-                                                </div>
+                              
                                                 <div class="col-sm-12 col-md-12">
                                                     <div class="mb-3">
                                                         <label class="form-label">Créneau <span class="text-danger">*</span></label>
@@ -179,17 +181,6 @@
                                                 </div>
                                             </div>
                                         </div>
-
-                                        <div class="col-sm-12 col-md-12">
-                                            <div class="mb-3">
-                                                <label class="form-label">Tags </label>
-                                                <ng-select [items]="tags" bindLabel="titre" bindValue="id" [multiple]="true" placeholder="choisir des tags"
-                                                    formControlName="tags" />
-                                                <div *ngIf="formData.get('tags')?.touched && formData.get('tags')?.invalid" class="text-danger">
-                                                    Les tags sont requis
-                                                </div>
-                                            </div>
-                                        </div>
                                         
                                         <div class="col-md-12">
                                             <div class="mb-3">
@@ -215,19 +206,31 @@
                                                 </div>
                                             </div>
                                         </div>
+
                                         <div class="col-sm-12 col-md-12">
                                             <div class="mb-3">
-                                                <label class="form-label">Notes</label>
-                                                <textarea class="form-control" formControlName="notes" rows="3"></textarea>
+                                                <label class="form-label">Demandes spéciales </label>
+                                                <ng-select [items]="tags" bindLabel="titre" bindValue="id" [multiple]="true" placeholder="choisir des demandes spéciales"
+                                                    formControlName="tags" />
+                                                <div *ngIf="formData.get('tags')?.touched && formData.get('tags')?.invalid" class="text-danger">
+                                                    Les demandes spéciales sont requises
+                                                </div>
                                             </div>
                                         </div>
 
                                         <div class="col-sm-12 col-md-12">
                                             <div class="mb-3">
+                                                <label class="form-label">Commentaire</label>
+                                                <textarea class="form-control" formControlName="notes" rows="3"></textarea>
+                                            </div>
+                                        </div>
+
+                                      <!--   <div class="col-sm-12 col-md-12">
+                                            <div class="mb-3">
                                                 <label class="form-label">Demandes spéciales</label>
                                                 <textarea class="form-control" formControlName="demandes_speciales" rows="3"></textarea>
                                             </div>
-                                        </div>
+                                        </div> -->
                                         
                                         
                                     </div>
@@ -237,11 +240,11 @@
                                         <h4 class="card-title mb-0" *ngIf="paymentRestoActive && urlPayment">Paiement</h4>
                                         <div *ngIf="paymentRestoActive && urlPayment">
                                             <div class="clipboaard-container">
-                                                <p class="card-description">Cliquez sur le bouton ci-dessous pour copier le lien du Paiement à faire pour confirmer la reservation : </p>
+                                                <p class="card-description">Cliquez sur le bouton ci-dessous pour procéder au paiement en ligne afin de confirmer la réservation </p>
                                                
                                                 <div class="mt-3 text-end">
-                                                    <button class="btn btn-info btn-clipboard" type="button" (click)="copyFunction(urlPayment)">
-                                                        <i class="fa fa-copy"></i> Copier le lien
+                                                    <button class="btn btn-info btn-clipboard" type="button" (click)="openPayment(urlPayment)">
+                                                       <!-- <i class="fa fa-copy"></i> --> Payer maintenant
                                                     </button>
                                                 </div>
                                             </div>
@@ -262,20 +265,24 @@
                                         <div *ngIf="final_reservation">
                                             
                                             <h5>Votre réservation a bien été enregistrée</h5>
-                                            ID : {{final_reservation.id}}<br>
-                                            Date de la réservation:{{final_reservation.date_reservation |  date:'dd/MM/yyyy HH:mm' }}<br>
+                                            Date de la réservation : {{final_reservation.date_reservation |  date:'EEEE d MMMM y à HH\'h\'mm' }}<br>
+                                            Table : {{final_reservation.table.nb_places}} personnes, {{final_reservation.table.ZoneTable.titre}}<br>
                                             Nombre de personnes : {{final_reservation.nombre_de_personnes}}<br>
                                             Nombre de couverts : {{final_reservation.nb_couverts}}<br>
-                                            Note : {{final_reservation.notes}}<br>
-                                            Demandes spéciales : {{final_reservation.demandes_speciales}}<br>
                                             Client : {{final_reservation.client.prenom}} {{final_reservation.client.nom}}<br>
-                                            Table : {{final_reservation.table.numero}}<br>
                                             Créneau : {{final_reservation.creneau.heure_debut}} - {{final_reservation.creneau.heure_fin}}<br>
-                                            Service : {{final_reservation.service.type}}<br>
-                                            Tags : 
+                                            Demandes spéciales : 
                                             <span *ngFor="let tag of final_reservation.tags; let i = index">
                                             {{ tag.titre }}<span *ngIf="i < final_reservation.tags.length - 1">, </span>
-                                            </span><br>
+                                            </span>
+                                            <span *ngIf="!final_reservation.tags.length">
+                                            non
+                                            </span>
+                                            <br>
+                                            <span *ngIf="final_reservation.notes">
+                                            Commentaire : {{final_reservation.notes}}
+                                            </span>
+                                            <br>
 
                                         </div>
                                         
@@ -286,10 +293,10 @@
 
 
                             <div class="row btns-action-grid">
-                                <div class="col-sm-3 col-md-3 col-12">
+                                <div class="col-auto">
                                     <a class="btn btn-primary btn-block w-100 text-white" (click)="prec()">{{button_prec_text}}</a>
                                 </div>
-                                <div class="col-sm-3 col-md-3 col-12">
+                                <div class="col-auto ms-auto">
                                     <a class="btn btn-primary btn-block w-100 text-white" (click)="next()">{{button_suiv_text}}</a>
                                 </div>
                             </div>

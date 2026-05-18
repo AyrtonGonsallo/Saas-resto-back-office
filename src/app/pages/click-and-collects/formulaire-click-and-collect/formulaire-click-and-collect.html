@@ -18,16 +18,13 @@
                             <p class="text-center">Entrez les informations suivantes</p>
                            
                           
-                                <div class="animated-badge" *ngIf="total_elements_panier>0">
+                                <div class="animated-badge" *ngIf="total_elements_panier>0" >
                                     <ul class="d-flex-end">
                                         <li class="bg-common-primary"><span class="dote-primary">{{total_elements_panier}}</span>
                                             <i class="fa-solid fa-cart-arrow-down"></i>
                                         </li>
                                     </ul>
                                 </div>
-                           
-
-
                             <div class="card">
                                 
                                 <div class="card-body">
@@ -41,17 +38,25 @@
 
                                         <div class="steps">
                                             <button [ngClass]="stepClass(1)"><span class="desktop">Restaurant</span><span class="mobile">1</span></button>
-                                            <button [ngClass]="stepClass(2)"><span class="desktop">Menus</span><span class="mobile">2</span></button>
-                                            <button [ngClass]="stepClass(3)"><span class="desktop">Produits</span><span class="mobile">3</span></button>
-                                            <button [ngClass]="stepClass(4)"><span class="desktop">Commande</span><span class="mobile">4</span></button>
-                                            <button [ngClass]="stepClass(5)"><span class="desktop">Récap</span><span class="mobile">5</span></button>
+                                            <button [ngClass]="stepClass(2)"><span class="desktop">Produits</span><span class="mobile">3</span></button>
+                                            <button [ngClass]="stepClass(3)"><span class="desktop">Commande</span><span class="mobile">4</span></button>
+                                            <button [ngClass]="stepClass(4)"><span class="desktop">Récap</span><span class="mobile">5</span></button>
                                         </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="card">
+                            <div class="d-flex justify-content-between">
+                                <div class="col-auto " *ngIf="current_step>1">
+                                    <a class="btn btn-primary btn-block w-100 text-white" (click)="prec()">{{button_prec_text}}</a>
+                                </div>
+                                <div class="col-auto ms-auto" *ngIf="current_step>1">
+                                    <a class="btn btn-primary btn-block w-100 text-white" (click)="next()">{{button_suiv_text}}</a>
+                                </div>
+                            </div>
+
+                            <div class="card mt-3">
                                 
                                 <div class="card-body">
                                     
@@ -59,10 +64,10 @@
                                         
                                         <h2 class="card-title mb-4">Restaurant</h2>
 
-                                        <div class="input-group mb-3 flex-nowrap">
+                                      <!--  <div class="input-group mb-3 flex-nowrap">
                                             <input class="form-control-plaintext recherche-resto" type="search" placeholder="Rechercher.." [(ngModel)]="search_term" (input)="recherche()"><span
                                                 class="btn bg-primary input-group-text"><i class="fa fa-magnifying-glass"></i></span>
-                                        </div>
+                                        </div>-->
 
                                         <div class="row">
                                             @for( restaurant of restaurants; track restaurant){
@@ -78,7 +83,7 @@
                                                             <h5 class="text-center ms-2 me-2">{{ restaurant.nom}}</h5>
                                                             
                                                             
-                                                            <div class="form-check ps-0 main-icon-checkbox">
+                                                          <!-- <div class="form-check ps-0 main-icon-checkbox">
                                                                 <ul class="checkbox-wrapper nogap mt-3">
                                                                     <li class="little-tags">
                                                                         <label class="form-check-label">
@@ -93,8 +98,8 @@
                                                                         </li>
                                                                     }
                                                                 </ul>
-                                                            </div>
-                                                        </div>
+                                                            </div> --> 
+                                                        </div> 
                                                         <div class="card-footer">
                                                             <a class="btn btn-primary btn-block w-100 text-white" (click)="choisirRestaurant(restaurant.id)">Commander</a>
                                                         </div>
@@ -104,45 +109,33 @@
                                         </div>
                                     </div>
 
+
                                     <div *ngIf="current_step==2">
-                                        <h2 class="card-title mb-4">Menus</h2>
-
-                                        <div class="row">
-                                            @for( menu of menus; track menu){
-                                                <div class="col-xxl-4 col-md-4 box-col-6">
-                                                    <div class="card features-faq product-box restaurant-box">
-                                                        <div class="faq-image product-img">
-                                                            <img class="img-fluid" [src]="imagesUrl+menu.image" alt="img">
-                                                            <div class="product-hover">
-                                                                
-                                                            </div>
-                                                        </div>
-                                                        <div class="card-body ps-2 pe-2">
-                                                            <h5 class="text-center ms-2 me-2">{{ menu.titre}}</h5>
-                                                            <p class="text-center ms-2 me-2">{{ menu.type}}</p>
-                                                            <div [innerHTML]="cut_description(menu.description)" class="text-center ms-2 me-2"></div>
-                                                        </div>
-                                                        <div class="card-footer">
-                                                            <a class="btn btn-primary btn-block w-100 text-white" (click)="choisirMenu(menu.id)">Voir les produits</a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            }
+                                       <!-- <h2 class="card-title mb-0">Produits</h2> -->
+                                        <div class="bg-white py-2  mb-3 shadow-sm">
+                                         <div class="d-flex gap-2 overflow-auto justify-content-center align-items-center">
+                                           @for (group of produits_groupes_par_cat; track group) {   
+                                            <button class="btn btn-sm btn-outline-primary rounded-pill flex-shrink-0" (click)="scrollToCategory(group.categorie.id)">
+                                              {{ group.categorie.titre }}
+                                            </button>
+                                             }
+                                             @if( menus){
+                                                <button class="btn btn-sm btn-outline-primary rounded-pill flex-shrink-0" (click)="scrollToCategory(-1)">
+                                                    Menus et offres spéciales
+                                                </button>
+                                             }
+                                          </div>
                                         </div>
-                                        
-                                    </div>
-
-                                    <div *ngIf="current_step==3">
-                                        <h2 class="card-title mb-0">Produits</h2>
                                         @for( group of produits_groupes_par_cat; track group){
-                                            <h3 class="mt-4 mb-3">{{group.categorie.titre}}</h3>
+                                            <h3 class="mt-4 mb-3" [id]="'cat-' + group.categorie.id">{{group.categorie.titre}}</h3>
                                             <div class="row">
                                                 @for( produit of group.produits; track produit){
                                                 <div class="col-xxl-4 col-md-4 box-col-6">
-                                                    <div class="card card-absolute features-faq  restaurant-box">
-                                                        <div class="card-header bg-info" *ngIf="is_product_in_cart(produit.id)">
-                                                            Ajouté au panier
-                                                        </div>
+                                                    <div class="card card-absolute features-faq  restaurant-box">        
+                                                     <div class="card-header d-flex align-items-center justify-content-center gap-2 text-white bg-info animate__animated animate__fadeIn" *ngIf="is_product_in_cart(produit.id)">
+                                                       <i class="fa fa-check-circle"></i>
+                                                         Ajouté au panier
+                                                    </div>
                                                         <div class="faq-image product-img">
                                                             <img class="img-fluid" [src]="imagesUrl+produit.image" alt="img">
                                                             <div class="product-hover">
@@ -156,15 +149,13 @@
                                                         </div>
                                                         <div class="card-footer">
                                                             
-                                                            <div *ngIf="!(produit.variations.length>0)" >
-                                                                <button class="btn btn-primary px-xl-2 px-xxl-3 mb-3 me-3" type="button" (click)="ouvrirAjouterProduitModal(ajouterProduitTemplate,produit)">Ajouter +</button>
-                                                                <button *ngIf="is_product_in_cart(produit.id)" class="btn btn-danger px-xl-2 px-xxl-3" type="button" (click)="retirer_produit(produit.id)">Retirer</button>
-
+                                                           <div *ngIf="!(produit.variations.length > 0)" class="d-flex gap-2 justify-content-center align-items-center flex-wrap" >
+                                                             <button class="btn btn-primary flex-fill d-flex align-items-center justify-content-center" type="button" (click)="ouvrirAjouterProduitModal(ajouterProduitTemplate, produit)">Ajouter</button>
+                                                             <button *ngIf="is_product_in_cart(produit.id)" class="btn btn-outline-danger flex-fill d-flex align-items-center justify-content-center" type="button" (click)="retirer_produit(produit.id)">Retirer</button>
                                                             </div>
-                                                            <div *ngIf="(produit.variations.length>0)">
-                                                                <button class="btn btn-secondary px-xl-2 px-xxl-3 mb-3 me-3" type="button" (click)="ouvrirChoixVariationsModal(variationsChoiceTemplate,produit)">Choix des variations</button>
-                                                                <button *ngIf="is_product_in_cart(produit.id)" class="btn btn-danger px-xl-2 px-xxl-3" type="button" (click)="retirer_produit(produit.id)">Retirer</button>
-
+                                                            <div *ngIf="produit.variations.length > 0" class="d-flex gap-2 justify-content-center align-items-center flex-nowrap" >
+                                                              <button class="btn btn-secondary d-flex justify-content-center align-items-center" type="button" (click)="ouvrirChoixVariationsModal(variationsChoiceTemplate, produit)">Options</button>
+                                                              <button *ngIf="is_product_in_cart(produit.id)" class="btn btn-outline-danger d-flex justify-content-center align-items-center" type="button" (click)="retirer_produit(produit.id)">Retirer</button>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -172,10 +163,91 @@
                                                 }
                                             </div>
                                         }
-                                    </div>
 
-                                    <div *ngIf="current_step==4">
-                                        <h2 class="card-title mb-4">Commande</h2>
+                                        @if( menus){
+                                            <h3 class="mt-4 mb-3" id="cat--1">Menus et offres spéciales</h3>
+                                            <div class="row">
+                                                @for( menu of menus; track menu){
+                                                    <div class="col-xxl-4 col-md-4 box-col-6">
+                                                        <div class="card card-absolute features-faq  restaurant-box">    
+                                                              
+                                                        
+                                                        @if( menu.offre_promo){
+                                                             <div class="card-header d-flex align-items-center justify-content-center gap-2 text-white bg-tertiary animate__animated animate__fadeIn" >
+                                                                <i class="fa fa-down"></i>
+                                                                Offre spéciale
+                                                            </div>
+                                                        }  
+                                                        <div class="card-header d-flex align-items-center justify-content-center gap-2 text-white bg-info animate__animated animate__fadeIn" *ngIf="is_menu_in_cart(menu.id)">
+                                                            <i class="fa fa-check-circle"></i>
+                                                            Ajouté au panier
+                                                        </div>
+
+                                                            <div class="faq-image product-img">
+                                                                <img class="img-fluid" [src]="imagesUrl+menu.image" alt="img">
+                                                                <div class="product-hover">
+                                                                    
+                                                                </div>
+                                                            </div>
+                                                            <div class="card-body ps-2 pe-2">
+                                                                <h5 class="text-center ms-2 me-2">{{ menu.titre}}</h5>
+                                                                <div class="text-center ms-2 me-2 liste-plats-menu"  [innerHTML]="get_product_list(menu.produits)" ></div>
+                                                                @if (menu.offre_promo) {
+                                                                    <div class="text-center ms-2 me-2" >
+
+                                                                        <span style="text-decoration: line-through;">
+                                                                            Prix : {{ menu.prix_ht }} €
+                                                                        </span>
+                                                                    </div>
+                                                                    <div class="text-center ms-2 me-2" >Prix : <b>{{menu.prix_promo_ht}} €</b></div>
+
+                                                                } @else {
+                                                                    <div class="text-center ms-2 me-2" >Prix : <b>{{menu.prix_ht}} €</b></div>
+
+                                                                }
+                                                                <div [innerHTML]="cut_description(menu.description)" class="text-center ms-2 me-2"></div>
+                                                            </div>
+                                                            <div class="card-footer">
+                                                                
+                                                            <div class="d-flex gap-2 justify-content-center align-items-center flex-wrap" >
+                                                                <button class="btn btn-primary flex-fill d-flex align-items-center justify-content-center" type="button" (click)="ouvrirAjouterMenuModal(ajouterMenuTemplate, menu)">Ajouter</button>
+                                                                <button *ngIf="is_menu_in_cart(menu.id)" class="btn btn-outline-danger flex-fill d-flex align-items-center justify-content-center" type="button" (click)="retirer_menu(menu.id)">Retirer</button>
+                                                            </div>
+                                                                
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                }
+
+
+                                            </div>
+                                            
+                                        }
+                                    </div>
+                              
+                                    <div *ngIf="current_step==3">
+                                        <div class="card shadow-sm border">
+                                            <div class="card-header bg-white pb-1">
+                                                 <h5 class=" pb-1"><u>Produits commandés</u> </h5> </div>
+                                             <div class="card-body pt-2">
+
+                                              <div *ngIf="panierItems.length === 0"   class="text-center text-muted"> Votre panier est vide </div>
+                                                 <div *ngFor="let item of panierItems" class="py-1">
+                                                   <div class="d-flex justify-content-between">
+                                                     <div> {{ item.titre }}
+                                                     <span class="text-muted"> (x{{ item.quantite }})</span>
+                                                     </div>
+                                                   <div class="fw-bold"> {{ item.prix_ht }} € 
+                                                </div>  
+                                            </div>
+                                      </div>
+                                  </div>
+                                  <div class="card-footer bg-white d-flex justify-content-between">
+                                        <strong>Total</strong>
+                                        <strong>{{ totalPanier }} €</strong>
+                                      </div>
+                                  </div>
+                                       <!--- <h2 class="card-title mb-4">Commande</h2> -->
 
                                         <form class="theme-form" [formGroup]="formData">
 
@@ -211,7 +283,7 @@
 
                                             <div class="col-md-12">
                                                 <div class="mb-3">
-                                                <label class="form-label">Téléphone</label>
+                                                <label class="form-label">Téléphone <span class="text-danger">*</span></label>
                                                 <input class="form-control" type="text" formControlName="telephone" placeholder="Téléphone">
                                                 <div *ngIf="formData.get('telephone')?.touched && formData.get('telephone')?.invalid" class="text-danger">
                                                     Le téléphone est invalide
@@ -219,14 +291,15 @@
                                                 </div>
                                             </div>
 
-                                            <div class="col-sm-12 col-md-12">
-                                                <div class="mb-3">
-                                                    <label class="form-label">Adresse de livraison <span class="text-danger">*</span></label>
-                                                    <textarea class="form-control" formControlName="adresse_livraison" rows="3"></textarea>
-                                                </div>
-                                            </div>
-
-                                        
+                                            @if(livraisonRestoActive){
+                                                <div class="col-sm-12 col-md-12">
+                                                    <div class="mb-3">
+                                                        <label class="form-label">Adresse de livraison <span class="text-danger">*</span></label>
+                                                        <textarea class="form-control" formControlName="adresse_livraison" rows="3"></textarea>
+                                                    </div>
+                                                </div> 
+                                            }
+                                                
                                             <div class="date-picker">
                                                 <div class="mb-3 row g-3">
                                                     
@@ -244,6 +317,7 @@
                                                             #d="ngbDatepicker"
                                                             (click)="d.toggle()"
                                                             [minDate]="minDate"
+                                                            [markDisabled]="isDateDisabled"
                                                             />
                                                         </div>
                                                         <div *ngIf="formData.get('date_retrait')?.touched && formData.get('date_retrait')?.invalid" class="text-danger">
@@ -282,7 +356,7 @@
                                         
                                     </div>
                                    
-                                    <div *ngIf="current_step==5">
+                                    <div *ngIf="current_step==4">
                                         <h2 class="card-title mb-4" *ngIf="paymentRestoActive && urlPayment">Paiement</h2>
                                         <div *ngIf="paymentRestoActive && urlPayment">
                                             <div class="clipboaard-container">
@@ -299,15 +373,16 @@
                                             Le paiement d'un acompte n'est pas requis pour cette commande
                                         </div>
                                         <br><br>
+                                        
 
                                         <h2 class="card-title mb-4" *ngIf="final_commande">Récapitulatif</h2>
                                         <div *ngIf="final_commande">
                                             
                                             <h5>Votre commande a bien été enregistrée</h5>
 
-                                            ID : {{final_commande.id}}<br>
+                                           <!--  ID : {{final_commande.id}}<br>  -->
                                             Client : {{final_commande.client.prenom}} {{final_commande.client.nom}}<br>
-                                            Date de la réservation : {{final_commande.date_retrait |  date:'dd/MM/yyyy HH:mm'  }}<br>
+                                            Date de la commande : {{final_commande.date_retrait  | date:'EEEE d MMMM y \'à\' HH\'h\'mm':'':'fr' }}<br>
                                             Prix TTC : {{final_commande.totalPrice}} € <br>
                                             <div class="mt-5 mb-3">
                                                 <table class="table">
@@ -360,11 +435,11 @@
 
 
 
-                            <div class="row btns-action-grid">
-                                <div class="col-sm-3 col-md-3 col-12" *ngIf="current_step>1">
+                            <div class="d-flex justify-content-between">
+                                <div class="col-auto " *ngIf="current_step>1">
                                     <a class="btn btn-primary btn-block w-100 text-white" (click)="prec()">{{button_prec_text}}</a>
                                 </div>
-                                <div class="col-sm-3 col-md-3 col-12" *ngIf="current_step>2">
+                                <div class="col-auto ms-auto" *ngIf="current_step>1">
                                     <a class="btn btn-primary btn-block w-100 text-white" (click)="next()">{{button_suiv_text}}</a>
                                 </div>
                             </div>
@@ -434,6 +509,83 @@
     </div>
 </ng-template>
 
+
+
+<ng-template #ajouterMenuTemplate let-modal>
+    <div class="modal-content">
+        <div class="modal-body">
+            <div class="modal-toggle-wrapper">
+
+                <div class="card-body">
+                     @if( produitActuel.offre_promo){
+                    <span class="badge badge-tertiary pull-right">Promo</span>
+                     }
+                    <div class="flex-space flex-wrap align-items-center">
+                    <img class="tab-img" [src]="imagesUrl+produitActuel.image" alt="profile" />
+                    <p>
+                        <strong>Titre : </strong> {{produitActuel.titre}}<br />
+                        <strong>Type : </strong> {{produitActuel.type}}<br />
+                        @if (produitActuel.offre_promo) {
+                            <strong>Prix :</strong>
+                            <span style="text-decoration: line-through;">
+                                {{ produitActuel.prix_ht }} €
+                            </span>
+                            <br />
+
+                            <strong>Prix promo :</strong>
+                            {{ produitActuel.prix_promo_ht }} €
+                            <br />
+                        } @else {
+                            <strong>Prix :</strong>
+                            {{ produitActuel.prix_ht }} €
+                            <br />
+                        }
+                    </p>
+                    </div>
+                    
+                    <p class="mb-0" [innerHTML]="produitActuel.desc"></p>
+                </div>
+
+
+                <form [formGroup]="formMenu" (ngSubmit)="ajouter_menu()">
+
+                    <div class="row">
+                       
+                        <!-- Quantité -->
+                         <div class="col-4">
+                            <label class="form-label">Quantite</label>
+                        </div>
+                        <div class="col-8">
+                            <input
+                                class="form-control"
+                                type="number"
+                                formControlName="quantite"
+                                min="1"
+                                [max]="produitActuel.stock"
+                            />
+                        </div>
+                        <div *ngIf="formMenu.get('quantite')?.touched && formMenu.get('quantite')?.invalid" class="text-danger">
+                            La quantité est supérieure au stock actuel du produit
+                        </div>
+
+                    </div>
+
+                    <!-- bouton -->
+                    <button class="btn btn-primary" [disabled]="formMenu.invalid">
+                        Ajouter +
+                    </button>
+
+                </form>
+                
+                
+        
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+
+
 <ng-template #variationsChoiceTemplate let-modal>
     <div class="modal-content">
         <div class="modal-body">
@@ -459,7 +611,7 @@
                         <div class="col-12 mb-3">
                             <div class="card-wrapper solid-border rounded-3">
 
-                            <h5 class="mb-2">
+                            <h5 class="mb-2" >
                                 {{ group.categorie.titre }}
                                 <span class="text-danger" *ngIf="group.categorie.obligatoire">*</span>
                             </h5>

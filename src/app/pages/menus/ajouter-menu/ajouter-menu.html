@@ -85,6 +85,61 @@
                 </div>
             </div>
 
+
+            <div class="col-md-12">
+                <div class="mb-3">
+                <label class="form-label">Prix HT</label>
+                <input class="form-control" type="number" formControlName="prix_ht" placeholder="prix_ht">
+                <div *ngIf="formData.get('prix_ht')?.touched && formData.get('prix_ht')?.invalid" class="text-danger">
+                    Le prix_ht est invalide
+                </div>
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <div class="mb-3">
+                <label class="form-label">Prix promo HT</label>
+                <input class="form-control" type="number" formControlName="prix_promo_ht" placeholder="prix_promo_ht">
+                <div *ngIf="formData.get('prix_promo_ht')?.touched && formData.get('prix_promo_ht')?.invalid" class="text-danger">
+                    Le prix_promo_ht est invalide
+                </div>
+                </div>
+            </div>
+
+
+            <div class="col-md-12">
+                <div class="mb-3">
+                <label class="form-label">tva</label>
+                <input class="form-control" type="number" formControlName="tva" placeholder="tva">
+                <div *ngIf="formData.get('tva')?.touched && formData.get('tva')?.invalid" class="text-danger">
+                    Le tva est invalide
+                </div>
+                </div>
+            </div>
+
+
+            <div class="col-md-12">
+                <div class="mb-3">
+                    <label class="form-label">Stock</label>
+                    <input class="form-control" type="number" formControlName="stock" placeholder="stock">
+                    <div *ngIf="formData.get('stock')?.touched && formData.get('stock')?.invalid" class="text-danger">
+                        Le stock est invalide
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-12 col-md-12">
+                <div class="mb-3">
+                    <label class="form-label">Offre promo ? <span class="text-danger">*</span></label>
+                    <div>
+                         <label class="switch">
+                        <input type="checkbox" formControlName="offre_promo">
+                        <span class="switch-state"></span>
+                    </label>
+                    </div>
+                </div>
+            </div>
+
          
 
             <div class="col-sm-12 col-md-12">

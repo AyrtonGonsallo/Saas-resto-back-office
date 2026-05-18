@@ -117,6 +117,49 @@
                     L'heure est invalide
                 </div>
             </div>
+
+            <div class="col-sm-12 col-md-12">
+                <label class="form-label">Jours de fermeture</label>
+            </div>
+            
+            <div class="col-sm-12 col-md-12">
+
+
+                <div class="date-picker">
+                    <div class="input-group">
+
+                        <input
+                            class="form-control digits"
+                            placeholder="yyyy-mm-dd"
+                            ngbDatepicker
+                            #d="ngbDatepicker"
+                            (dateSelect)="addClosedDate($event)"
+                            (click)="d.toggle()"
+                            [minDate]="minDate"
+                             [markDisabled]="isDateDisabled"
+                        />
+
+                    </div>
+                </div>
+
+                <div class="mt-2">
+
+                    <span
+                        *ngFor="let date of formData.get('jours_de_fermeture')?.value; let i = index"
+                        class="badge bg-danger me-2"
+                    >
+                        {{ date }}
+
+                        <button
+                            type="button"
+                            class="btn-close btn-close-white ms-2"
+                            (click)="removeClosedDate(i)"
+                        ></button>
+                    </span>
+
+                </div>
+
+            </div>
                 
                 
                

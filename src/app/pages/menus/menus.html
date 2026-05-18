@@ -44,6 +44,11 @@
               <th scope="col" sortable="image" (sort)="onSort($event)">Image</th>
               <th scope="col">Nombre de produits</th>
               <th scope="col" sortable="est_actif" (sort)="onSort($event)">Actif</th>
+              <th scope="col" sortable="offre_promo" (sort)="onSort($event)">Offre spéciale</th>
+              <th scope="col" sortable="stock" (sort)="onSort($event)">Stock</th>
+              <th scope="col" sortable="prix_ht" (sort)="onSort($event)">Prix HT</th>
+              <th scope="col" sortable="prix_promo_ht" (sort)="onSort($event)">Prix Promo HT</th>
+              <th scope="col" sortable="tva" (sort)="onSort($event)">Tva</th>
               <th scope="col" sortable="restaurant_id" (sort)="onSort($event)">Restaurant</th>
               
               <th scope="col">Action</th>
@@ -77,6 +82,21 @@
               </td>
               <td>
                 <div [innerHTML]="getStatus(data.actif)"></div>
+              </td>
+              <td>
+                <div [innerHTML]="getStatus(data.offre_promo)"></div>
+              </td>
+               <td>
+                <ngb-highlight [result]="data.stock" [term]="service.searchTerm" />
+              </td>
+              <td>
+                <ngb-highlight [result]="data.prix_ht+' €'" [term]="service.searchTerm" />
+              </td>
+              <td>
+                <ngb-highlight [result]="data.prix_promo_ht+' €'" [term]="service.searchTerm" />
+              </td>
+              <td>
+                <ngb-highlight [result]="data.tva" [term]="service.searchTerm" />
               </td>
               <td>
                 <ngb-highlight [result]="data.Restaurant?.nom" [term]="service.searchTerm" />

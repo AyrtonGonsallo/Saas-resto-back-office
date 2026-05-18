@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { CrudSaasRestoService } from '../../../shared/services/api/crud-saas-resto.service';
 import { NotificationsService } from '../../../shared/services/notifications/notifications.service';
 import { CommonModule } from '@angular/common';
@@ -48,10 +48,54 @@ export class ModifierMenu {
       image: ['', ],
       description: ['', ],
       actif: [true, Validators.required],
+      offre_promo: [false, Validators.required],
+      prix_ht: [0, [this.minStrict(0)]],
+      prix_promo_ht: [0, [this.minStrict(0)]],
+      tva: [0, [this.minStrict(0)]],
+      stock: [0, [this.minStrict(0)]],
       liste_produits: [[], ],
       societe_id: [this.user.datas.societe_id, Validators.required],
       restaurant_id: [this.restaurant_id, Validators.required],
-    });
+    },
+      {validators: this.promoInferieurPrix()}
+    );
+
+    
+
+  }
+
+  promoInferieurPrix(): ValidatorFn {
+    return (group: AbstractControl): ValidationErrors | null => {
+      const prix = Number(group.get('prix_ht')?.value);
+      const promo = Number(group.get('prix_promo_ht')?.value);
+
+      if (isNaN(prix) || isNaN(promo)) return null;
+
+      return promo < prix ? null : { promoInvalid: true };
+    };
+  }
+
+  minStrict(min: number): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const value = Number(control.value);
+      if (isNaN(value)) return null;
+
+      return value > min ? null : { minStrict: true };
+    };
+  }
+  
+  calculerTotal(ids: number[]) {
+    let total = 0;
+
+    const selectionnes = this.allProduits.filter(p => ids.includes(p.id));
+
+    total = selectionnes.reduce((sum, p) => {
+      return sum + Number(p.prix_ht || 0);
+    }, 0);
+
+    console.log('TOTAL HT:', total);
+
+    this.formData.patchValue({ prix_ht: total });
   }
 
 
@@ -69,6 +113,11 @@ export class ModifierMenu {
     finalFormData.append('type', this.formData.value.type);
     finalFormData.append('description', this.formData.value.description);
     finalFormData.append('actif', this.formData.value.actif);
+    finalFormData.append('offre_promo', this.formData.value.offre_promo);
+    finalFormData.append('prix_ht', this.formData.value.prix_ht);
+    finalFormData.append('stock', this.formData.value.stock);
+    finalFormData.append('prix_promo_ht', this.formData.value.prix_promo_ht);
+    finalFormData.append('tva', this.formData.value.tva);
     finalFormData.append(
       'liste_produits',
       JSON.stringify(this.formData.value.liste_produits)
@@ -118,15 +167,15 @@ export class ModifierMenu {
     let restaurant_id = this.restaurantService.getRestaurant()
     this.crudSaasService.getProduits(restaurant_id).subscribe({
       next: (res) => {
-        this.allProduits = res.map((produit:any) => ({
+         this.allProduits = res.filter((p:any) =>
+          p.variations.length == 0
+        ).map((produit:any) => ({
           ...produit,
-          fullName: produit.categorie.titre + ' - ' + produit.titre + ' - ' + produit.Restaurant.nom
+          fullName: produit.categorie.titre + ' - ' + produit.titre + ' - ' + produit.prix_ht + '€ - ' + produit.Restaurant.nom
         }));
 
-        this.produits = res.map((produit:any) => ({
-          ...produit,
-          fullName: produit.categorie.titre + ' - ' + produit.titre + ' - ' + produit.Restaurant.nom
-        }));
+        this.produits = this.allProduits;
+
         console.log("produits",this.produits)
         this.load_data(this.data_id )
       },
@@ -264,27 +313,37 @@ export class ModifierMenu {
         this.produits = this.allProduits.filter(p =>
           p.restaurant_id === this.data.restaurant_id
         );
-      
 
-      
+       
 
         this.formData = this.fb.group({
           type: [this.data.type, Validators.required],
           titre: [this.data.titre, Validators.required],
           image: ['', ],
           description: [this.data.description, ],
+          offre_promo: [this.data.offre_promo, Validators.required],
+          prix_ht: [this.data.prix_ht, [this.minStrict(0)]],
+          prix_promo_ht: [this.data.prix_promo_ht, [this.minStrict(0)]],
+          tva: [this.data.tva, [this.minStrict(0)]],
           actif: [this.data.actif, Validators.required],
+          stock: [this.data.stock,[this.minStrict(0)]],
           liste_produits: [Array.isArray(this.data.produits) 
             ? this.data.produits.map((p:any) => p.id) 
             : [Validators.required]
           ],
           societe_id: [this.data.societe_id, Validators.required],
           restaurant_id: [this.data.restaurant_id, Validators.required],
+        },{
+          validators: this.promoInferieurPrix()
         });
 
          this.restaurants = this.allRestaurants.filter(cat =>
           cat.societe_id === this.data.societe_id
         );
+
+        this.formData.get('liste_produits')?.valueChanges.subscribe((ids: number[]) => {
+          this.calculerTotal(ids);
+        });
 
         this.formData.get('societe_id')?.valueChanges.subscribe((societeID) => {
 

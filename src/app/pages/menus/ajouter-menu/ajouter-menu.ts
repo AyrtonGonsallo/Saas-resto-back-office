@@ -42,9 +42,18 @@ export class AjouterMenu {
       image: ['', ],
       description: ['', ],
       actif: [true, Validators.required],
+       offre_promo: [false, Validators.required],
+      prix_ht: [0, ],
+      stock: [0],
+      prix_promo_ht: [0, ],
+      tva: [0, ],
       liste_produits: [[], ],
       societe_id: [this.user.datas.societe_id, Validators.required],
       restaurant_id: [this.restaurant_id, Validators.required],
+    });
+
+    this.formData.get('liste_produits')?.valueChanges.subscribe((ids: number[]) => {
+      this.calculerTotal(ids);
     });
 
     this.formData.get('societe_id')?.valueChanges.subscribe((societeID) => {
@@ -83,6 +92,21 @@ export class AjouterMenu {
   }
 
 
+  calculerTotal(ids: number[]) {
+    let total = 0;
+
+    const selectionnes = this.allProduits.filter(p => ids.includes(p.id));
+
+    total = selectionnes.reduce((sum, p) => {
+      return sum + Number(p.prix_ht || 0);
+    }, 0);
+
+    console.log('TOTAL HT:', total);
+
+    this.formData.patchValue({ prix_ht: total });
+  }
+
+
   onSubmit() {
     
     if (this.formData.invalid) {
@@ -97,6 +121,11 @@ export class AjouterMenu {
     finalFormData.append('type', this.formData.value.type);
     finalFormData.append('description', this.formData.value.description);
     finalFormData.append('actif', this.formData.value.actif);
+     finalFormData.append('offre_promo', this.formData.value.offre_promo);
+    finalFormData.append('prix_ht', this.formData.value.prix_ht);
+    finalFormData.append('stock', this.formData.value.stock);
+    finalFormData.append('prix_promo_ht', this.formData.value.prix_promo_ht);
+    finalFormData.append('tva', this.formData.value.tva);
     finalFormData.append(
       'liste_produits',
       JSON.stringify(this.formData.value.liste_produits)
@@ -178,15 +207,16 @@ export class AjouterMenu {
     let restaurant_id = this.restaurantService.getRestaurant()
     this.crudSaasService.getProduits(restaurant_id).subscribe({
       next: (res) => {
-        this.allProduits = res.map((produit:any) => ({
+
+       
+        this.allProduits = res.filter(p =>
+          p.variations.length == 0
+        ).map((produit:any) => ({
           ...produit,
-          fullName: produit.categorie.titre + ' - ' + produit.titre + ' - ' + produit.Restaurant.nom
+          fullName: produit.categorie.titre + ' - ' + produit.titre + ' - ' + produit.prix_ht + '€ - ' + produit.Restaurant.nom
         }));
 
-        this.produits = res.map((produit:any) => ({
-          ...produit,
-          fullName: produit.categorie.titre + ' - ' + produit.titre + ' - ' + produit.Restaurant.nom
-        }));
+        this.produits = this.allProduits;
         console.log("produits",this.produits)
       },
       error: (err) => {

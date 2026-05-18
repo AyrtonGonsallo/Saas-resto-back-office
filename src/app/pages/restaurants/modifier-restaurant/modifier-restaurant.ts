@@ -6,7 +6,7 @@ import { CommonModule } from '@angular/common';
 import Swal from 'sweetalert2';
 import { ActivatedRoute, Router, } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDateStruct, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { RestaurantService } from '../../../shared/services/user/user.service';
 import { environment } from '../../../environment';
 
@@ -22,12 +22,21 @@ export class ModifierRestaurant {
   public imagesUrl = environment.imagesUrl
   formData!: FormGroup;
   user:any;
+  minDate: NgbDateStruct;
   constructor(private route: ActivatedRoute,private fb: FormBuilder, private restaurantService: RestaurantService, private crudSaasService:CrudSaasRestoService, private notificationsService:NotificationsService,) {}
 
   data_id=0
 
 
   ngOnInit(): void {
+
+     const today = new Date();
+     this.minDate = {
+      year: today.getFullYear(),
+      month: today.getMonth() + 1,
+      day: today.getDate()
+    };
+
 
     this.data_id = parseInt(this.route.snapshot.paramMap.get('id')??'');
      this.load_data(this.data_id )
@@ -46,10 +55,47 @@ export class ModifierRestaurant {
       heure_fin: ['', [Validators.required, ]],
       heure_cc_debut: ['', [, ]],
       heure_cc_fin: ['', [, ]],
+      jours_de_fermeture: [[]],
       telephone: ['', [Validators.pattern(/^[0-9+\s\-()]{8,20}$/)]],
       societe_id: [0, Validators.required],
       utilisateur_id: [0, Validators.required],
     });
+  }
+
+
+  addClosedDate(date: any) {
+
+    const formatted =
+      `${date.year}-${String(date.month).padStart(2, '0')}-${String(date.day).padStart(2, '0')}`;
+
+      console.log("formatted",formatted)
+
+    const current =
+      this.formData.get('jours_de_fermeture')?.value || [];
+
+    // éviter doublons
+    if (!current.includes(formatted)) {
+
+      this.formData.get('jours_de_fermeture')?.setValue([
+        ...current,
+        formatted
+      ]);
+
+    }
+
+    console.log(
+      this.formData.get('jours_de_fermeture')?.value
+    );
+  }
+
+  removeClosedDate(index: number) {
+
+    const current =
+      [...this.formData.get('jours_de_fermeture')?.value];
+
+    current.splice(index, 1);
+
+    this.formData.get('jours_de_fermeture')?.setValue(current);
   }
 
 
@@ -122,6 +168,7 @@ export class ModifierRestaurant {
     finalFormData.append('heure_fin', this.formData.value.heure_fin);
     finalFormData.append('heure_cc_debut', this.formData.value.heure_cc_debut);
     finalFormData.append('heure_cc_fin', this.formData.value.heure_cc_fin);
+    finalFormData.append('jours_de_fermeture', this.formData.value.jours_de_fermeture);
     finalFormData.append('telephone', this.formData.value.telephone);
     finalFormData.append('societe_id', this.formData.value.societe_id);
 
@@ -235,6 +282,11 @@ export class ModifierRestaurant {
           heure_fin: [this.data.heure_fin, [Validators.required, ]],
           heure_cc_debut: [this.data.heure_cc_debut, [, ]],
           heure_cc_fin: [this.data.heure_cc_fin, [, ]],
+          jours_de_fermeture: [
+            this.data.jours_de_fermeture
+              ? JSON.parse(this.data.jours_de_fermeture)
+              : []
+          ],
           telephone: [this.data.telephone, [Validators.pattern(/^[0-9+\s\-()]{8,20}$/)]],
           societe_id: [this.data.societe_id, Validators.required],
           utilisateur_id: [this.data.utilisateur_id, Validators.required],
@@ -303,6 +355,15 @@ export class ModifierRestaurant {
   closeZoom() {
     this.isZoomed = false;
   }
+
+
+  isDateDisabled = (date: NgbDateStruct): boolean => {
+
+    const current =
+      `${date.year}-${String(date.month).padStart(2, '0')}-${String(date.day).padStart(2, '0')}`;
+
+    return this.formData.get('jours_de_fermeture')?.value.includes(current);
+  };
 
 
 }

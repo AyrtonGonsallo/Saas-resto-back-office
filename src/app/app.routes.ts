@@ -44,6 +44,17 @@ export const routes: Routes = [
     },
   },
   {
+  path: 'click-and-collects/formulaire-click-and-collect/:societe_id/:restaurant_id',
+    loadComponent: () =>
+      import('./pages/click-and-collects/formulaire-click-and-collect/formulaire-click-and-collect')
+        .then(m => m.FormulaireClickAndCollect),
+    data: {
+      title: 'Formulaire de click and collect',
+      breadcrumb: 'Formulaire de click and collect',
+      parentpath: 'commandes/liste-commandes'
+    },
+  },
+  {
     path: 'ajouter-avis/:type_id/:objet_id',
     loadComponent: () => import('./pages/avis/ajouter-avis/ajouter-avis').then(m => m.AjouterAvis),
     data: {

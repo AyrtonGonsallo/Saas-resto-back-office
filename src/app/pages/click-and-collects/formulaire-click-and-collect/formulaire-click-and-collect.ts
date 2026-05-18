@@ -34,9 +34,12 @@ export class FormulaireClickAndCollect {
   selectedRestaurant : any
   urlPayment = null
   paymentRestoActive = true
+  livraisonRestoActive = false
   minDate: NgbDateStruct;
   search_term = ''
   produits_groupes_par_cat : any[]
+  panierItems: any[] = [];
+  totalPanier: number = 0;
   
 
   constructor(private route: ActivatedRoute,private fb: FormBuilder, private crudSaasService:CrudSaasRestoService,private panierService:PanierService, private restaurantService: RestaurantService, private notificationsService:NotificationsService,) {}
@@ -53,6 +56,9 @@ export class FormulaireClickAndCollect {
       day: today.getDate()
     };
 
+    this.restaurantID = parseInt(this.route.snapshot.paramMap.get('restaurant_id')??'');
+   
+
     this.societe_id = parseInt(this.route.snapshot.paramMap.get('societe_id')??'');
     this.load_societe_data(this.societe_id )
     
@@ -61,7 +67,7 @@ export class FormulaireClickAndCollect {
       nom: ['', Validators.required], //etape 1
       prenom: ['', Validators.required], //etape 1
       email: ['', [Validators.required, Validators.email]], //etape 1
-      telephone: ['', [Validators.pattern(/^[0-9+\s\-()]{8,20}$/)]], //etape 1
+      telephone: ['', [Validators.required,Validators.pattern(/^[0-9+\s\-()]{8,20}$/)]], //etape 1
       adresse_livraison: [null, [Validators.required,]],
       date_retrait: [null, [Validators.required, ]], //etape 3
       heure_retrait: [null, [Validators.required, ]], //etape 3     
@@ -69,6 +75,8 @@ export class FormulaireClickAndCollect {
       restaurant_id: [null, Validators.required], //etape 2
       client_id: [null, ], //pas d'etape 
     });
+
+    this.refreshPanier();
 
  
     
@@ -78,23 +86,33 @@ export class FormulaireClickAndCollect {
 
   next(){
     let res = this.valider_formulaire_etape(this.current_step)
-    if(this.current_step<5 && res){
-      if(this.current_step==4){
+    if(this.current_step<4 && res){
+      if(this.current_step==3){
         this.onSubmit()
+        this.button_suiv_text = 'Terminer';
       }else{
-        this.progression+=25
+        this.progression+=33
         this.current_step++
 
       }
       
       console.log('this.current_step',this.current_step)
     }
+
+    else if (this.current_step == 4) {
+      window.location.reload();
+    }
+
     
   }
   prec(){
     if(this.current_step>1){
-      this.progression-=25
+      this.progression-=33
       this.current_step--
+    }
+
+    if(this.current_step < 4){
+      this.button_suiv_text = 'Suivant'
     }
     console.log("this.current_step",this.current_step)
   }
@@ -157,10 +175,26 @@ export class FormulaireClickAndCollect {
         p.type === 'etat_paiement_acompte_click_and_collect' &&
         p.est_actif 
       )
+      let paramlivraisonrestoactif=this.selectedRestaurant.parametres?.some((p:any) =>
+        p.type === 'livraison_click_and_collect' &&
+        p.est_actif 
+      )
     
     this.paymentRestoActive = (paramrestoactif )?true:false;
+    this.livraisonRestoActive = (paramlivraisonrestoactif )?true:false;
     console.log('this.selectedRestaurant',this.selectedRestaurant)
     console.log('this.paymentRestoActive',this.paymentRestoActive)
+    console.log('this.livraisonRestoActive',this.livraisonRestoActive)
+    
+    const adresseCtrl = this.formData.get('adresse_livraison');
+
+    if (this.livraisonRestoActive) {
+      adresseCtrl?.setValidators([Validators.required]);
+    } else {
+      adresseCtrl?.clearValidators();
+    }
+
+    adresseCtrl?.updateValueAndValidity();
 
     if (!restaurant_id) {
       this.menus = this.allMenus;
@@ -172,26 +206,31 @@ export class FormulaireClickAndCollect {
       );
 
     }
+
+    this.disabledDates = JSON.parse(this.selectedRestaurant.jours_de_fermeture)
+    console.log("this.disabledDates",this.disabledDates)
+
+ 
+    this.produits=this.allProduits.filter((produit:any) =>
+      produit.restaurant_id === this.restaurantID
+    );
+
+    this.menus=this.allMenus.filter((menu:any) =>
+      menu.restaurant_id === this.restaurantID
+    );
+
+    this.produits_groupes_par_cat = this.group_by_categorie(this.produits)
+    console.log("this.produits_groupes_par_cat",this.produits_groupes_par_cat)
+    console.log("this.menus",this.menus)
+
     this.next()
-
-  }
-
-
-  choisirMenu(menu_id:number){
-
-    this.menuID = menu_id
-    this.selectedMenu = this.menus.filter((m:any) =>
-      m.id === menu_id
-    )[0];
-   
-    console.log('this.selectedMenu',this.selectedMenu)
-    this.produits_groupes_par_cat = this.group_by_categorie(this.selectedMenu.produits)
-    console.log(this.produits_groupes_par_cat)
 
     
-    this.next()
 
   }
+
+
+ 
 
 
   produitActuel: any = null;
@@ -199,6 +238,7 @@ export class FormulaireClickAndCollect {
   quantite_produit_actuel = 1;
   formVariations!: FormGroup;
   formProduit!: FormGroup;
+    formMenu!: FormGroup;
   groups: any[] = [];
   total_elements_panier=0
 
@@ -233,7 +273,7 @@ export class FormulaireClickAndCollect {
 
   ouvrirAjouterProduitModal(ajouterProduitTemplate: TemplateRef<NgbModal>,produit:any) {
     let existant = this.panierService.getElementDatas(produit.id)
-    console.log('existant',existant)
+    console.log('produit existant',existant)
     this.quantite_produit_actuel = 1;
     this.produitActuel=produit
 
@@ -251,6 +291,27 @@ export class FormulaireClickAndCollect {
     
   }
 
+
+  ouvrirAjouterMenuModal(ajouterMenuTemplate: TemplateRef<NgbModal>,menu:any) {
+    let existant = this.panierService.getElementDatas(menu.id)
+    console.log('menu existant',existant)
+    this.quantite_produit_actuel = 1;
+    this.produitActuel=menu
+
+    const formControls: any = {};
+
+    formControls['quantite'] = [(existant)?existant.quantite:1, [Validators.required, Validators.min(1)]];
+    formControls['prix_ht'] = [(this.produitActuel.offre_promo)?this.produitActuel.prix_promo_ht:this.produitActuel.prix_ht,];
+    formControls['titre'] = [this.produitActuel.titre,];
+    formControls['tva'] = [this.produitActuel.tva,];
+
+    this.formMenu = this.fb.group(formControls);
+
+    
+    this.modalService.open(ajouterMenuTemplate);
+    
+  }
+
   ajouter_produit(){
     console.log('formProduit',this.formProduit.value);
     let res = this.panierService.ajouter_produit(this.produitActuel,this.formProduit.value)
@@ -264,6 +325,26 @@ export class FormulaireClickAndCollect {
         });
       setTimeout(() => {
       }, 1000);
+      this.refreshPanier(); 
+      this.modalService.dismissAll()
+    }
+   
+  }
+
+  ajouter_menu(){
+    console.log('formMenu',this.formMenu.value);
+    let res = this.panierService.ajouter_menu(this.produitActuel,this.formMenu.value)
+    this.total_elements_panier=this.panierService.getTotalElements()
+    if(res){
+       Swal.fire({
+          position: 'bottom-end',
+          icon: 'success',
+          title: 'Menu ajouté au panier',
+          showConfirmButton: false,
+        });
+      setTimeout(() => {
+      }, 1000);
+      this.refreshPanier(); 
       this.modalService.dismissAll()
     }
    
@@ -282,6 +363,7 @@ export class FormulaireClickAndCollect {
         });
       setTimeout(() => {
       }, 1000);
+      this.refreshPanier(); 
       this.modalService.dismissAll()
     }
   }
@@ -298,11 +380,32 @@ export class FormulaireClickAndCollect {
         });
       setTimeout(() => {
       }, 1000);
+      this.refreshPanier();
+    }
+  }
+
+  retirer_menu(pid:number){
+    let res = this.panierService.retirer_menu(pid)
+    this.total_elements_panier=this.panierService.getTotalElements()
+    if(res){
+       Swal.fire({
+          position: 'bottom-end',
+          icon: 'success',
+          title: 'Menu supprimé du panier',
+          showConfirmButton: false,
+        });
+      setTimeout(() => {
+      }, 1000);
+      this.refreshPanier();
     }
   }
 
   is_product_in_cart(pid:number){
     return this.panierService.isProduitDansPanier(pid)
+  }
+
+  is_menu_in_cart(pid:number){
+    return this.panierService.isMenuDansPanier(pid)
   }
 
   recherche() {
@@ -332,6 +435,8 @@ export class FormulaireClickAndCollect {
   societeData:any
   menus:any[]
   allMenus:any[]
+  produits:any[]
+  allProduits:any[]
 
 
   load_societe_data(id:number){
@@ -343,7 +448,11 @@ export class FormulaireClickAndCollect {
       
         this.set_all_restaurants(res.restaurants)//ereur La propriété 'restaurants' n'existe pas sur le type 'any[]'
         this.set_all_menus(res.menus)//ereur La propriété 'services' n'existe pas sur le type 'any[]'
+        this.set_all_produits(res.produits)
       
+         if(this.restaurantID){
+          this.choisirRestaurant(this.restaurantID)
+        }
       },
       error: (err) => {
         this.notificationsService.error("Erreur lors de la récupération","Echec")
@@ -378,7 +487,7 @@ export class FormulaireClickAndCollect {
         );
         this.restaurants = this.allRestaurants;
         console.log("getRestaurants",this.allRestaurants)
-      
+
   }
 
 
@@ -391,6 +500,17 @@ export class FormulaireClickAndCollect {
       menu.societe_id === this.societe_id
     );
     console.log("getMenus",this.allMenus)
+      
+  }
+
+  set_all_produits(res:any){
+    
+    this.allProduits=res.filter((produit:any) =>
+      produit.societe_id === this.societe_id
+    );
+    this.produits=this.allProduits;
+    
+    console.log("getProduits",this.allProduits)
       
   }
 
@@ -414,12 +534,9 @@ export class FormulaireClickAndCollect {
         return true
 
       case 2:
-        return true
-
-      case 3:
         return this.check_panier()
 
-      case 4:
+      case 3:
         champs = ['nom', 'prenom', 'email', 'telephone','adresse_livraison','date_retrait','heure_retrait'];
         let date_passee = this.dateHeureFutureValidator()
         let heure_not_in_horaires_resto = this.heureIsInHorairesSelectedRestoValidator()
@@ -434,7 +551,7 @@ export class FormulaireClickAndCollect {
         }
         break;
 
-      case 5:
+      case 4:
         return true
     }
 
@@ -548,18 +665,23 @@ export class FormulaireClickAndCollect {
   get_unit_cummul_price_ht(item:any){
     let prix = 0 
     prix = item.prix_ht
-    item.variations.forEach((v:any) => {
-      prix += v.prix_supplement
-    });
+    if(item.variations){
+      item.variations.forEach((v:any) => {
+        prix += v.prix_supplement
+      });
+    }
     return prix
   }
 
   get_cummul_price_ht(item:any){
     let prix = 0 
     prix = item.prix_ht
-    item.variations.forEach((v:any) => {
-      prix += v.prix_supplement
-    });
+    if(item.variations){
+      item.variations.forEach((v:any) => {
+        prix += v.prix_supplement
+      });
+    }
+    
     return prix * item.quantite
   }
 
@@ -625,5 +747,55 @@ export class FormulaireClickAndCollect {
 
     return true;
   }
+
+  scrollToCategory(id: number) {
+  const element = document.getElementById('cat-' + id);
+  if (element) {
+    element.scrollIntoView({
+      behavior: 'smooth',
+      block: 'start'
+    });
+  }
+}
+
+  getTotalPanier(items: any[]) {
+    return items.reduce((sum, item) => {
+      const prix = item.prix_ht || 0;
+
+      const variations = item.variations || [];
+      const totalVariations = variations.reduce(
+        (s: number, v: any) => s + (v.prix_supplement || 0),
+        0
+      );
+
+      return sum + (prix + totalVariations) * (item.quantite || 1);
+    }, 0);
+  }
+
+  refreshPanier() {
+    this.panierItems = this.panierService.get_panier();
+    this.totalPanier = this.getTotalPanier(this.panierItems);
+    this.total_elements_panier = this.panierService.getTotalElements();
+  }
+
+  disabledDates: string[] =  []
+
+  isDateDisabled = (date: NgbDateStruct): boolean => {
+
+    const current =
+      `${date.year}-${String(date.month).padStart(2, '0')}-${String(date.day).padStart(2, '0')}`;
+    return this.disabledDates.includes(current);
+  };
+
+
+  get_product_list(produits:any[]){
+    let res= '<span class="title">Contenu :</span>'
+    produits.forEach(produit => {
+      res+= `<br> - ${produit.titre}`
+    });
+    return res
+
+  }
+ 
  
 }

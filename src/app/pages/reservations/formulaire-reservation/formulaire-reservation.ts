@@ -70,7 +70,6 @@ minDate: NgbDateStruct;
       notes: ['', []], //etape 3
       demandes_speciales: ['', []], //etape 3
       statut: ['En attente', []], //etape 3
-      service_id: [null, Validators.required], //etape 3
       table_id: [null, Validators.required], //etape 3
       creneau_id: [null, Validators.required], //etape 3
       tags: [null, ], //etape 3
@@ -91,10 +90,21 @@ minDate: NgbDateStruct;
       this.couvertsEtPlacesValidator();
     });
 
-    this.formData.get('nombre_de_personnes')?.valueChanges.subscribe((nombre_de_personnes) => {
-      this.formData.get('nb_couverts')?.setValue(nombre_de_personnes, { emitEvent: false });
+    this.formData.get('nombre_de_personnes')?.valueChanges.subscribe((nombre) => {
+
+      const currentCouverts = this.formData.get('nb_couverts')?.value;
+
+      // Remplir seulement si vide ou inférieur
+      if (!currentCouverts || currentCouverts < nombre) {
+        this.formData.get('nb_couverts')?.setValue(nombre, {
+          emitEvent: false
+        });
+      }
+
       this.couvertsEtPlacesValidator();
     });
+
+    
 
   
   }
@@ -148,6 +158,9 @@ minDate: NgbDateStruct;
           tag.restaurant_id === restaurant_id
         );
       }
+
+      this.disabledDates = JSON.parse(this.selectedRestaurant.jours_de_fermeture)
+      console.log("this.disabledDates",this.disabledDates)
   };
 
   selected_table:any
@@ -193,14 +206,29 @@ minDate: NgbDateStruct;
       }
       this.progression+=33
       this.current_step++
+
+      if(this.current_step === 4){
+      this.button_suiv_text = 'Terminer'
+    }
+    }
+
+    else if(this.current_step === 4){
+      window.location.reload();
     }
     
   }
+
+  
   prec(){
     if(this.current_step>1){
       this.progression-=33
       this.current_step--
     }
+
+     if(this.current_step < 4){
+      this.button_suiv_text = 'Suivant'
+    }
+
     console.log("this.current_step",this.current_step)
   }
 
@@ -416,7 +444,6 @@ minDate: NgbDateStruct;
           'date_reservation',
           'heure_reservation',
           'nombre_de_personnes',
-          'service_id',
           'table_id',
           'creneau_id'
         ];
@@ -512,6 +539,12 @@ minDate: NgbDateStruct;
     navigator.clipboard.writeText(txt);
     alert('lien de paiement copié !');
   }
+
+  openPayment(url: string) {
+   if (url) {
+     window.open(url, '_blank'); // ouvre dans un nouvel onglet
+    }
+  }
  
 
   date_passee=false
@@ -543,5 +576,14 @@ minDate: NgbDateStruct;
     };
   
   
+  disabledDates: string[] =  []
+
+  isDateDisabled = (date: NgbDateStruct): boolean => {
+
+    const current =
+      `${date.year}-${String(date.month).padStart(2, '0')}-${String(date.day).padStart(2, '0')}`;
+
+    return this.disabledDates.includes(current);
+  };
 
 }
