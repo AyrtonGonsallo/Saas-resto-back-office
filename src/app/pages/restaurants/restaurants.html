@@ -16,6 +16,7 @@
               entries
             </label>
           </div>
+          
           <div class="mb-3 row">
             <label for="table-complete-search" class="col-xs-3 col-sm-auto col-form-label"
               >Search:</label
@@ -103,7 +104,7 @@
                       <i class="fa fa-copy  font-info pe-2"></i>
                     </a>
                   <a class="example-popover "  triggers="mouseenter:mouseleave"
-                    popoverTitle="Lien click & collect" ngbPopover="Cliquez ici pour copier le lien de click and collect du restaurant" placement="bottom"  (click)="copyFunction(click_and_collect_url+data.societe_id)">
+                    popoverTitle="Lien click & collect" ngbPopover="Cliquez ici pour copier le lien de click and collect du restaurant" placement="bottom"  (click)="copyFunction(click_and_collect_url+data.societe_id+'/'+data.id)">
                       <i class="fa fa-copy  font-info pe-2"></i>
                   </a>
                  

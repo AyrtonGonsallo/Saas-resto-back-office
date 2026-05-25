@@ -160,3 +160,16 @@ input[type="number"]::-webkit-inner-spin-button {
         padding: 0;
     }
 }
+.product-image {
+  width: 100%;
+  height: 250px;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+ .see-more{
+    color: #43B9B2 !important;
+}
+.min-height-desc{
+    min-height: 142px;
+}

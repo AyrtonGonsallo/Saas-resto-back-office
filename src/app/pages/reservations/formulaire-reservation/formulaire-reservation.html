@@ -14,7 +14,6 @@
                             <h2 class="text-center">{{societeData?.titre}}</h2>
                             <h3 class="text-center">Réserver une table</h3>
                             <h4 class="text-center" *ngIf="selectedRestaurant">Restaurant : {{selectedRestaurant?.nom}}</h4>
-                            <h5 class="text-center" *ngIf="selectedRestaurant?.heure_debut && selectedRestaurant?.heure_fin">Horaires de réservation : {{selectedRestaurant?.heure_debut}} - {{selectedRestaurant?.heure_fin}}</h5>
 
                             <p class="text-center">Entrez les informations suivantes</p>
 
@@ -145,7 +144,7 @@
                                                 <label class="col-sm-3 col-form-label text-sm-start">
                                                     Heure <span class="text-danger">*</span>
                                                 </label>
-                                                <div class="col-xl-9 col-sm-9">
+                                                <div class="col-md-3 col-sm-9">
                                                     <ngb-timepicker
                                                         formControlName="heure_reservation"
                                                         [spinners]="true"
@@ -161,8 +160,14 @@
                                                         La date est passée
                                                     </div>
                                                     <div *ngIf="heure_not_in_horaires_resto" class="text-danger">
-                                                        L'heure n'est pas dans les horaires du restaurant choisi pour ce service.
+                                                        L'heure n'est pas dans les horaires du restaurant choisi pour ce service le {{jour_choisi}}.
                                                     </div>
+                                                </div>
+                                                <div class="col-md-6 col-sm-9" *ngIf="horairesRestaurant">
+                                                    Horaires {{selectedRestaurant?.nom}}
+                                                    @for(horaire of horairesRestaurant; track horaire){
+                                                        <span>{{horaire.jour}} : {{horaire.heure_debut}} - {{horaire.heure_fin}}</span><br>
+                                                    }
                                                 </div>
                                                 
                                             </div>
@@ -264,13 +269,15 @@
                                         <h4 class="card-title mb-0" *ngIf="final_reservation">Récapitulatif</h4>
                                         <div *ngIf="final_reservation">
                                             
-                                            <h5>Votre réservation a bien été enregistrée</h5>
-                                            Date de la réservation : {{final_reservation.date_reservation |  date:'EEEE d MMMM y à HH\'h\'mm' }}<br>
+                                            <h5>Votre demande de réservation a bien été enregistrée le {{final_reservation.created_at |  date:'EEEE d MMMM y à HH\'h\'mm' }}</h5>
+                                            Date  : {{final_reservation.date_reservation |  date:'EEEE d MMMM y à HH\'h\'mm' }}<br>
                                             Table : {{final_reservation.table.nb_places}} personnes, {{final_reservation.table.ZoneTable.titre}}<br>
+                                            <!--
                                             Nombre de personnes : {{final_reservation.nombre_de_personnes}}<br>
                                             Nombre de couverts : {{final_reservation.nb_couverts}}<br>
                                             Client : {{final_reservation.client.prenom}} {{final_reservation.client.nom}}<br>
                                             Créneau : {{final_reservation.creneau.heure_debut}} - {{final_reservation.creneau.heure_fin}}<br>
+                                            -->
                                             Demandes spéciales : 
                                             <span *ngFor="let tag of final_reservation.tags; let i = index">
                                             {{ tag.titre }}<span *ngIf="i < final_reservation.tags.length - 1">, </span>
@@ -279,9 +286,11 @@
                                             non
                                             </span>
                                             <br>
-                                            <span *ngIf="final_reservation.notes">
-                                            Commentaire : {{final_reservation.notes}}
+                                            Commentaire :
+                                            <span >
+                                             {{(final_reservation.notes)?final_reservation.notes:'non'}}
                                             </span>
+                                            
                                             <br>
 
                                         </div>

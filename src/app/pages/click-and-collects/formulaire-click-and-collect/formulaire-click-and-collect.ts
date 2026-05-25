@@ -39,7 +39,9 @@ export class FormulaireClickAndCollect {
   search_term = ''
   produits_groupes_par_cat : any[]
   panierItems: any[] = [];
+  horairesRestaurant:any[]
   totalPanier: number = 0;
+  jour_choisi = ''
   
 
   constructor(private route: ActivatedRoute,private fb: FormBuilder, private crudSaasService:CrudSaasRestoService,private panierService:PanierService, private restaurantService: RestaurantService, private notificationsService:NotificationsService,) {}
@@ -68,7 +70,7 @@ export class FormulaireClickAndCollect {
       prenom: ['', Validators.required], //etape 1
       email: ['', [Validators.required, Validators.email]], //etape 1
       telephone: ['', [Validators.required,Validators.pattern(/^[0-9+\s\-()]{8,20}$/)]], //etape 1
-      adresse_livraison: [null, [Validators.required,]],
+      adresse_livraison: [null, [,]],
       date_retrait: [null, [Validators.required, ]], //etape 3
       heure_retrait: [null, [Validators.required, ]], //etape 3     
       societe_id: [this.societe_id, Validators.required], //pas d'etape 
@@ -90,6 +92,25 @@ export class FormulaireClickAndCollect {
       if(this.current_step==3){
         this.onSubmit()
         this.button_suiv_text = 'Terminer';
+        const Toast = Swal.mixin({
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 3000,
+          timerProgressBar: true,
+          didOpen: toast => {
+            toast.onmouseenter = Swal.stopTimer;
+            toast.onmouseleave = Swal.resumeTimer;
+          },
+        });
+        Toast.fire({
+          icon: 'success',
+          title: 'Votre commande a bien été enregistrée',
+        });
+        
+        setTimeout(() => {
+          this.close();
+        }, 4000);
       }else{
         this.progression+=33
         this.current_step++
@@ -144,14 +165,7 @@ export class FormulaireClickAndCollect {
           this.get_pay_link()
         }
         
-        Swal.fire({
-              position: 'bottom-end',
-              icon: 'success',
-              title: 'Votre réservation a bien été enregistrée',
-              showConfirmButton: false,
-            });
-        setTimeout(() => {
-        }, 2000);
+        
         this.progression+=25
         this.current_step++
       },
@@ -179,12 +193,18 @@ export class FormulaireClickAndCollect {
         p.type === 'livraison_click_and_collect' &&
         p.est_actif 
       )
+
+      let horaires_reservation=this.selectedRestaurant.horaires?.filter((p:any) =>
+        p.type === 'Click and collect'
+      )
     
     this.paymentRestoActive = (paramrestoactif )?true:false;
     this.livraisonRestoActive = (paramlivraisonrestoactif )?true:false;
     console.log('this.selectedRestaurant',this.selectedRestaurant)
     console.log('this.paymentRestoActive',this.paymentRestoActive)
     console.log('this.livraisonRestoActive',this.livraisonRestoActive)
+    this.horairesRestaurant = horaires_reservation
+    console.log('this.horairesRestaurant',this.horairesRestaurant)
     
     const adresseCtrl = this.formData.get('adresse_livraison');
 
@@ -490,7 +510,7 @@ export class FormulaireClickAndCollect {
 
   }
 
-
+/*
   set_all_menus(res:any){
     
     this.menus=res.filter((menu:any) =>
@@ -501,7 +521,19 @@ export class FormulaireClickAndCollect {
     );
     console.log("getMenus",this.allMenus)
       
-  }
+  } */
+
+  set_all_menus(res: any) {
+  this.allMenus = res.filter((menu: any) =>
+    menu.societe_id === this.societe_id
+  );
+
+  this.menus = this.allMenus.map((m: any) => ({
+    ...m,
+    showMore: false
+  }));
+}
+  
 
   set_all_produits(res:any){
     
@@ -629,9 +661,9 @@ export class FormulaireClickAndCollect {
   cut_description(text: string) {
     const plainText = text.replace(/<[^>]*>/g, ''); // enlève HTML
 
-    if (plainText.length <= 100) return plainText;
+    if (plainText.length <= 50) return plainText;
 
-    return plainText.slice(0, 100) + '...';
+    return plainText.slice(0, 50) + '...';
   }
 
   grouperVariations(variations: any[]) {
@@ -724,9 +756,26 @@ export class FormulaireClickAndCollect {
 
   heure_not_in_horaires_resto = false
   heureIsInHorairesSelectedRestoValidator() {
+
+    const dateValue = this.formData.get('date_retrait')?.value;
+    const date = new Date(
+      dateValue.year,
+      dateValue.month - 1, // ⚠️ mois JS commence à 0
+      dateValue.day
+    );
+    this.jour_choisi = date.toLocaleDateString('fr-FR', {
+      weekday: 'long'
+    });
+    console.log('dateValue choisi', dateValue);
+    console.log('jour choisi', this.jour_choisi);
+
+    let horaire_jour_click_and_collect=this.horairesRestaurant?.find((h:any) =>
+      h.jour?.toLowerCase() === this.jour_choisi.toLowerCase()
+    )
+
     
-    const heureDebut =this.selectedRestaurant.heure_cc_debut //string 12:00
-    const heureFin =this.selectedRestaurant.heure_cc_fin //string 20:00
+    const heureDebut = horaire_jour_click_and_collect.heure_debut //string 12:00
+    const heureFin = horaire_jour_click_and_collect.heure_fin //string 20:00
     const time = this.formData.get('heure_retrait')?.value;
     //verifier que time dans les limites de debut et fin
 
@@ -789,11 +838,42 @@ export class FormulaireClickAndCollect {
 
 
   get_product_list(produits:any[]){
-    let res= '<span class="title">Contenu :</span>'
+    let res= ''
     produits.forEach(produit => {
-      res+= `<br> - ${produit.titre}`
+      res+= `${produit.titre}`
     });
     return res
+
+  }
+
+
+ /*toogle_text(id: string, event: any) {
+
+  const element = document.getElementById(id);
+
+  if (!element) {
+    return;
+  }
+
+  const button = event.target;
+
+  if (element.classList.contains('limited')) {
+
+    element.classList.remove('limited');
+    button.innerText = 'Voir -';
+
+  } else {
+
+    element.classList.add('limited');
+    button.innerText = 'Voir +';
+  }
+} */
+
+ close(){
+    //fermer la popup qui contien la page le touton close est pas dans angular
+    window.parent.postMessage({
+      action: 'closeCommandePopup'
+    }, '*');
 
   }
  

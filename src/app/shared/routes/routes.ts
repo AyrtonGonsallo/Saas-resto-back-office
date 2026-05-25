@@ -343,6 +343,16 @@ export const dashData: Routes = [
     loadChildren: () => import('../../pages/restaurants/restaurants.routes').then(r => r.RestaurantsRoutes),
   },
   {
+    path: 'horaires',
+    data: {
+      title: 'Horaires',
+      breadcrumb: 'Horaires',
+      roles: ['super-admin','gestionnaire-societe','admin','gestionnaire-restaurant','lecteur-planning','lecteur-cuisine','employé']
+    },
+    canActivate: [RoleGuard],
+    loadChildren: () => import('../../pages/restautant-horaires/restaurant-horaires.routes').then(r => r.RestaurantHorairesRoutes),
+  },
+  {
     path: 'categories-produit',
     data: {
       title: 'Catégories de produit',

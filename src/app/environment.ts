@@ -15,17 +15,17 @@ export const environment = {
 
     url_de_retour:"https://resto.orocom.io/",
 
-    site_url:"https://resto.orocom.io/",
-    //site_url:"http://localhost:4400/",
+    //site_url:"https://resto.orocom.io/",
+    site_url:"http://localhost:4400/",
 
-    reservation_url:"https://resto.orocom.io/reservations/formulaire-reservation/",
-    //reservation_url:"http://localhost:4400/reservations/formulaire-reservation/",
+    //reservation_url:"https://resto.orocom.io/reservations/formulaire-reservation/",
+    reservation_url:"http://localhost:4400/reservations/formulaire-reservation/",
 
-    click_and_collect_url:"https://resto.orocom.io/click-and-collects/formulaire-click-and-collect/",
-    //click_and_collect_url:"http://localhost:4400/click-and-collects/formulaire-click-and-collect/",
+    //click_and_collect_url:"https://resto.orocom.io/click-and-collects/formulaire-click-and-collect/",
+    click_and_collect_url:"http://localhost:4400/click-and-collects/formulaire-click-and-collect/",
 
-    avis_url:"https://resto.orocom.io/ajouter-avis/",
-    //avis_url:"http://localhost:4400/ajouter-avis/",
+    //avis_url:"https://resto.orocom.io/ajouter-avis/",
+    avis_url:"http://localhost:4400/ajouter-avis/",
 
 
   

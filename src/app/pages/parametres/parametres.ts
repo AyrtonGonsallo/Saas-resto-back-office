@@ -45,6 +45,7 @@ export class Parametres {
       console.log(this.Data)
     });
     this.get_all_datas()
+    this.service.pageSize=300
   }
     
   constructor(private crudSaasService:CrudSaasRestoService, private restaurantService: RestaurantService, private notificationsService:NotificationsService,) {}

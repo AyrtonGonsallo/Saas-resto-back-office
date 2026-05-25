@@ -14,7 +14,6 @@
                             <h2 class="text-center">{{societeData?.titre}}</h2>
                             <h3 class="text-center">Click & Collect </h3>
                             <h4 class="text-center" *ngIf="selectedRestaurant">Restaurant : {{selectedRestaurant?.nom}}</h4>
-                            <h5 class="text-center" *ngIf="selectedRestaurant?.heure_cc_debut && selectedRestaurant?.heure_cc_fin">Horaires de commande : {{selectedRestaurant?.heure_cc_debut}} - {{selectedRestaurant?.heure_cc_fin}}</h5>
                             <p class="text-center">Entrez les informations suivantes</p>
                            
                           
@@ -137,15 +136,23 @@
                                                          Ajouté au panier
                                                     </div>
                                                         <div class="faq-image product-img">
-                                                            <img class="img-fluid" [src]="imagesUrl+produit.image" alt="img">
+                                                            <div
+                                                            class="product-image"
+                                                            [style.background-image]="'url(' + imagesUrl + produit.image + ')'"
+                                                            ></div>
                                                             <div class="product-hover">
                                                                 
                                                             </div>
                                                         </div>
-                                                        <div class="card-body ps-2 pe-2">
+                                                        <div class="card-body ps-2 pe-2 min-height-desc">
                                                             <h5 class="text-center ms-2 me-2">{{ produit.titre}}</h5>
                                                             <div class="text-center ms-2 me-2">Prix : <b>{{produit.prix_ht}} €</b></div>
-                                                            <div [innerHTML]="cut_description(produit.description)" class="text-center ms-2 me-2"></div>
+                                                            <div *ngIf="!produit.showMore" [innerHTML]="cut_description(produit.description)" class="text-center ms-2 me-2"></div>
+                                                            <div *ngIf="produit.showMore" [innerHTML]="(produit.description)" class="text-center ms-2 me-2"></div>
+
+                                                            <div class="text-center mt-1">
+                                                                <button class="btn btn-link p-0 see-more" type="button" (click)="produit.showMore = !produit.showMore"> {{ produit.showMore ? 'Voir -' : 'Voir +' }} </button>
+                                                            </div>
                                                         </div>
                                                         <div class="card-footer">
                                                             
@@ -184,14 +191,19 @@
                                                         </div>
 
                                                             <div class="faq-image product-img">
-                                                                <img class="img-fluid" [src]="imagesUrl+menu.image" alt="img">
+                                                                <div
+                                                                class="product-image"
+                                                                [style.background-image]="'url(' + imagesUrl + menu.image + ')'"
+                                                                ></div>
                                                                 <div class="product-hover">
                                                                     
                                                                 </div>
                                                             </div>
-                                                            <div class="card-body ps-2 pe-2">
+                                                            <div class="card-body ps-2 pe-2 min-height-desc " id="menu_{{ menu.id}}" > 
+                                                                <div >
+                                                               
                                                                 <h5 class="text-center ms-2 me-2">{{ menu.titre}}</h5>
-                                                                <div class="text-center ms-2 me-2 liste-plats-menu"  [innerHTML]="get_product_list(menu.produits)" ></div>
+                                                               
                                                                 @if (menu.offre_promo) {
                                                                     <div class="text-center ms-2 me-2" >
 
@@ -205,7 +217,13 @@
                                                                     <div class="text-center ms-2 me-2" >Prix : <b>{{menu.prix_ht}} €</b></div>
 
                                                                 }
-                                                                <div [innerHTML]="cut_description(menu.description)" class="text-center ms-2 me-2"></div>
+                                                            </div>
+                                                                
+                                                                <div *ngIf="menu.showMore" class="text-center ms-2 me-2 liste-plats-menu"  [innerHTML]="get_product_list(menu.produits)" ></div>
+                                                                <div *ngIf="menu.showMore" [innerHTML]="cut_description(menu.description)" class="text-center ms-2 me-2"></div>
+                                                                <div class="text-center mt-1">
+                                                                 <button class="btn btn-link p-0 see-more" type="button" (click)="menu.showMore = !menu.showMore"> {{ menu.showMore ? 'Voir -' : 'Voir +' }} </button>
+                                                                </div>
                                                             </div>
                                                             <div class="card-footer">
                                                                 
@@ -330,7 +348,7 @@
                                                     <label class="col-sm-3 col-form-label text-sm-start">
                                                         Heure <span class="text-danger">*</span>
                                                     </label>
-                                                    <div class="col-xl-9 col-sm-9">
+                                                    <div class="col-md-3 col-sm-9">
                                                         <ngb-timepicker
                                                             formControlName="heure_retrait"
                                                             [spinners]="true"
@@ -343,9 +361,16 @@
                                                             La date est passée.
                                                         </div>
                                                         <div *ngIf="heure_not_in_horaires_resto" class="text-danger">
-                                                            L'heure n'est pas dans les horaires du restaurant choisi pour ce service.
+                                                            L'heure n'est pas dans les horaires du restaurant choisi pour ce service le {{jour_choisi}}.
                                                         </div>
                                                         
+                                                    </div>
+
+                                                    <div class="col-md-6 col-sm-9" *ngIf="horairesRestaurant">
+                                                        Horaires {{selectedRestaurant?.nom}}
+                                                        @for(horaire of horairesRestaurant; track horaire){
+                                                            <span>{{horaire.jour}} : {{horaire.heure_debut}} - {{horaire.heure_fin}}</span><br>
+                                                        }
                                                     </div>
                                                     
                                                 </div>
@@ -378,11 +403,11 @@
                                         <h2 class="card-title mb-4" *ngIf="final_commande">Récapitulatif</h2>
                                         <div *ngIf="final_commande">
                                             
-                                            <h5>Votre commande a bien été enregistrée</h5>
+                                            <h5>Votre commande a bien été enregistrée le {{final_commande.created_at |  date:'EEEE d MMMM y à HH\'h\'mm' }}</h5>
 
                                            <!--  ID : {{final_commande.id}}<br>  -->
                                             Client : {{final_commande.client.prenom}} {{final_commande.client.nom}}<br>
-                                            Date de la commande : {{final_commande.date_retrait  | date:'EEEE d MMMM y \'à\' HH\'h\'mm':'':'fr' }}<br>
+                                            Date de retrait : {{final_commande.date_retrait  | date:'EEEE d MMMM y \'à\' HH\'h\'mm':'':'fr' }}<br>
                                             Prix TTC : {{final_commande.totalPrice}} € <br>
                                             <div class="mt-5 mb-3">
                                                 <table class="table">
@@ -391,8 +416,8 @@
                                                         <th scope="col">Produit</th>
                                                         <th scope="col">Variations</th>
                                                         <th scope="col">Quantité</th>
-                                                        <th scope="col">Prix unitaire HT</th>
-                                                        <th scope="col">Prix HT</th>
+                                                        <th scope="col">Prix unitaire TTC</th>
+                                                        <th scope="col">Prix TTC</th>
                                                     </tr>
                                                     </thead>
                                                     <tbody>

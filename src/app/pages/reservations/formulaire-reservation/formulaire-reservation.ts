@@ -28,7 +28,10 @@ restaurantID = 0
 selectedRestaurant : any
 urlPayment = null
 paymentRestoActive = true
+horairesRestaurant:any[]
 minDate: NgbDateStruct;
+jour_choisi = ''
+
 
   constructor(private route: ActivatedRoute,private fb: FormBuilder, private crudSaasService:CrudSaasRestoService, private restaurantService: RestaurantService, private notificationsService:NotificationsService,) {}
   
@@ -104,10 +107,8 @@ minDate: NgbDateStruct;
       this.couvertsEtPlacesValidator();
     });
 
-    
-
-  
   }
+  
 
 
   load_restaurant(restaurant_id:number) {
@@ -118,13 +119,21 @@ minDate: NgbDateStruct;
         r.id === restaurant_id
       )[0];
       let paramrestoactif=this.selectedRestaurant.parametres?.some((p:any) =>
-          p.type === 'etat_paiement_acompte_reservation' &&
-          p.est_actif 
-        )
+        p.type === 'etat_paiement_acompte_reservation' &&
+        p.est_actif 
+      )
+
+      let horaires_reservation=this.selectedRestaurant.horaires?.filter((p:any) =>
+        p.type === 'Réservation'
+      )
       
       this.paymentRestoActive = (paramrestoactif )?true:false;
       console.log('this.selectedRestaurant',this.selectedRestaurant)
       console.log('this.paymentRestoActive',this.paymentRestoActive)
+
+      this.horairesRestaurant = horaires_reservation
+
+      console.log('this.horairesRestaurant',this.horairesRestaurant)
 
       if (!restaurant_id) {
         this.tables = this.allTables;
@@ -208,8 +217,28 @@ minDate: NgbDateStruct;
       this.current_step++
 
       if(this.current_step === 4){
-      this.button_suiv_text = 'Terminer'
-    }
+        this.button_suiv_text = 'Terminer'
+        const Toast = Swal.mixin({
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 3000,
+          timerProgressBar: true,
+          didOpen: toast => {
+            toast.onmouseenter = Swal.stopTimer;
+            toast.onmouseleave = Swal.resumeTimer;
+          },
+        });
+        Toast.fire({
+          icon: 'success',
+          title: 'Votre réservation a bien été enregistrée',
+        });
+        
+        setTimeout(() => {
+          this.close();
+        }, 4000);
+      }
+      
     }
 
     else if(this.current_step === 4){
@@ -253,14 +282,7 @@ minDate: NgbDateStruct;
             this.get_pay_link()
           }
           
-          Swal.fire({
-                position: 'bottom-end',
-                icon: 'success',
-                title: 'Votre réservation a bien été enregistrée',
-                showConfirmButton: false,
-              });
-          setTimeout(() => {
-          }, 2000);
+          
         },
         error: (err) => {
           this.notificationsService.error(err.error.message,"Echec")
@@ -511,9 +533,24 @@ minDate: NgbDateStruct;
 
   heure_not_in_horaires_resto = false
   heureIsInHorairesSelectedRestoValidator() {
-    
-    const heureDebut =this.selectedRestaurant.heure_debut //string 12:00
-    const heureFin =this.selectedRestaurant.heure_fin //string 20:00
+    const dateValue = this.formData.get('date_reservation')?.value;
+    const date = new Date(
+      dateValue.year,
+      dateValue.month - 1, // ⚠️ mois JS commence à 0
+      dateValue.day
+    );
+    this.jour_choisi = date.toLocaleDateString('fr-FR', {
+      weekday: 'long'
+    });
+    console.log('dateValue choisi', dateValue);
+    console.log('jour choisi', this.jour_choisi);
+
+    let horaire_jour_reservation=this.horairesRestaurant?.find((h:any) =>
+      h.jour?.toLowerCase() === this.jour_choisi.toLowerCase()
+    )
+
+    const heureDebut = horaire_jour_reservation.heure_debut //string 12:00
+    const heureFin = horaire_jour_reservation.heure_fin //string 20:00
     const time = this.formData.get('heure_reservation')?.value;
     //verifier que time dans les limites de debut et fin
 
@@ -585,5 +622,12 @@ minDate: NgbDateStruct;
 
     return this.disabledDates.includes(current);
   };
+
+  close(){
+    //fermer la popup qui contien la page le touton close est pas dans angular
+     window.parent.postMessage({
+      action: 'closeReservationPopup'
+    }, '*');
+  }
 
 }

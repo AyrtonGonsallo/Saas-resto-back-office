@@ -709,6 +709,31 @@ export class CrudSaasRestoService {
     const url = `${environment.apiUrl}/update_livraison/${id}`;
     return this.http.put<any>(url, data);
   }
+
+
+  
+  ajouter_horaire(userData: any): Observable<any> {
+    return this.http.post<any>(`${environment.apiUrl}/ajouter_horaire`, userData);
+  }
+  get_all_horaires(restaurantId:number | null): Observable<any[]> {
+    let url = `${environment.apiUrl}/get_all_horaires`;
+    if (restaurantId) {
+      url += `?restaurant_id=${restaurantId}`;
+    }
+    return this.http.get<any[]>(url);
+  }
+  delete_horaire(id: number): Observable<any> {
+    const url = `${environment.apiUrl}/delete_horaire/${id}`;
+    return this.http.delete<any>(url);
+  }
+  get_horaire_by_id(id: number): Observable<any> {
+    const url = `${environment.apiUrl}/get_horaire_by_id/${id}`;
+    return this.http.get<any>(url);
+  }
+  update_horaire(id: number, data: any): Observable<any> {
+    const url = `${environment.apiUrl}/update_horaire/${id}`;
+    return this.http.put<any>(url, data);
+  }
   
 
 

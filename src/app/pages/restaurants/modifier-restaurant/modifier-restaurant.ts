@@ -325,27 +325,60 @@ export class ModifierRestaurant {
     }
 
 
+    formatDateFr(dateString: string): string {
+      const date = new Date(dateString);
+
+      return date.toLocaleDateString('fr-FR', {
+        weekday: 'long',
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric',
+      });
+    }
+
     
   previewUrl : any = null;
   selectedFile: File | null = null;
   maxSize = 2 * 1024 * 1024;
   onFileSelected(event: any) {
-    
-    this.selectedFile = event.target.files[0];
-    let filesize = this.selectedFile?.size??0
-    if (filesize > this.maxSize) {
-      alert('Fichier trop volumineux (max 2MB)');
-      return;
-    }
-    console.log("upload",this.selectedFile)
-    if (this.selectedFile) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        this.previewUrl = reader.result as string;
-      };
-      reader.readAsDataURL(this.selectedFile);
-    }
+
+  const file = event.target.files[0];
+
+  if (!file) {
+    return;
   }
+
+  let filesize = file.size;
+
+  if (filesize > this.maxSize) {
+    alert('Fichier trop volumineux (max 2MB)');
+    return;
+  }
+
+  // supprimer espaces + caractères spéciaux simples
+  const cleanName = file.name
+    .replace(/\s+/g, '_')
+    .replace(/[^\w.-]/g, '');
+
+  // recréer un nouveau fichier propre
+  this.selectedFile = new File(
+    [file],
+    cleanName,
+    {
+      type: file.type
+    }
+  );
+
+  console.log("upload", this.selectedFile);
+
+  const reader = new FileReader();
+
+  reader.onload = () => {
+    this.previewUrl = reader.result as string;
+  };
+
+  reader.readAsDataURL(this.selectedFile);
+}
   isZoomed = false;
 
   openZoom() {

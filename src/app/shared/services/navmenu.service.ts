@@ -113,6 +113,16 @@ export class NavmenuService {
       active: false,
     },
     {
+      id: 55,
+      level: 1,
+      title: 'Horaires',
+      path: '/horaires/liste-horaires',
+      custom_icon_class: '<i class="icofont icofont-clock-time"></i>',
+      icon: 'Home',
+      roles: ['super-admin','gestionnaire-societe','admin','gestionnaire-restaurant','lecteur-planning','lecteur-cuisine','employé'],
+      active: false,
+    },
+    {
       id: 45,
       level: 1,
       title: 'Type de cuisine',

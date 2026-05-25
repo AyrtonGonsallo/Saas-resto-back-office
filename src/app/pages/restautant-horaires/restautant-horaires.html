@@ -5,9 +5,8 @@
       <div class="dataTables_wrapper">
         <div class="d-flex justify-content-between p-2">
 
-
-          <!--
-          <div class="dataTables_length" id="basic-6_length">
+            <!--
+            <div class="dataTables_length" id="basic-6_length">
             <label
               >Show
               <select name="pageSize" [(ngModel)]="service.pageSize">
@@ -19,9 +18,10 @@
               entries
             </label>
           </div>
-          -->
-
+            -->
           
+
+
           <div class="mb-3 row">
             <label for="table-complete-search" class="col-xs-3 col-sm-auto col-form-label"
               >Search:</label
@@ -46,11 +46,11 @@
             <tr>
               <th scope="col" sortable="id" (sort)="onSort($event)">ID</th>
               <th scope="col" sortable="type" (sort)="onSort($event)">Type</th>
-              <th scope="col" sortable="description" (sort)="onSort($event)">Restaurant</th>
-              <th scope="col" sortable="valeur" (sort)="onSort($event)">Valeur</th>
-              <th scope="col" sortable="updated_at" (sort)="onSort($event)">Date de mise à jour</th>
-              <th scope="col" sortable="est_actif" (sort)="onSort($event)">Actif ?</th>
-              <th scope="col" sortable="est_important" (sort)="onSort($event)">Important ?</th>
+              <th scope="col" sortable="jour" (sort)="onSort($event)">Jour</th>
+              <th scope="col" sortable="heure_debut" (sort)="onSort($event)">Début</th>
+              <th scope="col" sortable="heure_fin" (sort)="onSort($event)">Fin</th>
+              <th scope="col" sortable="societe_id" (sort)="onSort($event)">Société</th>
+              <th scope="col" sortable="restaurant_id" (sort)="onSort($event)">Restaurant</th>
               
               <th scope="col">Action</th>
             </tr>
@@ -64,36 +64,35 @@
               </td>
              
               <td>
-                <ngb-highlight [result]="getTypeNameFromkey(data.type)" [term]="service.searchTerm" />
+                <ngb-highlight [result]="data.type" [term]="service.searchTerm" />
               </td>
               <td>
-                <ngb-highlight [result]="data.Restaurant?.nom" [term]="service.searchTerm" />
-              </td>
-              <td style="max-width: 300px;">
-                <div class="customers text-center social-group" *ngIf="data.type=='logo'">
-                  <ul>
-                    <li class="d-inline-block">
-                      <img class="img-40 rounded-circle" [src]="imagesUrl+data.valeur" alt="images" />
-                    </li>
-                    
-                  </ul>
-                </div>
-                <ngb-highlight [result]="data.valeur" [term]="service.searchTerm" *ngIf="data.type!='logo'"/>
-              </td>
-               <td>
-                <ngb-highlight [result]="(data.updated_at | date:'dd/MM/yyyy HH:mm')" [term]="service.searchTerm" />
+                <ngb-highlight [result]="data.jour" [term]="service.searchTerm" />
               </td>
               <td>
-                <div [innerHTML]="getStatus(data.est_actif)"></div>
+                <ngb-highlight [result]="data.heure_debut" [term]="service.searchTerm" />
               </td>
               <td>
-                <div [innerHTML]="getStatus(data.est_important)"></div>
+                <ngb-highlight [result]="data.heure_fin" [term]="service.searchTerm" />
+              </td>
+              <td>
+                <ngb-highlight [result]="data.Societe.titre" [term]="service.searchTerm" />
+              </td>
+              <td>
+                <ngb-highlight [result]="data.Restaurant.nom" [term]="service.searchTerm" />
               </td>
               
               <td>
                 <ul class="action">
+                 
+                  @if(canEdit()) {
                   <a style="cursor: pointer;" (click)="modifier_data(data.id)"><i class="fa fa-pen font-primary pe-2" ></i></a>
-                  <a style="cursor: pointer;" (click)="supprimer_data(data.id)"><i class="fa fa-trash font-danger ps-2" ></i></a>
+                    }
+                  @if(canDelete()){
+                  <a style="cursor: pointer;" (click)="supprimer_data(data.id)"><i class="fa fa-trash font-danger pe-2" ></i></a>
+                  }
+                  
+                 
                 </ul>
               </td>
             </tr>
@@ -106,7 +105,9 @@
             }
           </tbody>
         </table>
+
         <!--
+        
         <div class="d-flex justify-content-between p-2">
           <ngb-pagination
             class="ms-3"
@@ -115,20 +116,16 @@
             [pageSize]="service.pageSize"
           />
         </div>
-        
         -->
         
       </div>
     </div>
   </form>
 
-  <!--
-  
     <div class="add-task-btn-wrapper">
         <span class="add-task-btn" >
             <button class="btn btn-primary" (click)="redirect_add()">
-            <i class="icon-plus"></i> Ajouter un paramètre</button>
+            <i class="icon-plus"></i> Ajouter un horaire</button>
         </span>
     </div>
-  -->
 </div>
