@@ -15,7 +15,7 @@
                         </div>
                         <ul class="chats-user">
                             @for( item of custom_notifications; track item){
-                            <li class="common-space" >
+                            <li class="common-space" (click)="redirect(item.id)">
                                 
                                 <div class="chat-time">
                                     <div class="active-profile">
@@ -27,7 +27,6 @@
                                     <div>
                                         <span>{{item.type}}</span>
                                         <p>{{item.titre}}</p>
-                                        <a [routerLink]="'/notifications/voir-notification/'+item.id">Voir</a>
                                     </div>
                                 </div>
                                 <div>

@@ -14,7 +14,7 @@ import { CrudSaasRestoService } from '../../shared/services/api/crud-saas-resto.
 import { NotificationsService } from '../../shared/services/notifications/notifications.service';
 import { environment } from '../../environment';
 import { RestaurantService } from '../../shared/services/user/user.service';
-import { types,getTypeName } from '../../shared/constants/types-parametres';
+import { types,getTypeName, getNotAdminOnly } from '../../shared/constants/types-parametres';
 
 
 @Component({
@@ -46,8 +46,16 @@ export class Parametres {
     });
     this.get_all_datas()
     this.service.pageSize=300
+    
   }
     
+  current_priority=0
+   getCurrentPriority(): number {
+    this.current_priority=this.restaurantService.getUser()?.datas?.Role?.priorite;
+    return this.restaurantService.getUser()?.datas?.Role?.priorite;
+      
+  }
+
   constructor(private crudSaasService:CrudSaasRestoService, private restaurantService: RestaurantService, private notificationsService:NotificationsService,) {}
 
 
@@ -78,10 +86,15 @@ export class Parametres {
 
   get_all_datas(){
 
+    this.getCurrentPriority()
     let restaurant_id = this.restaurantService.getRestaurant()
     console.log("restaurant_id",restaurant_id)
     this.crudSaasService.getParametres(restaurant_id).subscribe({
       next: (res) => {
+        if(this.current_priority>3){
+          res=getNotAdminOnly(res);
+          console.log('prio >3',this.current_priority)
+        }
         this.service.setData(res);
         console.log("parametres",this.parametres)
       },

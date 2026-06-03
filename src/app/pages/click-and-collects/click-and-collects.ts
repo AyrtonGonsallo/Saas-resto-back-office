@@ -35,17 +35,74 @@ export class ClickAndCollects {
   public tableData$: Observable<any[]> = this.service.supportdata$;
   public total$: Observable<number> = this.service.total$;
   public Data: any[];
+  public AllData: any[];
   public avis_url = environment.avis_url
-
+ filtre_date="all"
   readonly headers = viewChildren(NgbdSortableHeaderDirective);
 
   ngOnInit() {
+    this.getCurrentPriority()
     this.tableData$.subscribe(res => {
       this.Data = res;
       console.log(this.Data)
     });
     this.get_all_datas()
+    this.service.pageSize=50
   }
+
+  changeDatas() {
+    
+
+    if (this.filtre_date === 'all') {
+      this.Data = [...this.AllData];
+      console.log('periode',this.filtre_date)
+      this.service.setData(this.Data);
+      console.log('trouvés',this.Data.length)
+      console.log('total',this.AllData.length)
+      return;
+    }
+
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    this.Data = this.AllData.filter(item => {
+
+      const commandeDate = new Date(item.date_retrait);
+      commandeDate.setHours(0, 0, 0, 0);
+
+      switch (this.filtre_date) {
+
+        case 'today':
+          return commandeDate.getTime() === today.getTime();
+
+        case 'tomorrow':
+          const tomorrow = new Date(today);
+          tomorrow.setDate(tomorrow.getDate() + 1);
+
+          return commandeDate.getTime() === tomorrow.getTime();
+
+        case 'next_week':
+          const nextWeekStart = new Date(today);
+          nextWeekStart.setDate(today.getDate() + 7);
+
+          const nextWeekEnd = new Date(today);
+          nextWeekEnd.setDate(today.getDate() + 14);
+
+          return commandeDate >= nextWeekStart &&
+                commandeDate < nextWeekEnd;
+
+        default:
+          return true;
+      }
+    });
+
+    
+    console.log('periode',this.filtre_date)
+    this.service.setData(this.Data);
+    console.log('trouvés',this.Data.length)
+    console.log('total',this.AllData.length)
+
+  } 
     
   constructor(private crudSaasService:CrudSaasRestoService, private restaurantService: RestaurantService, private notificationsService:NotificationsService,) {}
 
@@ -62,20 +119,22 @@ export class ClickAndCollects {
   }
 
   commandes:any
-
+current_priority=0
   getCurrentPriority(): number {
-       return this.restaurantService.getUser()?.datas?.Role?.priorite;
+    this.current_priority=this.restaurantService.getUser()?.datas?.Role?.priorite;
+    return this.restaurantService.getUser()?.datas?.Role?.priorite;
+      
+  }
+
+    canDelete(): boolean {
+      const p = this.current_priority;
+      return p <= 4;
     }
 
-     canDelete(): boolean {
-       const p = this.getCurrentPriority();
-       return p <= 4;
-      }
-
-     canEdit(): boolean {
-       const p = this.getCurrentPriority();
-       return p <= 4;
-      }
+    canEdit(): boolean {
+      const p = this.current_priority;
+      return p <= 4;
+    }
 
 
 
@@ -85,6 +144,7 @@ export class ClickAndCollects {
     console.log("restaurant_id",restaurant_id)
     this.crudSaasService.getCommandes(restaurant_id).subscribe({
       next: (res) => {
+        this.AllData = res;
         this.service.setData(res);
         console.log("commandes",this.commandes)
       },

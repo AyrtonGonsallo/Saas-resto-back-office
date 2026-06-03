@@ -32,21 +32,79 @@ export class Reservations {
   public imagesUrl = environment.imagesUrl
   public tableData$: Observable<any[]> = this.service.supportdata$;
   public total$: Observable<number> = this.service.total$;
-  public Data: any[];
+  public AllData: any[];
+    public Data: any[];
   public avis_url = environment.avis_url
-
+  filtre_date="all"
   readonly headers = viewChildren(NgbdSortableHeaderDirective);
 
   ngOnInit() {
+    this.getCurrentPriority()
     this.tableData$.subscribe(res => {
       this.Data = res;
-      console.log(this.Data)
+      console.log(this.AllData)
     });
     this.get_all_datas()
+    this.service.pageSize=50
   }
+
+  changeDatas() {
     
+
+    if (this.filtre_date === 'all') {
+      this.Data = [...this.AllData];
+      console.log('periode',this.filtre_date)
+    this.service.setData(this.Data);
+    console.log('trouvés',this.Data.length)
+    console.log('total',this.AllData.length)
+      return;
+    }
+
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    this.Data = this.AllData.filter(item => {
+
+      const reservationDate = new Date(item.date_reservation);
+      reservationDate.setHours(0, 0, 0, 0);
+
+      switch (this.filtre_date) {
+
+        case 'today':
+          return reservationDate.getTime() === today.getTime();
+
+        case 'tomorrow':
+          const tomorrow = new Date(today);
+          tomorrow.setDate(tomorrow.getDate() + 1);
+
+          return reservationDate.getTime() === tomorrow.getTime();
+
+        case 'next_week':
+          const nextWeekStart = new Date(today);
+          nextWeekStart.setDate(today.getDate() + 7);
+
+          const nextWeekEnd = new Date(today);
+          nextWeekEnd.setDate(today.getDate() + 14);
+
+          return reservationDate >= nextWeekStart &&
+                reservationDate < nextWeekEnd;
+
+        default:
+          return true;
+      }
+    });
+
+    console.log('periode',this.filtre_date)
+    this.service.setData(this.Data);
+    console.log('trouvés',this.Data.length)
+    console.log('total',this.AllData.length)
+
+  } 
+
+
   constructor(private crudSaasService:CrudSaasRestoService, private restaurantService: RestaurantService, private notificationsService:NotificationsService,) {}
 
+  current_priority=0
 
   onSort({ column, direction }: SortEvent) {
     this.headers().forEach(header => {
@@ -62,18 +120,20 @@ export class Reservations {
   reservations:any
 
   getCurrentPriority(): number {
-       return this.restaurantService.getUser()?.datas?.Role?.priorite;
+    this.current_priority=this.restaurantService.getUser()?.datas?.Role?.priorite;
+    return this.restaurantService.getUser()?.datas?.Role?.priorite;
+      
+  }
+
+    canDelete(): boolean {
+      const p = this.current_priority;
+      return p <= 4;
     }
 
-     canDelete(): boolean {
-       const p = this.getCurrentPriority();
-       return p <= 4;
-      }
-
-     canEdit(): boolean {
-       const p = this.getCurrentPriority();
-       return p <= 4;
-      }
+    canEdit(): boolean {
+      const p = this.current_priority;
+      return p <= 4;
+    }
 
 
 
@@ -84,6 +144,8 @@ export class Reservations {
     this.crudSaasService.getReservations(restaurant_id).subscribe({
       next: (res) => {
         this.service.setData(res);
+        
+      this.AllData = res;
         console.log("reservations",this.reservations)
       },
       error: (err) => {

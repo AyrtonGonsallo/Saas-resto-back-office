@@ -8,7 +8,7 @@ import { CrudSaasRestoService } from '../../shared/services/api/crud-saas-resto.
 import { NotificationsService } from '../../shared/services/notifications/notifications.service';
 import { AuthSaasRestoService } from '../../shared/services/auth/auth-saas-resto.service';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-notifications',
@@ -24,9 +24,11 @@ export class Notifications {
      user:any
  custom_notifications:any[]=[]
 
-    constructor(private crudSaasService:CrudSaasRestoService,private notificationsService:NotificationsService, private authSerivce:AuthSaasRestoService, ) {}
+    constructor(private router: Router,private crudSaasService:CrudSaasRestoService,private notificationsService:NotificationsService, private authSerivce:AuthSaasRestoService, ) {}
     
-  
+  redirect(id:number): void {
+    this.router.navigate(['/notifications/voir-notification', id]);
+  }
     openMenu(id: number) {
       this.contactsData.filter(da => {
         da.item.forEach(data => {

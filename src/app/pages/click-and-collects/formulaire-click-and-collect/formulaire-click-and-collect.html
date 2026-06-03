@@ -17,13 +17,52 @@
                             <p class="text-center">Entrez les informations suivantes</p>
                            
                           
-                                <div class="animated-badge" *ngIf="total_elements_panier>0" >
-                                    <ul class="d-flex-end">
-                                        <li class="bg-common-primary"><span class="dote-primary">{{total_elements_panier}}</span>
-                                            <i class="fa-solid fa-cart-arrow-down"></i>
-                                        </li>
-                                    </ul>
-                                </div>
+                            <div class="animated-badge" *ngIf="total_elements_panier>0" >
+                                <ul class="d-flex-end">
+                                    <li class="bg-common-primary" (click)="see_card()">
+                                        <span class="dote-primary">{{total_elements_panier}}</span>
+                                        <i class="fa-solid fa-cart-arrow-down"></i>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <div id="card-content" *ngIf="see_panier">
+                                <table class="table" *ngIf="total_elements_panier>0">
+                                    <thead class="table-dark">
+                                    <tr>
+                                        <th scope="col">Produit</th>
+                                        <th scope="col">Variations</th>
+                                        <th scope="col">Quantité</th>
+                                        <th scope="col">Prix unitaire TTC</th>
+                                        <th scope="col">Prix TTC</th>
+                                        <th scope="col">Action</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                        @for( item of elements_panier; track item){
+                                            <tr>
+                                                <th scope="row">{{ item.titre }} ({{ item.prix_ht }} €)</th>
+                                                <td>
+                                                    <ul>
+                                                        <li *ngFor="let v of item.variations">
+                                                            {{ v.titre }} (+{{ v.prix_supplement || v.prix }} €)
+                                                        </li>
+                                                    </ul>
+                                                </td>
+                                                <td>{{ item.quantite }}</td>
+                                                <td>{{get_unit_cummul_price_ht(item)}} €</td>
+                                                <td>{{get_cummul_price_ht(item)}} €</td>
+                                                <td>                                                              
+                                                    <button  class="btn btn-outline-danger d-flex justify-content-center align-items-center" type="button" (click)="retirer_produit(item.id)">Retirer</button>
+                                                </td>
+                                            </tr>
+                                        }
+                                        
+                                    </tbody>
+                                    
+                                </table>
+                            </div>
+
                             <div class="card">
                                 
                                 <div class="card-body">
@@ -150,7 +189,7 @@
                                                             <div *ngIf="!produit.showMore" [innerHTML]="cut_description(produit.description)" class="text-center ms-2 me-2"></div>
                                                             <div *ngIf="produit.showMore" [innerHTML]="(produit.description)" class="text-center ms-2 me-2"></div>
 
-                                                            <div class="text-center mt-1">
+                                                            <div class="text-center mt-1" *ngIf="produit.description">
                                                                 <button class="btn btn-link p-0 see-more" type="button" (click)="produit.showMore = !produit.showMore"> {{ produit.showMore ? 'Voir -' : 'Voir +' }} </button>
                                                             </div>
                                                         </div>
@@ -255,7 +294,7 @@
                                                      <div> {{ item.titre }}
                                                      <span class="text-muted"> (x{{ item.quantite }})</span>
                                                      </div>
-                                                   <div class="fw-bold"> {{ item.prix_ht }} € 
+                                                   <div class="fw-bold"> {{get_cummul_price_ht(item)}} € 
                                                 </div>  
                                             </div>
                                       </div>

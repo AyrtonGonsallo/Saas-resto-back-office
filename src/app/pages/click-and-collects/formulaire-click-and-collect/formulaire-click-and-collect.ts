@@ -110,7 +110,7 @@ export class FormulaireClickAndCollect {
         
         setTimeout(() => {
           this.close();
-        }, 4000);
+        }, 12000);
       }else{
         this.progression+=33
         this.current_step++
@@ -136,6 +136,14 @@ export class FormulaireClickAndCollect {
       this.button_suiv_text = 'Suivant'
     }
     console.log("this.current_step",this.current_step)
+  }
+
+  see_panier=false
+  elements_panier:any
+  see_card(){
+    this.elements_panier = this.panierService.get_panier();
+    this.see_panier=!this.see_panier
+    console.log('this.elements_panier',this.elements_panier)
   }
 
   onSubmit() {
@@ -337,6 +345,7 @@ export class FormulaireClickAndCollect {
     let res = this.panierService.ajouter_produit(this.produitActuel,this.formProduit.value)
     this.total_elements_panier=this.panierService.getTotalElements()
     if(res){
+      /*
        Swal.fire({
           position: 'bottom-end',
           icon: 'success',
@@ -345,6 +354,7 @@ export class FormulaireClickAndCollect {
         });
       setTimeout(() => {
       }, 1000);
+      */
       this.refreshPanier(); 
       this.modalService.dismissAll()
     }
@@ -356,6 +366,7 @@ export class FormulaireClickAndCollect {
     let res = this.panierService.ajouter_menu(this.produitActuel,this.formMenu.value)
     this.total_elements_panier=this.panierService.getTotalElements()
     if(res){
+      /*
        Swal.fire({
           position: 'bottom-end',
           icon: 'success',
@@ -364,6 +375,7 @@ export class FormulaireClickAndCollect {
         });
       setTimeout(() => {
       }, 1000);
+      */
       this.refreshPanier(); 
       this.modalService.dismissAll()
     }
@@ -375,6 +387,7 @@ export class FormulaireClickAndCollect {
     let res = this.panierService.ajouter_variation(this.produitActuel,this.formVariations.value)
     this.total_elements_panier=this.panierService.getTotalElements()
     if(res){
+      /*
        Swal.fire({
           position: 'bottom-end',
           icon: 'success',
@@ -383,6 +396,7 @@ export class FormulaireClickAndCollect {
         });
       setTimeout(() => {
       }, 1000);
+      */
       this.refreshPanier(); 
       this.modalService.dismissAll()
     }
@@ -392,6 +406,7 @@ export class FormulaireClickAndCollect {
     let res = this.panierService.retirer_produit(pid)
     this.total_elements_panier=this.panierService.getTotalElements()
     if(res){
+
        Swal.fire({
           position: 'bottom-end',
           icon: 'success',

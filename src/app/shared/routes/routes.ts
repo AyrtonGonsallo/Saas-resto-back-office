@@ -475,8 +475,8 @@ export const dashData: Routes = [
   {
     path: 'zones-restaurant',
     data: {
-      title: 'Zones de restautant',
-      breadcrumb: 'Zones de restautant',
+      title: 'Zones de restaurant',
+      breadcrumb: 'Zones de restaurant',
       roles: ['super-admin','gestionnaire-societe','admin','gestionnaire-restaurant','lecteur-planning','lecteur-cuisine','employé',]
     },
     canActivate: [RoleGuard],

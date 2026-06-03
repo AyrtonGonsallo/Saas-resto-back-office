@@ -50,7 +50,7 @@
               <th scope="col" sortable="valeur" (sort)="onSort($event)">Valeur</th>
               <th scope="col" sortable="updated_at" (sort)="onSort($event)">Date de mise à jour</th>
               <th scope="col" sortable="est_actif" (sort)="onSort($event)">Actif ?</th>
-              <th scope="col" sortable="est_important" (sort)="onSort($event)">Important ?</th>
+              <th scope="col" *ngIf="current_priority==1" sortable="est_important" (sort)="onSort($event)">Important ?</th>
               
               <th scope="col">Action</th>
             </tr>
@@ -86,7 +86,7 @@
               <td>
                 <div [innerHTML]="getStatus(data.est_actif)"></div>
               </td>
-              <td>
+              <td *ngIf="current_priority==1">
                 <div [innerHTML]="getStatus(data.est_important)"></div>
               </td>
               

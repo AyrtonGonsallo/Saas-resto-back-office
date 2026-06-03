@@ -74,12 +74,15 @@ export class PanierService {
 
             // ton format actuel "id:prix:titre"
             const [id, prix, titre] = raw.split(':');
+            if(id!=0){
+                 variations.push({
+                id: parseInt(id),
+                prix_supplement: parseFloat(prix),
+                titre
+                });
+            }
 
-            variations.push({
-            id: parseInt(id),
-            prix_supplement: parseFloat(prix),
-            titre
-            });
+           
 
         });
 

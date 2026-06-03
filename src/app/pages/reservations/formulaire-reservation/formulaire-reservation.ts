@@ -236,7 +236,7 @@ jour_choisi = ''
         
         setTimeout(() => {
           this.close();
-        }, 4000);
+        }, 12000);
       }
       
     }
