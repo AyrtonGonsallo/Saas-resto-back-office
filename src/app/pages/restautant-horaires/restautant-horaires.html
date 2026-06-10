@@ -33,6 +33,7 @@
                 class="form-control"
                 name="searchTerm"
                 [(ngModel)]="service.searchTerm"
+                (ngModelChange)="onSearchTermChange($event)"
                 autocomplete="off"
               />
             </div>

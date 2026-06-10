@@ -107,9 +107,18 @@ jour_choisi = ''
       this.couvertsEtPlacesValidator();
     });
 
+
+    this.formData.get('date_reservation')?.valueChanges.subscribe((date) => {
+
+      this.get_selected_day_and_horaire(date)
+      
+    });
+    
+
   }
   
-
+  param_resto_ecart_heures:any
+  param_resto_duree_blocage_table:any
 
   load_restaurant(restaurant_id:number) {
 
@@ -118,14 +127,22 @@ jour_choisi = ''
       this.selectedRestaurant = this.restaurants.filter((r:any) =>
         r.id === restaurant_id
       )[0];
-      let paramrestoactif=this.selectedRestaurant.parametres?.some((p:any) =>
+      let paramrestoactif = this.selectedRestaurant.parametres?.some((p:any) =>
         p.type === 'etat_paiement_acompte_reservation' &&
         p.est_actif 
       )
 
-      let horaires_reservation=this.selectedRestaurant.horaires?.filter((p:any) =>
-        p.type === 'Réservation'
+      this.param_resto_ecart_heures = this.selectedRestaurant.parametres?.find((p:any) =>
+        p.type === 'ecart_entre_heure_actuelle_et_heure_reservation' &&
+        p.est_actif 
       )
+
+      this.param_resto_duree_blocage_table = this.selectedRestaurant.parametres?.find((p:any) =>
+        p.type === 'duree_blocage_table' &&
+        p.est_actif 
+      )
+
+      let horaires_reservation = this.get_sorted_horaires_by_day()
       
       this.paymentRestoActive = (paramrestoactif )?true:false;
       console.log('this.selectedRestaurant',this.selectedRestaurant)
@@ -353,16 +370,14 @@ jour_choisi = ''
             r.societe_id === this.societe_id &&
             r.parametres?.some((p:any) =>
               p.type === 'etat_des_reservations' &&
-              p.est_actif &&
-              p.valeur == 1
+              p.est_actif 
             )
           );
           this.allRestaurants=res.filter((r:any) =>
             r.societe_id === this.societe_id &&
             r.parametres?.some((p:any) =>
               p.type === 'etat_des_reservations' &&
-              p.est_actif &&
-              p.valeur == 1
+              p.est_actif 
             )
           );
           console.log("getRestaurants",this.allRestaurants)
@@ -629,5 +644,158 @@ jour_choisi = ''
       action: 'closeReservationPopup'
     }, '*');
   }
+
+  get_horaire_label(horaire:any){
+    let heures=''
+    if(horaire.ferme){
+      heures='fermé';
+    }else{
+      heures=`${horaire.heure_debut} - ${horaire.heure_fin}`;
+    }
+    let result = `${horaire.jour} ${horaire.Service?.type} : ${heures}`;
+    return result
+  }
+
+  ordreJours = [
+    'Lundi',
+    'Mardi',
+    'Mercredi',
+    'Jeudi',
+    'Vendredi',
+    'Samedi',
+    'Dimanche'
+  ];
+
+  get_sorted_horaires_by_day(){
+    let sorted_horaires_reservation = this.selectedRestaurant.horaires
+    ?.filter((p: any) => p.type === 'Réservation')
+    .sort(
+      (a: any, b: any) =>
+        this.ordreJours.indexOf(a.jour) - this.ordreJours.indexOf(b.jour)
+    );
+
+    return sorted_horaires_reservation;
+  }
+
+
+  
+  heures_possibles: string[] = [];
+
+get_selected_day_and_horaire(date: any) {
+
+  this.heures_possibles = [];
+
+  if (!date) {
+    return;
+  }
+
+  const jsDate = new Date(date.year, date.month - 1, date.day);
+
+  const  jour = jsDate.toLocaleDateString('fr-FR', { weekday: 'long' });
+
+  const horaireSelectedJour = this.horairesRestaurant.find(
+    (p: any) =>
+      p.jour.toLowerCase() ===
+      jour.toLowerCase()
+  );
+
+  if (!horaireSelectedJour || horaireSelectedJour.ferme) {
+    return;
+  }
+
+  const hDeb = this.timeToMinutes(horaireSelectedJour.heure_debut);
+  const hFin = this.timeToMinutes(horaireSelectedJour.heure_fin);
+
+  // Durée de blocage
+  const dureeBlocage = this.convertToMinutes(
+    Number(this.param_resto_duree_blocage_table.valeur),
+    this.param_resto_duree_blocage_table.unite_de_temps
+  );
+
+  // Écart minimum avant réservation
+  const ecartReservation = this.convertToMinutes(
+    Number(this.param_resto_ecart_heures.valeur),
+    this.param_resto_ecart_heures.unite_de_temps
+  );
+
+  let heureMinReservation = hDeb;
+
+  // Si réservation aujourd'hui
+  const now = new Date();
+  const isToday =
+    now.getFullYear() === jsDate.getFullYear() &&
+    now.getMonth() === jsDate.getMonth() &&
+    now.getDate() === jsDate.getDate();
+
+  if (isToday) {
+    heureMinReservation =
+      now.getHours() * 60 +
+      now.getMinutes() +
+      ecartReservation;
+  }
+
+  // Arrondi à la demi-heure supérieure
+  heureMinReservation =
+    Math.ceil(heureMinReservation / 30) * 30;
+
+  // Créneaux de 30 min
+  for (
+    let minutes = Math.max(hDeb, heureMinReservation);
+    minutes + dureeBlocage <= hFin;
+    minutes += 30
+  ) {
+    this.heures_possibles.push(
+      this.minutesToTime(minutes)
+    );
+  }
+console.log('param_resto_duree_blocage_table :', this.param_resto_duree_blocage_table.valeur,this.param_resto_duree_blocage_table.unite_de_temps); 
+console.log('this.param_resto_ecart_heures :', this.param_resto_ecart_heures.valeur,this.param_resto_ecart_heures.unite_de_temps); 
+console.log('Jour :', jour); 
+console.log('Heure actuelle :', new Date().toLocaleTimeString('fr-FR')); 
+console.log('horaireSelectedJour :', horaireSelectedJour);
+  console.log('heures_possibles',this.heures_possibles);
+}
+
+private timeToMinutes(time: string): number {
+  const [h, m] = time.split(':').map(Number);
+  return h * 60 + m;
+}
+
+private minutesToTime(minutes: number): string {
+  const h = Math.floor(minutes / 60)
+    .toString()
+    .padStart(2, '0');
+
+  const m = (minutes % 60)
+    .toString()
+    .padStart(2, '0');
+
+  return `${h}:${m}`;
+}
+
+private convertToMinutes(
+  valeur: number,
+  unite: string
+): number {
+
+  switch (unite) {
+
+    case 'secondes':
+      return valeur / 60;
+
+    case 'minutes':
+      return valeur;
+
+    case 'heures':
+      return valeur * 60;
+
+    case 'jours':
+      return valeur * 24 * 60;
+
+    default:
+      return valeur;
+  }
+}
+
 
 }

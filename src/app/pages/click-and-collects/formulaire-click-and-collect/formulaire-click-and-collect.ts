@@ -516,8 +516,7 @@ export class FormulaireClickAndCollect {
           r.societe_id === this.societe_id &&
           r.parametres?.some((p:any) =>
             p.type === 'etat_du_click_and_collect' &&
-            p.est_actif &&
-            p.valeur == 1
+            p.est_actif 
           )
         );
         this.restaurants = this.allRestaurants;

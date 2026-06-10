@@ -166,7 +166,7 @@
                                                 <div class="col-md-6 col-sm-9" *ngIf="horairesRestaurant">
                                                     Horaires {{selectedRestaurant?.nom}}
                                                     @for(horaire of horairesRestaurant; track horaire){
-                                                        <span>{{horaire.jour}} : {{horaire.heure_debut}} - {{horaire.heure_fin}}</span><br>
+                                                        <span>{{get_horaire_label(horaire)}} </span><br>
                                                     }
                                                 </div>
                                                 

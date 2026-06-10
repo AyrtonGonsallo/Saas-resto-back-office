@@ -13,6 +13,7 @@ import { TableService } from '../../shared/services/table.service';
 import { CrudSaasRestoService } from '../../shared/services/api/crud-saas-resto.service';
 import { NotificationsService } from '../../shared/services/notifications/notifications.service';
 import { RestaurantService } from '../../shared/services/user/user.service';
+import { SearchService } from '../../shared/services/search/search.service';
 
 
 @Component({
@@ -43,20 +44,31 @@ export class RestautantHoraires {
       this.current_priority = this.restaurantService.getUser()?.datas?.Role?.priorite;
       this.service.pageSize=200
       this.get_all_datas()
+      this.getSearchTerm()
      }
        
-     constructor(private crudSaasService:CrudSaasRestoService,private restaurantService: RestaurantService, private notificationsService:NotificationsService,) {}
-   
-     onSort({ column, direction }: SortEvent) {
-       this.headers().forEach(header => {
-         if (header.sortable() !== column) {
-           header.currentDirection.set('');
-         }
-       });
-   
-       this.service.sortColumn = column;
-       this.service.sortDirection = direction;
-     }
+    constructor(private searchService:SearchService, private crudSaasService:CrudSaasRestoService, private restaurantService: RestaurantService, private notificationsService:NotificationsService,) {}
+  
+    onSort({ column, direction }: SortEvent) {
+      this.headers().forEach(header => {
+        if (header.sortable() !== column) {
+          header.currentDirection.set('');
+        }
+      });
+  
+      this.service.sortColumn = column;
+      this.service.sortDirection = direction;
+    }
+
+    onSearchTermChange(value: string) {
+      this.searchService.setSearchTerm(value);
+    }
+
+
+
+    getSearchTerm() {
+      this.service.searchTerm = this.searchService.getSearchTerm();
+    }
 
      
    

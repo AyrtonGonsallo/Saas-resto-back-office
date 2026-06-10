@@ -40,7 +40,7 @@ export class ModifierParametre {
     this.get_all_restaurants()
 
     this.data_id = parseInt(this.route.snapshot.paramMap.get('id')??'');
-    this.load_data(this.data_id )
+    
    
     this.formData = this.fb.group({
       titre: ['', Validators.required],
@@ -175,7 +175,7 @@ export class ModifierParametre {
         this.formData = this.fb.group({
           titre: [this.data.titre, Validators.required],
           type: [this.data.type, Validators.required],
-          valeur: [this.data.valeur, Validators.required],
+          valeur: [this.data.valeur,  this.data.type_de_valeur === 'statut' ? [] : [Validators.required]],
           type_de_valeur: [this.data.type_de_valeur, Validators.required],
           valeurs_options: [this.data.valeurs_options, ],
           unite_de_temps: [this.data.unite_de_temps, ],
@@ -292,6 +292,8 @@ export class ModifierParametre {
           this.restaurants=res
           this.allRestaurants=res
           console.log("getRestaurants",this.restaurants)
+
+          this.load_data(this.data_id )
         },
         error: (err) => {
           this.notificationsService.error("Erreur lors de la récupération des restaurants","Echec")
