@@ -35,10 +35,13 @@ export class Utilisateurs {
      public Data: any[];
    
      readonly headers = viewChildren(NgbdSortableHeaderDirective);
+
+     current_priority = 0;
    
      ngOnInit() {
-       
+      this.current_priority = this.restaurantService.getUser()?.datas?.Role?.priorite;
        this.get_all_datas()
+       this.service.pageSize=300
      }
        
      constructor(private crudSaasService:CrudSaasRestoService, private restaurantService: RestaurantService, private notificationsService:NotificationsService,) {}
@@ -65,6 +68,14 @@ export class Utilisateurs {
    
        this.crudSaasService.getUtilisateurs(restaurant_id).subscribe({
          next: (res) => {
+          
+          // FILTRE par selection du restaurantf  
+          if (restaurant_id) {
+           res = res.filter(user =>
+           user.Restaurants?.some((r: any) => r.id === restaurant_id)
+           );
+          }
+
           this.utilisateurs = res
            this.service.setData(res);
          },

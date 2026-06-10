@@ -44,6 +44,16 @@
                 </div>
             </div>
 
+            <div class="col-sm-12 col-md-12">
+                <div class="mb-3">
+                <label class="form-label">Email de contact <span class="text-danger">*</span></label>
+                <input class="form-control" type="adresse_email" formControlName="adresse_email" placeholder="email de contact">
+                <div *ngIf="formData.get('adresse_email')?.touched && formData.get('adresse_email')?.invalid" class="text-danger">
+                    L'adresse email de contact est invalide
+                </div>
+                </div>
+            </div>
+
             <div class="col-sm-6 col-md-6">
                 <div class="mb-3">
                 <label class="form-label">ville <span class="text-danger">*</span></label>
@@ -125,7 +135,7 @@
             </div>
 
             <div class="col-sm-12 col-md-12">
-                <label class="form-label">Jours de fermeture</label>
+                <label class="form-label">Jours de fermeture exceptionnels</label>
             </div>
             
             <div class="col-sm-12 col-md-12">

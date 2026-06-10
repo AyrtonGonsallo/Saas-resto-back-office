@@ -556,7 +556,9 @@ export class FormulaireClickAndCollect {
       produit.societe_id === this.societe_id
     );
     this.produits=this.allProduits;
-    
+    this.produits.forEach((p: any) => {
+      p.showMore = false;
+    });
     console.log("getProduits",this.allProduits)
       
   }

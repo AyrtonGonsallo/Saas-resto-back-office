@@ -28,6 +28,7 @@ export class ModifierHoraire {
 
   data_id=0
   restaurant_id:number|null
+  societe_id:number|null
 
 
   ngOnInit(): void {
@@ -52,6 +53,8 @@ export class ModifierHoraire {
     this.formData = this.fb.group({
       type: ['', Validators.required],
       jour: ['', Validators.required],
+      ferme: [false, Validators.required],
+      service_id: [0, Validators.required],
       heure_debut: ['', [Validators.required, ]],
       heure_fin: ['', [Validators.required, ]],
       societe_id: [0, [Validators.required]],
@@ -149,6 +152,26 @@ export class ModifierHoraire {
   societes:any[]
   restaurants:any[]
   allRestaurants:any[]
+  services:any[]
+  allServices:any[]
+
+  get_all_services(){
+
+
+    let restaurant_id = this.restaurant_id
+
+    this.crudSaasService.getServicesbyRestoId(restaurant_id).subscribe({
+      next: (res) => {
+        this.services = res
+        this.allServices = res
+
+        console.log("getServicesbyRestoId",this.allServices)
+      },
+      error: (err) => {
+        this.notificationsService.error("Erreur lors de la récupération des allServices","Echec")
+      }
+    });
+  }
 
 
   get_all_societes(){
@@ -180,23 +203,29 @@ export class ModifierHoraire {
   }
   
 
-  get_heures(){
-    let res= Array.from({ length: 24 }, (_, i) => {
-      const heure = i.toString().padStart(2, '0') + ':00';
-      return {
-        position: i + 1,
-        label: heure
-      };
-    });
-    return res
-  }
+  get_heures() {
+  return Array.from({ length: 96 }, (_, i) => {
+    const heures = Math.floor(i / 4)
+      .toString()
+      .padStart(2, '0');
+
+    const minutes = ((i % 4) * 15)
+      .toString()
+      .padStart(2, '0');
+
+    return {
+      position: i + 1,
+      label: `${heures}:${minutes}`
+    };
+  });
+}
 
 
   heures_deb = this.get_heures()
 
   heures_fin = this.get_heures()
 
- types = [
+  types = [
     { key: 'Réservation', },
     { key: 'Click and collect',  },
   ];
@@ -207,58 +236,95 @@ export class ModifierHoraire {
     load_data(id:number){
 
       this.crudSaasService.get_horaire_by_id(id).subscribe({
-      next: (res) => {
-        this.data=res
-        const user = this.restaurantService.getUser();
-        this.verifier_roles_et_societes(user, this.data);
-      
-         this.formData = this.fb.group({
+        next: (res) => {
+          this.data=res
+          const user = this.restaurantService.getUser();
+          this.verifier_roles_et_societes(user, this.data);
+        
+          this.formData = this.fb.group({
 
-          type: [this.data.type, Validators.required],
-          jour: [this.data.jour, Validators.required],
-          heure_debut: [this.data.heure_debut, [Validators.required, ]],
-          heure_fin: [this.data.heure_fin, [Validators.required, ]],
-          societe_id: [this.data.societe_id, [Validators.required]],
-          restaurant_id: [this.data.restaurant_id, Validators.required],
-          utilisateur_id: [this.data.utilisateur_id, Validators.required],
+            type: [this.data.type, Validators.required],
+            jour: [this.data.jour, Validators.required],
+            heure_debut: [this.data.heure_debut, [Validators.required, ]],
+            heure_fin: [this.data.heure_fin, [Validators.required, ]],
+            societe_id: [this.data.societe_id, [Validators.required]],
+            restaurant_id: [this.data.restaurant_id, Validators.required],
+            utilisateur_id: [this.data.utilisateur_id, Validators.required],
+            service_id: [this.data.service_id, Validators.required],
+            ferme: [this.data.ferme, Validators.required],
 
+          });
+
+          this.restaurant_id = this.data.restaurant_id
+          this.get_all_services()
+
+
+          this.formData.get('societe_id')?.valueChanges.subscribe((societeID) => {
+
+            this.societe_id = societeID
+            console.log("société choisi:", this.societe_id);
+            if (!this.societe_id) {
+              this.restaurants = this.allRestaurants;
+            } else {
+              this.restaurants = this.allRestaurants.filter(resto =>
+                resto.societe_id === this.societe_id
+              );
+            }
+            // remettre resto a null
+            this.formData.patchValue({ restaurant_id: null });
+
+          });
+
+          this.formData.get('restaurant_id')?.valueChanges.subscribe((restaurantID) => {
+
+            this.restaurant_id = restaurantID
+            console.log("restaurant choisi:", this.restaurant_id);
+            if(this.restaurant_id ){
+              this.get_all_services()
+            }
+            // remettre service a null
+            this.formData.patchValue({ service_id: null });
+
+          });
+
+
+          this.formData.get('ferme')?.valueChanges.subscribe((ferme) => {
+            const heureDebut = this.formData.get('heure_debut');
+            const heureFin = this.formData.get('heure_fin');
+
+            if (ferme) {
+              heureDebut?.clearValidators();
+              heureFin?.clearValidators();
+
+              // Optionnel : vider les champs
+              heureDebut?.setValue('');
+              heureFin?.setValue('');
+            } else {
+              heureDebut?.setValidators([Validators.required]);
+              heureFin?.setValidators([Validators.required]);
+            }
+
+            heureDebut?.updateValueAndValidity();
+            heureFin?.updateValueAndValidity();
+          });
 
           
-        });
-
-
-        this.formData.get('societe_id')?.valueChanges.subscribe((societeID) => {
-
-          console.log("société choisi:", societeID);
-
-          if (!societeID) {
-            this.restaurants = this.allRestaurants;
-          } else {
-            this.restaurants = this.allRestaurants.filter(cat =>
-              cat.societe_id === societeID
-            );
-          }
-
-          // 🔥 reset catégorie sélectionnée
-          this.formData.patchValue({ restaurant_id: null });
-
-        });
-
-        
-      },
-      error: (err) => {
-        if (err.status === 404) {
-        this.notificationsService.error("Restaurant introuvable", "Echec");
-      } else if (err.status === 400) {
-        this.notificationsService.error("ID restaurant invalide", "Echec");
-      } else {
-        this.notificationsService.error("Erreur lors de la récupération", "Echec");
-      }
-      this.router.navigate(['horaires/liste-horaires']);
-      }
-    });
+        },
+        error: (err) => {
+          if (err.status === 404) {
+          this.notificationsService.error("Restaurant introuvable", "Echec");
+        } else if (err.status === 400) {
+          this.notificationsService.error("ID restaurant invalide", "Echec");
+        } else {
+          this.notificationsService.error("Erreur lors de la récupération", "Echec");
+        }
+        this.router.navigate(['horaires/liste-horaires']);
+        }
+      });
 
     }
+
+
 
 
  

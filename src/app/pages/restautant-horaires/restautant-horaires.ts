@@ -37,14 +37,15 @@ export class RestautantHoraires {
    
      readonly headers = viewChildren(NgbdSortableHeaderDirective);
    
+     current_priority=0
+
      ngOnInit() {
-       
-      this.service.pageSize=300
+      this.current_priority = this.restaurantService.getUser()?.datas?.Role?.priorite;
+      this.service.pageSize=200
       this.get_all_datas()
      }
        
      constructor(private crudSaasService:CrudSaasRestoService,private restaurantService: RestaurantService, private notificationsService:NotificationsService,) {}
-   
    
      onSort({ column, direction }: SortEvent) {
        this.headers().forEach(header => {
@@ -63,9 +64,11 @@ export class RestautantHoraires {
 
 
      getCurrentPriority(): number {
+       this.current_priority=this.restaurantService.getUser()?.datas?.Role?.priorite;
        return this.restaurantService.getUser()?.datas?.Role?.priorite;
     }
-
+    
+    
      canDelete(): boolean {
        const p = this.getCurrentPriority();
        return p < 5;
@@ -85,6 +88,15 @@ export class RestautantHoraires {
          next: (res) => {
           console.log('this.horaires',res)
           this.horaires = res
+
+          // FILTRE par selection du restaurant
+          if (restaurant_id) {
+            res = res.filter(p =>
+            p.restaurant_id === restaurant_id ||
+            p.Restaurant?.id === restaurant_id
+            );
+           }
+
            this.service.setData(res);
          },
          error: (err) => {

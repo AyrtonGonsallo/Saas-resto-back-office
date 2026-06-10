@@ -186,7 +186,7 @@
                                                         <div class="card-body ps-2 pe-2 min-height-desc">
                                                             <h5 class="text-center ms-2 me-2">{{ produit.titre}}</h5>
                                                             <div class="text-center ms-2 me-2">Prix : <b>{{produit.prix_ht}} €</b></div>
-                                                            <div *ngIf="!produit.showMore" [innerHTML]="cut_description(produit.description)" class="text-center ms-2 me-2"></div>
+                                                           <!--  <div *ngIf="produit.showMore" [innerHTML]="cut_description(produit.description)" class="text-center ms-2 me-2"></div> -->
                                                             <div *ngIf="produit.showMore" [innerHTML]="(produit.description)" class="text-center ms-2 me-2"></div>
 
                                                             <div class="text-center mt-1" *ngIf="produit.description">

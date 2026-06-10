@@ -8,10 +8,11 @@
             <label
               >Show
               <select name="pageSize" [(ngModel)]="service.pageSize">
-                <option [ngValue]="10">10</option>
-                <option [ngValue]="15">15</option>
-                <option [ngValue]="15">20</option>
-                <option [ngValue]="25">25</option>
+                <option [ngValue]="50">50</option>
+                <option [ngValue]="100">100</option>
+                <option [ngValue]="150">150</option>
+                <option [ngValue]="200">200</option>
+                <option [ngValue]="300">300</option>
               </select>
               entries
             </label>
@@ -43,9 +44,10 @@
               <th scope="col" sortable="heure_fin" (sort)="onSort($event)">Heure de fin</th>
               <th scope="col" sortable="statut" (sort)="onSort($event)">Statut</th>
               <th scope="col" sortable="nb_reservations_max" (sort)="onSort($event)">Nombre max de réservations</th>
-              <th scope="col" sortable="restaurant_id" (sort)="onSort($event)">Restaurant</th>
-              <th scope="col" sortable="societe_id" (sort)="onSort($event)">Société</th>
-              
+              @if(current_priority==1){
+                <th scope="col" sortable="societe_id" (sort)="onSort($event)">Société</th>
+                <th scope="col" sortable="restaurant_id" (sort)="onSort($event)">Restaurant</th>
+              }
               <th scope="col">Action</th>
             </tr>
           </thead>
@@ -68,12 +70,14 @@
               <td>
                 <ngb-highlight [result]="data.nb_reservations_max" [term]="service.searchTerm" />
               </td>
-              <td>
-                <ngb-highlight [result]="data.Restaurant.nom" [term]="service.searchTerm" />
-              </td>
-              <td>
-                <ngb-highlight [result]="data.Societe.titre" [term]="service.searchTerm" />
-              </td>
+              @if(current_priority==1){
+                <td>
+                  <ngb-highlight [result]="data.Societe.titre" [term]="service.searchTerm" />
+                </td>
+                <td>
+                  <ngb-highlight [result]="data.Restaurant.nom" [term]="service.searchTerm" />
+                </td>
+              }
               
               
               <td>

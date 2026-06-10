@@ -367,6 +367,11 @@ export class CrudSaasRestoService {
     return this.http.get<any[]>(url);
   }
 
+   getServicesbyRestoId(restaurantId:number | null): Observable<any[]> {
+    const url = `${environment.apiUrl}/get_services_by_resto_id/${restaurantId}`;
+    return this.http.get<any[]>(url);
+  }
+
   getServiceById(id: number): Observable<any> {
     const url = `${environment.apiUrl}/get_service_by_id/${id}`;
     return this.http.get<any>(url);

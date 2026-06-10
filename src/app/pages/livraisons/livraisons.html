@@ -8,10 +8,11 @@
             <label
               >Show
               <select name="pageSize" [(ngModel)]="service.pageSize">
-                <option [ngValue]="10">10</option>
-                <option [ngValue]="15">15</option>
-                <option [ngValue]="15">20</option>
-                <option [ngValue]="25">25</option>
+                <option [ngValue]="50">50</option>
+                <option [ngValue]="100">100</option>
+                <option [ngValue]="150">150</option>
+                <option [ngValue]="200">200</option>
+                <option [ngValue]="300">300</option>
               </select>
               entries
             </label>
@@ -41,8 +42,10 @@
               <th scope="col" sortable="id" (sort)="onSort($event)">ID</th>
               <th scope="col" sortable="date_creation" (sort)="onSort($event)">Date de création</th>
               <th scope="col" sortable="date_retrait" (sort)="onSort($event)">Date livraison</th>
+              @if(current_priority==1){
               <th scope="col" sortable="societe_id" (sort)="onSort($event)">Société</th>
               <th scope="col" sortable="restaurant_id" (sort)="onSort($event)">Restaurant</th>
+              }
               <th scope="col" sortable="client_id" (sort)="onSort($event)">Commande</th>
               <th scope="col" sortable="client_id" (sort)="onSort($event)">Client</th>
               <th scope="col" sortable="livreur_id" (sort)="onSort($event)">Livreur</th>
@@ -65,12 +68,14 @@
               <td>
                 <ngb-highlight [result]="(data.date_livraison | date:'dd/MM/yyyy HH:mm' )" [term]="service.searchTerm" />
               </td>
+              @if(current_priority==1){
               <td>
                 <ngb-highlight [result]="data.societe.titre" [term]="service.searchTerm" />
               </td>
               <td>
                 <ngb-highlight [result]="data.Restaurant.nom" [term]="service.searchTerm" />
               </td>
+            }
               <td>
                 <ngb-highlight [result]="'N°'+data.commande.id + ' montant ttc : ' + data.commande.totalPrice +' €'" [term]="service.searchTerm" />
               </td>

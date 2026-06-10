@@ -44,6 +44,7 @@ export class ModifierService {
      this.formData = this.fb.group({
       description: ['', [, ]],
       type: ['', [Validators.required, ]],
+      max_couverts_par_service: [20, []],
       est_actif: [1, [Validators.required, ]],
       societe_id: [this.user.datas.societe_id, Validators.required],
       restaurant_id: [this.restaurant_id, Validators.required],
@@ -202,6 +203,7 @@ export class ModifierService {
         this.formData = this.fb.group({
           description: [this.data.description, [, ]],
           type: [this.data.type, [Validators.required, ]],
+          max_couverts_par_service: [this.data.max_couverts_par_service, []],
           est_actif: [this.data.type, [Validators.required, ]],
           societe_id: [this.data.societe_id, Validators.required],
           restaurant_id: [this.data.restaurant_id, Validators.required],

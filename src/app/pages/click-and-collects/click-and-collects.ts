@@ -39,15 +39,17 @@ export class ClickAndCollects {
   public avis_url = environment.avis_url
  filtre_date="all"
   readonly headers = viewChildren(NgbdSortableHeaderDirective);
-
+  current_priority=0;
   ngOnInit() {
+    this.current_priority = this.restaurantService.getUser()?.datas?.Role?.priorite;
     this.getCurrentPriority()
     this.tableData$.subscribe(res => {
       this.Data = res;
       console.log(this.Data)
     });
+    this.service.pageSize=300
     this.get_all_datas()
-    this.service.pageSize=50
+    
   }
 
   changeDatas() {
@@ -119,7 +121,7 @@ export class ClickAndCollects {
   }
 
   commandes:any
-current_priority=0
+
   getCurrentPriority(): number {
     this.current_priority=this.restaurantService.getUser()?.datas?.Role?.priorite;
     return this.restaurantService.getUser()?.datas?.Role?.priorite;
@@ -144,6 +146,15 @@ current_priority=0
     console.log("restaurant_id",restaurant_id)
     this.crudSaasService.getCommandes(restaurant_id).subscribe({
       next: (res) => {
+
+        // FILTRE par selection du restaurant
+          if (restaurant_id) {
+            res = res.filter(p =>
+            p.restaurant_id === restaurant_id ||
+            p.Restaurant?.id === restaurant_id
+            );
+           }
+           
         this.AllData = res;
         this.service.setData(res);
         console.log("commandes",this.commandes)

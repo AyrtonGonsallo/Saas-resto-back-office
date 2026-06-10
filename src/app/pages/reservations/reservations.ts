@@ -44,8 +44,8 @@ export class Reservations {
       this.Data = res;
       console.log(this.AllData)
     });
+    this.service.pageSize=300
     this.get_all_datas()
-    this.service.pageSize=50
   }
 
   changeDatas() {
@@ -54,9 +54,9 @@ export class Reservations {
     if (this.filtre_date === 'all') {
       this.Data = [...this.AllData];
       console.log('periode',this.filtre_date)
-    this.service.setData(this.Data);
-    console.log('trouvés',this.Data.length)
-    console.log('total',this.AllData.length)
+      this.service.setData(this.Data);
+      console.log('trouvés',this.Data.length)
+      console.log('total',this.AllData.length)
       return;
     }
 
@@ -143,6 +143,15 @@ export class Reservations {
     console.log("restaurant_id",restaurant_id)
     this.crudSaasService.getReservations(restaurant_id).subscribe({
       next: (res) => {
+
+        // FILTRE par selection du restaurant
+          if (restaurant_id) {
+            res = res.filter(p =>
+            p.restaurant_id === restaurant_id ||
+            p.Restaurant?.id === restaurant_id
+            );
+           }
+           
         this.service.setData(res);
         
       this.AllData = res;

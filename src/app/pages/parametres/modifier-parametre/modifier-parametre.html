@@ -8,26 +8,48 @@
         <div class="row">
            
 
-            <div class="col-sm-12 col-md-12">
-                <label class="form-label">Type de paramètre <span class="text-danger">*</span></label>
+           <div class="col-sm-12 col-md-12">
+                <label class="form-label">Catégorie de paramètre <span class="text-danger">*</span></label>
             
                 <ng-select [items]="types" bindLabel="name" bindValue="key" [multiple]="false"
                     placeholder="choisir une catégorie de paramètre" formControlName="type"  />
                     <div *ngIf="formData.get('type')?.touched && formData.get('type')?.invalid" class="text-danger">
-                    Le type de paramètre est invalide
+                    La catégorie de paramètre est invalide
                 </div>
             </div>
 
-            <!-- IMAGE -->
-            <div *ngIf="formData.get('type')?.value === 'logo'" class="col-md-12">
-                <label class="form-label">Image</label>
-                <div class="input-group">
-                    <input (change)="onFileSelected($event)" class="form-control" type="file">
+            <div class="col-sm-12 col-md-12">
+                <label class="form-label">Type de valeur <span class="text-danger">*</span></label>
+            
+                <ng-select [items]="types_de_valeur" bindLabel="name" bindValue="key" [multiple]="false"
+                    placeholder="choisir un type de valeur" formControlName="type_de_valeur"  />
+                    <div *ngIf="formData.get('type_de_valeur')?.touched && formData.get('type_de_valeur')?.invalid" class="text-danger">
+                    Le type de valeur est invalide
+                </div>
+            </div>
+
+            <div class="col-sm-12 col-md-12" *ngIf="!hide_unite">
+                <label class="form-label">Unité de temps <span class="text-danger">*</span></label>
+            
+                <ng-select [items]="unites_de_temps" bindLabel="name" bindValue="key" [multiple]="false"
+                    placeholder="choisir une unité de temps" formControlName="unite_de_temps"/>
+                    <div *ngIf="formData.get('unite_de_temps')?.touched && formData.get('unite_de_temps')?.invalid" class="text-danger">
+                    L'unité de temps est invalide
+                </div>
+            </div>
+
+          <div class="col-sm-12 col-md-12" *ngIf="!hide_contact">
+                <label class="form-label">Moyen de contact <span class="text-danger">*</span></label>
+            
+                <ng-select [items]="options_moyens_contact" bindLabel="name" bindValue="key" [multiple]="false"
+                    placeholder="choisir une catégorie de paramètre" formControlName="valeurs_options"  />
+                    <div *ngIf="formData.get('valeurs_options')?.touched && formData.get('valeurs_options')?.invalid" class="text-danger">
+                    moyen de contact invalide
                 </div>
             </div>
 
             <!-- TEXTE -->
-            <div *ngIf="formData.get('type')?.value !== 'logo'" class="col-md-12">
+            <div *ngIf="!hide_value" class="col-md-12">
                 <div class="mb-3">
                     <label class="form-label">Valeur <span class="text-danger">*</span></label>
                     <input class="form-control" type="text" formControlName="valeur" placeholder="valeur">

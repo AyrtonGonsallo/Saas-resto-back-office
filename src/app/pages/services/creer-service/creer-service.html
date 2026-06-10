@@ -26,6 +26,16 @@
                 </div>
             </div>
 
+            <div class="col-md-12">
+                <div class="mb-3">
+                    <label class="form-label">Max de couverts</label>
+                    <input class="form-control" type="number" formControlName="max_couverts_par_service" placeholder="max de couverts">
+                    <div *ngIf="formData.get('max_couverts_par_service')?.touched && formData.get('max_couverts_par_service')?.invalid" class="text-danger">
+                        Max de couverts invalide
+                    </div>
+                </div>
+            </div>
+
              <div class="col-sm-12 col-md-12">
                 <div class="mb-3">
                     <label class="form-label">Actif ? <span class="text-danger">*</span></label>

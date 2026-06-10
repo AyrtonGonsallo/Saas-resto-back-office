@@ -95,6 +95,14 @@ export class Parametres {
           res=getNotAdminOnly(res);
           console.log('prio >3',this.current_priority)
         }
+
+         // FILTRE par selection du restaurant
+          if (restaurant_id) {
+            res = res.filter(p =>
+            p.restaurant_id === restaurant_id ||
+            p.Restaurant?.id === restaurant_id
+            );
+           }
         this.service.setData(res);
         console.log("parametres",this.parametres)
       },

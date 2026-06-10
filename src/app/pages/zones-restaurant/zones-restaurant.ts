@@ -36,16 +36,19 @@ export class ZonesRestaurant {
 
   readonly headers = viewChildren(NgbdSortableHeaderDirective);
 
+  current_priority = 0;
+  
   ngOnInit() {
+    this.current_priority = this.restaurantService.getUser()?.datas?.Role?.priorite;
     this.tableData$.subscribe(res => {
       this.Data = res;
       console.log(this.Data)
     });
+    this.service.pageSize=150
     this.get_all_datas()
   }
     
   constructor(private crudSaasService:CrudSaasRestoService, private restaurantService: RestaurantService, private notificationsService:NotificationsService,) {}
-
 
   onSort({ column, direction }: SortEvent) {
     this.headers().forEach(header => {
@@ -61,6 +64,7 @@ export class ZonesRestaurant {
   zones_restaurant:any
 
    getCurrentPriority(): number {
+      this.current_priority=this.restaurantService.getUser()?.datas?.Role?.priorite;
        return this.restaurantService.getUser()?.datas?.Role?.priorite;
     }
 
@@ -80,6 +84,15 @@ export class ZonesRestaurant {
     let restaurant_id = this.restaurantService.getRestaurant()
     this.crudSaasService.getZonesRestaurant(restaurant_id).subscribe({
       next: (res) => {
+
+        // FILTRE par selection du restaurant
+          if (restaurant_id) {
+            res = res.filter(p =>
+            p.restaurant_id === restaurant_id ||
+            p.Restaurant?.id === restaurant_id
+            );
+           }
+
         this.service.setData(res);
         console.log("zones_restaurant",this.zones_restaurant)
       },

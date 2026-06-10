@@ -38,6 +38,7 @@ export class CreerService {
    
     this.formData = this.fb.group({
       description: ['', [, ]],
+      max_couverts_par_service: [20, []],
       type: ['', [Validators.required, ]],
       est_actif: [1, [Validators.required, ]],
       societe_id: [this.user.datas.societe_id, Validators.required],

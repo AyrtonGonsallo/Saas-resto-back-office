@@ -37,6 +37,7 @@ export class CreerRestaurant {
     this.formData = this.fb.group({
       nom: ['', Validators.required],
       adresse: ['', Validators.required],
+      adresse_email: ['', ],
       ville: ['', Validators.required],
       coordonnees_google_maps: ['', ],
       heure_debut: ['', [Validators.required, ]],

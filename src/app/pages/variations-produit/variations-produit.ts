@@ -37,11 +37,15 @@ export class VariationsProduit {
 
   readonly headers = viewChildren(NgbdSortableHeaderDirective);
 
+  current_priority=0
+  
   ngOnInit() {
+    this.current_priority = this.restaurantService.getUser()?.datas?.Role?.priorite;
     this.tableData$.subscribe(res => {
       this.Data = res;
       console.log(this.Data)
     });
+    this.service.pageSize=300
     this.get_all_datas()
   }
     
@@ -82,6 +86,15 @@ export class VariationsProduit {
     let restaurant_id = this.restaurantService.getRestaurant()
     this.crudSaasService.getVariationsProduit(restaurant_id).subscribe({
       next: (res) => {
+
+        // FILTRE par selection du restaurant
+          if (restaurant_id) {
+            res = res.filter(p =>
+            p.restaurant_id === restaurant_id ||
+            p.Restaurant?.id === restaurant_id
+            );
+           }
+           
         this.service.setData(res);
         console.log("variations_produit",this.variations_produit)
       },

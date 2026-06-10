@@ -8,10 +8,11 @@
             <label
               >Show
               <select name="pageSize" [(ngModel)]="service.pageSize">
-                <option [ngValue]="10">10</option>
-                <option [ngValue]="15">15</option>
-                <option [ngValue]="15">20</option>
-                <option [ngValue]="25">25</option>
+                <option [ngValue]="50">50</option>
+                <option [ngValue]="100">100</option>
+                <option [ngValue]="150">150</option>
+                <option [ngValue]="200">200</option>
+                <option [ngValue]="300">300</option>
               </select>
               entries
             </label>
@@ -44,9 +45,10 @@
               <th scope="col" sortable="email" (sort)="onSort($event)">Email</th>
               <th scope="col" sortable="telephone" (sort)="onSort($event)">Téléphone</th>
               <th scope="col" sortable="role_id" (sort)="onSort($event)">Rôle</th>
+              @if (current_priority == 1) {
               <th scope="col" sortable="societe_id" (sort)="onSort($event)">Société</th>
               <th scope="col" >Restaurants</th>
-              
+              }
               <th scope="col">Action</th>
             </tr>
           </thead>
@@ -72,13 +74,14 @@
               <td>
                 <ngb-highlight [result]="data.Role?.titre" [term]="service.searchTerm" />
               </td>
-              <td>
+              @if (current_priority == 1) {
+              <td >
                 <ngb-highlight [result]="data.Societe?.titre" [term]="service.searchTerm" />
               </td>
-              <td>
+              <td >
                 <ngb-highlight [result]="get_restos_liste(data.Restaurants)" [term]="service.searchTerm" />
               </td>
-              
+              }
               <td>
                 <ul class="action">
                    @if (canEdit(data)) {

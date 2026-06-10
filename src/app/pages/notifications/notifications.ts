@@ -53,7 +53,7 @@ export class Notifications {
     this.crudSaasService.getAllNotificationsByUserID(this.user?.datas.id).subscribe({
       next: (res) => {
         this.custom_notifications=res;
-        console.log("custom_notifications",this.custom_notifications)
+        console.log("custom_notifications page liste",this.custom_notifications)
       },
       error: (err) => {
         this.notificationsService.error("Erreur lors de la récupération des notifications","Echec")

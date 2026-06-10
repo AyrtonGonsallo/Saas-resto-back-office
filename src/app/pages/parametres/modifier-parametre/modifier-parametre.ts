@@ -10,7 +10,7 @@ import Swal from 'sweetalert2';
 import { AuthSaasRestoService } from '../../../shared/services/auth/auth-saas-resto.service';
 import { AngularEditorModule } from '@kolkov/angular-editor';
 import { RestaurantService } from '../../../shared/services/user/user.service';
-import { types } from '../../../shared/constants/types-parametres';
+import { types,unites_de_temps,types_de_valeur,options_moyens_contact  } from '../../../shared/constants/types-parametres';
 
 @Component({
   selector: 'app-modifier-parametre',
@@ -23,6 +23,9 @@ export class ModifierParametre {
   data_id=0
   formData!: FormGroup;
   user:any
+   hide_value=true
+  hide_unite=true
+  hide_contact=true
   constructor(private route: ActivatedRoute,private restaurantService: RestaurantService,private authSerivce:AuthSaasRestoService,private fb: FormBuilder, private crudSaasService:CrudSaasRestoService, private notificationsService:NotificationsService,) {}
 
   ngOnInit(): void {
@@ -42,6 +45,9 @@ export class ModifierParametre {
     this.formData = this.fb.group({
       titre: ['', Validators.required],
       type: ['', Validators.required],
+      type_de_valeur: ['montant', Validators.required],
+      valeurs_options: ['', ],
+      unite_de_temps: ['', ],
       valeur: ['', Validators.required],
       description: ['', ],
       est_actif: [true, Validators.required],
@@ -108,28 +114,10 @@ export class ModifierParametre {
       this.formData.markAllAsTouched();
       return;
     }
-    const finalFormData = new FormData();
-
-    finalFormData.append('titre', this.formData.value.titre);
-    finalFormData.append('type', this.formData.value.type);
-    finalFormData.append('description', this.formData.value.description);
-    finalFormData.append('valeur', this.formData.value.valeur);
-    finalFormData.append('est_actif', this.formData.value.est_actif);
-    finalFormData.append('est_important', this.formData.value.est_important);
    
-    finalFormData.append('societe_id', this.formData.value.societe_id);
-    finalFormData.append('restaurant_id', this.formData.value.restaurant_id);
-    finalFormData.append('utilisateur_id', this.formData.value.utilisateur_id);
-
-    // 🔥 fichier image
-    if (this.selectedFile) {
-      console.log("image envoyee",this.selectedFile)
-      finalFormData.append('image', this.selectedFile);
-    }
-
-    console.log(finalFormData);
+    console.log(this.formData.value);
    
-    this.crudSaasService.updateParametre(this.data_id,finalFormData).subscribe({
+    this.crudSaasService.updateParametre(this.data_id,this.formData.value).subscribe({
       next: (res) => {
         Swal.fire({
               position: 'bottom-end',
@@ -153,20 +141,23 @@ export class ModifierParametre {
 
 
 
-   types = types;
+    types = types;
+    unites_de_temps = unites_de_temps
+    types_de_valeur = types_de_valeur
+    options_moyens_contact = options_moyens_contact
 
-  selectedFile: File | null = null;
+    selectedFile: File | null = null;
 
-  onFileSelected(event: any) {
-    
-    this.selectedFile = event.target.files[0];
-    console.log("upload",this.selectedFile)
-     if (this.selectedFile) {
-      this.formData.patchValue({
-        valeur: this.selectedFile.name
-      });
+    onFileSelected(event: any) {
+      
+      this.selectedFile = event.target.files[0];
+      console.log("upload",this.selectedFile)
+      if (this.selectedFile) {
+        this.formData.patchValue({
+          valeur: this.selectedFile.name
+        });
+      }
     }
-  }
 
 
   
@@ -185,6 +176,9 @@ export class ModifierParametre {
           titre: [this.data.titre, Validators.required],
           type: [this.data.type, Validators.required],
           valeur: [this.data.valeur, Validators.required],
+          type_de_valeur: [this.data.type_de_valeur, Validators.required],
+          valeurs_options: [this.data.valeurs_options, ],
+          unite_de_temps: [this.data.unite_de_temps, ],
           description: [this.data.description, ],
           est_actif: [this.data.est_actif, Validators.required],
           est_important: [this.data.est_important, Validators.required],
@@ -199,6 +193,48 @@ export class ModifierParametre {
           console.log("type choisi:", typelabel);
           //  reset catégorie sélectionnée
           this.formData.patchValue({ titre: typelabel });
+
+        });
+
+        if(this.data.type_de_valeur=='statut'){
+            this.hide_value=true
+          }else{
+
+            if(this.data.type_de_valeur!='choix_d_options'){
+              this.hide_contact=true
+              this.hide_value=false
+            }else{
+              this.hide_contact=false
+              this.hide_value=true
+            }
+          }
+          if(this.data.type_de_valeur!='unite_temporelle'){
+            this.hide_unite=true
+          }else{
+            this.hide_unite=false
+          }
+
+        this.formData.get('type_de_valeur')?.valueChanges.subscribe((type_de_valeur) => {
+      
+          //'unité temporelle','statut','montant','pourcentage','coefficient'
+          console.log("type_de_valeur choisie:", type_de_valeur);
+          if(type_de_valeur=='statut'){
+            this.hide_value=true
+          }else{
+
+            if(type_de_valeur!='choix_d_options'){
+              this.hide_contact=true
+              this.hide_value=false
+            }else{
+              this.hide_contact=false
+              this.hide_value=true
+            }
+          }
+          if(type_de_valeur!='unite_temporelle'){
+            this.hide_unite=true
+          }else{
+            this.hide_unite=false
+          }
 
         });
 

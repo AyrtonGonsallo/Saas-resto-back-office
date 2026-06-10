@@ -34,6 +34,8 @@ export class AjouterHoraire {
     this.formData = this.fb.group({
       type: ['', Validators.required],
       jour: ['', Validators.required],
+      ferme: [false, Validators.required],
+      service_id: [0, Validators.required],
       heure_debut: ['', [Validators.required, ]],
       heure_fin: ['', [Validators.required, ]],
       societe_id: [0, [Validators.required]],
@@ -41,22 +43,56 @@ export class AjouterHoraire {
       utilisateur_id: [0, Validators.required],
     });
 
-     this.formData.get('societe_id')?.valueChanges.subscribe((societeID) => {
+    this.formData.get('societe_id')?.valueChanges.subscribe((societeID) => {
 
-      console.log("société choisi:", societeID);
-
-      if (!societeID) {
+      this.societe_id = societeID
+      console.log("société choisi:", this.societe_id);
+      if (!this.societe_id) {
         this.restaurants = this.allRestaurants;
       } else {
-        this.restaurants = this.allRestaurants.filter(cat =>
-          cat.societe_id === societeID
+        this.restaurants = this.allRestaurants.filter(resto =>
+          resto.societe_id === this.societe_id
         );
       }
-
-      // 🔥 reset catégorie sélectionnée
+      // remettre resto a null
       this.formData.patchValue({ restaurant_id: null });
 
     });
+
+    this.formData.get('restaurant_id')?.valueChanges.subscribe((restaurantID) => {
+
+      this.restaurant_id = restaurantID
+      console.log("restaurant choisi:", this.restaurant_id);
+      if(this.restaurant_id ){
+        this.get_all_services()
+      }
+      // remettre service a null
+      this.formData.patchValue({ service_id: null });
+
+    });
+
+
+    this.formData.get('ferme')?.valueChanges.subscribe((ferme) => {
+      const heureDebut = this.formData.get('heure_debut');
+      const heureFin = this.formData.get('heure_fin');
+
+      if (ferme) {
+        heureDebut?.clearValidators();
+        heureFin?.clearValidators();
+
+        // Optionnel : vider les champs
+        heureDebut?.setValue('');
+        heureFin?.setValue('');
+      } else {
+        heureDebut?.setValidators([Validators.required]);
+        heureFin?.setValidators([Validators.required]);
+      }
+
+      heureDebut?.updateValueAndValidity();
+      heureFin?.updateValueAndValidity();
+    });
+
+
   }
 
   types = [
@@ -73,35 +109,53 @@ export class AjouterHoraire {
       return;
     }
 
-  
-
     console.log(this.formData.value);
 
-     this.crudSaasService.ajouter_horaire(this.formData.value).subscribe({
-          next: (res) => {
-            Swal.fire({
-                  position: 'bottom-end',
-                  icon: 'success',
-                  title: 'L\'élément a bien été crée',
-                  showConfirmButton: false,
-                });
-            setTimeout(() => {
-              this.router.navigate(['/horaires/liste-horaires']);
-            }, 2000);
-          },
-          error: (err) => {
-            this.notificationsService.error("Erreur lors de l’ajout","Echec")
-          }
-        });
-
-
+    this.crudSaasService.ajouter_horaire(this.formData.value).subscribe({
+      next: (res) => {
+        Swal.fire({
+              position: 'bottom-end',
+              icon: 'success',
+              title: 'L\'élément a bien été crée',
+              showConfirmButton: false,
+            });
+        setTimeout(() => {
+          this.router.navigate(['/horaires/liste-horaires']);
+        }, 2000);
+      },
+      error: (err) => {
+        this.notificationsService.error("Erreur lors de l’ajout","Echec")
+      }
+    });
     // appel API ici
   }
 
+  societe_id=0
   restaurant_id=0
   societes:any[]
-    restaurants:any[]
+  restaurants:any[]
   allRestaurants:any[]
+  services:any[]
+  allServices:any[]
+
+
+  get_all_services(){
+
+
+    let restaurant_id = this.restaurant_id
+
+    this.crudSaasService.getServicesbyRestoId(restaurant_id).subscribe({
+      next: (res) => {
+        this.services = res
+        this.allServices = res
+
+        console.log("getServicesbyRestoId",this.allServices)
+      },
+      error: (err) => {
+        this.notificationsService.error("Erreur lors de la récupération des allServices","Echec")
+      }
+    });
+  }
 
   
   get_all_restaurants(){
@@ -134,16 +188,22 @@ export class AjouterHoraire {
 
   
 
-  get_heures(){
-    let res= Array.from({ length: 24 }, (_, i) => {
-      const heure = i.toString().padStart(2, '0') + ':00';
-      return {
-        position: i + 1,
-        label: heure
-      };
-    });
-    return res
-  }
+  get_heures() {
+  return Array.from({ length: 96 }, (_, i) => {
+    const heures = Math.floor(i / 4)
+      .toString()
+      .padStart(2, '0');
+
+    const minutes = ((i % 4) * 15)
+      .toString()
+      .padStart(2, '0');
+
+    return {
+      position: i + 1,
+      label: `${heures}:${minutes}`
+    };
+  });
+}
 
 
   heures_deb = this.get_heures()
