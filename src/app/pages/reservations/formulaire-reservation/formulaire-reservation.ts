@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
-import { AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgbDateStruct, NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -31,7 +31,7 @@ paymentRestoActive = true
 horairesRestaurant:any[]
 minDate: NgbDateStruct;
 jour_choisi = ''
-
+tables_multiple = false
 
   constructor(private route: ActivatedRoute,private fb: FormBuilder, private crudSaasService:CrudSaasRestoService, private restaurantService: RestaurantService, private notificationsService:NotificationsService,) {}
   
@@ -59,6 +59,7 @@ jour_choisi = ''
       telephone: ['', [Validators.pattern(/^[0-9+\s\-()]{8,20}$/)]], //etape 1
       date_reservation: [null, [Validators.required, ]], //etape 3
       heure_reservation: [null, [Validators.required, ]], //etape 3
+      duree_reservation: ['', [, ]], //etape 3
       nombre_de_personnes: [1, [
         Validators.required,
         Validators.pattern(/^[0-9]+$/),
@@ -73,8 +74,8 @@ jour_choisi = ''
       notes: ['', []], //etape 3
       demandes_speciales: ['', []], //etape 3
       statut: ['En attente', []], //etape 3
-      table_id: [null, Validators.required], //etape 3
-      creneau_id: [null, Validators.required], //etape 3
+      tables_id: [[], Validators.required], //etape 3
+      service_id: [null, Validators.required], //etape 3
       tags: [null, ], //etape 3
       societe_id: [this.societe_id, Validators.required], //pas d'etape 
       restaurant_id: [this.restaurantID, Validators.required], //etape 2
@@ -85,13 +86,18 @@ jour_choisi = ''
 
     
 
-    this.formData.get('table_id')?.valueChanges.subscribe(() => {
+    this.formData.get('tables_id')?.valueChanges.subscribe(() => {
       this.couvertsEtPlacesValidator();
     });
 
     this.formData.get('nb_couverts')?.valueChanges.subscribe(() => {
       this.couvertsEtPlacesValidator();
     });
+
+     this.formData.get('heure_reservation')?.valueChanges.subscribe(() => {
+      this.find_and_set_service();
+    });
+    
 
     this.formData.get('nombre_de_personnes')?.valueChanges.subscribe((nombre) => {
 
@@ -119,6 +125,7 @@ jour_choisi = ''
   
   param_resto_ecart_heures:any
   param_resto_duree_blocage_table:any
+  param_resto_fusionner_les_tables_pour_reservation:any
 
   load_restaurant(restaurant_id:number) {
 
@@ -138,9 +145,31 @@ jour_choisi = ''
       )
 
       this.param_resto_duree_blocage_table = this.selectedRestaurant.parametres?.find((p:any) =>
-        p.type === 'duree_blocage_table' &&
-        p.est_actif 
+        p.type === 'duree_blocage_table' 
       )
+
+      if(this.param_resto_duree_blocage_table){
+        
+        const duree_minutes = this.convertToMinutes(
+          Number(this.param_resto_duree_blocage_table.valeur),
+          this.param_resto_duree_blocage_table.unite_de_temps
+        );
+        this.formData.get('duree_reservation')?.setValue(duree_minutes, {
+          emitEvent: false
+        });
+      }
+
+
+      this.param_resto_fusionner_les_tables_pour_reservation = this.selectedRestaurant.parametres?.find((p:any) =>
+        p.type === 'fusionner_les_tables_pour_reservation' 
+      )
+
+      if (this.param_resto_fusionner_les_tables_pour_reservation.est_actif) {
+        this.tables_multiple = true;
+        console.log('tables fusionnables');
+      } else {
+        this.tables_multiple = false;
+      }
 
       let horaires_reservation = this.get_sorted_horaires_by_day()
       
@@ -166,14 +195,7 @@ jour_choisi = ''
           fullName: 'Table '+table.nb_places + ' personnes - '+table.ZoneTable.titre
         }));
 
-        this.crenaux=this.allCrenaux.filter(creneau =>
-          creneau.societe_id === this.societe_id &&
-          creneau.restaurant_id === restaurant_id
-        ).map(creneau => ({
-          ...creneau,
-          fullName: creneau.heure_debut + ' - ' + creneau.heure_fin
-        }));
-
+    
         this.services=this.allServices.filter(service =>
           service.societe_id === this.societe_id &&
           service.restaurant_id === restaurant_id
@@ -192,43 +214,75 @@ jour_choisi = ''
   selected_table:any
   couvertsInsuffisants = false;
   placeSupTableLimit = false;
+  
   couvertsEtPlacesValidator() {
-   
-    
 
-    const nbCouverts = this.formData.get('nb_couverts')?.value;
-    const nbPersonnes = this.formData.get('nombre_de_personnes')?.value;
-    const table_id = this.formData.get('table_id')?.value;
+  const nbCouverts = this.formData.get('nb_couverts')?.value;
+  const nbPersonnes = this.formData.get('nombre_de_personnes')?.value;
+  const tables_id = this.formData.get('tables_id')?.value;
 
-    if (nbCouverts == null || nbPersonnes == null) {
-      this.couvertsInsuffisants = false;
-      return;
-    }
+  this.couvertsInsuffisants = false;
+  this.placeSupTableLimit = false;
 
-    if(table_id){
-      this.selected_table = this.allTables.filter((table:any) =>
-        table.id === table_id
-      )[0];
-      this.placeSupTableLimit = nbPersonnes > this.selected_table.nb_places;
-      console.log('selected_table',this.selected_table)
-
-      
-    }
-
-    this.couvertsInsuffisants = nbCouverts < nbPersonnes;
-
-
-    console.log('placeSupTableLimit',this.placeSupTableLimit)
-    console.log('couvertsInsuffisants',this.couvertsInsuffisants)
+  if (nbCouverts == null || nbPersonnes == null) {
+    return;
   }
+
+  // Vérification des couverts
+  this.couvertsInsuffisants = nbCouverts < nbPersonnes;
+
+  // Vérification des places des tables
+  if (tables_id) {
+
+    let nbPlaces = 0;
+
+    // Mode multi-tables
+    if (Array.isArray(tables_id)) {
+
+      const selectedTables = this.allTables.filter((table: any) =>
+        tables_id.includes(table.id)
+      );
+
+      nbPlaces = selectedTables.reduce(
+        (total: number, table: any) => total + table.nb_places,
+        0
+      );
+
+      this.selected_table = selectedTables;
+
+    } 
+    // Mode table unique
+    else {
+
+      this.selected_table = this.allTables.find(
+        (table: any) => table.id === tables_id
+      );
+
+      nbPlaces = this.selected_table?.nb_places || 0;
+    }
+
+    this.placeSupTableLimit = nbPersonnes > nbPlaces;
+
+    console.log('selected_table', this.selected_table);
+    console.log('nbPlaces', nbPlaces);
+  }
+
+  console.log('placeSupTableLimit', this.placeSupTableLimit);
+  console.log('couvertsInsuffisants', this.couvertsInsuffisants);
+}
 
   final_reservation:any
 
-  next(){
+  async next(){
     let res = this.valider_formulaire_etape(this.current_step)
     if(this.current_step<4 && res){
       if(this.current_step==2){
-        this.onSubmit()
+        const success = await this.onSubmit();
+        console.log('success',success)
+
+        if (!success) {
+          return;
+        }
       }
       this.progression+=33
       this.current_step++
@@ -278,18 +332,17 @@ jour_choisi = ''
     console.log("this.current_step",this.current_step)
   }
 
-    onSubmit() {
-      
+    async onSubmit() : Promise<boolean>{
+      let res=false
       if (this.formData.invalid) {
         this.notificationsService.error("Formulaire invalide","Echec")
         this.formData.markAllAsTouched();
-        return;
+        res=false;
       }
      
       console.log(this.formData.value);
 
       
-     
       this.crudSaasService.ajouterReservation(this.formData.value).subscribe({
         next: (res) => {
           this.final_reservation=res
@@ -298,16 +351,19 @@ jour_choisi = ''
           if(this.paymentRestoActive){
             this.get_pay_link()
           }
-          
+          res=true;
+          this.progression+=33
+          this.current_step++
           
         },
         error: (err) => {
           this.notificationsService.error(err.error.message,"Echec")
           console.log(err.error.message)
+          res=false;
         }
       });
-  
-  
+      
+      return res;
       // appel API ici
     }
   
@@ -335,7 +391,6 @@ jour_choisi = ''
         next: (res) => {
           console.log('getReservationDataBySocieteId',res)
           this.societeData=res.societe//ereur La propriété 'societe' n'existe pas sur le type 'any[]'
-          this.set_all_creneaux(res.creneaux)//ereur La propriété 'creneaux' n'existe pas sur le type 'any[]'
           this.set_all_restaurants(res.restaurants)//ereur La propriété 'restaurants' n'existe pas sur le type 'any[]'
           this.set_all_services(res.services)//ereur La propriété 'services' n'existe pas sur le type 'any[]'
           this.set_all_tables(res.tables)//ereur La propriété 'tables' n'existe pas sur le type 'any[]'
@@ -385,25 +440,6 @@ jour_choisi = ''
       
     }
 
-
-    set_all_creneaux(res:any){
-     
-          this.crenaux=res.filter((creneau:any) =>
-            creneau.societe_id === this.societe_id
-          ).map((creneau:any) => ({
-            ...creneau,
-            fullName: creneau.heure_debut + ' - ' + creneau.heure_fin
-          }));
-          this.allCrenaux=res.filter((creneau:any) =>
-            creneau.societe_id === this.societe_id
-          ).map((creneau:any) => ({
-            ...creneau,
-            fullName: creneau.heure_debut + ' - ' + creneau.heure_fin
-          }));
-
-          console.log("getCreneaux",this.allCrenaux)
-       
-    }
 
 
     set_all_services(res:any){
@@ -481,15 +517,10 @@ jour_choisi = ''
           'date_reservation',
           'heure_reservation',
           'nombre_de_personnes',
-          'table_id',
-          'creneau_id'
+          'tables_id',
         ];
-        let heure_dans_limites = this.verif_heure_dans_limites()
-         let date_passee = this.dateHeureFutureValidator()
-         this.date_passee = !date_passee
-          let heure_not_in_horaires_resto = this.heureIsInHorairesSelectedRestoValidator()
-        this.heure_not_in_horaires_resto = !heure_not_in_horaires_resto
-        if(!heure_dans_limites || this.couvertsInsuffisants || this.placeSupTableLimit || this.date_passee || this.heure_not_in_horaires_resto){
+        
+        if( this.couvertsInsuffisants || this.placeSupTableLimit ){
           champs.forEach(champ => {
             this.formData.get(champ)?.markAsTouched();
             this.formData.get(champ)?.updateValueAndValidity();
@@ -511,82 +542,6 @@ jour_choisi = ''
     return champs.every(champ => this.formData.get(champ)?.valid);
   }
 
-  verif_heure_dans_limites(): boolean {
-    console.log('verif heure dans chrono')
-
-    const heure = this.formData.get('heure_reservation')?.value;
-    const creneau_id = this.formData.get('creneau_id')?.value;
-
-    if (!heure || !creneau_id) return false;
-
-    //  trouver le créneau
-    const creneau = this.crenaux.find(c => c.id == creneau_id);
-
-    if (!creneau) return false;
-
-    //  convertir heure sélectionnée → minutes
-    const heureSelected =
-      heure.hour * 60 + heure.minute;
-
-    //  convertir "15:00" → minutes
-    const [hDebut, mDebut] = creneau.heure_debut.split(':').map(Number);
-    const [hFin, mFin] = creneau.heure_fin.split(':').map(Number);
-
-    const debut = hDebut * 60 + mDebut;
-    const fin = hFin * 60 + mFin - 20;// si 22:00 il peux au max 21:40
-
-    // ✅ vérification
-    const isValid = heureSelected >= debut && heureSelected <= fin;
-
-    this.heure_pas_dans_creneau = !isValid;
-
-    console.log('verif heure dans chrono',isValid)
-    
-
-    return isValid;
-  }
-
-  heure_not_in_horaires_resto = false
-  heureIsInHorairesSelectedRestoValidator() {
-    const dateValue = this.formData.get('date_reservation')?.value;
-    const date = new Date(
-      dateValue.year,
-      dateValue.month - 1, // ⚠️ mois JS commence à 0
-      dateValue.day
-    );
-    this.jour_choisi = date.toLocaleDateString('fr-FR', {
-      weekday: 'long'
-    });
-    console.log('dateValue choisi', dateValue);
-    console.log('jour choisi', this.jour_choisi);
-
-    let horaire_jour_reservation=this.horairesRestaurant?.find((h:any) =>
-      h.jour?.toLowerCase() === this.jour_choisi.toLowerCase()
-    )
-
-    const heureDebut = horaire_jour_reservation.heure_debut //string 12:00
-    const heureFin = horaire_jour_reservation.heure_fin //string 20:00
-    const time = this.formData.get('heure_reservation')?.value;
-    //verifier que time dans les limites de debut et fin
-
-    if (!heureDebut || !heureFin) return true;
-
-    const [hD, mD] = heureDebut.split(':').map(Number);
-    const [hF, mF] = heureFin.split(':').map(Number);
-
-    const debutMinutes = hD * 60 + mD;
-    const finMinutes   = hF * 60 + mF;
-
-    const selectedMinutes = time.hour * 60 + time.minute;
-
-    if (selectedMinutes < debutMinutes || selectedMinutes > finMinutes) {
-      return false
-    }
-
-
-    return true;
-  }
-
   copyFunction(txt: string) {
     navigator.clipboard.writeText(txt);
     alert('lien de paiement copié !');
@@ -599,33 +554,6 @@ jour_choisi = ''
   }
  
 
-  date_passee=false
-  dateHeureFutureValidator() {
-    
-
-      const date = this.formData.get('date_reservation')?.value;
-      const time = this.formData.get('heure_reservation')?.value;
-
-      if (!date || !time) return null;
-
-      const now = new Date();
-
-      const selected = new Date(
-        date.year,
-        date.month - 1,
-        date.day,
-        time.hour,
-        time.minute,
-        0
-      );
-      console.log('heure',selected, now,selected < now)
-
-      if (selected < now) {
-        return false;
-      }
-
-      return true;
-    };
   
   
   disabledDates: string[] =  []
@@ -691,14 +619,46 @@ get_selected_day_and_horaire(date: any) {
 
   const jsDate = new Date(date.year, date.month - 1, date.day);
 
-  const  jour = jsDate.toLocaleDateString('fr-FR', { weekday: 'long' });
+  this.jour_choisi = jsDate.toLocaleDateString('fr-FR', { weekday: 'long' });
 
-  const horaireSelectedJour = this.horairesRestaurant.find(
+  const horaireMidiSelectedJour = this.horairesRestaurant.find(
     (p: any) =>
-      p.jour.toLowerCase() ===
-      jour.toLowerCase()
+      p.jour.toLowerCase() === this.jour_choisi.toLowerCase() &&
+      p.Service.type.toLowerCase() === 'midi'
   );
 
+  const horaireSoirSelectedJour = this.horairesRestaurant.find(
+    (p: any) =>
+      p.jour.toLowerCase() === this.jour_choisi.toLowerCase() &&
+      p.Service.type.toLowerCase() === 'soir'
+  );
+
+  const horaireAutreSelectedJour = this.horairesRestaurant.find(
+    (p: any) =>
+      p.jour.toLowerCase() === this.jour_choisi.toLowerCase() &&
+      !['midi', 'soir'].includes(p.Service.type.toLowerCase())
+  );
+
+  if(horaireMidiSelectedJour||horaireSoirSelectedJour){
+    this.fill_current_horiaires(horaireMidiSelectedJour,jsDate)
+    this.fill_current_horiaires(horaireSoirSelectedJour,jsDate)
+  }else{
+    console.log('pas de service midi et soir')
+    this.fill_current_horiaires(horaireAutreSelectedJour,jsDate)
+  }
+  
+
+    
+  console.log('duree_blocage_table  :', this.param_resto_duree_blocage_table.valeur,this.param_resto_duree_blocage_table.unite_de_temps); 
+  console.log('ecart min entre heure reser et heure actuelle :', this.param_resto_ecart_heures.valeur,this.param_resto_ecart_heures.unite_de_temps); 
+  console.log('Jour :', this.jour_choisi); 
+  console.log('Heure actuelle :', new Date().toLocaleTimeString('fr-FR')); 
+  
+}
+
+
+
+fill_current_horiaires(horaireSelectedJour:any,jsDate:any){
   if (!horaireSelectedJour || horaireSelectedJour.ferme) {
     return;
   }
@@ -738,6 +698,9 @@ get_selected_day_and_horaire(date: any) {
   heureMinReservation =
     Math.ceil(heureMinReservation / 30) * 30;
 
+
+    console.log('heureMinReservation',heureMinReservation)
+
   // Créneaux de 30 min
   for (
     let minutes = Math.max(hDeb, heureMinReservation);
@@ -748,11 +711,8 @@ get_selected_day_and_horaire(date: any) {
       this.minutesToTime(minutes)
     );
   }
-console.log('param_resto_duree_blocage_table :', this.param_resto_duree_blocage_table.valeur,this.param_resto_duree_blocage_table.unite_de_temps); 
-console.log('this.param_resto_ecart_heures :', this.param_resto_ecart_heures.valeur,this.param_resto_ecart_heures.unite_de_temps); 
-console.log('Jour :', jour); 
-console.log('Heure actuelle :', new Date().toLocaleTimeString('fr-FR')); 
-console.log('horaireSelectedJour :', horaireSelectedJour);
+
+  console.log('horaireSelectedJour :', horaireSelectedJour);
   console.log('heures_possibles',this.heures_possibles);
 }
 
@@ -795,6 +755,62 @@ private convertToMinutes(
     default:
       return valeur;
   }
+}
+
+
+find_and_set_service() {
+
+  const heureReservation = this.formData.get('heure_reservation')?.value;
+
+  if (!heureReservation || !this.jour_choisi) {
+    return;
+  }
+
+  // Tous les horaires du jour
+  const horairesJour = this.horairesRestaurant.filter(
+    (p: any) =>
+      p.jour.toLowerCase() === this.jour_choisi.toLowerCase()
+  );
+
+  const heureReservationMinutes =
+    this.timeToMinutes(heureReservation);
+
+  // Trouver l'horaire correspondant
+  const horaireSelectionne = horairesJour.find((h: any) => {
+
+    const hDeb = this.timeToMinutes(h.heure_debut);
+    const hFin = this.timeToMinutes(h.heure_fin);
+
+    return (
+      heureReservationMinutes >= hDeb &&
+      heureReservationMinutes <= hFin
+    );
+  });
+
+  if (!horaireSelectionne) {
+    console.warn(
+      'Aucun service trouvé pour',
+      heureReservation
+    );
+    return;
+  }
+
+  console.log('Service trouvé', horaireSelectionne.Service);
+
+  this.formData.get('service_id')?.setValue(
+    horaireSelectionne.service_id,
+    { emitEvent: false }
+  );
+}
+
+
+get_tables_label(tables:any){
+  let res=""
+  tables.forEach((table:any) => {
+    res+= `${table.nb_places} personnes, ${table.ZoneTable.titre}<br>`;
+  });
+  return res;
+  
 }
 
 

@@ -63,6 +63,16 @@ export class ModifierHoraire {
     });
   }
 
+  jours = [
+    { valeur: 'Lundi',  },
+    { valeur: 'Mardi',  },
+    { valeur: 'Mercredi',  },
+    { valeur: 'Jeudi', },
+    { valeur: 'Vendredi',  },
+    { valeur: 'Samedi',  },
+    { valeur: 'Dimanche',  },
+  ]
+
 
 
   verifier_roles_et_societes(user: any, currentRestaurant: any) {
@@ -245,8 +255,8 @@ export class ModifierHoraire {
 
             type: [this.data.type, Validators.required],
             jour: [this.data.jour, Validators.required],
-            heure_debut: [this.data.heure_debut, [Validators.required, ]],
-            heure_fin: [this.data.heure_fin, [Validators.required, ]],
+            heure_debut: [this.data.heure_debut, this.data.ferme  ? [] : [Validators.required]],
+            heure_fin: [this.data.heure_fin, this.data.ferme  ? [] : [Validators.required]],
             societe_id: [this.data.societe_id, [Validators.required]],
             restaurant_id: [this.data.restaurant_id, Validators.required],
             utilisateur_id: [this.data.utilisateur_id, Validators.required],

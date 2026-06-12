@@ -230,6 +230,7 @@ export class ModifierService {
       { key: 'Midi', },
       { key: 'Soir',  },
       { key: 'Évenement', },
+      { key: 'Service continu', },
     ];
 
 }

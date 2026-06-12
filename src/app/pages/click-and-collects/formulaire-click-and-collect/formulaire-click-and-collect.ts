@@ -80,6 +80,12 @@ export class FormulaireClickAndCollect {
 
     this.refreshPanier();
 
+     this.formData.get('date_retrait')?.valueChanges.subscribe((date) => {
+
+      this.get_selected_day_and_horaire(date)
+      
+    });
+
  
     
   }
@@ -187,30 +193,51 @@ export class FormulaireClickAndCollect {
     // appel API ici
   }
 
+  param_delai_avant_fermetture_commandes:any
+  param_commande_a_l_avance:any 
+  param_delai_de_preparation:any
+
   choisirRestaurant(restaurant_id:number){
 
     this.restaurantID = restaurant_id
     this.selectedRestaurant = this.restaurants.filter((r:any) =>
       r.id === restaurant_id
     )[0];
-    let paramrestoactif=this.selectedRestaurant.parametres?.some((p:any) =>
-        p.type === 'etat_paiement_acompte_click_and_collect' &&
-        p.est_actif 
-      )
-      let paramlivraisonrestoactif=this.selectedRestaurant.parametres?.some((p:any) =>
-        p.type === 'livraison_click_and_collect' &&
-        p.est_actif 
-      )
 
-      let horaires_reservation=this.selectedRestaurant.horaires?.filter((p:any) =>
-        p.type === 'Click and collect'
-      )
+    let paramrestoactif=this.selectedRestaurant.parametres?.some((p:any) =>
+      p.type === 'etat_paiement_acompte_click_and_collect' &&
+      p.est_actif 
+    )
+    let paramlivraisonrestoactif=this.selectedRestaurant.parametres?.some((p:any) =>
+      p.type === 'livraison_click_and_collect' &&
+      p.est_actif 
+    )
+    this.param_delai_avant_fermetture_commandes = this.selectedRestaurant.parametres?.find((p:any) =>
+      p.type === 'delai_avant_fermetture_commandes' &&
+      p.est_actif 
+    )
+    this.param_commande_a_l_avance = this.selectedRestaurant.parametres?.find((p:any) =>
+      p.type === 'commande_a_l_avance' &&
+      p.est_actif 
+    )
+    this.param_delai_de_preparation = this.selectedRestaurant.parametres?.find((p:any) =>
+      p.type === 'delai_de_preparation' &&
+      p.est_actif 
+    )
+
+    console.log('this.param_delai_avant_fermetture_commandes',this.param_delai_avant_fermetture_commandes)
+    console.log('this.param_commande_a_l_avance',this.param_commande_a_l_avance)
+  
+
+   
+    let horaires_reservation = this.get_sorted_horaires_by_day()
     
     this.paymentRestoActive = (paramrestoactif )?true:false;
     this.livraisonRestoActive = (paramlivraisonrestoactif )?true:false;
     console.log('this.selectedRestaurant',this.selectedRestaurant)
     console.log('this.paymentRestoActive',this.paymentRestoActive)
     console.log('this.livraisonRestoActive',this.livraisonRestoActive)
+    
     this.horairesRestaurant = horaires_reservation
     console.log('this.horairesRestaurant',this.horairesRestaurant)
     
@@ -512,15 +539,15 @@ export class FormulaireClickAndCollect {
 
   set_all_restaurants(res:any){
     
-        this.allRestaurants = res.filter((r:any) =>
-          r.societe_id === this.societe_id &&
-          r.parametres?.some((p:any) =>
-            p.type === 'etat_du_click_and_collect' &&
-            p.est_actif 
-          )
-        );
-        this.restaurants = this.allRestaurants;
-        console.log("getRestaurants",this.allRestaurants)
+    this.allRestaurants = res.filter((r:any) =>
+      r.societe_id === this.societe_id &&
+      r.parametres?.some((p:any) =>
+        p.type === 'etat_du_click_and_collect' &&
+        p.est_actif 
+      )
+    );
+    this.restaurants = this.allRestaurants;
+    console.log("getRestaurants",this.allRestaurants)
 
   }
 
@@ -538,15 +565,15 @@ export class FormulaireClickAndCollect {
   } */
 
   set_all_menus(res: any) {
-  this.allMenus = res.filter((menu: any) =>
-    menu.societe_id === this.societe_id
-  );
+    this.allMenus = res.filter((menu: any) =>
+      menu.societe_id === this.societe_id
+    );
 
-  this.menus = this.allMenus.map((m: any) => ({
-    ...m,
-    showMore: false
-  }));
-}
+    this.menus = this.allMenus.map((m: any) => ({
+      ...m,
+      showMore: false
+    }));
+  }
   
 
   set_all_produits(res:any){
@@ -585,19 +612,8 @@ export class FormulaireClickAndCollect {
         return this.check_panier()
 
       case 3:
-        champs = ['nom', 'prenom', 'email', 'telephone','adresse_livraison','date_retrait','heure_retrait'];
-        let date_passee = this.dateHeureFutureValidator()
-        let heure_not_in_horaires_resto = this.heureIsInHorairesSelectedRestoValidator()
-        this.heure_not_in_horaires_resto = !heure_not_in_horaires_resto
-        this.date_passee = !date_passee
-        if(this.date_passee || this.heure_not_in_horaires_resto){
-          champs.forEach(champ => {
-            this.formData.get(champ)?.markAsTouched();
-            this.formData.get(champ)?.updateValueAndValidity();
-          });
-          return false;
-        }
-        break;
+        
+        return true;
 
       case 4:
         return true
@@ -742,86 +758,16 @@ export class FormulaireClickAndCollect {
   }
 
 
-  date_passee=false
-  dateHeureFutureValidator() {
-    
-
-    const date = this.formData.get('date_retrait')?.value;
-    const time = this.formData.get('heure_retrait')?.value;
-
-    if (!date || !time) return null;
-
-    const now = new Date();
-
-    const selected = new Date(
-      date.year,
-      date.month - 1,
-      date.day,
-      time.hour,
-      time.minute,
-      0
-    );
-    console.log('heure',selected, now,selected < now)
-
-    if (selected < now) {
-      return false;
-    }
-
-    return true;
-  };
-
-  heure_not_in_horaires_resto = false
-  heureIsInHorairesSelectedRestoValidator() {
-
-    const dateValue = this.formData.get('date_retrait')?.value;
-    const date = new Date(
-      dateValue.year,
-      dateValue.month - 1, // ⚠️ mois JS commence à 0
-      dateValue.day
-    );
-    this.jour_choisi = date.toLocaleDateString('fr-FR', {
-      weekday: 'long'
-    });
-    console.log('dateValue choisi', dateValue);
-    console.log('jour choisi', this.jour_choisi);
-
-    let horaire_jour_click_and_collect=this.horairesRestaurant?.find((h:any) =>
-      h.jour?.toLowerCase() === this.jour_choisi.toLowerCase()
-    )
-
-    
-    const heureDebut = horaire_jour_click_and_collect.heure_debut //string 12:00
-    const heureFin = horaire_jour_click_and_collect.heure_fin //string 20:00
-    const time = this.formData.get('heure_retrait')?.value;
-    //verifier que time dans les limites de debut et fin
-
-    if (!heureDebut || !heureFin) return true;
-
-    const [hD, mD] = heureDebut.split(':').map(Number);
-    const [hF, mF] = heureFin.split(':').map(Number);
-
-    const debutMinutes = hD * 60 + mD;
-    const finMinutes   = hF * 60 + mF;
-
-    const selectedMinutes = time.hour * 60 + time.minute;
-
-    if (selectedMinutes < debutMinutes || selectedMinutes > finMinutes) {
-      return false
-    }
-
-
-    return true;
-  }
 
   scrollToCategory(id: number) {
-  const element = document.getElementById('cat-' + id);
-  if (element) {
-    element.scrollIntoView({
-      behavior: 'smooth',
-      block: 'start'
-    });
+    const element = document.getElementById('cat-' + id);
+    if (element) {
+      element.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      });
+    }
   }
-}
 
   getTotalPanier(items: any[]) {
     return items.reduce((sum, item) => {
@@ -847,9 +793,58 @@ export class FormulaireClickAndCollect {
 
   isDateDisabled = (date: NgbDateStruct): boolean => {
 
+    const currentDate = new Date(
+      date.year,
+      date.month - 1,
+      date.day
+    );
+
+    // Dates explicitement désactivées
     const current =
       `${date.year}-${String(date.month).padStart(2, '0')}-${String(date.day).padStart(2, '0')}`;
-    return this.disabledDates.includes(current);
+
+    if (this.disabledDates.includes(current)) {
+      return true;
+    }
+
+    // Limite commande à l'avance
+    if (
+      this.param_commande_a_l_avance &&
+      this.param_commande_a_l_avance.est_actif
+    ) {
+
+      const valeur = Number(this.param_commande_a_l_avance.valeur);
+
+      const maxDate = new Date();
+      maxDate.setHours(0, 0, 0, 0);
+
+      switch (this.param_commande_a_l_avance.unite_de_temps) {
+
+        case 'jours':
+          maxDate.setDate(maxDate.getDate() + valeur);
+          break;
+
+        case 'heures':
+          maxDate.setHours(maxDate.getHours() + valeur);
+          break;
+
+        case 'minutes':
+          maxDate.setMinutes(maxDate.getMinutes() + valeur);
+          break;
+
+        case 'secondes':
+          maxDate.setSeconds(maxDate.getSeconds() + valeur);
+          break;
+      }
+
+      currentDate.setHours(0, 0, 0, 0);
+
+      if (currentDate > maxDate) {
+        return true;
+      }
+    }
+
+    return false;
   };
 
 
@@ -862,28 +857,38 @@ export class FormulaireClickAndCollect {
 
   }
 
-
- /*toogle_text(id: string, event: any) {
-
-  const element = document.getElementById(id);
-
-  if (!element) {
-    return;
+  get_horaire_label(horaire:any){
+    let heures=''
+    if(horaire.ferme){
+      heures='fermé';
+    }else{
+      heures=`${horaire.heure_debut} - ${horaire.heure_fin}`;
+    }
+    let result = `${horaire.jour} ${horaire.Service?.type} : ${heures}`;
+    return result
   }
 
-  const button = event.target;
+  ordreJours = [
+    'Lundi',
+    'Mardi',
+    'Mercredi',
+    'Jeudi',
+    'Vendredi',
+    'Samedi',
+    'Dimanche'
+  ];
+  
+  get_sorted_horaires_by_day(){
+    let sorted_horaires_reservation = this.selectedRestaurant.horaires
+    ?.filter((p: any) => p.type === 'Click and collect')
+    .sort(
+      (a: any, b: any) =>
+        this.ordreJours.indexOf(a.jour) - this.ordreJours.indexOf(b.jour)
+    );
 
-  if (element.classList.contains('limited')) {
-
-    element.classList.remove('limited');
-    button.innerText = 'Voir -';
-
-  } else {
-
-    element.classList.add('limited');
-    button.innerText = 'Voir +';
+    return sorted_horaires_reservation;
   }
-} */
+
 
  close(){
     //fermer la popup qui contien la page le touton close est pas dans angular
@@ -892,6 +897,161 @@ export class FormulaireClickAndCollect {
     }, '*');
 
   }
+
+
+  
+  
+  heures_possibles: string[] = [];
+
+get_selected_day_and_horaire(date: any) {
+
+  this.heures_possibles = [];
+
+  if (!date) {
+    return;
+  }
+
+  const jsDate = new Date(date.year, date.month - 1, date.day);
+
+  this.jour_choisi = jsDate.toLocaleDateString('fr-FR', { weekday: 'long' });
+
+  const horaireMidiSelectedJour = this.horairesRestaurant.find(
+    (p: any) =>
+      p.jour.toLowerCase() === this.jour_choisi.toLowerCase() &&
+      p.Service.type.toLowerCase() === 'midi'
+  );
+
+  const horaireSoirSelectedJour = this.horairesRestaurant.find(
+    (p: any) =>
+      p.jour.toLowerCase() === this.jour_choisi.toLowerCase() &&
+      p.Service.type.toLowerCase() === 'soir'
+  );
+
+  const horaireAutreSelectedJour = this.horairesRestaurant.find(
+    (p: any) =>
+      p.jour.toLowerCase() === this.jour_choisi.toLowerCase() &&
+      !['midi', 'soir'].includes(p.Service.type.toLowerCase())
+  );
+
+  if(horaireMidiSelectedJour||horaireSoirSelectedJour){
+    this.fill_current_horiaires(horaireMidiSelectedJour,jsDate)
+    this.fill_current_horiaires(horaireSoirSelectedJour,jsDate)
+  }else{
+    console.log('pas de service midi et soir')
+    this.fill_current_horiaires(horaireAutreSelectedJour,jsDate)
+  }
+  
+
+    
+  console.log('delai fermetture  :', this.param_delai_avant_fermetture_commandes.valeur,this.param_delai_avant_fermetture_commandes.unite_de_temps); 
+  console.log('duree preparation :', this.param_delai_de_preparation.valeur,this.param_delai_de_preparation.unite_de_temps); 
+  console.log('Jour :', this.jour_choisi); 
+  console.log('Heure actuelle :', new Date().toLocaleTimeString('fr-FR')); 
+  
+}
+
+
+
+fill_current_horiaires(horaireSelectedJour:any,jsDate:any){
+  if (!horaireSelectedJour || horaireSelectedJour.ferme) {
+    return;
+  }
+
+  const hDeb = this.timeToMinutes(horaireSelectedJour.heure_debut);
+  const hFin = this.timeToMinutes(horaireSelectedJour.heure_fin);
+
+  // si on femre a 18h et c'est 2h tu commande au plus a 16h
+  const delaiFermetture = this.convertToMinutes(
+    Number(this.param_delai_avant_fermetture_commandes.valeur),
+    this.param_delai_avant_fermetture_commandes.unite_de_temps
+  );
+
+  // si 2j on est le 5 les dates du 9 + bloquees
+  // si de 50min il est 12h peux commander a 12h50 au moins
+  const dureePreparation = this.convertToMinutes(
+    Number(this.param_delai_de_preparation.valeur),
+    this.param_delai_de_preparation.unite_de_temps
+  );
+
+  let heureMinReservation = hDeb;
+
+  // Si réservation aujourd'hui
+  const now = new Date();
+  const isToday =
+    now.getFullYear() === jsDate.getFullYear() &&
+    now.getMonth() === jsDate.getMonth() &&
+    now.getDate() === jsDate.getDate();
+
+  if (isToday) {
+    heureMinReservation =
+      now.getHours() * 60 +
+      now.getMinutes() +
+      dureePreparation;
+  }
+
+  // Arrondi à la demi-heure supérieure
+  heureMinReservation =
+    Math.ceil(heureMinReservation / 30) * 30;
+
+
+    console.log('heureMinReservation',heureMinReservation)
+
+  // Créneaux de 30 min
+  for (
+    let minutes = Math.max(hDeb, heureMinReservation);
+    minutes + delaiFermetture <= hFin;
+    minutes += 30
+  ) {
+    this.heures_possibles.push(
+      this.minutesToTime(minutes)
+    );
+  }
+
+  console.log('horaireSelectedJour :', horaireSelectedJour);
+  console.log('heures_possibles',this.heures_possibles);
+}
+
+private timeToMinutes(time: string): number {
+  const [h, m] = time.split(':').map(Number);
+  return h * 60 + m;
+}
+
+private minutesToTime(minutes: number): string {
+  const h = Math.floor(minutes / 60)
+    .toString()
+    .padStart(2, '0');
+
+  const m = (minutes % 60)
+    .toString()
+    .padStart(2, '0');
+
+  return `${h}:${m}`;
+}
+
+private convertToMinutes(
+  valeur: number,
+  unite: string
+): number {
+
+  switch (unite) {
+
+    case 'secondes':
+      return valeur / 60;
+
+    case 'minutes':
+      return valeur;
+
+    case 'heures':
+      return valeur * 60;
+
+    case 'jours':
+      return valeur * 24 * 60;
+
+    default:
+      return valeur;
+  }
+}
+
  
  
 }

@@ -21,10 +21,12 @@
                 </div>
             </div>
 
-             <div class="col-sm-12 col-md-12">
+            
+            <div class="col-sm-12 col-md-12">
                 <div class="mb-3">
                 <label class="form-label">Jour <span class="text-danger">*</span></label>
-                <input class="form-control" type="text" formControlName="jour" placeholder="Jour">
+                <ng-select [items]="jours" bindLabel="valeur" bindValue="valeur" [multiple]="false"
+                    placeholder="choisir un jour" formControlName="jour"  />
                 <div *ngIf="formData.get('jour')?.touched && formData.get('jour')?.invalid" class="text-danger">
                     Le jour est invalide
                 </div>

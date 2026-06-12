@@ -49,6 +49,11 @@ export const  types = [
       key: 'ecart_entre_heure_actuelle_et_heure_reservation',
       name: 'Écart minimum entre l’heure actuelle et l’heure de réservation'
     },
+    { key: 'etat_paiement_complet_click_and_collect', name: 'État du paiement complet du click and collect' },
+    {
+      key: 'fusionner_les_tables_pour_reservation',
+      name: 'Fusionner les tables pour reservation'
+    },
     {
       key: 'commande_a_l_avance',
       name: 'Commande à l’avance'

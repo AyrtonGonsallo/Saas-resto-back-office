@@ -33,8 +33,8 @@
                                         <th scope="col">Produit</th>
                                         <th scope="col">Variations</th>
                                         <th scope="col">Quantité</th>
-                                        <th scope="col">Prix unitaire TTC</th>
-                                        <th scope="col">Prix TTC</th>
+                                        <th scope="col">Prix unitaire HT</th>
+                                        <th scope="col">Prix HT</th>
                                         <th scope="col">Action</th>
                                     </tr>
                                     </thead>
@@ -388,29 +388,27 @@
                                                         Heure <span class="text-danger">*</span>
                                                     </label>
                                                     <div class="col-md-3 col-sm-9">
-                                                        <ngb-timepicker
-                                                            formControlName="heure_retrait"
-                                                            [spinners]="true"
-                                                            [seconds]="false"
-                                                        ></ngb-timepicker>
-                                                        <div *ngIf="formData.get('heure_retrait')?.touched && formData.get('heure_retrait')?.invalid" class="text-danger">
-                                                            L'heure est invalide.
+                                                       
+                                                        <div class="mb-3">
+                                                        
+                                                            <ng-select [items]="heures_possibles"  [multiple]="false" placeholder="choisir une heure"
+                                                                formControlName="heure_retrait" />
+                                                            <div *ngIf="formData.get('heure_retrait')?.touched && formData.get('heure_retrait')?.invalid" class="text-danger">
+                                                                L'heure est requise
+                                                            </div>
+                                                            
                                                         </div>
-                                                         <div *ngIf="date_passee" class="text-danger">
-                                                            La date est passée.
-                                                        </div>
-                                                        <div *ngIf="heure_not_in_horaires_resto" class="text-danger">
-                                                            L'heure n'est pas dans les horaires du restaurant choisi pour ce service le {{jour_choisi}}.
-                                                        </div>
+
+                                                        
                                                         
                                                     </div>
 
-                                                    <div class="col-md-6 col-sm-9" *ngIf="horairesRestaurant">
-                                                        Horaires {{selectedRestaurant?.nom}}
-                                                        @for(horaire of horairesRestaurant; track horaire){
-                                                            <span>{{horaire.jour}} : {{horaire.heure_debut}} - {{horaire.heure_fin}}</span><br>
-                                                        }
-                                                    </div>
+                                                   <div class="col-md-6 col-sm-9" *ngIf="horairesRestaurant">
+                                                    Horaires {{selectedRestaurant?.nom}}
+                                                    @for(horaire of horairesRestaurant; track horaire){
+                                                        <span>{{get_horaire_label(horaire)}} </span><br>
+                                                    }
+                                                </div>
                                                     
                                                 </div>
                                             </div>
@@ -455,8 +453,8 @@
                                                         <th scope="col">Produit</th>
                                                         <th scope="col">Variations</th>
                                                         <th scope="col">Quantité</th>
-                                                        <th scope="col">Prix unitaire TTC</th>
-                                                        <th scope="col">Prix TTC</th>
+                                                        <th scope="col">Prix unitaire HT</th>
+                                                        <th scope="col">Prix HT</th>
                                                     </tr>
                                                     </thead>
                                                     <tbody>

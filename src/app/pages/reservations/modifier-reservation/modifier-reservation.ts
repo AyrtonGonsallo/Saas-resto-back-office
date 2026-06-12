@@ -53,9 +53,8 @@ export class ModifierReservation {
       demandes_speciales: ['', []], //etape 3
       statut: ['En attente', []], //etape 3
       service_id: [null, Validators.required], //etape 3
-      table_id: [null, Validators.required], //etape 3
-      creneau_id: [null, Validators.required], //etape 3
-      total_reservations_creneau_par_jour_id: [null, Validators.required], //etape 3
+      tables_id: [null, Validators.required], //etape 3
+      total_reservations_couverts_par_jour_id: [null, Validators.required], //etape 3
       tags: [null, Validators.required], 
     });
   }
@@ -160,7 +159,6 @@ export class ModifierReservation {
         console.log("this.data",this.data)
         this.verifier_roles_et_societes(this.user,this.data)
         this.get_all_restaurants(this.data.societe_id,this.data.restaurant_id)
-        this.get_all_creneaux(this.data.societe_id,this.data.restaurant_id)
         this.get_all_services(this.data.societe_id,this.data.restaurant_id)
         this.get_all_tables(this.data.societe_id,this.data.restaurant_id)
         this.get_all_tags(this.data.societe_id,this.data.restaurant_id)
@@ -195,9 +193,11 @@ export class ModifierReservation {
           demandes_speciales: [this.data.demandes_speciales, []], //etape 3
           statut: [this.data.statut, []], //etape 3
           service_id: [this.data.service_id, Validators.required], //etape 3
-          table_id: [this.data.table_id, Validators.required], //etape 3
-          creneau_id: [this.data.creneau_id, Validators.required], //etape 3
-          total_reservations_creneau_par_jour_id: [this.data.total_reservations_creneau_par_jour_id, Validators.required],
+          tables_id:[Array.isArray(this.data.tables) 
+            ? this.data.tables.map((table:any) => table.id) 
+            : [Validators.required]
+          ],
+          total_reservations_couverts_par_jour_id: [this.data.total_reservations_couverts_par_jour_id, Validators.required],
           tags: [Array.isArray(this.data.tags) 
             ? this.data.tags.map((tag:any) => tag.id) 
             : [Validators.required]
@@ -235,13 +235,12 @@ export class ModifierReservation {
     restaurants:any[]
     allRestaurants:any[]
     societes:any[]
-    crenaux:any[]
+   
     tables:any[]
     tags:any[]
     services:any[]
     allTables:any[]
     allTags:any[]
-    allCrenaux:any[]
     allServices:any[]
     societeData:any
 
@@ -265,31 +264,7 @@ export class ModifierReservation {
       });
     }
 
-    get_all_creneaux(societe_id:number,restaurant_id:number){
-      this.crudSaasService.getCreneaux(null).subscribe({
-        next: (res) => {
-          this.crenaux=res.filter(creneau =>
-            creneau.societe_id === societe_id
-            && creneau.restaurant_id === restaurant_id
-          ).map(creneau => ({
-            ...creneau,
-            fullName: creneau.heure_debut + ' - ' + creneau.heure_fin
-          }));
-          this.allCrenaux=res.filter(creneau =>
-            creneau.societe_id === societe_id
-            && creneau.restaurant_id === restaurant_id
-          ).map(creneau => ({
-            ...creneau,
-            fullName: creneau.heure_debut + ' - ' + creneau.heure_fin
-          }));
-
-          console.log("getCreneaux",this.allCrenaux)
-        },
-        error: (err) => {
-          this.notificationsService.error("Erreur lors de la récupération des crenaux","Echec")
-        }
-      });
-    }
+    
 
 
     get_all_services(societe_id:number,restaurant_id:number){

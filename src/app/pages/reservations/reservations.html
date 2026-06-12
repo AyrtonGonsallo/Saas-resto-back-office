@@ -58,10 +58,10 @@
               <th scope="col" *ngIf="current_priority==1" sortable="societe_id" (sort)="onSort($event)">Société</th>
               <th scope="col" *ngIf="current_priority==1" sortable="restaurant_id" (sort)="onSort($event)">Restaurant</th>
               <th scope="col" sortable="statut" (sort)="onSort($event)">Statut</th>
-              <th scope="col" sortable="table_id" (sort)="onSort($event)">Table</th>
+              <th scope="col"  >Tables</th>
               <th scope="col" sortable="nb_couverts" (sort)="onSort($event)">Nb couverts</th>
               <th scope="col" sortable="nombre_de_personnes" (sort)="onSort($event)">Nb personnes</th>
-              <th scope="col" sortable="creneau_id" (sort)="onSort($event)">Créneau</th>
+              <th scope="col" sortable="service_id" (sort)="onSort($event)">Service</th>
               
               <th scope="col">Action</th>
             </tr>
@@ -92,7 +92,7 @@
                 <ngb-highlight [result]="data.statut" [term]="service.searchTerm" />
               </td>
               <td>
-                <ngb-highlight [result]="data.table.numero+ ' - ' + data.table.nb_places+ ' places'" [term]="service.searchTerm" />
+                <span [innerHTML]="get_tables_label(data.tables)"></span>
               </td>
               <td>
                 <ngb-highlight [result]="data.nb_couverts" [term]="service.searchTerm" />
@@ -101,7 +101,7 @@
                 <ngb-highlight [result]="data.nombre_de_personnes" [term]="service.searchTerm" />
               </td>
               <td>
-                <ngb-highlight [result]="data.creneau.heure_debut + ' - ' + data.creneau.heure_fin" [term]="service.searchTerm" />
+                <ngb-highlight [result]="data.service.type" [term]="service.searchTerm" />
               </td>
               
               

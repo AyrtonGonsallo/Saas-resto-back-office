@@ -61,22 +61,13 @@
                     </div>
                 </div>
             </div>
+       
             <div class="col-sm-12 col-md-12">
                 <div class="mb-3">
-                    <label class="form-label">Créneau <span class="text-danger">*</span></label>
-                    <ng-select [items]="crenaux" bindLabel="fullName" bindValue="id" [multiple]="false" placeholder="choisir un créneau"
-                        formControlName="creneau_id" />
-                    <div *ngIf="formData.get('creneau_id')?.touched && formData.get('creneau_id')?.invalid" class="text-danger">
-                        Le créneau est requis
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-12 col-md-12">
-                <div class="mb-3">
-                    <label class="form-label">Table <span class="text-danger">*</span></label>
-                    <ng-select [items]="tables" bindLabel="fullName" bindValue="id" [multiple]="false" placeholder="choisir une table"
-                        formControlName="table_id" />
-                    <div *ngIf="formData.get('table_id')?.touched && formData.get('table_id')?.invalid" class="text-danger">
+                    <label class="form-label">Tables <span class="text-danger">*</span></label>
+                    <ng-select [items]="tables" bindLabel="fullName" bindValue="id" [multiple]="true" placeholder="choisir une table"
+                        formControlName="tables_id" />
+                    <div *ngIf="formData.get('tables_id')?.touched && formData.get('tables_id')?.invalid" class="text-danger">
                         La table est requise
                     </div>
                 </div>

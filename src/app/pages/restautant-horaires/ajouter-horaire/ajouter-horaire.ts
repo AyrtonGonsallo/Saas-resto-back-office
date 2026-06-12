@@ -23,7 +23,15 @@ export class AjouterHoraire {
   formData!: FormGroup;
   constructor(private fb: FormBuilder, private crudSaasService:CrudSaasRestoService, private restaurantService: RestaurantService, private notificationsService:NotificationsService,) {}
 
-  
+  jours = [
+    { valeur: 'Lundi',  },
+    { valeur: 'Mardi',  },
+    { valeur: 'Mercredi',  },
+    { valeur: 'Jeudi', },
+    { valeur: 'Vendredi',  },
+    { valeur: 'Samedi',  },
+    { valeur: 'Dimanche',  },
+  ]
 
 
   ngOnInit(): void {

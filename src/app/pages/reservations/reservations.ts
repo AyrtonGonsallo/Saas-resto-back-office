@@ -224,5 +224,15 @@ export class Reservations {
   const p = this.getCurrentPriority();
   return p <= 4; 
 }
+
+
+get_tables_label(tables:any){
+  let res=""
+  tables.forEach((table:any) => {
+    res+= `${table.nb_places} personnes, ${table.ZoneTable?.titre}<br>`;
+  });
+  return res;
+  
+}
 }
 

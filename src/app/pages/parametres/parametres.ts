@@ -15,6 +15,7 @@ import { NotificationsService } from '../../shared/services/notifications/notifi
 import { environment } from '../../environment';
 import { RestaurantService } from '../../shared/services/user/user.service';
 import { types,getTypeName, getNotAdminOnly } from '../../shared/constants/types-parametres';
+import { SearchService } from '../../shared/services/search/search.service';
 
 
 @Component({
@@ -46,7 +47,7 @@ export class Parametres {
     });
     this.get_all_datas()
     this.service.pageSize=300
-    
+    this.getSearchTerm()
   }
     
   current_priority=0
@@ -56,7 +57,7 @@ export class Parametres {
       
   }
 
-  constructor(private crudSaasService:CrudSaasRestoService, private restaurantService: RestaurantService, private notificationsService:NotificationsService,) {}
+  constructor(private searchService:SearchService,private crudSaasService:CrudSaasRestoService, private restaurantService: RestaurantService, private notificationsService:NotificationsService,) {}
 
 
   onSort({ column, direction }: SortEvent) {
@@ -83,6 +84,16 @@ export class Parametres {
       return '<i class="fa-solid fa-x font-danger"></i>';
     }
   }
+
+   onSearchTermChange(value: string) {
+      this.searchService.setSearchTerm(value);
+    }
+
+
+    getSearchTerm() {
+      this.service.searchTerm = this.searchService.getSearchTerm();
+    }
+
 
   get_all_datas(){
 

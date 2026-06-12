@@ -54,16 +54,19 @@ export class CreerParametre {
       utilisateur_id: [this.user.datas.id, Validators.required],
     });
 
+    
+
     this.formData.get('type_de_valeur')?.valueChanges.subscribe((type_de_valeur) => {
       
 
       //'unité temporelle','statut','montant','pourcentage','coefficient'
       console.log("type_de_valeur choisie:", type_de_valeur);
-      
+      const valeurControl = this.formData.get('valeur');
       if(type_de_valeur=='statut'){
         this.hide_value=true
+        valeurControl?.clearValidators();
       }else{
-
+        valeurControl?.setValidators([Validators.required]);
         if(type_de_valeur!='choix_d_options'){
           this.hide_contact=true
           this.hide_value=false
@@ -77,9 +80,9 @@ export class CreerParametre {
       }else{
         this.hide_unite=false
       }
+      valeurControl?.updateValueAndValidity();
 
       
-
 
     });
 
@@ -116,6 +119,7 @@ export class CreerParametre {
     
     if (this.formData.invalid) {
       this.notificationsService.error("Formulaire invalide","Echec")
+      console.log(this.formData)
       this.formData.markAllAsTouched();
       return;
     }
