@@ -18,6 +18,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AuthSaasRestoService } from '../../services/auth/auth-saas-resto.service';
 import { RestaurantService } from '../../services/user/user.service';
+import { environment } from '../../../environment';
 
 @Component({
   selector: 'app-header',
@@ -50,7 +51,7 @@ export class Header {
   public navmenu = inject(NavmenuService);
   public layout = inject(LayoutService);
   user:any
-
+  cleanInterface = environment.cleanInterface
   restaurants : any[];
 
   idRestaurantChoisi: number|null;

@@ -2,7 +2,7 @@
     <div class="card-body">
         <div class="img-overlay">
             <h1>Bienvenue, {{user?.datas?.prenom}} {{user?.datas?.nom}}</h1>
-            <p>Nous sommes ravis que vous ayez consulté notre tableau de bord.</p><a
+            <p>Nous sommes ravis que vous ayez consulté notre tableau de bord.</p><a *ngIf="!cleanInterface"
                 class="btn btn-primary" href="javascript:void(0)">Passer à la version Premium</a>
         </div>
     </div>

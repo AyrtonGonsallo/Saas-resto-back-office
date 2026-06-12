@@ -12,8 +12,8 @@
             </div>
         </a>
     </div>
-    <div class="page-main-header col" (clickOutside)="clickOutside()">
-        <div class="header-left d-lg-block d-none">
+    <div class="page-main-header col" (clickOutside)="clickOutside()" >
+        <div class="header-left d-lg-block d-none" *ngIf="!cleanInterface">
             <app-search />
         </div>
         <div class="nav-right">

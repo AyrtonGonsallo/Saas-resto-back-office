@@ -56,6 +56,13 @@ export class Login {
         datas:user_connected,
         accessToken:e.accessToken
       };
+      let role_priorite = user_connected.Role.priorite
+      if (role_priorite>1 && user_connected.Restaurants.length>0){
+        //chosir un resto
+        let _resto_choisi = user_connected.Restaurants[0]
+        console.log('restaurant choisi : ',_resto_choisi.id,_resto_choisi.nom)
+        this.restaurantService.setRestaurant(_resto_choisi.id);
+      }
 
       localStorage.setItem('user', JSON.stringify(user_recupere));
 
