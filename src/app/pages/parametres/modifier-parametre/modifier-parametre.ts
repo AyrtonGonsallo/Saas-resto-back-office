@@ -110,6 +110,7 @@ export class ModifierParametre {
   onSubmit() {
     
     if (this.formData.invalid) {
+      console.log(this.formData)
       this.notificationsService.error("Formulaire invalide","Echec")
       this.formData.markAllAsTouched();
       return;
@@ -186,6 +187,7 @@ export class ModifierParametre {
           restaurant_id: [this.data.restaurant_id, Validators.required],
           utilisateur_id: [this.data.utilisateur_id, Validators.required],
         });
+        const valeurControl = this.formData.get('valeur');
 
         this.formData.get('type')?.valueChanges.subscribe((type) => {
           let typelabel = this.getTypeName(type);
@@ -197,31 +199,35 @@ export class ModifierParametre {
         });
 
         if(this.data.type_de_valeur=='statut'){
+          this.hide_value=true
+          valeurControl?.clearValidators();
+        }else{
+          valeurControl?.setValidators([Validators.required]);
+          if(this.data.type_de_valeur!='choix_d_options'){
+            this.hide_contact=true
+            this.hide_value=false
+          }else{
+            this.hide_contact=false
             this.hide_value=true
-          }else{
-
-            if(this.data.type_de_valeur!='choix_d_options'){
-              this.hide_contact=true
-              this.hide_value=false
-            }else{
-              this.hide_contact=false
-              this.hide_value=true
-            }
           }
-          if(this.data.type_de_valeur!='unite_temporelle'){
-            this.hide_unite=true
-          }else{
-            this.hide_unite=false
-          }
+        }
+        valeurControl?.updateValueAndValidity();
+        
+        if(this.data.type_de_valeur!='unite_temporelle'){
+          this.hide_unite=true
+        }else{
+          this.hide_unite=false
+        }
 
         this.formData.get('type_de_valeur')?.valueChanges.subscribe((type_de_valeur) => {
       
           //'unité temporelle','statut','montant','pourcentage','coefficient'
-          console.log("type_de_valeur choisie:", type_de_valeur);
+          console.log("type_de_valeur choisie et clear:", type_de_valeur);
           if(type_de_valeur=='statut'){
             this.hide_value=true
+            valeurControl?.clearValidators();
           }else{
-
+            valeurControl?.setValidators([Validators.required]);
             if(type_de_valeur!='choix_d_options'){
               this.hide_contact=true
               this.hide_value=false
@@ -230,6 +236,7 @@ export class ModifierParametre {
               this.hide_value=true
             }
           }
+          valeurControl?.updateValueAndValidity();
           if(type_de_valeur!='unite_temporelle'){
             this.hide_unite=true
           }else{
@@ -237,6 +244,8 @@ export class ModifierParametre {
           }
 
         });
+
+        
 
         this.restaurants = this.allRestaurants.filter(cat =>
           cat.societe_id === this.data.societe_id

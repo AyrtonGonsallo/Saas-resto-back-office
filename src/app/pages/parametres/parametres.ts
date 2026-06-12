@@ -165,7 +165,17 @@ export class Parametres {
           }
         });
       
-
-    
   }
+
+
+
+  get_valeur(data:any){
+    return (data.type_de_valeur=='unite_temporelle')?`${data.valeur} ${data.unite_de_temps}`:data.valeur;
+  }
+
+
+
+
+
+
 }

@@ -210,7 +210,7 @@
                                             </div>
                                         }
 
-                                        @if( menus){
+                                        @if( menus.length>0){
                                             <h3 class="mt-4 mb-3" id="cat--1">Menus et offres spéciales</h3>
                                             <div class="row">
                                                 @for( menu of menus; track menu){
@@ -245,12 +245,12 @@
                                                                
                                                                 @if (menu.offre_promo) {
                                                                     <div class="text-center ms-2 me-2" >
-
-                                                                        <span style="text-decoration: line-through;">
-                                                                            Prix : {{ menu.prix_ht }} €
+                                                                        Prix : 
+                                                                        <span class="ms-2 me-2" style="text-decoration: line-through;">
+                                                                            {{ menu.prix_ht }} €
                                                                         </span>
+                                                                        <b>{{menu.prix_promo_ht}} €</b>
                                                                     </div>
-                                                                    <div class="text-center ms-2 me-2" >Prix : <b>{{menu.prix_promo_ht}} €</b></div>
 
                                                                 } @else {
                                                                     <div class="text-center ms-2 me-2" >Prix : <b>{{menu.prix_ht}} €</b></div>
@@ -592,10 +592,10 @@
                             <span style="text-decoration: line-through;">
                                 {{ produitActuel.prix_ht }} €
                             </span>
-                            <br />
-
-                            <strong>Prix promo :</strong>
                             {{ produitActuel.prix_promo_ht }} €
+                          
+
+                            
                             <br />
                         } @else {
                             <strong>Prix :</strong>

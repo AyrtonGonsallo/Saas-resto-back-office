@@ -80,15 +80,8 @@
                 <ngb-highlight [result]="(data.type_de_valeur)" [term]="service.searchTerm" />
               </td>
               <td style="max-width: 300px;">
-                <div class="customers text-center social-group" *ngIf="data.type=='logo'">
-                  <ul>
-                    <li class="d-inline-block">
-                      <img class="img-40 rounded-circle" [src]="imagesUrl+data.valeur" alt="images" />
-                    </li>
-                    
-                  </ul>
-                </div>
-                <ngb-highlight [result]="data.valeur" [term]="service.searchTerm" *ngIf="data.type!='logo'"/>
+                
+                <ngb-highlight [result]="get_valeur(data)" [term]="service.searchTerm" />
               </td>
                <td>
                 <ngb-highlight [result]="(data.updated_at | date:'dd/MM/yyyy HH:mm')" [term]="service.searchTerm" />

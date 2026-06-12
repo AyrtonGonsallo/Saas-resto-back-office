@@ -137,6 +137,7 @@ export class CreerService {
       { key: 'Soir',  },
       { key: 'Évenement', },
       { key: 'Service continu', },
+      { key: 'Pas de service', },
       
     ];
  

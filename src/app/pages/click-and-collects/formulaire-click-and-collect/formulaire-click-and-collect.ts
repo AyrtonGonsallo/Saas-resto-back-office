@@ -803,7 +803,7 @@ export class FormulaireClickAndCollect {
     const current =
       `${date.year}-${String(date.month).padStart(2, '0')}-${String(date.day).padStart(2, '0')}`;
 
-    if (this.disabledDates.includes(current)) {
+    if (this.disabledDates?.includes(current)) {
       return true;
     }
 

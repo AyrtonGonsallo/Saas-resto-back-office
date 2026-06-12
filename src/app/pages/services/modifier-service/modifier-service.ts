@@ -231,6 +231,7 @@ export class ModifierService {
       { key: 'Soir',  },
       { key: 'Évenement', },
       { key: 'Service continu', },
+      { key: 'Pas de service', },
     ];
 
 }
