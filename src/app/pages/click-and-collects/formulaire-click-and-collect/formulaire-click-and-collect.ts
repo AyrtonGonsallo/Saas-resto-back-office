@@ -92,11 +92,17 @@ export class FormulaireClickAndCollect {
 
   final_commande:any
 
-  next(){
+  async next(){
     let res = this.valider_formulaire_etape(this.current_step)
     if(this.current_step<4 && res){
       if(this.current_step==3){
-        this.onSubmit()
+        const success = await this.onSubmit();
+        console.log('success',success)
+        if (!success) {
+          return;
+        }
+
+
         this.button_suiv_text = 'Terminer';
         const Toast = Swal.mixin({
           toast: true,
@@ -152,12 +158,13 @@ export class FormulaireClickAndCollect {
     console.log('this.elements_panier',this.elements_panier)
   }
 
-  onSubmit() {
+  async onSubmit() : Promise<boolean>{
+    let res=false
     
     if (this. formData.invalid) {
       this.notificationsService.error("Formulaire invalide","Echec")
       this. formData.markAllAsTouched();
-      return;
+      res=false;
     }
     const elements_panier = this.panierService.get_panier();
 
@@ -178,12 +185,13 @@ export class FormulaireClickAndCollect {
         if(this.paymentRestoActive){
           this.get_pay_link()
         }
-        
+        res=true;
         
         this.progression+=25
         this.current_step++
       },
       error: (err) => {
+        res=false;
         this.notificationsService.error(err.error.message,"Echec")
         console.log(err.error.message)
       }
@@ -191,11 +199,13 @@ export class FormulaireClickAndCollect {
 
 
     // appel API ici
+    return res;
   }
 
   param_delai_avant_fermetture_commandes:any
   param_commande_a_l_avance:any 
   param_delai_de_preparation:any
+  resto_inactif=false
 
   choisirRestaurant(restaurant_id:number){
 
@@ -203,6 +213,11 @@ export class FormulaireClickAndCollect {
     this.selectedRestaurant = this.restaurants.filter((r:any) =>
       r.id === restaurant_id
     )[0];
+
+    if(!this.selectedRestaurant){
+        this.resto_inactif=true
+        return
+      }
 
     let paramrestoactif=this.selectedRestaurant.parametres?.some((p:any) =>
       p.type === 'etat_paiement_acompte_click_and_collect' &&
@@ -285,7 +300,11 @@ export class FormulaireClickAndCollect {
   }
 
 
- 
+  openPayment(url: string) {
+   if (url) {
+     window.open(url, '_blank'); // ouvre dans un nouvel onglet
+    }
+  }
 
 
   produitActuel: any = null;
@@ -902,6 +921,8 @@ export class FormulaireClickAndCollect {
   
   
   heures_possibles: string[] = [];
+  heures_msg=''
+  pas_d_heures=false
 
 get_selected_day_and_horaire(date: any) {
 
@@ -947,6 +968,13 @@ get_selected_day_and_horaire(date: any) {
   console.log('duree preparation :', this.param_delai_de_preparation.valeur,this.param_delai_de_preparation.unite_de_temps); 
   console.log('Jour :', this.jour_choisi); 
   console.log('Heure actuelle :', new Date().toLocaleTimeString('fr-FR')); 
+
+   if (this.heures_possibles.length<1){
+    this.heures_msg=`Aucune heure de réservation trouvée le ${this.jour_choisi}. Durée de préparation : ${this.param_delai_de_preparation.valeur} ${this.param_delai_de_preparation.unite_de_temps}. Delai de fermetture : ${this.param_delai_avant_fermetture_commandes.valeur} ${this.param_delai_avant_fermetture_commandes.unite_de_temps}`
+    this.pas_d_heures=true
+  }else{
+    this.pas_d_heures=false
+  }
   
 }
 

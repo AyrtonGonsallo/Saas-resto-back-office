@@ -127,6 +127,8 @@ tables_multiple = false
   param_resto_duree_blocage_table:any
   param_resto_fusionner_les_tables_pour_reservation:any
 
+  resto_inactif=false
+
   load_restaurant(restaurant_id:number) {
 
       console.log("restaurant_id choisi:", restaurant_id);
@@ -134,6 +136,10 @@ tables_multiple = false
       this.selectedRestaurant = this.restaurants.filter((r:any) =>
         r.id === restaurant_id
       )[0];
+      if(!this.selectedRestaurant){
+        this.resto_inactif=true
+        return
+      }
       let paramrestoactif = this.selectedRestaurant.parametres?.some((p:any) =>
         p.type === 'etat_paiement_acompte_reservation' &&
         p.est_actif 
@@ -192,7 +198,7 @@ tables_multiple = false
           table.restaurant_id === restaurant_id
         ).map(table => ({
           ...table,
-          fullName: 'Table '+table.nb_places + ' personnes - '+table.ZoneTable.titre
+          fullName: 'Table '+table.nb_places + ' personnes - '+table.ZoneTable?.titre
         }));
 
     
@@ -474,14 +480,14 @@ tables_multiple = false
             table.societe_id === this.societe_id
           ).map((table:any) => ({
             ...table,
-            fullName: 'Table '+table.nb_places + ' personnes - '+table.ZoneTable.titre 
+            fullName: 'Table '+table.nb_places + ' personnes - '+table.ZoneTable?.titre 
           }));
 
           this.allTables=res.filter((table:any) =>
             table.societe_id === this.societe_id
           ).map((table:any) => ({
             ...table,
-            fullName: 'Table '+table.nb_places + ' personnes - '+table.ZoneTable.titre  
+            fullName: 'Table '+table.nb_places + ' personnes - '+table.ZoneTable?.titre  
           }));
 
           console.log("getTables",this.allTables)
@@ -563,7 +569,7 @@ tables_multiple = false
     const current =
       `${date.year}-${String(date.month).padStart(2, '0')}-${String(date.day).padStart(2, '0')}`;
 
-    return this.disabledDates.includes(current);
+    return this.disabledDates?.includes(current);
   };
 
   close(){
@@ -608,6 +614,8 @@ tables_multiple = false
 
   
   heures_possibles: string[] = [];
+  heures_msg=''
+  pas_d_heures=false
 
 get_selected_day_and_horaire(date: any) {
 
@@ -653,6 +661,12 @@ get_selected_day_and_horaire(date: any) {
   console.log('ecart min entre heure reser et heure actuelle :', this.param_resto_ecart_heures.valeur,this.param_resto_ecart_heures.unite_de_temps); 
   console.log('Jour :', this.jour_choisi); 
   console.log('Heure actuelle :', new Date().toLocaleTimeString('fr-FR')); 
+  if (this.heures_possibles.length<1){
+    this.heures_msg=`Aucune heure de réservation trouvée le ${this.jour_choisi}. Durée de la réservation : ${this.param_resto_duree_blocage_table.valeur} ${this.param_resto_duree_blocage_table.unite_de_temps}. Delai entre l'heure de la réservation et l'heure actuelle : ${this.param_resto_ecart_heures.valeur} ${this.param_resto_ecart_heures.unite_de_temps}`
+    this.pas_d_heures=true
+  }else{
+    this.pas_d_heures=false
+  }
   
 }
 
@@ -807,7 +821,7 @@ find_and_set_service() {
 get_tables_label(tables:any){
   let res=""
   tables.forEach((table:any) => {
-    res+= `${table.nb_places} personnes, ${table.ZoneTable.titre}<br>`;
+    res+= `${table.nb_places} personnes, ${table.ZoneTable?.titre}<br>`;
   });
   return res;
   

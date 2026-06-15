@@ -17,7 +17,7 @@
                             <p class="text-center">Entrez les informations suivantes</p>
                            
                           
-                            <div class="animated-badge" *ngIf="total_elements_panier>0" >
+                            <div class="animated-badge" *ngIf="total_elements_panier>0">
                                 <ul class="d-flex-end">
                                     <li class="bg-common-primary" (click)="see_card()">
                                         <span class="dote-primary">{{total_elements_panier}}</span>
@@ -26,7 +26,7 @@
                                 </ul>
                             </div>
 
-                            <div id="card-content" *ngIf="see_panier">
+                            <div id="card-content" *ngIf="see_panier" >
                                 <table class="table" *ngIf="total_elements_panier>0">
                                     <thead class="table-dark">
                                     <tr>
@@ -63,7 +63,10 @@
                                 </table>
                             </div>
 
-                            <div class="card">
+                             <div class="card mt-3" *ngIf="resto_inactif">
+                            Ce service est désactivé dans ce restaurant
+                            </div>
+                            <div class="card" *ngIf="!resto_inactif">
                                 
                                 <div class="card-body">
                                     <div class="position-relative mx-3 my-4 progress-number">
@@ -85,7 +88,7 @@
                                 </div>
                             </div>
 
-                            <div class="d-flex justify-content-between">
+                            <div class="d-flex justify-content-between" *ngIf="!resto_inactif">
                                 <div class="col-auto " *ngIf="current_step>1">
                                     <a class="btn btn-primary btn-block w-100 text-white" (click)="prec()">{{button_prec_text}}</a>
                                 </div>
@@ -94,7 +97,7 @@
                                 </div>
                             </div>
 
-                            <div class="card mt-3">
+                            <div class="card mt-3" *ngIf="!resto_inactif">
                                 
                                 <div class="card-body">
                                     
@@ -396,6 +399,9 @@
                                                             <div *ngIf="formData.get('heure_retrait')?.touched && formData.get('heure_retrait')?.invalid" class="text-danger">
                                                                 L'heure est requise
                                                             </div>
+                                                            <div *ngIf="pas_d_heures" class="text-danger">
+                                                                {{heures_msg}}
+                                                            </div>
                                                             
                                                         </div>
 
@@ -425,8 +431,8 @@
                                                 <p class="card-description">Cliquez sur le bouton ci-dessous pour copier le lien du Paiement à faire pour confirmer la reservation : </p>
                                                
                                                 <div class="mt-3 text-end">
-                                                    <button class="btn btn-info btn-clipboard" type="button" (click)="copyFunction(urlPayment)">
-                                                        <i class="fa fa-copy"></i> Copier le lien
+                                                    <button class="btn btn-info btn-clipboard" type="button" (click)="openPayment(urlPayment)">
+                                                       <!-- <i class="fa fa-copy"></i> --> Payer maintenant
                                                     </button>
                                                 </div>
                                             </div>
@@ -497,7 +503,7 @@
 
 
 
-                            <div class="d-flex justify-content-between">
+                            <div class="d-flex justify-content-between" *ngIf="!resto_inactif">
                                 <div class="col-auto " *ngIf="current_step>1">
                                     <a class="btn btn-primary btn-block w-100 text-white" (click)="prec()">{{button_prec_text}}</a>
                                 </div>
