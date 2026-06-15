@@ -27,4 +27,15 @@ export class SearchService {
     this.searchTerm = '';
     localStorage.removeItem(this.SEARCH_KEY);
   }
+
+ 
+  
+  setFilterArray(title: string, data: string[]) {
+  localStorage.setItem(title, JSON.stringify(data));
+}
+
+getFilterArray(title: string): string[] {
+  const data = localStorage.getItem(title);
+  return data ? JSON.parse(data) : [];
+}
 }

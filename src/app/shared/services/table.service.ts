@@ -6,6 +6,7 @@ import { debounceTime, delay, switchMap, tap } from 'rxjs/operators';
 
 
 import { SortColumn, SortDirection } from '../directives/sortable.directive';
+import { getTypeName } from '../constants/types-parametres';
 
 
 interface SearchResult {
@@ -27,9 +28,23 @@ function getValue(obj: any, path: string) {
   return path.split('.').reduce((acc, key) => acc?.[key], obj);
 }
 
+function getTypeNameFromkey(key:string){
+    return getTypeName(key)
+  }
+
 function sort(data: any[], column: string, direction: string): any[] {
   if (!direction || !column) {
     return data;
+  }
+  if(column=='getTypeNameFromkey'){
+
+    return [...data].sort((a, b) => {
+      const aValue = getTypeNameFromkey(getValue(a, 'type'));
+      const bValue = getTypeNameFromkey(getValue(b, 'type'));
+
+      const res = compare(aValue, bValue);
+      return direction === 'asc' ? res : -res;
+    });
   }
 
   return [...data].sort((a, b) => {

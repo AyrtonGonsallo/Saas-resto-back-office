@@ -21,7 +21,7 @@
             </label>
           </div>
           
-
+  
           
           <div class="mb-3 row">
             <label for="table-complete-search" class="col-xs-3 col-sm-auto col-form-label"
@@ -50,7 +50,7 @@
               
               <th scope="col" *ngIf="current_priority==1" sortable="societe_id" (sort)="onSort($event)">Société</th>
               <th scope="col" *ngIf="current_priority==1" sortable="restaurant_id" (sort)="onSort($event)">Restaurant</th>
-              <th scope="col" sortable="type" (sort)="onSort($event)">Catégorie</th>
+              <th scope="col" sortable="getTypeNameFromkey" (sort)="onSort($event)">Catégorie</th>
               <th scope="col" sortable="type_de_valeur" (sort)="onSort($event)">Type</th>
               <th scope="col" sortable="valeur" (sort)="onSort($event)">Valeur</th>
               <th scope="col" sortable="updated_at" (sort)="onSort($event)">Date de mise à jour</th>

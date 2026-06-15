@@ -57,14 +57,22 @@ export class NavmenuService {
     {
       id: 2,
       level: 1,
-      title: 'Widgets',
-      icon: 'Pie',
+      title: 'Notifications',
+       custom_icon_class: '<i class="icofont icofont-notification"></i>',
       type: 'sub',
       devOnly: true,
       active: false,
       children: [
         { path: '/widgets/general', title: 'General', type: 'link' },
         { path: '/widgets/chart', title: 'Chart', type: 'link' },
+        {
+          title: 'Réservations',
+          path: '/reservations/liste-reservations',
+          custom_icon_class: '<i class="fas fa-calendar-check"></i>',
+          icon: 'order-product',
+          roles: [  'super-admin','admin', 'client', 'public',  'gestionnaire-restaurant', 'gestionnaire-societe', 'lecteur-planning', 'lecteur-cuisine',  'employé',   ],
+          active: false,
+        },
       ],
     },
     {

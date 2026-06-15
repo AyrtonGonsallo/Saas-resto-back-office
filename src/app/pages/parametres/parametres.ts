@@ -16,14 +16,14 @@ import { environment } from '../../environment';
 import { RestaurantService } from '../../shared/services/user/user.service';
 import { types,getTypeName, getNotAdminOnly } from '../../shared/constants/types-parametres';
 import { SearchService } from '../../shared/services/search/search.service';
-
+import { NgSelectModule } from '@ng-select/ng-select';
 
 @Component({
   selector: 'app-parametres',
   imports: [FormsModule,
     NgbdSortableHeaderDirective,
     ReactiveFormsModule,CommonModule,
-    NgbModule,
+    NgbModule,NgSelectModule,
     AsyncPipe,],
   templateUrl: './parametres.html',
   styleUrl: './parametres.scss',
@@ -36,7 +36,9 @@ export class Parametres {
   public tableData$: Observable<any[]> = this.service.supportdata$;
   public total$: Observable<number> = this.service.total$;
   public Data: any[];
-  types = types
+types: any[] = types;
+current_params: any[] = [];
+filter_params: string[] = [];
 
   readonly headers = viewChildren(NgbdSortableHeaderDirective);
 
@@ -48,6 +50,10 @@ export class Parametres {
     this.get_all_datas()
     this.service.pageSize=300
     this.getSearchTerm()
+   // this.getParamsFilter()
+
+    this.service.sortColumn = 'getTypeNameFromkey';
+    this.service.sortDirection = 'asc';
   }
     
   current_priority=0
@@ -72,7 +78,6 @@ export class Parametres {
   }
 
   parametres:any
-
   getTypeNameFromkey(key:string){
     return getTypeName(key)
   }
@@ -85,16 +90,20 @@ export class Parametres {
     }
   }
 
-   onSearchTermChange(value: string) {
+  onSearchTermChange(value: string) {
       this.searchService.setSearchTerm(value);
-    }
+  }
+
+  
+
+  getSearchTerm() {
+    this.service.searchTerm = this.searchService.getSearchTerm();
+  }
 
 
-    getSearchTerm() {
-      this.service.searchTerm = this.searchService.getSearchTerm();
-    }
 
 
+  all_params:any
   get_all_datas(){
 
     this.getCurrentPriority()
@@ -107,15 +116,18 @@ export class Parametres {
           console.log('prio >3',this.current_priority)
         }
 
-         // FILTRE par selection du restaurant
-          if (restaurant_id) {
-            res = res.filter(p =>
-            p.restaurant_id === restaurant_id ||
-            p.Restaurant?.id === restaurant_id
-            );
-           }
-        this.service.setData(res);
-        console.log("parametres",this.parametres)
+        // FILTRE par selection du restaurant
+        if (restaurant_id) {
+          res = res.filter(p =>
+          p.restaurant_id === restaurant_id ||
+          p.Restaurant?.id === restaurant_id
+          );
+          }
+        this.all_params = res
+        this.current_params = this.all_params
+        this.service.setData(this.current_params);
+        console.log("all_params",this.all_params)
+
       },
       error: (err) => {
         this.notificationsService.error("Erreur lors de la récupération des rôles","Echec")

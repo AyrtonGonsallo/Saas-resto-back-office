@@ -1,8 +1,8 @@
 // environment.ts
 
 export const environment = {
-    cleanInterface:true,//enlever les liens inutiles du menu et du dashboard
-    production: true,//enlever les liens inutiles du menu
+    cleanInterface:false,//enlever les liens inutiles du menu et du dashboard
+    production: false,//enlever les liens inutiles du menu
     apiUrl: 'http://localhost:2026/api/v1', // URL de l'API locale
     //apiUrl: 'https://api.resto.orocom.io/api/v1', // URL de l'API sur le dev
     //apiUrl: 'https://api.resto.orocom.io/api/v1', // URL de l'API en prod
