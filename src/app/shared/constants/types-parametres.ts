@@ -31,6 +31,7 @@ export const  types = [
     { key: 'stock_min_avant_alerte', name: 'C&C - Stock minimun avant alerte' },
     { key: 'max_couverts_par_jour', name: 'Réservation - Max couverts par jour' },
     { key: 'delai_rappel_reservation', name: 'Réservation - Delai avant rappel lors d\'une réservation' },
+    { key: 'delai_msg_commande_prete', name: 'Réservation - Delai avant msg commande prete automatique lors d\'une commande' },
     { key: 'delai_annulation_reservation', name: 'Réservation - Delai avant annulation d\'une réservation' },
     { key: 'delai_invitation_avis', name: 'Réservation - Delai avant envoi du lien du formulaire d\'avis sur une réservation' },
     { key: 'cle_publique_stripe', name: 'Général - Clé publique stripe' },
