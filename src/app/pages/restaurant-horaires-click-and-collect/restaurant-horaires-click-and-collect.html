@@ -13,7 +13,7 @@
                 <option [ngValue]="50">50</option>
                 <option [ngValue]="100">100</option>
                 <option [ngValue]="150">150</option>
-                <option [ngValue]="200">200</option>
+                <option [ngValue]="500">500</option>
               </select>
               entries
             </label>
@@ -46,7 +46,6 @@
           <thead>
             <tr>
               <th scope="col" sortable="id" (sort)="onSort($event)">ID</th>
-              <th scope="col" sortable="type" (sort)="onSort($event)">Type</th>
               <th scope="col" sortable="jour" (sort)="onSort($event)">Jour</th>
               <th scope="col" sortable="service_id" (sort)="onSort($event)">Service</th>
               <th scope="col" sortable="heure_debut" (sort)="onSort($event)">Début</th>
@@ -66,9 +65,7 @@
                 <ngb-highlight [result]="data.id" [term]="service.searchTerm" />
               </td>
              
-              <td>
-                <ngb-highlight [result]="data.type" [term]="service.searchTerm" />
-              </td>
+             
               <td>
                 <ngb-highlight [result]="data.jour" [term]="service.searchTerm" />
               </td>
@@ -113,6 +110,8 @@
           </tbody>
         </table>
 
+        <!--
+        
         
         
         <div class="d-flex justify-content-between p-2">
@@ -123,7 +122,7 @@
             [pageSize]="service.pageSize"
           />
         </div>
-        
+        -->
         
       </div>
     </div>

@@ -33,8 +33,8 @@
                                         <th scope="col">Produit</th>
                                         <th scope="col">Variations</th>
                                         <th scope="col">Quantité</th>
-                                        <th scope="col">Prix unitaire HT</th>
-                                        <th scope="col">Prix HT</th>
+                                        <th scope="col">Prix unitaire TTC</th>
+                                        <th scope="col">Prix TTC</th>
                                         <th scope="col">Action</th>
                                     </tr>
                                     </thead>
@@ -459,8 +459,8 @@
                                                         <th scope="col">Produit</th>
                                                         <th scope="col">Variations</th>
                                                         <th scope="col">Quantité</th>
-                                                        <th scope="col">Prix unitaire HT</th>
-                                                        <th scope="col">Prix HT</th>
+                                                        <th scope="col" >Prix unitaire TTC</th>
+                                                        <th scope="col">Prix TTC</th>
                                                     </tr>
                                                     </thead>
                                                     <tbody>
@@ -484,8 +484,8 @@
                                                             <td>{{get_sous_total_price_ht(final_commande.items)}} €</td>
                                                         </tr>
                                                         <tr>
-                                                            <td colspan="4">Total TTC</td>
-                                                            <td>{{final_commande.totalPrice}} €</td>
+                                                            <td colspan="3"></td>
+                                                            <td colspan="2">Total {{final_commande.totalPrice}} € TTC<br> Dont TVA ({{final_commande.tva}} %) = {{final_commande.total_tva}} €</td>
                                                         </tr>
                                                     </tbody>
                                                     

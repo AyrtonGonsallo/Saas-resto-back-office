@@ -662,7 +662,7 @@ get_selected_day_and_horaire(date: any) {
   console.log('Jour :', this.jour_choisi); 
   console.log('Heure actuelle :', new Date().toLocaleTimeString('fr-FR')); 
   if (this.heures_possibles.length<1){
-    this.heures_msg=`Aucune heure de réservation trouvée le ${this.jour_choisi}. Durée de la réservation : ${this.param_resto_duree_blocage_table.valeur} ${this.param_resto_duree_blocage_table.unite_de_temps}. Delai entre l'heure de la réservation et l'heure actuelle : ${this.param_resto_ecart_heures.valeur} ${this.param_resto_ecart_heures.unite_de_temps}`
+    this.heures_msg=`Aucune heure de réservation trouvée le ${this.jour_choisi}.`
     this.pas_d_heures=true
   }else{
     this.pas_d_heures=false

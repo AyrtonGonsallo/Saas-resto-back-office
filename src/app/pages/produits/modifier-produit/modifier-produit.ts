@@ -149,13 +149,15 @@ export class ModifierProduit {
       });
   }
 
+
+  prioriteRoleUser=0
    verifier_roles_et_societes(user: any, currentRestaurant: any) {
     console.log('user', user);
     console.log('restaurant', currentRestaurant);
 
     const prioriteRoleUser = user?.datas?.Role?.priorite;
     const societeUser = user?.datas?.societe_id;
-
+this.prioriteRoleUser= prioriteRoleUser
     const societeRestaurant = currentRestaurant?.societe_id;
     const restaurantId = currentRestaurant?.restaurant_id;
 

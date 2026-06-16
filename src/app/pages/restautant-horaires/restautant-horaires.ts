@@ -42,7 +42,7 @@ export class RestautantHoraires {
 
      ngOnInit() {
       this.current_priority = this.restaurantService.getUser()?.datas?.Role?.priorite;
-      this.service.pageSize=200
+      this.service.pageSize=500
       this.get_all_datas()
       this.getSearchTerm()
      }
@@ -91,7 +91,15 @@ export class RestautantHoraires {
        return p <= 4;
       }
 
-   
+   ordreJours = [
+      'Lundi',
+      'Mardi',
+      'Mercredi',
+      'Jeudi',
+      'Vendredi',
+      'Samedi',
+      'Dimanche'
+    ];
    
      get_all_datas(){
    
@@ -108,6 +116,10 @@ export class RestautantHoraires {
             p.Restaurant?.id === restaurant_id
             );
            }
+
+           res.sort((a: any, b: any) =>
+              this.ordreJours.indexOf(a.jour) - this.ordreJours.indexOf(b.jour)
+            );
 
            this.service.setData(res);
          },

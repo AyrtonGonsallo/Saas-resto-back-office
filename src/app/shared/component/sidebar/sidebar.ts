@@ -9,7 +9,6 @@ import { LayoutService } from '../../services/layout.service';
 import { Menu, NavmenuService } from '../../services/navmenu.service';
 import { Feathericon } from '../feathericon/feathericon';
 import { SvgIcon } from '../svg-icon/svg-icon';
-import { environment } from '../../../environment';
 import { CrudSaasRestoService } from '../../services/api/crud-saas-resto.service';
 import { NotificationsService } from '../../services/notifications/notifications.service';
 
@@ -36,8 +35,8 @@ export class Sidebar {
   public userRole: string = '';
 
   constructor(private crudSaasService:CrudSaasRestoService,private notificationsService:NotificationsService,) {
-    const user = JSON.parse(localStorage.getItem('user') || '{}');
-    this.userRole = user?.datas?.Role?.type;
+    this.user = JSON.parse(localStorage.getItem('user') || '{}');
+    this.userRole = this.user?.datas?.Role?.type;
     console.log('ROLE =', this.userRole);
     if (window.innerWidth < 1185) {
       this.navServices.closeSidebar = true;
@@ -124,6 +123,7 @@ export class Sidebar {
  custom_notifications:any[]=[]
   get_all_custom_notifications(){
 
+  
     this.crudSaasService.getAllUnreadNotificationsByUserID(this.user?.datas.id,5).subscribe({
       next: (res) => {
         this.custom_notifications=res;

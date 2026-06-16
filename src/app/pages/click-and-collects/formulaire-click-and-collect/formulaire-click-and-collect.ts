@@ -970,7 +970,7 @@ get_selected_day_and_horaire(date: any) {
   console.log('Heure actuelle :', new Date().toLocaleTimeString('fr-FR')); 
 
    if (this.heures_possibles.length<1){
-    this.heures_msg=`Aucune heure de réservation trouvée le ${this.jour_choisi}. Durée de préparation : ${this.param_delai_de_preparation.valeur} ${this.param_delai_de_preparation.unite_de_temps}. Delai de fermetture : ${this.param_delai_avant_fermetture_commandes.valeur} ${this.param_delai_avant_fermetture_commandes.unite_de_temps}`
+    this.heures_msg=`Aucune heure de réservation trouvée le ${this.jour_choisi}. `
     this.pas_d_heures=true
   }else{
     this.pas_d_heures=false

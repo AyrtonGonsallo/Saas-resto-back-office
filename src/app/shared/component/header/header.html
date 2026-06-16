@@ -69,9 +69,15 @@
                 <li class="profile-dropdown custom-dropdown">
                     <app-profile />
                 </li>
-                <li class="profile-dropdown custom-dropdown" *ngIf="restaurants.length>0">
+                <li class="profile-dropdown custom-dropdown" *ngIf="restaurants.length>1">
                     <span class="select2 select2-container select2-container--default select2-container--below">
                         <ng-select [items]="restaurants" bindLabel="nom" bindValue="id" [multiple]="false"  (change)="onChangeRestaurant($event)"
+                            placeholder="Choisir un restaurant" [(ngModel)]="idRestaurantChoisi" />
+                    </span>
+                </li>
+                <li class="profile-dropdown custom-dropdown" *ngIf="restaurants.length==1">
+                    <span class="select2 select2-container select2-container--default select2-container--below">
+                        <ng-select [items]="restaurants" disabled bindLabel="nom" bindValue="id" [multiple]="false"  (change)="onChangeRestaurant($event)"
                             placeholder="Choisir un restaurant" [(ngModel)]="idRestaurantChoisi" />
                     </span>
                 </li>

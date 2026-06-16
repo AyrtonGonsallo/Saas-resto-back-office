@@ -60,12 +60,14 @@ export class ModifierParametre {
     
   }
 
+
+  prioriteRoleUser=0
    verifier_roles_et_societes(user: any, currentData: any) {
     const prioriteRoleUser = user?.datas?.Role?.priorite;
     const societeUser = user?.datas?.societe_id;
     const societeCurrentData = currentData?.societe_id;
     const restaurantCurrentData = currentData?.restaurant_id;
-
+    this.prioriteRoleUser=prioriteRoleUser
     const restaurantsAutorises =
       user?.datas?.Restaurants?.map((r: any) => r.id) || [];
 
@@ -163,7 +165,7 @@ export class ModifierParametre {
 
   
    data:any
-
+is_status=false
 
   load_data(id:number){
 
@@ -201,6 +203,7 @@ export class ModifierParametre {
         if(this.data.type_de_valeur=='statut'){
           this.hide_value=true
           valeurControl?.clearValidators();
+          this.is_status=true
         }else{
           valeurControl?.setValidators([Validators.required]);
           if(this.data.type_de_valeur!='choix_d_options'){

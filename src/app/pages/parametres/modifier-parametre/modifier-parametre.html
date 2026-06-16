@@ -70,7 +70,7 @@
             </div>
 
 
-            <div class="col-sm-12 col-md-12">
+            <div class="col-sm-12 col-md-12" *ngIf="is_status || prioriteRoleUser<=3">
                 <div class="mb-3">
                     <label class="form-label">Actif ? <span class="text-danger">*</span></label>
                     <div>
@@ -82,7 +82,7 @@
                 </div>
             </div>
 
-            <div class="col-sm-12 col-md-12">
+            <div class="col-sm-12 col-md-12" *ngIf="prioriteRoleUser<=3">
                 <div class="mb-3">
                     <label class="form-label">Important ? <span class="text-danger">*</span></label>
                     <div>
@@ -94,7 +94,7 @@
                 </div>
             </div>
 
-            <div class="col-sm-12 col-md-12">
+            <div class="col-sm-12 col-md-12" *ngIf="prioriteRoleUser<=3">
                 <label class="form-label">Société <span class="text-danger">*</span></label>
             
                 <ng-select [items]="societes" bindLabel="titre" bindValue="id" [multiple]="false"
@@ -104,7 +104,7 @@
                 </div>
             </div>
 
-            <div class="col-sm-12 col-md-12">
+            <div class="col-sm-12 col-md-12" *ngIf="prioriteRoleUser<=3">
                 <label class="form-label">Restaurant <span class="text-danger">*</span></label>
             
                 <ng-select [items]="restaurants" bindLabel="nom" bindValue="id" [multiple]="false"
