@@ -43,6 +43,15 @@
             }
           </div>
         </div>
+
+           <div class="col-xs-3 mb-3 col-sm-auto">
+               <ng-select [items]="types" bindLabel="name" bindValue="key" [multiple]="true"
+                    placeholder="catégories" name="filter_params"  [(ngModel)]="filter_params"
+                 (ngModelChange)="onSearchTermChange2($event)" />
+              
+            </div>
+
+
         <table class="display table table-striped table-hover table-light">
           <thead>
             <tr>

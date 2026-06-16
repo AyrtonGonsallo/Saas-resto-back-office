@@ -50,7 +50,7 @@ filter_params: string[] = [];
     this.get_all_datas()
     this.service.pageSize=300
     this.getSearchTerm()
-   // this.getParamsFilter()
+    
 
     this.service.sortColumn = 'getTypeNameFromkey';
     this.service.sortDirection = 'asc';
@@ -94,6 +94,36 @@ filter_params: string[] = [];
       this.searchService.setSearchTerm(value);
   }
 
+
+  onSearchTermChange2(filter_params_value: any) {
+    console.log('filter_params_value',filter_params_value)
+    this.searchService.setFilterArray('filter_params',filter_params_value)
+     this.apply_categorie_filter(filter_params_value)
+   
+
+    
+  }
+
+
+  apply_categorie_filter(filter_params_value:any){
+    if (!filter_params_value || filter_params_value.length === 0) {
+      this.current_params = [...this.all_params];
+    } else {
+      this.current_params = this.all_params.filter((p: any) =>
+        filter_params_value.includes(p.type)
+      );
+    }
+    this.service.setData(this.current_params);
+  }
+
+  getParamsFilter(){
+    let categories_recuperees = this.searchService.getFilterArray('filter_params');
+    console.log('categories_recuperees',categories_recuperees)
+    this.filter_params = categories_recuperees ?? [];
+    this.apply_categorie_filter(this.filter_params)
+
+  }
+
   
 
   getSearchTerm() {
@@ -127,6 +157,8 @@ filter_params: string[] = [];
         this.current_params = this.all_params
         this.service.setData(this.current_params);
         console.log("all_params",this.all_params)
+
+        this.getParamsFilter()
 
       },
       error: (err) => {
