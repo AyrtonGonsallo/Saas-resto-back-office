@@ -17,7 +17,7 @@ import { RestaurantService } from '../../../shared/services/user/user.service';
   styleUrl: './ajouter-horaire.scss',
 })
 export class AjouterHoraire {
-
+  
   
   private router = inject(Router);
   formData!: FormGroup;
@@ -40,7 +40,7 @@ export class AjouterHoraire {
     this.get_all_restaurants()
     
     this.formData = this.fb.group({
-      type: ['Réservation', Validators.required],
+      type: ['Click and collect', Validators.required],
       jour: ['', Validators.required],
       ferme: [false, Validators.required],
       service_id: [0, Validators.required],
@@ -104,7 +104,7 @@ export class AjouterHoraire {
   }
 
   types = [
-    { key: 'Réservation', },
+    { key: 'Click and collect',  },
   ];
  
 
@@ -127,7 +127,7 @@ export class AjouterHoraire {
               showConfirmButton: false,
             });
         setTimeout(() => {
-          this.router.navigate(['/horaires-reservation/liste-horaires-reservation']);
+          this.router.navigate(['/horaires-click-and-collect/liste-horaires-click-and-collect']);
         }, 2000);
       },
       error: (err) => {

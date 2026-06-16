@@ -727,6 +727,22 @@ export class CrudSaasRestoService {
     }
     return this.http.get<any[]>(url);
   }
+
+   get_all_horaires_reservation(restaurantId:number | null): Observable<any[]> {
+    let url = `${environment.apiUrl}/get_all_horaires_reservation`;
+    if (restaurantId) {
+      url += `?restaurant_id=${restaurantId}`;
+    }
+    return this.http.get<any[]>(url);
+  }
+
+   get_all_horaires_click_and_collect(restaurantId:number | null): Observable<any[]> {
+    let url = `${environment.apiUrl}/get_all_horaires_click_and_collect`;
+    if (restaurantId) {
+      url += `?restaurant_id=${restaurantId}`;
+    }
+    return this.http.get<any[]>(url);
+  }
   delete_horaire(id: number): Observable<any> {
     const url = `${environment.apiUrl}/delete_horaire/${id}`;
     return this.http.delete<any>(url);

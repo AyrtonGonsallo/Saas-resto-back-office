@@ -1,0 +1,138 @@
+<div class="card custom-table-striped">
+  <form class="table-responsive theme-scroollbar">
+    <div class="card-body">
+      
+      <div class="dataTables_wrapper">
+        <div class="d-flex justify-content-between p-2">
+
+            
+            <div class="dataTables_length" id="basic-6_length">
+            <label
+              >Show
+              <select name="pageSize" [(ngModel)]="service.pageSize">
+                <option [ngValue]="50">50</option>
+                <option [ngValue]="100">100</option>
+                <option [ngValue]="150">150</option>
+                <option [ngValue]="200">200</option>
+              </select>
+              entries
+            </label>
+          </div>
+            
+          
+
+
+          <div class="mb-3 row">
+            <label for="table-complete-search" class="col-xs-3 col-sm-auto col-form-label"
+              >Search:</label
+            >
+            <div class="col-xs-3 col-sm-auto">
+              <input
+                id="table-complete-search"
+                type="text"
+                class="form-control"
+                name="searchTerm"
+                [(ngModel)]="service.searchTerm"
+                (ngModelChange)="onSearchTermChange($event)"
+                autocomplete="off"
+              />
+            </div>
+            @if(service.loading$ | async){
+            <span class="col col-form-label">Loading...</span>
+            }
+          </div>
+        </div>
+        <table class="display table table-striped table-hover table-light">
+          <thead>
+            <tr>
+              <th scope="col" sortable="id" (sort)="onSort($event)">ID</th>
+              <th scope="col" sortable="type" (sort)="onSort($event)">Type</th>
+              <th scope="col" sortable="jour" (sort)="onSort($event)">Jour</th>
+              <th scope="col" sortable="service_id" (sort)="onSort($event)">Service</th>
+              <th scope="col" sortable="heure_debut" (sort)="onSort($event)">Début</th>
+              <th scope="col" sortable="heure_fin" (sort)="onSort($event)">Fin</th>
+              @if(current_priority==1){
+              <th scope="col" sortable="societe_id" (sort)="onSort($event)">Société</th>
+              <th scope="col" sortable="restaurant_id" (sort)="onSort($event)">Restaurant</th>
+              }
+              <th scope="col">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for(data of tableData$ | async; track data; let i = $index){
+            <tr>
+              
+              <td>
+                <ngb-highlight [result]="data.id" [term]="service.searchTerm" />
+              </td>
+             
+              <td>
+                <ngb-highlight [result]="data.type" [term]="service.searchTerm" />
+              </td>
+              <td>
+                <ngb-highlight [result]="data.jour" [term]="service.searchTerm" />
+              </td>
+              <td>
+                <ngb-highlight [result]="data.Service?.type" [term]="service.searchTerm" />
+              </td>
+              <td>
+                <ngb-highlight [result]="data.heure_debut" [term]="service.searchTerm" />
+              </td>
+              <td>
+                <ngb-highlight [result]="data.heure_fin" [term]="service.searchTerm" />
+              </td>
+              @if(current_priority==1){
+              <td>
+                <ngb-highlight [result]="data.Societe.titre" [term]="service.searchTerm" />
+              </td>
+              <td >
+                <ngb-highlight [result]="data.Restaurant.nom" [term]="service.searchTerm" />
+              </td>
+              }
+              <td>
+                <ul class="action">
+                 
+                  @if(canEdit()) {
+                  <a style="cursor: pointer;" (click)="modifier_data(data.id)"><i class="fa fa-pen font-primary pe-2" ></i></a>
+                    }
+                  @if(canDelete()){
+                  <a style="cursor: pointer;" (click)="supprimer_data(data.id)"><i class="fa fa-trash font-danger pe-2" ></i></a>
+                  }
+                  
+                 
+                </ul>
+              </td>
+            </tr>
+            } @empty{
+            <tr class="odd">
+              <td colspan="8" class="dataTables_empty" style="text-align: center; font-size: 18px">
+                No records found
+              </td>
+            </tr>
+            }
+          </tbody>
+        </table>
+
+        
+        
+        <div class="d-flex justify-content-between p-2">
+          <ngb-pagination
+            class="ms-3"
+            [collectionSize]="( total$ | async)!"
+            [(page)]="service.page"
+            [pageSize]="service.pageSize"
+          />
+        </div>
+        
+        
+      </div>
+    </div>
+  </form>
+
+    <div class="add-task-btn-wrapper">
+        <span class="add-task-btn" >
+            <button class="btn btn-primary" (click)="redirect_add()">
+            <i class="icon-plus"></i> Ajouter un horaire</button>
+        </span>
+    </div>
+</div>

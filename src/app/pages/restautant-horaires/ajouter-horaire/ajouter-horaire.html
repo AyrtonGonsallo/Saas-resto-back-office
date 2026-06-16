@@ -7,16 +7,7 @@
     <div class="card-body">
         <div class="row">
            
-            <div class="col-sm-12 col-md-12">
-                <div class="mb-3">
-                <label class="form-label">Type <span class="text-danger">*</span></label>
-                <ng-select [items]="types" bindLabel="key" bindValue="key" [multiple]="false" placeholder="choisir un type"
-                    formControlName="type" />
-                <div *ngIf="formData.get('type')?.touched && formData.get('type')?.invalid" class="text-danger">
-                    Le type est requis
-                </div>
-                </div>
-            </div>
+          
 
              <div class="col-sm-12 col-md-12">
                 <div class="mb-3">

@@ -10,6 +10,8 @@ import { Menu, NavmenuService } from '../../services/navmenu.service';
 import { Feathericon } from '../feathericon/feathericon';
 import { SvgIcon } from '../svg-icon/svg-icon';
 import { environment } from '../../../environment';
+import { CrudSaasRestoService } from '../../services/api/crud-saas-resto.service';
+import { NotificationsService } from '../../services/notifications/notifications.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -33,7 +35,7 @@ export class Sidebar {
   public pinedItem: number[] = [];
   public userRole: string = '';
 
-  constructor() {
+  constructor(private crudSaasService:CrudSaasRestoService,private notificationsService:NotificationsService,) {
     const user = JSON.parse(localStorage.getItem('user') || '{}');
     this.userRole = user?.datas?.Role?.type;
     console.log('ROLE =', this.userRole);
@@ -70,7 +72,12 @@ export class Sidebar {
         }
       });
     });
+
+    this.get_all_custom_notifications();
   }
+
+
+ 
 
   setNavActive(item: Menu) {
     this.menuItems.filter(menuItem => {
@@ -111,6 +118,21 @@ export class Sidebar {
       });
     }
     item.active = !item.active;
+  }
+
+   user:any
+ custom_notifications:any[]=[]
+  get_all_custom_notifications(){
+
+    this.crudSaasService.getAllUnreadNotificationsByUserID(this.user?.datas.id,5).subscribe({
+      next: (res) => {
+        this.custom_notifications=res;
+        console.log("custom_notifications",this.custom_notifications)
+      },
+      error: (err) => {
+        this.notificationsService.error("Erreur lors de la récupération des notifications","Echec")
+      }
+    });
   }
 
   scrollToLeft() {

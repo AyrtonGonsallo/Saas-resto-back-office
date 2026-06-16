@@ -343,14 +343,24 @@ export const dashData: Routes = [
     loadChildren: () => import('../../pages/restaurants/restaurants.routes').then(r => r.RestaurantsRoutes),
   },
   {
-    path: 'horaires',
+    path: 'horaires-reservation',
     data: {
-      title: 'Horaires',
-      breadcrumb: 'Horaires',
+      title: 'Horaires de réservation',
+      breadcrumb: 'Horaires de réservation',
       roles: ['super-admin','gestionnaire-societe','admin','gestionnaire-restaurant','lecteur-planning','lecteur-cuisine','employé']
     },
     canActivate: [RoleGuard],
     loadChildren: () => import('../../pages/restautant-horaires/restaurant-horaires.routes').then(r => r.RestaurantHorairesRoutes),
+  },
+  {
+    path: 'horaires-click-and-collect',
+    data: {
+      title: 'Horaires du click & collect',
+      breadcrumb: 'Horaires du click & collect',
+      roles: ['super-admin','gestionnaire-societe','admin','gestionnaire-restaurant','lecteur-planning','lecteur-cuisine','employé']
+    },
+    canActivate: [RoleGuard],
+    loadChildren: () => import('../../pages/restaurant-horaires-click-and-collect/restaurant-horaires-click-and-collect.routes').then(r => r.RestaurantClickAndCollectHorairesRoutes),
   },
   {
     path: 'categories-produit',

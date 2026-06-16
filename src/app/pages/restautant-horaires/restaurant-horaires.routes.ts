@@ -6,29 +6,29 @@ export const RestaurantHorairesRoutes: Routes = [
     children: [
       
       {
-        path: 'creer-horaire',
+        path: 'creer-horaire-reservation',
         loadComponent: () => import('./ajouter-horaire/ajouter-horaire').then(m => m.AjouterHoraire),
         data: {
-          title: 'Créer un horaire',
-          breadcrumb: 'Créer un horaire',
-          parentpath: 'horaires/liste-horaires'
+          title: 'Créer un horaire de réservation',
+          breadcrumb: 'Créer un horaire de réservation',
+          parentpath: 'horaires-reservation/liste-horaires-reservation'
         },
       },
       {
-        path: 'modifier-horaire/:id',
+        path: 'modifier-horaire-reservation/:id',
         loadComponent: () => import('./modifier-horaire/modifier-horaire').then(m => m.ModifierHoraire),
         data: {
-          title: 'Modifier un horaire',
-          breadcrumb: 'Modifier un horaire',
-          parentpath: 'horaires/liste-horaires'
+          title: 'Modifier un horaire de réservation',
+          breadcrumb: 'Modifier un horaire de réservation',
+          parentpath: 'horaires-reservation/liste-horaires-reservation'
         },
       },
       {
-        path: 'liste-horaires',
+        path: 'liste-horaires-reservation',
         loadComponent: () => import('./restautant-horaires').then(m => m.RestautantHoraires),
         data: {
-          title: 'Liste des horaires',
-          breadcrumb: 'Liste des horaires',
+          title: 'Liste des horaires de réservation',
+          breadcrumb: 'Liste des horaires de réservation',
         },
       },
       

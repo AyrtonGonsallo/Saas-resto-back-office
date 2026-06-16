@@ -50,12 +50,10 @@
                         @if(item.level === 1){
                         <span> {{item.title | translate }}</span>
                         @if(item.badge === true){
-                        <div class="badge badge-primary rounded-pill">3</div>
+                        <div class="badge badge-primary rounded-pill">{{custom_notifications.length}}</div>
                         }
                         }@else{
-                        <svg class="svg-menu">
-                            <use href="assets/svg/iconly-sprite.svg#right-3"></use>
-                        </svg>
+                        <span [innerHTML]="item.custom_icon_class" ></span>
                         {{item.title | translate }}
                         }
                         @if(item.children){

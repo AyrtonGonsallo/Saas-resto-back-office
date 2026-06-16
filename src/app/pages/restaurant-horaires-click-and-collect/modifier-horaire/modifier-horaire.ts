@@ -18,6 +18,7 @@ import { environment } from '../../../environment';
   styleUrl: './modifier-horaire.scss',
 })
 export class ModifierHoraire {
+
   
   private router = inject(Router);
   public imagesUrl = environment.imagesUrl
@@ -147,7 +148,7 @@ export class ModifierHoraire {
                   showConfirmButton: false,
                 });
             setTimeout(() => {
-              this.router.navigate(['/horaires-reservation/liste-horaires-reservation']);
+              this.router.navigate(['/horaires-click-and-collect/liste-horaires-click-and-collect']);
             }, 2000);
           },
           error: (err) => {
@@ -328,7 +329,7 @@ export class ModifierHoraire {
         } else {
           this.notificationsService.error("Erreur lors de la récupération", "Echec");
         }
-        this.router.navigate(['/horaires-reservation/liste-horaires-reservation']);
+        this.router.navigate(['horaires-click-and-collect/liste-horaires-click-and-collect']);
         }
       });
 

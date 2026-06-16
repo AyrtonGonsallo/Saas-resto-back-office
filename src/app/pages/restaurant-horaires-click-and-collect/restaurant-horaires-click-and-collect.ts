@@ -16,20 +16,21 @@ import { RestaurantService } from '../../shared/services/user/user.service';
 import { SearchService } from '../../shared/services/search/search.service';
 
 
+
 @Component({
-  selector: 'app-restautant-horaires',
+  selector: 'app-restaurant-horaires-click-and-collect',
   imports: [FormsModule,
     NgbdSortableHeaderDirective,
     ReactiveFormsModule,
     CommonModule,
     NgbModule,
     AsyncPipe,],
-  templateUrl: './restautant-horaires.html',
-  styleUrl: './restautant-horaires.scss',
+  templateUrl: './restaurant-horaires-click-and-collect.html',
+  styleUrl: './restaurant-horaires-click-and-collect.scss',
   providers: [TableService, DecimalPipe],
 })
-export class RestautantHoraires {
-  public service = inject(TableService);
+export class RestaurantHorairesClickAndCollect {
+   public service = inject(TableService);
      private router = inject(Router);
    
      public tableData$: Observable<any[]> = this.service.supportdata$;
@@ -96,7 +97,7 @@ export class RestautantHoraires {
      get_all_datas(){
    
       let restaurant_id = this.restaurantService.getRestaurant()
-       this.crudSaasService.get_all_horaires_reservation(restaurant_id).subscribe({
+       this.crudSaasService.get_all_horaires_click_and_collect(restaurant_id).subscribe({
          next: (res) => {
           console.log('this.horaires',res)
           this.horaires = res
@@ -118,7 +119,7 @@ export class RestautantHoraires {
      }
    
      redirect_add(){
-       this.router.navigate(['/horaires-reservation/creer-horaire-reservation']);
+       this.router.navigate(['/horaires-click-and-collect/creer-horaire-click-and-collect']);
      }
    
      modifier_data(id:number){
@@ -126,7 +127,7 @@ export class RestautantHoraires {
        this.notificationsService.error("Accès refusé", "Echec");
        return;
       }
-       this.router.navigate(['/horaires-reservation/modifier-horaire-reservation', id]);
+       this.router.navigate(['/horaires-click-and-collect/modifier-horaire-click-and-collect', id]);
      }
 
     
@@ -177,4 +178,3 @@ export class RestautantHoraires {
 
     
    }
-   
