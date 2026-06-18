@@ -14,7 +14,7 @@ import { CrudSaasRestoService } from '../../shared/services/api/crud-saas-resto.
 import { NotificationsService } from '../../shared/services/notifications/notifications.service';
 import { environment } from '../../environment';
 import { RestaurantService } from '../../shared/services/user/user.service';
-import { types,getTypeName, getNotAdminOnly } from '../../shared/constants/types-parametres';
+import { options_filtres,getTypeName, getNotAdminOnly } from '../../shared/constants/types-parametres';
 import { SearchService } from '../../shared/services/search/search.service';
 import { NgSelectModule } from '@ng-select/ng-select';
 
@@ -36,9 +36,9 @@ export class Parametres {
   public tableData$: Observable<any[]> = this.service.supportdata$;
   public total$: Observable<number> = this.service.total$;
   public Data: any[];
-types: any[] = types;
-current_params: any[] = [];
-filter_params: string[] = [];
+  options_filtres: any[] = options_filtres;
+  current_params: any[] = [];
+  filter_params: string[] = [];
 
   readonly headers = viewChildren(NgbdSortableHeaderDirective);
 
@@ -110,7 +110,9 @@ filter_params: string[] = [];
       this.current_params = [...this.all_params];
     } else {
       this.current_params = this.all_params.filter((p: any) =>
-        filter_params_value.includes(p.type)
+        //filter_params_value.includes(p.type)
+        filter_params_value.some((f: string) => getTypeName(p.type).includes(f))//inverser car type plus large
+        
       );
     }
     this.service.setData(this.current_params);

@@ -435,6 +435,11 @@ export class CrudSaasRestoService {
     return this.http.get<any[]>(url);
   }
 
+  getReservationRecapById(id: number): Observable<any> {
+    const url = `${environment.apiUrl}/get_reservation_recap_by_id/${id}`;
+    return this.http.get<any>(url);
+  }
+
   getReservationById(id: number): Observable<any> {
     const url = `${environment.apiUrl}/get_reservation_by_id/${id}`;
     return this.http.get<any>(url);
@@ -628,6 +633,11 @@ export class CrudSaasRestoService {
 
   getCommandeById(id: number): Observable<any> {
     const url = `${environment.apiUrl}/get_commande_by_id/${id}`;
+    return this.http.get<any>(url);
+  }
+
+  getCommandeRecapById(id: number): Observable<any> {
+    const url = `${environment.apiUrl}/get_commande_recap_by_id/${id}`;
     return this.http.get<any>(url);
   }
 

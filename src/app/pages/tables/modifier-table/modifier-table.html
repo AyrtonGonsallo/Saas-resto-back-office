@@ -47,7 +47,7 @@
                 </div>
             </div>
 
-            <div class="col-sm-12 col-md-12"  *ngIf="prioriteRoleUser<3">
+            <div class="col-sm-12 col-md-12"  *ngIf="prioriteRoleUser<=3">
                 <label class="form-label">Restaurant <span class="text-danger">*</span></label>
             
                 <ng-select [items]="restaurants" bindLabel="nom" bindValue="id" [multiple]="false"

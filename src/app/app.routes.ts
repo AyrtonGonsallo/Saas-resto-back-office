@@ -63,4 +63,13 @@ export const routes: Routes = [
       parentpath: 'avis/liste-avis'
     },
   },
+  {
+    path: 'paiements/paiement-reussi/:type_id/:objet_id',
+    loadComponent: () => import('./pages/paiements/succes/succes').then(m => m.Succes),
+    data: {
+      title: 'Paiement éffectué avec succès',
+      breadcrumb: 'Paiement éffectué avec succès',
+      parentpath: 'paiements/liste-paiements'
+    },
+  },
 ];

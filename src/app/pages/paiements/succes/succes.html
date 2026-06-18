@@ -1,0 +1,128 @@
+<div class="container-fluid p-0">
+    <div class="row m-0">
+        <div class="col-12 p-0">
+            <div class="login-card login-dark" >
+                <div>
+                    <div>
+                        <a class="logo" [routerLink]="['/dashboard/default']">
+                            <img class="img-fluid for-light" src="assets/images/logo/logo.png" alt="looginpage">
+                            <img class="img-fluid for-dark m-auto" src="assets/images/logo/dark-logo.png" alt="logo">
+                        </a>
+                    </div>
+                    <div class="login-main" >
+                        
+                            <h2 class="text-center">{{data?.societe?.titre}}</h2>
+                            <h3 class="text-center" *ngIf="data?.Restaurant?.nom">Restaurant : {{data?.Restaurant?.nom}}</h3>
+
+                            <h4 class="text-center">{{typeString}} </h4>
+                           
+                          
+
+                            <div class="card">
+                                
+                                <div class="card-body">
+                                    
+                                    <div *ngIf="type_id == 1">
+                                        
+                                        <h4 class="card-title mb-4" *ngIf="data">Récapitulatif</h4>
+                                        <div *ngIf="data">
+                                            
+                                            Votre demande de réservation été enregistrée le {{data.created_at |  date:'EEEE d MMMM y à HH\'h\'mm' }}
+                                            Date  : {{data.date_reservation |  date:'EEEE d MMMM y à HH\'h\'mm' }}<br>
+                                            Tables : <span [innerHTML]="get_tables_label(data.tables)"></span>
+                                            <br>
+                                            
+                                            Nombre de personnes : {{data.nombre_de_personnes}}<br>
+                                            Nombre de couverts : {{data.nb_couverts}}<br>
+                                            Client : {{data.client.prenom}} {{data.client.nom}}<br>
+                                            
+                                            Demandes spéciales : 
+                                            <span *ngFor="let tag of data.tags; let i = index">
+                                            {{ tag.titre }}<span *ngIf="i < data.tags.length - 1">, </span>
+                                            </span>
+                                            <span *ngIf="!data.tags.length">
+                                            non
+                                            </span>
+                                            <br>
+                                            Commentaire :
+                                            <span >
+                                            {{(data.notes)?data.notes:'non'}}
+                                            </span>
+                                            
+                                            <br>
+
+                                        </div>
+                                        
+                                    </div>
+
+                                    <div *ngIf="type_id == 2">
+                                        
+                                        <h4 class="card-title mb-4" *ngIf="data">Récapitulatif</h4>
+                                        <div *ngIf="data">
+                                            
+                                            Votre commande a été enregistrée le {{data.created_at |  date:'EEEE d MMMM y à HH\'h\'mm' }}
+
+                                           <!--  ID : {{data.id}}<br>  -->
+                                            Client : {{data.client.prenom}} {{data.client.nom}}<br>
+                                            Date de retrait : {{data.date_retrait  | date:'EEEE d MMMM y \'à\' HH\'h\'mm':'':'fr' }}<br>
+                                            Prix TTC : {{data.totalPrice}} € <br>
+                                            <div class="mt-5 mb-3">
+                                                <table class="table">
+                                                    <thead class="table-dark">
+                                                    <tr>
+                                                        <th scope="col">Produit</th>
+                                                        <th scope="col">Variations</th>
+                                                        <th scope="col">Quantité</th>
+                                                        <th scope="col" >Prix unitaire TTC</th>
+                                                        <th scope="col">Prix TTC</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @for( item of data.items; track item){
+                                                            <tr>
+                                                                <th scope="row">{{ item.titre }} ({{ item.prix_ht }} €)</th>
+                                                                <td>
+                                                                    <ul>
+                                                                        <li *ngFor="let v of item.variations">
+                                                                            {{ v.titre }} (+{{ v.prix_supplement || v.prix }} €)
+                                                                        </li>
+                                                                    </ul>
+                                                                </td>
+                                                                <td>{{ item.quantite }}</td>
+                                                                <td>{{get_unit_cummul_price_ht(item)}} €</td>
+                                                                <td>{{get_cummul_price_ht(item)}} €</td>
+                                                            </tr>
+                                                        }
+                                                        <tr>
+                                                            <td colspan="4">Sous total</td>
+                                                            <td>{{get_sous_total_price_ht(data.items)}} €</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td colspan="3"></td>
+                                                            <td colspan="2">Total {{data.totalPrice}} € TTC<br> Dont TVA ({{data.tva}} %) = {{data.total_tva}} €</td>
+                                                        </tr>
+                                                    </tbody>
+                                                    
+                                                </table>
+                                            </div>
+                                            
+                                            
+                                            
+
+                                        </div>
+
+                                        
+                                    </div>
+                                   
+                                    
+                                </div>
+                            </div>
+
+ 
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

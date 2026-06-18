@@ -7,6 +7,21 @@
         <li class="pin-title sidebar-list p-0" [class.show]="pined">
             <h5 class="sidebar-main-title">Pinned</h5>
         </li>
+
+
+        <li class="profile-dropdown custom-dropdown" *ngIf="restaurants.length>1">
+            <span class="select2 select2-container select2-container--default select2-container--below">
+                <ng-select [items]="restaurants" bindLabel="nom" bindValue="id" [multiple]="false"  (change)="onChangeRestaurant($event)"
+                    placeholder="Choisir un restaurant" [(ngModel)]="idRestaurantChoisi" />
+            </span>
+        </li>
+        <li class="profile-dropdown custom-dropdown" *ngIf="restaurants.length==1">
+            <input class="form-control" disabled  [(ngModel)]="titleResto" />
+        </li>
+
+
+
+
         @if(pined === true){
         <li class="line pin-line"></li>
         }
@@ -20,14 +35,20 @@
             
             <li [class]="{'sidebar-list':item.level === 1,'sidebar-main-title':item.headTitle1 }"
                 [class.pined]="isPined(item.id)">
+                <!--
                 @if(item.level === 1){
                 <svg class="pinned-icon" (click)="togglePined(item.id)">
                     <use href="assets/svg/iconly-sprite.svg#Pin"></use>
                 </svg>
                 }
+               
+                
                 @if(item.headTitle1){
             <li>{{item.headTitle1 | translate}}</li>
             }
+             -->
+
+
             @if(item.type === 'extTabLink'){
             <a href="{{ !item.type ? null : item.path }}">
                 {{ item.title | translate }}

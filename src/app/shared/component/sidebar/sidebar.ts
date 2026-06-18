@@ -1,4 +1,4 @@
-import { NgTemplateOutlet } from '@angular/common';
+import { CommonModule, NgTemplateOutlet } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { NavigationEnd, Router, RouterModule } from '@angular/router';
 
@@ -11,10 +11,13 @@ import { Feathericon } from '../feathericon/feathericon';
 import { SvgIcon } from '../svg-icon/svg-icon';
 import { CrudSaasRestoService } from '../../services/api/crud-saas-resto.service';
 import { NotificationsService } from '../../services/notifications/notifications.service';
+import { RestaurantService } from '../../services/user/user.service';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 @Component({
   selector: 'app-sidebar',
-  imports: [NgbModule, Feathericon, SvgIcon, RouterModule, TranslateModule, NgTemplateOutlet],
+  imports: [FormsModule, CommonModule,NgSelectModule, NgbModule, ReactiveFormsModule, Feathericon, SvgIcon, RouterModule, TranslateModule, NgTemplateOutlet],
   templateUrl: './sidebar.html',
   styleUrl: './sidebar.scss',
 })
@@ -34,7 +37,7 @@ export class Sidebar {
   public pinedItem: number[] = [];
   public userRole: string = '';
 
-  constructor(private crudSaasService:CrudSaasRestoService,private notificationsService:NotificationsService,) {
+  constructor(private restaurantService: RestaurantService, private crudSaasService:CrudSaasRestoService,private notificationsService:NotificationsService,) {
     this.user = JSON.parse(localStorage.getItem('user') || '{}');
     this.userRole = this.user?.datas?.Role?.type;
     console.log('ROLE =', this.userRole);
@@ -72,9 +75,37 @@ export class Sidebar {
       });
     });
 
+   
+    console.log('user recuperé',this.user )
+    this.restaurants = this.user?.datas?.Restaurants
+    this.idRestaurantChoisi = restaurantService.getRestaurant()
+    if(this.restaurants.length==1){
+        this.titleResto  = this.restaurants.find(r =>
+          r.id === this.idRestaurantChoisi
+        ).nom;
+    }
+    console.log("resto choisi",this.idRestaurantChoisi)
+
     this.get_all_custom_notifications();
   }
 
+
+
+   restaurants : any[];
+
+  idRestaurantChoisi: number|null;
+  titleResto=""
+
+  onChangeRestaurant(data:any) {
+    if(data){
+      console.log('restaurant choisi : ',data.id,data.nom)
+      this.restaurantService.setRestaurant(data.id);
+    }else{
+      console.log('Pas de restaurant choisi : ',data)
+      this.restaurantService.clearRestaurant();
+    }
+     window.location.reload();
+  }
 
  
 

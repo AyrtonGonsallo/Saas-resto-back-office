@@ -52,28 +52,13 @@ export class Header {
   public layout = inject(LayoutService);
   user:any
   cleanInterface = environment.cleanInterface
-  restaurants : any[];
 
-  idRestaurantChoisi: number|null;
 
-  onChangeRestaurant(data:any) {
-    if(data){
-      console.log('restaurant choisi : ',data.id,data.nom)
-      this.restaurantService.setRestaurant(data.id);
-    }else{
-      console.log('Pas de restaurant choisi : ',data)
-      this.restaurantService.clearRestaurant();
-    }
-     window.location.reload();
-  }
 
   constructor(private authSerivce:AuthSaasRestoService,private restaurantService: RestaurantService) {
     this.navmenu.item.subscribe((menuItems: Menu[]) => (this.item = menuItems));
      this.user = this.authSerivce.getUser();
       console.log('user recuperé',this.user )
-      this.restaurants = this.user?.datas?.Restaurants
-      this.idRestaurantChoisi = restaurantService.getRestaurant()
-      console.log("resto choisi",this.idRestaurantChoisi)
   }
 
   openMenu() {

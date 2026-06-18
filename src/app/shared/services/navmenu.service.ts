@@ -83,14 +83,14 @@ export class NavmenuService {
         { 
           title: 'Liste des notifications',
           path: '/notifications/liste-notifications',
-          custom_icon_class: '<i class="icofont icofont-notification"></i>',
+          custom_icon_class: '<i class="icofont icofont-bell-alt"></i>',
           icon: 'order-product',
           active: false,
         },
         { 
           title: 'Liste des réservations',
           path: '/reservations/liste-reservations',
-          custom_icon_class: '<i class="fas fa-calendar-check"></i>',
+          custom_icon_class: '<i class="icofont icofont-ui-clip-board"></i>',
           icon: 'order-product',
           roles: [  'super-admin','admin', 'client', 'public',  'gestionnaire-restaurant', 'gestionnaire-societe', 'lecteur-planning', 'lecteur-cuisine',  'employé',   ],
           active: false,
@@ -98,7 +98,7 @@ export class NavmenuService {
         {
           title: 'Liste des commandes',
           path: '/commandes/liste-commandes',
-          custom_icon_class: '<i class="fas fa-clipboard-list"></i>', 
+          custom_icon_class: '<i class="icofont icofont-social-shopify"></i>', 
           icon: 'order-product',
           roles: [  'super-admin','admin', 'client', 'public',  'gestionnaire-restaurant', 'gestionnaire-societe', 'lecteur-planning', 'lecteur-cuisine',  'employé',   ],
           active: false,
@@ -107,7 +107,7 @@ export class NavmenuService {
           
           title: 'Paiements',
           path: '/paiements/liste-paiements',
-          custom_icon_class: '<i class="fas fa-money-bill-wave"></i>',
+          custom_icon_class: '<i class="icofont icofont-visa-alt"></i>',
           icon: 'Category',
           roles: [  'super-admin','admin', 'client', 'public',  'gestionnaire-restaurant', 'gestionnaire-societe', 'lecteur-planning', 'lecteur-cuisine',  'employé',   ],
           active: false,
@@ -116,7 +116,7 @@ export class NavmenuService {
           
           title: 'Livraisons',
           path: '/livraisons/liste-livraisons',
-          custom_icon_class: '<i class="fas fa-truck"></i>', 
+          custom_icon_class: '<i class="icofont icofont-truck-loaded"></i>', 
           icon: 'order-product',
           roles: [  'super-admin','admin', 'gestionnaire-restaurant', 'gestionnaire-societe', 'lecteur-planning', 'lecteur-cuisine','employé','livreur','client'   ],
           active: false,
@@ -222,6 +222,7 @@ export class NavmenuService {
           title: 'Catégories de variations',
           path: '/categories-variation/liste-categories-variation',
           icon: 'Category',
+          custom_icon_class: '<i class="icofont icofont-chart-flow-alt-1"></i>',
           roles: [  'super-admin','admin', 'gestionnaire-restaurant', 'gestionnaire-societe', 'lecteur-planning', 'lecteur-cuisine',  'employé',   ],
           active: false,
         },
@@ -250,9 +251,9 @@ export class NavmenuService {
         {
           title: 'Paramétrage de l\'application',
           path: '/parametres/liste-parametres',
-          custom_icon_class: '<i class="icon-settings"></i>',
+          custom_icon_class: '<i class="icofont icofont-gears"></i>',
           icon: 'Setting',
-          roles: ['super-admin','gestionnaire-societe','admin','gestionnaire-restaurant',],
+          roles: ['super-admin','admin','gestionnaire-restaurant',],
           active: false,
         },
         {
@@ -284,6 +285,7 @@ export class NavmenuService {
           title: 'Utilisateurs',
           path: '/utilisateurs/liste-utilisateurs',
           icon: 'Profile',
+          custom_icon_class: '<i class="icofont icofont-users-social"></i>',
           roles: ['super-admin','gestionnaire-societe','admin','gestionnaire-restaurant'],
           active: false,
         },
@@ -298,7 +300,7 @@ export class NavmenuService {
         {
           title: 'Gestion des avis',
           path: '/avis/liste-avis',
-          custom_icon_class: '<i class="fas fa-star"></i>',
+          custom_icon_class: '<i class="icofont icofont-ui-rate-add"></i>',
           icon: 'Category',
           roles: [  'super-admin','admin', 'client', 'public',  'gestionnaire-restaurant', 'gestionnaire-societe', 'lecteur-planning', 'lecteur-cuisine',  'employé',   ],
           active: false,
