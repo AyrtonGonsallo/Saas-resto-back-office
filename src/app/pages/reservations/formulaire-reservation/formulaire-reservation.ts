@@ -290,11 +290,33 @@ tables_multiple = false
           return;
         }
       }
+
+      if(this.current_step==3 && this.paymentRestoActive){
+        const is_payed = await this.isPayed();
+        console.log('is_payed',is_payed)
+
+        if (!is_payed) {
+          return;
+        }
+      }
       this.progression+=33
       this.current_step++
 
       if(this.current_step === 4){
-        this.button_suiv_text = 'Terminer'
+        this.close_and_timeout()
+      }
+      
+    }
+
+    else if(this.current_step === 4){
+      window.location.reload();
+    }
+    
+  }
+
+
+  close_and_timeout(){
+      this.button_suiv_text = 'Terminer'
         const Toast = Swal.mixin({
           toast: true,
           position: 'top-end',
@@ -314,16 +336,7 @@ tables_multiple = false
         setTimeout(() => {
           this.close();
         }, 12000);
-      }
-      
-    }
-
-    else if(this.current_step === 4){
-      window.location.reload();
-    }
-    
   }
-
   
   prec(){
     if(this.current_step>1){
@@ -339,11 +352,11 @@ tables_multiple = false
   }
 
     async onSubmit() : Promise<boolean>{
-      let res=false
+      let result=false
       if (this.formData.invalid) {
         this.notificationsService.error("Formulaire invalide","Echec")
         this.formData.markAllAsTouched();
-        res=false;
+        result=false;
       }
      
       console.log(this.formData.value);
@@ -357,7 +370,7 @@ tables_multiple = false
           if(this.paymentRestoActive){
             this.get_pay_link()
           }
-          res=true;
+          result=true;
           this.progression+=33
           this.current_step++
           
@@ -365,11 +378,37 @@ tables_multiple = false
         error: (err) => {
           this.notificationsService.error(err.error.message,"Echec")
           console.log(err.error.message)
-          res=false;
+          result=false;
         }
       });
       
-      return res;
+      return result;
+      // appel API ici
+    }
+
+
+    async isPayed() : Promise<boolean>{
+      let result=false
+     
+
+      
+      this.crudSaasService.getPaiementByResCommID(this.final_reservation.id,null).subscribe({
+        next: (res) => {
+          console.log('paiement',res)
+          console.log('paiement',this.paymentRestoActive)
+          result=true;
+          this.progression+=33
+          this.current_step++
+          this.close_and_timeout()
+        },
+        error: (err) => {
+          this.notificationsService.error(err.error.message,"Echec")
+          console.log(err.error.message)
+          result=false;
+        }
+      });
+      
+      return result;
       // appel API ici
     }
   

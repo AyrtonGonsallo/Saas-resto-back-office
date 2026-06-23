@@ -68,6 +68,7 @@ export class Utilisateurs {
    
        this.crudSaasService.getUtilisateurs(restaurant_id).subscribe({
          next: (res) => {
+          console.log('users',restaurant_id,res)
           
           // FILTRE par selection du restaurantf  
           if (restaurant_id) {

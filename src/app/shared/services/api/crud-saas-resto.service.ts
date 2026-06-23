@@ -694,6 +694,10 @@ export class CrudSaasRestoService {
     }
     return this.http.get<any[]>(url);
   }
+  getPaiementByResCommID(reservation_id:number | null,commande_id:number | null): Observable<any[]> {
+    let url = `${environment.apiUrl}/get_paiement_by_res_commande_id/${reservation_id}/${commande_id}`;
+    return this.http.get<any[]>(url);
+  }
   getPaniers(restaurantId:number | null): Observable<any[]> {
     let url = `${environment.apiUrl}/get_all_paniers`;
     if (restaurantId) {

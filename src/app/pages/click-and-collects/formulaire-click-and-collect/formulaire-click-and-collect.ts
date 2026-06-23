@@ -94,57 +94,71 @@ export class FormulaireClickAndCollect {
 
   async next(){
     let res = this.valider_formulaire_etape(this.current_step)
-    if(this.current_step<4 && res){
+    if(this.current_step<6 && res){
       if(this.current_step==3){
         const success = await this.onSubmit();
         console.log('success',success)
         if (!success) {
           return;
         }
-
-
-        this.button_suiv_text = 'Terminer';
-        const Toast = Swal.mixin({
-          toast: true,
-          position: 'top-end',
-          showConfirmButton: false,
-          timer: 3000,
-          timerProgressBar: true,
-          didOpen: toast => {
-            toast.onmouseenter = Swal.stopTimer;
-            toast.onmouseleave = Swal.resumeTimer;
-          },
-        });
-        Toast.fire({
-          icon: 'success',
-          title: 'Votre commande a bien été enregistrée',
-        });
-        
-        setTimeout(() => {
-          this.close();
-        }, 12000);
+      }else if(this.current_step==4 && this.paymentRestoActive){
+        const is_payed = await this.isPayed();
+        console.log('is_payed',is_payed)
+        if (!is_payed) {
+          return;
+        }
+      }
+      else if(this.current_step==4 && !this.paymentRestoActive){
+        this.progression+=25
+        this.current_step++
+        this.close_and_timeout()
+      }
+      else if (this.current_step==5){
+        this.close_and_timeout()
       }else{
-        this.progression+=33
+        this.progression+=25
         this.current_step++
 
       }
       
       console.log('this.current_step',this.current_step)
-    }
-
-    else if (this.current_step == 4) {
+    }else if (this.current_step == 6) {
       window.location.reload();
     }
-
-    
   }
+
+
+  close_and_timeout(){
+    this.button_suiv_text = 'Terminer';
+    const Toast = Swal.mixin({
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 3000,
+      timerProgressBar: true,
+      didOpen: toast => {
+        toast.onmouseenter = Swal.stopTimer;
+        toast.onmouseleave = Swal.resumeTimer;
+      },
+    });
+    Toast.fire({
+      icon: 'success',
+      title: 'Votre commande a bien été enregistrée',
+    });
+    
+    setTimeout(() => {
+      this.close();
+    }, 12000);
+  }
+
+
   prec(){
     if(this.current_step>1){
-      this.progression-=33
+      this.progression-=25
       this.current_step--
     }
 
-    if(this.current_step < 4){
+    if(this.current_step < 5){
       this.button_suiv_text = 'Suivant'
     }
     console.log("this.current_step",this.current_step)
@@ -200,6 +214,34 @@ export class FormulaireClickAndCollect {
 
     // appel API ici
     return res;
+  }
+
+
+  async isPayed() : Promise<boolean>{
+    let result=false
+    
+
+    
+    this.crudSaasService.getPaiementByResCommID(null,this.final_commande.id).subscribe({
+      next: (res) => {
+        console.log('paiement',res)
+        console.log('paiement',this.paymentRestoActive)
+        result=true;
+        this.progression+=25
+        this.current_step++
+        console.log("paye",this.current_step)
+        this.next()
+        
+      },
+      error: (err) => {
+        this.notificationsService.error(err.error.message,"Echec")
+        console.log(err.error.message)
+        result=false;
+      }
+    });
+    
+    return result;
+    // appel API ici
   }
 
   param_delai_avant_fermetture_commandes:any
@@ -631,8 +673,13 @@ export class FormulaireClickAndCollect {
         return this.check_panier()
 
       case 3:
-        
-        return true;
+        //  Marquer les champs comme touchés
+        champs.forEach(champ => {
+          this. formData.get(champ)?.markAsTouched();
+          this. formData.get(champ)?.updateValueAndValidity();
+        });
+        //  Vérifier validité
+        return champs.every(champ => this. formData.get(champ)?.valid);
 
       case 4:
         return true

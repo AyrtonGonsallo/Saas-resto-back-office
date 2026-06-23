@@ -79,9 +79,11 @@
 
                                         <div class="steps">
                                             <button [ngClass]="stepClass(1)"><span class="desktop">Restaurant</span><span class="mobile">1</span></button>
-                                            <button [ngClass]="stepClass(2)"><span class="desktop">Produits</span><span class="mobile">3</span></button>
-                                            <button [ngClass]="stepClass(3)"><span class="desktop">Commande</span><span class="mobile">4</span></button>
-                                            <button [ngClass]="stepClass(4)"><span class="desktop">Récap</span><span class="mobile">5</span></button>
+                                            <button [ngClass]="stepClass(2)"><span class="desktop">Produits</span><span class="mobile">2</span></button>
+                                            <button [ngClass]="stepClass(3)"><span class="desktop">Commande</span><span class="mobile">3</span></button>
+                                            <button [ngClass]="stepClass(4)"><span class="desktop">Paiement</span><span class="mobile">4</span></button>
+                                            <button [ngClass]="stepClass(5)"><span class="desktop">Récap</span><span class="mobile">5</span></button>
+
                                         </div>
                                         </div>
                                     </div>
@@ -423,12 +425,13 @@
                                         </form>
                                         
                                     </div>
-                                   
+
+
                                     <div *ngIf="current_step==4">
                                         <h2 class="card-title mb-4" *ngIf="paymentRestoActive && urlPayment">Paiement</h2>
                                         <div *ngIf="paymentRestoActive && urlPayment">
                                             <div class="clipboaard-container">
-                                                <p class="card-description">Cliquez sur le bouton ci-dessous pour copier le lien du Paiement à faire pour confirmer la reservation : </p>
+                                                <p class="card-description">Cliquez sur le bouton ci-dessous pour copier le lien du Paiement à faire pour confirmer la commande : </p>
                                                
                                                 <div class="mt-3 text-end">
                                                     <button class="btn btn-info btn-clipboard" type="button" (click)="openPayment(urlPayment)">
@@ -441,6 +444,13 @@
                                             Le paiement d'un acompte n'est pas requis pour cette commande
                                         </div>
                                         <br><br>
+                                        
+
+                                        
+                                    </div>
+                                   
+                                    <div *ngIf="current_step==5">
+                                        
                                         
 
                                         <h2 class="card-title mb-4" *ngIf="final_commande">Récapitulatif</h2>
