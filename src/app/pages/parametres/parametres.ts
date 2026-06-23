@@ -216,7 +216,22 @@ export class Parametres {
 
 
   get_valeur(data:any){
-    return (data.type_de_valeur=='unite_temporelle')?`${data.valeur} ${data.unite_de_temps}`:data.valeur;
+
+    let result = ''
+    switch (data.type_de_valeur) {
+      case 'unite_temporelle':
+        result =  `${data.valeur} ${data.unite_de_temps}`
+        break;
+
+      case 'jour_et_heure':
+        result =  `Jour ${data.day_of_week}/7 ${data.hour_of_day}`
+        break;
+    
+      default:
+        result =  data.valeur
+        break;
+    }
+    return result;
   }
 
 

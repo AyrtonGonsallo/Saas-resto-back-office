@@ -2,6 +2,7 @@ export const types_de_valeur = [
   { key: 'unite_temporelle', name: 'Unité temporelle' },
   { key: 'statut', name: 'Statut' },
   { key: 'numerique', name: 'Numérique' },
+  { key: 'jour_et_heure', name: 'Jour et heure' },
   { key: 'pourcentage', name: 'Pourcentage' },
   { key: 'choix_d_options', name: 'Choix d\'options' },
   { key: 'coefficient', name: 'Coefficient' },
@@ -30,6 +31,42 @@ export const  options_filtres = [
 
 ]
 
+export const options_heure = [
+  { key: '00:00', name: '00:00' },
+  { key: '01:00', name: '01:00' },
+  { key: '02:00', name: '02:00' },
+  { key: '03:00', name: '03:00' },
+  { key: '04:00', name: '04:00' },
+  { key: '05:00', name: '05:00' },
+  { key: '06:00', name: '06:00' },
+  { key: '07:00', name: '07:00' },
+  { key: '08:00', name: '08:00' },
+  { key: '09:00', name: '09:00' },
+  { key: '10:00', name: '10:00' },
+  { key: '11:00', name: '11:00' },
+  { key: '12:00', name: '12:00' },
+  { key: '13:00', name: '13:00' },
+  { key: '14:00', name: '14:00' },
+  { key: '15:00', name: '15:00' },
+  { key: '16:00', name: '16:00' },
+  { key: '17:00', name: '17:00' },
+  { key: '18:00', name: '18:00' },
+  { key: '19:00', name: '19:00' },
+  { key: '20:00', name: '20:00' },
+  { key: '21:00', name: '21:00' },
+  { key: '22:00', name: '22:00' },
+  { key: '23:00', name: '23:00' },
+];
+
+export const options_jours = [
+  { key: 1, name: 'Lundi' },
+  { key: 2, name: 'Mardi' },
+  { key: 3, name: 'Mercredi' },
+  { key: 4, name: 'Jeudi' },
+  { key: 5, name: 'Vendredi' },
+  { key: 6, name: 'Samedi' },
+  { key: 7, name: 'Dimanche' },
+];
 
 export const  types = [
     { key: 'tva', name: 'Général - Tva' },
@@ -64,8 +101,17 @@ export const  types = [
     },
     {
       key: 'commande_a_l_avance',
-      name: 'C&C - Délai minimum avant commande'
+      name: 'C&C - Délai de précommande'
     },
+    {
+      key: 'heure_de_desactivation_auto_reservations',
+      name: 'Réservation - Heure de désactivation automatique des réservations'
+    },
+    {
+      key: 'heure_de_desactivation_auto_commandes',
+      name: 'C&C - Heure de désactivation automatique des commandes'
+    },
+    
     {
       key: 'delai_avant_fermetture_commandes',
       name: 'C&C - Délai maximum avant commandes'

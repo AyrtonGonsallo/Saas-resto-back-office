@@ -3,13 +3,13 @@
 export const environment = {
     cleanInterface:true,//enlever les liens inutiles du menu et du dashboard
     production: true,//enlever les liens inutiles du menu
-    apiUrl: 'http://localhost:2026/api/v1', // URL de l'API locale
+    //apiUrl: 'http://localhost:2026/api/v1', // URL de l'API locale
     //apiUrl: 'https://api.resto.orocom.io/api/v1', // URL de l'API sur le dev
-    //apiUrl: 'https://api.resto.orocom.io/api/v1', // URL de l'API en prod
+    apiUrl: 'https://api.resto.orocom.io/api/v1', // URL de l'API en prod
     
-    imagesUrl: 'http://localhost:2026/api/v1/files/', // URL des images de l'API locale
+    //imagesUrl: 'http://localhost:2026/api/v1/files/', // URL des images de l'API locale
     //imagesUrl: 'https://api.resto.orocom.io/api/v1/files/', // URL des images de l'API sur le dev
-    //imagesUrl: 'https://api.resto.orocom.io/api/v1/files/', // URL des images de l'API sur le prod
+    imagesUrl: 'https://api.resto.orocom.io/api/v1/files/', // URL des images de l'API sur le prod
 
     assetsUrl: 'https://resto.orocom.io/assets/', // URL de assets sur le dev
 

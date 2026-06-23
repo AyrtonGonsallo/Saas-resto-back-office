@@ -10,7 +10,7 @@ import Swal from 'sweetalert2';
 import { AuthSaasRestoService } from '../../../shared/services/auth/auth-saas-resto.service';
 import { AngularEditorModule } from '@kolkov/angular-editor';
 import { RestaurantService } from '../../../shared/services/user/user.service';
-import { types,unites_de_temps,types_de_valeur,options_moyens_contact } from '../../../shared/constants/types-parametres';
+import { types,unites_de_temps,types_de_valeur,options_moyens_contact,options_jours, options_heure } from '../../../shared/constants/types-parametres';
 
 @Component({
   selector: 'app-creer-parametre',
@@ -25,6 +25,7 @@ export class CreerParametre {
   user:any
   hide_value=true
   hide_unite=true
+   hide_heures_jours=true
   hide_contact=true
   constructor(private authSerivce:AuthSaasRestoService, private restaurantService:RestaurantService,private fb: FormBuilder, private crudSaasService:CrudSaasRestoService, private notificationsService:NotificationsService,) {}
 
@@ -46,6 +47,8 @@ export class CreerParametre {
       valeurs_options: ['', ],
       unite_de_temps: ['', ],
       valeur: ['', Validators.required],
+      day_of_week: [1, ],
+      hour_of_day: ['08:00', ],
       description: ['', ],
       est_actif: [true, Validators.required],
       est_important: [false, Validators.required],
@@ -65,7 +68,12 @@ export class CreerParametre {
       if(type_de_valeur=='statut'){
         this.hide_value=true
         valeurControl?.clearValidators();
-      }else{
+      }else if(type_de_valeur=='jour_et_heure'){
+        this.hide_value=true
+        this.hide_heures_jours=false
+        valeurControl?.clearValidators();
+      }
+      else{
         valeurControl?.setValidators([Validators.required]);
         if(type_de_valeur!='choix_d_options'){
           this.hide_contact=true
@@ -155,6 +163,8 @@ export class CreerParametre {
   unites_de_temps = unites_de_temps
   types_de_valeur = types_de_valeur
   options_moyens_contact = options_moyens_contact
+  options_jours = options_jours 
+    options_heure = options_heure 
     
 
   getTypeName(key: string): string {

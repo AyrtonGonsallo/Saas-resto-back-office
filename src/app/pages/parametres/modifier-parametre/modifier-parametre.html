@@ -38,14 +38,24 @@
                 </div>
             </div>
 
-          <div class="col-sm-12 col-md-12" *ngIf="!hide_contact">
-                <label class="form-label">Moyen de contact <span class="text-danger">*</span></label>
+          <div class="col-sm-12 col-md-12" *ngIf="!hide_heures_jours">
+                <label class="form-label">Jour <span class="text-danger">*</span></label>
             
-                <ng-select [items]="options_moyens_contact" bindLabel="name" bindValue="key" [multiple]="false"
-                    placeholder="choisir une catégorie de paramètre" formControlName="valeurs_options"  />
-                    <div *ngIf="formData.get('valeurs_options')?.touched && formData.get('valeurs_options')?.invalid" class="text-danger">
-                    moyen de contact invalide
-                </div>
+                <ng-select [items]="options_jours" bindLabel="name" bindValue="key" [multiple]="false"
+                    placeholder="choisir une catégorie de paramètre" formControlName="day_of_week"  />
+                    <div *ngIf="formData.get('day_of_week')?.touched && formData.get('day_of_week')?.invalid" class="text-danger">
+                        jour invalide
+                    </div>
+            </div>
+
+            <div class="col-sm-12 col-md-12" *ngIf="!hide_heures_jours">
+                <label class="form-label">Heure <span class="text-danger">*</span></label>
+            
+                <ng-select [items]="options_heure" bindLabel="name" bindValue="key" [multiple]="false"
+                    placeholder="choisir une catégorie de paramètre" formControlName="hour_of_day"  />
+                    <div *ngIf="formData.get('hour_of_day')?.touched && formData.get('hour_of_day')?.invalid" class="text-danger">
+                        heure invalide
+                    </div>
             </div>
 
             <!-- TEXTE -->

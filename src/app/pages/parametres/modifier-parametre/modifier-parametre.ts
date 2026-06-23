@@ -10,7 +10,7 @@ import Swal from 'sweetalert2';
 import { AuthSaasRestoService } from '../../../shared/services/auth/auth-saas-resto.service';
 import { AngularEditorModule } from '@kolkov/angular-editor';
 import { RestaurantService } from '../../../shared/services/user/user.service';
-import { types,unites_de_temps,types_de_valeur,options_moyens_contact  } from '../../../shared/constants/types-parametres';
+import { types,unites_de_temps,types_de_valeur,options_moyens_contact, options_jours, options_heure  } from '../../../shared/constants/types-parametres';
 
 @Component({
   selector: 'app-modifier-parametre',
@@ -23,7 +23,8 @@ export class ModifierParametre {
   data_id=0
   formData!: FormGroup;
   user:any
-   hide_value=true
+  hide_heures_jours=true
+  hide_value=true
   hide_unite=true
   hide_contact=true
   constructor(private route: ActivatedRoute,private restaurantService: RestaurantService,private authSerivce:AuthSaasRestoService,private fb: FormBuilder, private crudSaasService:CrudSaasRestoService, private notificationsService:NotificationsService,) {}
@@ -47,6 +48,8 @@ export class ModifierParametre {
       type: ['', Validators.required],
       type_de_valeur: ['montant', Validators.required],
       valeurs_options: ['', ],
+      day_of_week: [1, ],
+      hour_of_day: ['08:00', ],
       unite_de_temps: ['', ],
       valeur: ['', Validators.required],
       description: ['', ],
@@ -148,6 +151,8 @@ export class ModifierParametre {
     unites_de_temps = unites_de_temps
     types_de_valeur = types_de_valeur
     options_moyens_contact = options_moyens_contact
+    options_jours = options_jours 
+    options_heure = options_heure 
 
     selectedFile: File | null = null;
 
@@ -178,9 +183,16 @@ is_status=false
         this.formData = this.fb.group({
           titre: [this.data.titre, Validators.required],
           type: [this.data.type, Validators.required],
-          valeur: [this.data.valeur,  this.data.type_de_valeur === 'statut' ? [] : [Validators.required]],
+          valeur: [
+            this.data.valeur,
+            ['statut', 'jour_et_heure'].includes(this.data.type_de_valeur)
+              ? []
+              : [Validators.required]
+          ],
           type_de_valeur: [this.data.type_de_valeur, Validators.required],
           valeurs_options: [this.data.valeurs_options, ],
+          day_of_week: [this.data.day_of_week, this.data.type_de_valeur != 'jour_et_heure' ? [] : [Validators.required]],
+          hour_of_day: [this.data.hour_of_day, this.data.type_de_valeur != 'jour_et_heure' ? [] : [Validators.required]],
           unite_de_temps: [this.data.unite_de_temps, ],
           description: [this.data.description, ],
           est_actif: [this.data.est_actif, Validators.required],
@@ -200,13 +212,22 @@ is_status=false
 
         });
 
+   
+
         if(this.data.type_de_valeur=='statut'){
           this.hide_value=true
           valeurControl?.clearValidators();
           this.is_status=true
+        }else if(this.data.type_de_valeur=='jour_et_heure'){
+          this.hide_heures_jours=false
+            this.hide_value=true
+          valeurControl?.clearValidators();
         }else{
           valeurControl?.setValidators([Validators.required]);
-          if(this.data.type_de_valeur!='choix_d_options'){
+          if(this.data.type_de_valeur=='choix_d_options'){
+            this.hide_contact=false
+            this.hide_value=true
+          }else if(this.data.type_de_valeur=='unite_temporelle'){
             this.hide_contact=true
             this.hide_value=false
           }else{
@@ -226,7 +247,7 @@ is_status=false
       
           //'unité temporelle','statut','montant','pourcentage','coefficient'
           console.log("type_de_valeur choisie et clear:", type_de_valeur);
-          if(type_de_valeur=='statut'){
+          if(['statut', 'jour_et_heure'].includes(type_de_valeur)){
             this.hide_value=true
             valeurControl?.clearValidators();
           }else{
