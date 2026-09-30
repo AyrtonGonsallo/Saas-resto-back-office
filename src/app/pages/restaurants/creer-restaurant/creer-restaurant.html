@@ -57,6 +57,17 @@
                 </div>
             </div>
 
+             <div class="col-sm-12 col-md-12">
+                <div class="mb-3">
+                <label class="form-label">Lien Google My Business </label>
+                <input class="form-control" type="text" formControlName="lien_google_my_buisness" placeholder="Lien Google My Business">
+                <div *ngIf="formData.get('lien_google_my_buisness')?.touched && formData.get('lien_google_my_buisness')?.invalid" class="text-danger">
+                    Lien Google My Business invalide
+                </div>
+                </div>
+            </div>
+
+
             <div class="col-sm-12 col-md-12">
                 <label class="form-label">Horaires <span class="text-danger">*</span></label>
             </div>

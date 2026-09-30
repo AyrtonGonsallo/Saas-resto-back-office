@@ -40,6 +40,7 @@ export class CreerRestaurant {
       adresse_email: ['', ],
       ville: ['', Validators.required],
       coordonnees_google_maps: ['', ],
+      lien_google_my_buisness: ['', ],
       heure_debut: ['', [Validators.required, ]],
       heure_fin: ['', [Validators.required, ]],
       heure_cc_debut: ['', [, ]],

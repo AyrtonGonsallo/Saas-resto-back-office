@@ -312,6 +312,11 @@ export class CrudSaasRestoService {
     return this.http.put<any>(url, datas);
   }
 
+  getPortefeuille(): Observable<any[]> {
+    let url = `${environment.apiUrl}/get_all_portefeuilles`;
+    return this.http.get<any[]>(url);
+  }
+
   updateAbonnement(id: number, datas: any): Observable<any> {
     const url = `${environment.apiUrl}/update_abonnement/${id}`;
     return this.http.put<any>(url, datas);
@@ -417,6 +422,11 @@ export class CrudSaasRestoService {
 
   ajouterReservation(userData: any): Observable<any> {
     return this.http.post<any>(`${environment.apiUrl}/ajouter_reservation`, userData);
+  }
+
+
+  sendMailReservation(id: number,): Observable<any> {
+    return this.http.post<any>(`${environment.apiUrl}/send_mail_reservation/${id}`, null);
   }
 
   getReservations(restaurantId:number | null): Observable<any[]> {
@@ -585,6 +595,9 @@ export class CrudSaasRestoService {
 
   ajouterCommande(payload: any): Observable<any> {
     return this.http.post<any>(`${environment.apiUrl}/ajouter_commande`, payload);
+  }
+  sendMailCommande(id: number,): Observable<any> {
+    return this.http.post<any>(`${environment.apiUrl}/send_mail_commande/${id}`, null);
   }
 
   ajouterCategorieVariation(userData: any): Observable<any> {
@@ -770,6 +783,44 @@ export class CrudSaasRestoService {
     return this.http.put<any>(url, data);
   }
   
+  
+  ajouterMail(userData: any): Observable<any> {
+    return this.http.post<any>(`${environment.apiUrl}/ajouter_mail`, userData);
+  }
+
+  checkTablesDispos(userData: any): Observable<any> {
+    return this.http.post<any>(`${environment.apiUrl}/check_tables_dispos`, userData);
+  }
+
+  getMails(restaurantId:number | null): Observable<any[]> {
+    let url = `${environment.apiUrl}/get_all_mails`;
+    if (restaurantId) {
+      url += `?restaurant_id=${restaurantId}`;
+    }
+    return this.http.get<any[]>(url);
+  }
+
+   getMailsbyRestoId(restaurantId:number | null): Observable<any[]> {
+    const url = `${environment.apiUrl}/get_mails_by_resto_id/${restaurantId}`;
+    return this.http.get<any[]>(url);
+  }
+
+  getMailById(id: number): Observable<any> {
+    const url = `${environment.apiUrl}/get_mail_by_id/${id}`;
+    return this.http.get<any>(url);
+  }
+
+  deleteMail(id: number): Observable<any> {
+    const url = `${environment.apiUrl}/delete_mail/${id}`;
+    return this.http.delete<any>(url);
+  }
+
+  updateMail(id: number, parametre: any): Observable<any> {
+    const url = `${environment.apiUrl}/update_mail/${id}`;
+    return this.http.put<any>(url, parametre);
+  }
+
+
 
 
 

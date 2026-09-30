@@ -1,22 +1,44 @@
 <form class="card" [formGroup]="formData" (ngSubmit)="onSubmit()">
     <div class="card-header">
-        <h4 class="card-title mb-0">Ajouter un type de cuisine</h4>
+        <h4 class="card-title mb-0">Modifier un template</h4>
         
     </div>
 
     <div class="card-body">
         <div class="row">
-            <div class="col-md-12">
-                <div class="mb-3">
-                <label class="form-label">Titre <span class="text-danger">*</span></label>
-                <input class="form-control" type="text" formControlName="titre" placeholder="titre">
-                <div *ngIf="formData.get('titre')?.touched && formData.get('titre')?.invalid" class="text-danger">
-                    Le titre est invalide
-                </div>
+            
+            <div class="col-sm-12 col-md-12">
+                <label class="form-label">Type <span class="text-danger">*</span></label>
+            
+                <ng-select [items]="type_template_email" bindLabel="name" bindValue="key" [multiple]="false"
+                    placeholder="choisir un type" formControlName="type"  />
+                    <div *ngIf="formData.get('type')?.touched && formData.get('type')?.invalid" class="text-danger">
+                    Le type  est invalide
                 </div>
             </div>
 
-         @if(user.datas.Role.priorite==1){
+            <div class="col-sm-12 col-md-12">
+                <label class="form-label">Section <span class="text-danger">*</span></label>
+            
+                <ng-select [items]="section_template_email" bindLabel="name" bindValue="key" [multiple]="false"
+                    placeholder="choisir une section" formControlName="section"  />
+                    <div *ngIf="formData.get('section')?.touched && formData.get('section')?.invalid" class="text-danger">
+                    La section est invalide
+                </div>
+            </div>
+
+            
+
+
+             <div class="col-sm-12 col-md-12">
+                <div class="mb-3">
+                    <label class="form-label">texte</label>
+                    <angular-editor [placeholder]="'Enter text here...'" formControlName="texte"  />
+                </div>
+            </div>
+
+           
+
              <div class="col-sm-12 col-md-12">
                 <label class="form-label">Société <span class="text-danger">*</span></label>
             
@@ -36,17 +58,14 @@
                     Le restaurant est invalide
                 </div>
             </div>
-          
-        }
-
-           
             
+
             
 
         </div>
     </div>
 
     <div class="card-footer text-end">
-        <button class="btn btn-primary" type="submit">Envoyer</button>
+        <button class="btn btn-primary" type="submit">Modifier</button>
     </div>
 </form>

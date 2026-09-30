@@ -15,6 +15,14 @@ export const PortefeuillesRoutes: Routes = [
           parentpath: 'societes/liste-societes'
         },
       },
+      {
+        path: 'liste-portefeuilles',
+        loadComponent: () => import('./portefeuilles').then(m => m.Portefeuilles),
+        data: {
+          title: 'Liste des portefeuilles',
+          breadcrumb: 'Liste des portefeuilles',
+        },
+      },
       
       
     ],

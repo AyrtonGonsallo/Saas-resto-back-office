@@ -187,6 +187,30 @@ export const  types = [
     { key: 'livraison_click_and_collect', name: 'État de la livraison sur le click and collect' },
   ];
 
+export const type_template_email = [//'recap-reservation', 'recap-commande', 'avis-commande','avis-reservation'
+  { key: 'recap-reservation', name: 'Récapitulatif pour une réservation' },
+  { key: 'recap-commande', name: 'Récapitulatif pour une commande' },
+  { key: 'avis-commande', name: 'Demande d\'avis pour une commande' },
+  { key: 'avis-reservation', name: 'Demande d\'avis pour une réservation' }
+];
+
+export const section_template_email = [//'body', 'footer-1', 'footer-2'
+  { key: 'body-1', name: 'haut du Body ' },
+  { key: 'body-2', name: 'Bas du Body' },
+  { key: 'footer-1', name: 'Haut du footer' },
+  { key: 'footer-2', name: 'Bas du footer' },
+];
+
+
+
+
+
+
+
+
+
+
+
   export function getTypeName(key: string): string {
     const found = types.find(t => t.key === key);
     return found ? found.name : 'Inconnu';

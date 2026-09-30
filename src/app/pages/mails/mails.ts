@@ -1,0 +1,189 @@
+import { DecimalPipe, AsyncPipe, CommonModule } from '@angular/common';
+import { Component, inject, viewChildren } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import Swal from 'sweetalert2';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { Observable } from 'rxjs';
+import { Router,  } from '@angular/router';
+import {
+  NgbdSortableHeaderDirective,
+  SortEvent,
+} from '../../shared/directives/sortable.directive';
+import { TableService } from '../../shared/services/table.service';
+import { CrudSaasRestoService } from '../../shared/services/api/crud-saas-resto.service';
+import { NotificationsService } from '../../shared/services/notifications/notifications.service';
+import { environment } from '../../environment';
+import { RestaurantService } from '../../shared/services/user/user.service';
+import { CleanTextPipe } from '../../shared/pipes/clean-text.pipe';
+
+@Component({
+  selector: 'app-mails',
+   imports: [FormsModule,
+    NgbdSortableHeaderDirective,
+    ReactiveFormsModule,CommonModule,
+    NgbModule,CleanTextPipe,
+    AsyncPipe,],
+  templateUrl: './mails.html',
+  styleUrl: './mails.scss',
+  providers: [TableService, DecimalPipe],
+})
+export class Mails {
+  public service = inject(TableService);
+  private router = inject(Router);
+  public imagesUrl = environment.imagesUrl
+  public tableData$: Observable<any[]> = this.service.supportdata$;
+  public total$: Observable<number> = this.service.total$;
+  public Data: any[];
+
+  readonly headers = viewChildren(NgbdSortableHeaderDirective);
+  current_priority=0;
+  ngOnInit() {
+    this.current_priority = this.restaurantService.getUser()?.datas?.Role?.priorite;
+    this.tableData$.subscribe(res => {
+      this.Data = res;
+      console.log(this.Data)
+    });
+    this.service.pageSize=300
+    this.get_all_datas()
+  }
+    
+  constructor(private crudSaasService:CrudSaasRestoService, private restaurantService: RestaurantService, private notificationsService:NotificationsService,) {}
+
+
+  onSort({ column, direction }: SortEvent) {
+    this.headers().forEach(header => {
+      if (header.sortable() !== column) {
+        header.currentDirection.set('');
+      }
+    });
+
+    this.service.sortColumn = column;
+    this.service.sortDirection = direction;
+  }
+
+  mails:any
+
+  getCurrentPriority(): number {
+       return this.restaurantService.getUser()?.datas?.Role?.priorite;
+    }
+
+     canDelete(): boolean {
+       const p = this.getCurrentPriority();
+       return p <= 4;
+      }
+
+     canEdit(): boolean {
+       const p = this.getCurrentPriority();
+       return p <= 4;
+      }
+
+
+
+  get_all_datas(){
+
+    let restaurant_id = this.restaurantService.getRestaurant()
+    console.log("restaurant_id",restaurant_id)
+    this.crudSaasService.getMails(restaurant_id).subscribe({
+      next: (res) => {
+
+        // FILTRE par selection du restaurant
+          if (restaurant_id) {
+            res = res.filter(p =>
+            p.restaurant_id === restaurant_id ||
+            p.Restaurant?.id === restaurant_id
+            );
+           }
+           
+        this.service.setData(res);
+        console.log("mails",this.mails)
+      },
+      error: (err) => {
+        this.notificationsService.error("Erreur lors de la récupération des rôles","Echec")
+      }
+    });
+  }
+
+  redirect_add(){
+    this.router.navigate(['/template-mails/creer-template-mail']);
+  }
+
+  modifier_data(id:number){
+     if (!this.canEdit()) {
+       this.notificationsService.error("Accès refusé", "Echec");
+       return;
+      }
+    this.router.navigate(['/template-mails/modifier-template-mail', id]);
+  }
+
+  supprimer_data(id:number){
+    
+  if (!this.canDelete()) {
+           this.notificationsService.error("Accès refusé", "Echec");
+           return;
+          }
+    Swal.fire({
+      title: 'Voulez-vous vraiment supprimer cet élément?',
+      text: "Cette action est irreversible!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Oui, supprimer!',
+      cancelButtonText: 'annuler',
+    }).then(result => {
+      if (result.isConfirmed) {
+
+        this.crudSaasService.deleteMail(id).subscribe({
+          next: (res) => {
+            console.log("res supp",res)
+            //this.notificationsService.success("Rôle supprimé !","Succès")
+            this.get_all_datas()
+          },
+          error: (err) => {
+            this.notificationsService.error("Erreur lors de la suppression de l'élément","Echec")
+          }
+        });
+
+        Swal.fire({
+          title: 'Suppression faite!',
+          text: 'L\'élément à bien été supprimé.',
+          icon: 'success',
+        });
+      }
+    });
+  }
+
+
+  recap_commande_2(){
+    this.crudSaasService.sendMailCommande(2).subscribe({
+          next: (res) => {
+             Swal.fire({
+              title: 'récap commande 2 envoyé',
+              text: 'récap commande 2 envoyé',
+              icon: 'success',
+            });
+          },
+          error: (err) => {
+            this.notificationsService.error(err.error.message,"Echec")
+            console.log(err.error.message)
+          }
+        });
+  }
+
+  recap_reservation_3(){
+    this.crudSaasService.sendMailReservation(3).subscribe({
+          next: (res) => {
+             Swal.fire({
+              title: 'récap réservation 3 envoyé',
+              text: 'récap réservation 3 envoyé',
+              icon: 'success',
+            });
+          },
+          error: (err) => {
+            this.notificationsService.error(err.error.message,"Echec")
+            console.log(err.error.message)
+          }
+        });
+  }
+
+}

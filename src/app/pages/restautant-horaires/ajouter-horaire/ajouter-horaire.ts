@@ -8,6 +8,7 @@ import { Router, } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { RestaurantService } from '../../../shared/services/user/user.service';
+import { AuthSaasRestoService } from '../../../shared/services/auth/auth-saas-resto.service';
 
 
 @Component({
@@ -19,9 +20,10 @@ import { RestaurantService } from '../../../shared/services/user/user.service';
 export class AjouterHoraire {
 
   
+  
   private router = inject(Router);
   formData!: FormGroup;
-  constructor(private fb: FormBuilder, private crudSaasService:CrudSaasRestoService, private restaurantService: RestaurantService, private notificationsService:NotificationsService,) {}
+  constructor(private authSerivce:AuthSaasRestoService, private fb: FormBuilder, private crudSaasService:CrudSaasRestoService, private restaurantService: RestaurantService, private notificationsService:NotificationsService,) {}
 
   jours = [
     { valeur: 'Lundi',  },
@@ -32,12 +34,15 @@ export class AjouterHoraire {
     { valeur: 'Samedi',  },
     { valeur: 'Dimanche',  },
   ]
-
+user:any
 
   ngOnInit(): void {
 
     this.get_all_societes()
     this.get_all_restaurants()
+
+       this.user = this.authSerivce.getUser();
+    console.log('user recuperé',this.user )
     
     this.formData = this.fb.group({
       type: ['Réservation', Validators.required],

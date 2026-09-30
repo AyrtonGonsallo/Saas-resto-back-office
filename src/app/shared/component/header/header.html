@@ -13,62 +13,73 @@
         </a>
     </div>
     <div class="page-main-header col" (clickOutside)="clickOutside()" >
-        <div class="header-left d-lg-block d-none  me-5" >
-            <app-search />
-        </div>
+        @if(!cleanInterface){
+            <div class="header-left d-lg-block d-none  me-5" >
+                <app-search />
+            </div>
+        }
+        
         <div class="nav-right">
             <ul class="header-right">
-                <li class="modes d-flex">
-                    <app-theme />
-                </li>
-                <li class="serchinput d-lg-none d-flex" >
-                    <a class="search-mode" (click)="openSearch()">
-                        <svg class="svg-color">
-                            <use href="assets/svg/iconly-sprite.svg#Search"></use>
-                        </svg></a>
-                    <div class="form-group search-form" [class.open]="show">
-                        <input type="text" placeholder="Search here..." [(ngModel)]="text"
-                            [ngModelOptions]="{ standalone: true }" (keyup)="searchTerm(text)" type="text" name="q"
-                            title="" autocomplete="off">
-                        @if(menuItems.length){
-                        <div class="Typeahead-menu custom-scrollbar" [class.is-open]="searchResult" id="search-outer"
-                            [class.open]="open">
-                            @for(menuItem of menuItems | slice : 0 : 8; track menuItem){
-                            <div class="ProfileCard u-cf">
-                                <div class="ProfileCard-details">
-                                    <div class="ProfileCard-realName">
-                                        <a [routerLink]="menuItem.path" class="realname" (click)="removeFix()">{{
-                                            menuItem.title
-                                            }} </a>
-                                        <div class="ProfileCard-avatar">
-                                            <app-svg-icon [icon]="menuItem.icon" />
+                @if(!cleanInterface){
+                    <li class="modes d-flex">
+                        <app-theme />
+                    </li>
+                    <li class="serchinput d-lg-none d-flex" >
+                        
+                        <a class="search-mode" (click)="openSearch()">
+                            <svg class="svg-color">
+                                <use href="assets/svg/iconly-sprite.svg#Search"></use>
+                            </svg></a>
+                        <div class="form-group search-form" [class.open]="show">
+                            <input type="text" placeholder="Search here..." [(ngModel)]="text"
+                                [ngModelOptions]="{ standalone: true }" (keyup)="searchTerm(text)" type="text" name="q"
+                                title="" autocomplete="off">
+                            @if(menuItems.length){
+                            <div class="Typeahead-menu custom-scrollbar" [class.is-open]="searchResult" id="search-outer"
+                                [class.open]="open">
+                                @for(menuItem of menuItems | slice : 0 : 8; track menuItem){
+                                <div class="ProfileCard u-cf">
+                                    <div class="ProfileCard-details">
+                                        <div class="ProfileCard-realName">
+                                            <a [routerLink]="menuItem.path" class="realname" (click)="removeFix()">{{
+                                                menuItem.title
+                                                }} </a>
+                                            <div class="ProfileCard-avatar">
+                                                <app-svg-icon [icon]="menuItem.icon" />
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
+                                }
                             </div>
                             }
-                        </div>
-                        }
-                        <div class="Typeahead-menu is-open" [class.is-open]="searchResultEmpty">
-                            <div class="tt-dataset tt-dataset-0">
-                                <div class="EmptyMessage">Opps!! There are no result found.</div>
+                            <div class="Typeahead-menu is-open" [class.is-open]="searchResultEmpty">
+                                <div class="tt-dataset tt-dataset-0">
+                                    <div class="EmptyMessage">Opps!! There are no result found.</div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </li>
+                    </li>
+                }
                 
-                <li class="custom-dropdown" (click)="languageToggle()">
-                    <app-language />
-                </li>
+                @if(!cleanInterface){
+                    <li class="custom-dropdown" (click)="languageToggle()">
+                        <app-language />
+                    </li>
+                }
                 <li class="custom-dropdown">
                     <app-notification />
                 </li>
+                <!--
                 <li class="custom-dropdown">
                     <app-messages />
-                </li>
+                </li>-->
                 <li class="profile-dropdown custom-dropdown">
                     <app-profile />
                 </li>
+                
+                
                 
             </ul>
         </div>

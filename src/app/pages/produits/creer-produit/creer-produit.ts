@@ -53,6 +53,9 @@ export class CreerProduit {
       utilisateur_id: [this.user.datas.id, Validators.required],
     });
 
+
+   
+
     this.formData.get('restaurant_id')?.valueChanges.subscribe((restaurantId) => {
 
       console.log("restaurant choisi:", restaurantId);
@@ -151,6 +154,20 @@ categories_produits: any[] = [];
         this.allCategories = res.filter(cat => cat.est_actif === true);
         this.categories_produits = res.filter(cat => cat.est_actif === true);
         console.log("categories_produits",this.categories_produits)
+
+
+        
+        let restaurant_id = this.restaurantService.getRestaurant()
+        console.log("restaurant dd choisi:", restaurant_id);
+
+        if (!restaurant_id) {
+          this.categories_produits = this.allCategories;
+        } else {
+          this.categories_produits = this.allCategories.filter(cat =>
+            cat.restaurant_id === restaurant_id
+          );
+        }
+
       },
       error: (err) => {
         this.notificationsService.error("Erreur lors de la récupération des catégories","Echec")

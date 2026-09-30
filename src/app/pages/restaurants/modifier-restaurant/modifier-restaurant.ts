@@ -51,6 +51,7 @@ export class ModifierRestaurant {
       adresse_email: ['', ],
       ville: ['', Validators.required],
       coordonnees_google_maps: ['', ],
+      lien_google_my_buisness: ['', ],
       image: ['', ],
       heure_debut: ['', [Validators.required, ]],
       heure_fin: ['', [Validators.required, ]],
@@ -166,6 +167,7 @@ export class ModifierRestaurant {
     finalFormData.append('adresse_email', this.formData.value.adresse_email);
     finalFormData.append('ville', this.formData.value.ville);
     finalFormData.append('coordonnees_google_maps', this.formData.value.coordonnees_google_maps);
+    finalFormData.append('lien_google_my_buisness', this.formData.value.lien_google_my_buisness);
     finalFormData.append('heure_debut', this.formData.value.heure_debut);
     finalFormData.append('heure_fin', this.formData.value.heure_fin);
     finalFormData.append('heure_cc_debut', this.formData.value.heure_cc_debut);
@@ -173,6 +175,7 @@ export class ModifierRestaurant {
     finalFormData.append('jours_de_fermeture', this.formData.value.jours_de_fermeture);
     finalFormData.append('telephone', this.formData.value.telephone);
     finalFormData.append('societe_id', this.formData.value.societe_id);
+    finalFormData.append('utilisateur_id', this.formData.value.utilisateur_id);
 
     //  fichier image
     if (this.selectedFile) {
@@ -181,6 +184,7 @@ export class ModifierRestaurant {
     }
 
     console.log('finalFormData',finalFormData);
+   
 
      this.crudSaasService.updateRestaurant(this.data_id,finalFormData).subscribe({
           next: (res) => {
@@ -280,6 +284,7 @@ export class ModifierRestaurant {
           adresse_email: [this.data.adresse_email, ],
           ville: [this.data.ville, Validators.required],
           coordonnees_google_maps: [this.data.coordonnees_google_maps, ],
+          lien_google_my_buisness: [this.data.lien_google_my_buisness, ],
           image: ['', ],
           heure_debut: [this.data.heure_debut, [Validators.required, ]],
           heure_fin: [this.data.heure_fin, [Validators.required, ]],

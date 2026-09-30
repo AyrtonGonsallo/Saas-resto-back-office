@@ -111,10 +111,29 @@ export class FormulaireClickAndCollect {
       else if(this.current_step==4 && !this.paymentRestoActive){
         this.progression+=25
         this.current_step++
-        this.close_and_timeout()
+        
+
+        this.crudSaasService.sendMailCommande(this.final_commande.id).subscribe({
+          next: (res) => {
+            this.close_and_timeout()
+          },
+          error: (err) => {
+            this.notificationsService.error(err.error.message,"Echec")
+            console.log(err.error.message)
+          }
+        });
       }
       else if (this.current_step==5){
-        this.close_and_timeout()
+        
+        this.crudSaasService.sendMailCommande(this.final_commande.id).subscribe({
+          next: (res) => {
+            this.close_and_timeout()
+          },
+          error: (err) => {
+            this.notificationsService.error(err.error.message,"Echec")
+            console.log(err.error.message)
+          }
+        });
       }else{
         this.progression+=25
         this.current_step++

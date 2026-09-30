@@ -24,7 +24,7 @@
                             <div class="msg-info-name">{{data?.type}}</div>
                             <div class="msg-info-time">{{data?.date_rappel| date:'dd/MM/yyyy HH:mm'}}</div>
                         </div>
-                        <div class="msg-text">{{data?.texte}}
+                        <div class="msg-text" [innerHTML]="data?.texte">
                         </div>
                     </div>
                 </div>

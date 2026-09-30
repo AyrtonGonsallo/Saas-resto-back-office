@@ -82,7 +82,37 @@ tables_multiple = false
       client_id: [null, ], //pas d'etape 
     });
 
-    
+    this.formData.valueChanges.subscribe(value => {
+      if (value.date_reservation && value.heure_reservation) {
+
+         const data = {
+      date_reservation: value.date_reservation,
+      heure_reservation: value.heure_reservation,
+      duree_reservation: value.duree_reservation,
+      tables: this.tables
+    };
+        // Les deux sont renseignés
+        console.log('data',data);
+
+        this.crudSaasService.checkTablesDispos(data).subscribe({
+          next: (res) => {
+            console.log('res',res)
+
+             this.tables = this.tables.filter(table =>
+        res.includes(table.id)
+      );
+
+
+          },
+          error: (err) => {
+            this.notificationsService.error(err.error.message,"Echec")
+            console.log(err.error.message)
+          }
+        });
+        
+        // Faire quelque chose ici
+      }
+    });
 
     
 
@@ -122,6 +152,9 @@ tables_multiple = false
     
 
   }
+
+
+  
   
   param_resto_ecart_heures:any
   param_resto_duree_blocage_table:any
@@ -303,7 +336,18 @@ tables_multiple = false
       this.current_step++
 
       if(this.current_step === 4){
-        this.close_and_timeout()
+
+
+        this.crudSaasService.sendMailReservation(this.final_reservation.id).subscribe({
+          next: (res) => {
+            this.close_and_timeout()
+          },
+          error: (err) => {
+            this.notificationsService.error(err.error.message,"Echec")
+            console.log(err.error.message)
+          }
+        });
+        
       }
       
     }
@@ -399,7 +443,17 @@ tables_multiple = false
           result=true;
           this.progression+=33
           this.current_step++
-          this.close_and_timeout()
+
+
+          this.crudSaasService.sendMailReservation(this.final_reservation.id).subscribe({
+            next: (res) => {
+              this.close_and_timeout()
+            },
+            error: (err) => {
+              this.notificationsService.error(err.error.message,"Echec")
+              console.log(err.error.message)
+            }
+          });
         },
         error: (err) => {
           this.notificationsService.error(err.error.message,"Echec")
