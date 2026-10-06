@@ -8,6 +8,7 @@ import { Router, } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { RestaurantService } from '../../../shared/services/user/user.service';
+import { AuthSaasRestoService } from '../../../shared/services/auth/auth-saas-resto.service';
 
 
 
@@ -23,14 +24,17 @@ export class CreerRestaurant {
   
   private router = inject(Router);
   formData!: FormGroup;
-  constructor(private fb: FormBuilder, private crudSaasService:CrudSaasRestoService, private restaurantService: RestaurantService, private notificationsService:NotificationsService,) {}
-
+  constructor(private fb: FormBuilder, private authSerivce:AuthSaasRestoService, private crudSaasService:CrudSaasRestoService, private restaurantService: RestaurantService, private notificationsService:NotificationsService,) {}
+ user:any
+  restaurant_id:number|null
   
 
 
   ngOnInit(): void {
 
     this.get_all_utilisateurs()
+
+    this.user = this.authSerivce.getUser();
 
     this.get_all_societes()
     
@@ -46,7 +50,7 @@ export class CreerRestaurant {
       heure_cc_debut: ['', [, ]],
       heure_cc_fin: ['', [, ]],
       telephone: ['', [Validators.pattern(/^[0-9+\s\-()]{8,20}$/)]],
-      societe_id: [0, Validators.required],
+      societe_id: [this.user.datas?.societe_id, Validators.required],
       utilisateur_id: [0, Validators.required],
     });
 

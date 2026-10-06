@@ -297,7 +297,7 @@ export const dashData: Routes = [
     data: {
       title: 'Societes',
       breadcrumb: 'Societe',
-     roles: ['super-admin','gestionnaire-restaurant',]
+     roles: ['super-admin',]
     },
     canActivate: [RoleGuard],
     loadChildren: () => import('../../pages/societes/societes.routes').then(r => r.SocietesRoutes),

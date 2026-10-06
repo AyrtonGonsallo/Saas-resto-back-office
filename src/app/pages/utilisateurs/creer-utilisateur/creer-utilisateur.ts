@@ -8,6 +8,7 @@ import { Router, } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { RestaurantService } from '../../../shared/services/user/user.service';
+import { AuthSaasRestoService } from '../../../shared/services/auth/auth-saas-resto.service';
 
 @Component({
   selector: 'app-creer-utilisateur',
@@ -18,9 +19,10 @@ import { RestaurantService } from '../../../shared/services/user/user.service';
 export class CreerUtilisateur {
   private router = inject(Router);
   formData!: FormGroup;
+  user:any
   restaurant_id:number|null
 
-  constructor(private fb: FormBuilder, private restaurantService: RestaurantService, private crudSaasService:CrudSaasRestoService, private notificationsService:NotificationsService,) {}
+  constructor(private authSerivce:AuthSaasRestoService, private fb: FormBuilder, private restaurantService: RestaurantService, private crudSaasService:CrudSaasRestoService, private notificationsService:NotificationsService,) {}
 
   ngOnInit(): void {
 
@@ -28,6 +30,7 @@ export class CreerUtilisateur {
     console.log('this.restaurant_id',this.restaurant_id)
 
     this.get_all_roles()
+    this.user = this.authSerivce.getUser();
 
     this.get_all_societes()
 
@@ -41,8 +44,8 @@ export class CreerUtilisateur {
       mot_de_passe: ['', Validators.required],
       confirmed_mot_de_passe: ['', Validators.required],
       role_id: [0, Validators.required],
-      societe_id: [0, ],
-      restaurant_id: [[this.restaurant_id], ],
+      societe_id: [this.user.datas?.societe_id, ],
+      restaurant_id: this.restaurant_id != null ? [this.restaurant_id] : [],
     });
 
     this.formData.get('societe_id')?.valueChanges.subscribe((societe_id) => {

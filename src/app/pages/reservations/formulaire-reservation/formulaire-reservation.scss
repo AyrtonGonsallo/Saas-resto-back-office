@@ -1,47 +1,77 @@
 
+.steps button {
+    transform: translateY(-50%);
+    height: 60px;
+    width: 60px;
+    border-radius: 24px;
+    gap: 10px;
+    padding: 10px;
+    font-size: 32px;
+    outline: 10px solid #C3C3C3;
+}
+
 .to-come{
-    background-color: #43b9b1a8 !important;
-    border: 1px solid #43b9b17a !important;
-    border-radius: 5px;
-    color: #ffffff !important;
+    background-color: #FFFFFF !important;
+    border: 1px solid #FFFFFF !important;
+    color: #000000 !important;
 }
 .visited{
-    background-color: #acbebd !important;
-    border: 1px solid #b3b9b9 !important;
-    border-radius: 5px;
+    background-color: #000000 !important;
+    border: 1px solid #000000 !important;
     color: #ffffff !important;
 }
 .current{
-    background-color: #43B9B2 !important;
-    border: 1px solid #43B9B2 !important;
-    border-radius: 5px;
+    background-color: #00BCB4 !important;
+    border: 1px solid #00BCB4 !important;
     color: #ffffff !important;
 }
 
 
 .progress-wrapper {
   position: relative;
+  height: 70px;
 }
 
 .progress {
   height: 6px;
+  color: #000000;
+  background-color: black;
+  top: 80px;
+  position: relative;
 }
 
 .steps {
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    top: 80px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 90%;
+}
+.steps-labels {
   display: flex;
   justify-content: space-between;
   position: absolute;
-  top: 1px;
+  top: 0px;
   width: 100%;
 }
-
-.steps button {
-  transform: translateY(-50%);
-  width: fit-content;
+.steps-labels span{
+    font-weight: 600;
+    font-size: 32px;
+    line-height: 100%;
+    letter-spacing: 0%;
+    text-align: center;
 }
 
-.login-main{
-    width: 800px;
+
+
+
+.card-body{
+    background-color: #C3C3C3;
+}
+.card{
+    border: none ;
 }
 @media (max-width: 480px) {
     
@@ -91,4 +121,84 @@
     .login-card .login-main {
         padding: 0;
     }
+}
+
+
+.infos-resto{
+    background-color: #707070;
+    color: white;
+    width: 292px;
+    border-radius: 14px;
+    padding-top: 10px;
+    padding-right: 20px;
+    padding-bottom: 10px;
+    padding-left: 20px;
+    gap: 5px;
+}
+.infos-resto h5{
+    color: white;
+    margin-bottom: 10px;
+
+}
+
+.login-main{
+    background-color: #C3C3C3;
+}
+
+@media (min-width: 1430px)  {
+    .widget h2{
+        font-size: 48px;
+    }
+    .widget .subtitle{
+        font-size: 24px;
+    }
+    .login-main{
+        width: 1221px;
+    }
+
+}
+
+@media (min-width: 680px) and  (max-width: 1430px) {
+    .widget h2{
+        font-size: 36px;
+    }
+    .widget .subtitle{
+        font-size: 24px;
+    }
+    .login-main{
+        width: 1000px;
+    }
+
+}
+@media  (max-width: 680px) {
+    .widget h2{
+        font-size: 36px;
+    }
+    .widget .subtitle{
+        font-size: 24px;
+    }
+    .login-main{
+        width: 680px;
+    }
+
+}
+
+:host ::ng-deep .tooltip .tooltip-inner {
+    background-color: transparent ;
+    border: none;
+}
+.login-card .login-main .theme-form label{
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 100%;
+    letter-spacing: 0%;
+
+}
+.navigation{
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 100%;
+    letter-spacing: 0%;
+    text-align: center;
+
 }

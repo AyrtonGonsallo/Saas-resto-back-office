@@ -9,6 +9,7 @@ import { CrudSaasRestoService } from '../../../shared/services/api/crud-saas-res
 import { NotificationsService } from '../../../shared/services/notifications/notifications.service';
 import Swal from 'sweetalert2';
 import { PanierService } from '../../../shared/services/click-and-collect/panier.service';
+import { AuthSaasRestoService } from '../../../shared/services/auth/auth-saas-resto.service';
 
 
 @Component({
@@ -22,8 +23,11 @@ export class CreerLivraison {
     
   formData!: FormGroup;
   minDate: NgbDateStruct;
+  user:any
+  restaurant_id:number|null
 
-  constructor(private route: ActivatedRoute,private fb: FormBuilder, private crudSaasService:CrudSaasRestoService,private panierService:PanierService, private restaurantService: RestaurantService, private notificationsService:NotificationsService,) {}
+
+  constructor(private authSerivce:AuthSaasRestoService,private route: ActivatedRoute,private fb: FormBuilder, private crudSaasService:CrudSaasRestoService,private panierService:PanierService, private restaurantService: RestaurantService, private notificationsService:NotificationsService,) {}
   
 
     
@@ -36,6 +40,10 @@ export class CreerLivraison {
       month: today.getMonth() + 1,
       day: today.getDate()
     };
+
+     this.restaurant_id = this.restaurantService.getRestaurant()
+    console.log('this.restaurant_id',this.restaurant_id)
+    this.user = this.authSerivce.getUser();
 
    
     this.load_datas()
@@ -54,12 +62,27 @@ export class CreerLivraison {
       livreur_id: [null, [Validators.required, ]], //pas d'etape 
       client_id: [null, [Validators.required, ]], //pas d'etape 
       statut: ['En attente', [Validators.required, ]], //pas d'etape 
-      societe_id: [null, [Validators.required, ]], //pas d'etape 
-      restaurant_id: [null, [Validators.required, ]], //etape 2
+      societe_id: [this.user.datas?.societe_id, ],
+      restaurant_id: [[this.restaurant_id], ],
       
     });
 
+this.formData.get('societe_id')?.valueChanges.subscribe((societe_id) => {
 
+      console.log("societe_id choisi:", societe_id);
+
+      if (!societe_id) {
+        this.restaurants = this.allRestaurants;
+      } else {
+        this.restaurants = this.allRestaurants.filter(cat =>
+          cat.societe_id === societe_id
+        );
+      }
+
+      // 🔥 reset catégorie sélectionnée
+      this.formData.patchValue({ restaurant_id: null });
+
+    });
 
     this.formData.get('restaurant_id')?.valueChanges.subscribe((restaurant_id) => {
 

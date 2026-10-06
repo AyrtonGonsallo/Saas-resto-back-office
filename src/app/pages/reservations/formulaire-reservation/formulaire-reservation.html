@@ -1,7 +1,7 @@
 <div class="container-fluid p-0">
     <div class="row m-0">
         <div class="col-12 p-0">
-            <div class="login-card login-dark" >
+            <div class="login-card login-dark widget" >
                 <div>
                     <div>
                         <a class="logo" [routerLink]="['/dashboard/default']">
@@ -11,11 +11,29 @@
                     </div>
                     <div class="login-main" >
                         <form class="theme-form" [formGroup]="formData">
-                            <h2 class="text-center">{{societeData?.titre}}</h2>
-                            <h3 class="text-center">Réserver une table</h3>
-                            <h4 class="text-center" *ngIf="selectedRestaurant">Restaurant : {{selectedRestaurant?.nom}}</h4>
+                          
+                            
+                            <h2 class="text-center" *ngIf="selectedRestaurant">
+                                {{selectedRestaurant?.nom}}
+                                <span class="example-popover mb-0 me-0"  placement="bottom" [ngbTooltip]="monTooltip" >
+                                    <i class="icon-info-alt"></i>
+                                </span>
+                            </h2> 
+                            
+                            <ng-template #monTooltip>
+                                <div class="infos-resto" *ngIf="horairesRestaurant">
+                                    @if(horairesRestaurant){
+                                        <h5>Nos horaires </h5>
+                                        
+                                        @for(horaire of horairesRestaurant; track horaire){
+                                            <span>{{get_horaire_label(horaire)}} </span><br>
+                                        }
+                                    }
+                                </div>
 
-                            <p class="text-center">Entrez les informations suivantes</p>
+                            </ng-template>
+                            
+                            <p class="text-center subtitle">Réserver une table</p>
 
 
                             <div class="card"  *ngIf="!resto_inactif">
@@ -25,29 +43,28 @@
                                         
 
                                         <div class="progress-wrapper">
-                                        <div class="progress">
-                                            <div class="progress-bar" [style.width.%]="progression"></div>
-                                        </div>
+                                            <div class="progress">
+                                                <div class="progress-bar" [style.width.%]="progression"></div>
+                                            </div>
 
-                                        <div class="steps">
-                                            <button [ngClass]="stepClass(1)"><span class="desktop">Réservation</span><span class="mobile">1</span></button>
-                                            <button [ngClass]="stepClass(2)"><span class="desktop">Informations personnelles</span><span class="mobile">2</span></button>
-                                            <button [ngClass]="stepClass(3)"><span class="desktop">Paiement</span><span class="mobile">3</span></button>
-                                            <button [ngClass]="stepClass(4)"><span class="desktop">Récapitulatif</span><span class="mobile">4</span></button>
-                                        </div>
+                                            <div class="steps-labels">
+                                                <span>Réserver</span>
+                                                <span>Infos personnelles</span>
+                                                <span>Paiement</span>
+                                                <span>Récapitulatif</span>
+                                            </div>
+                                            <div class="steps">
+                                                <button [ngClass]="stepClass(1)"><span>1</span></button>
+                                                <button [ngClass]="stepClass(2)"><span>2</span></button>
+                                                <button [ngClass]="stepClass(3)"><span>3</span></button>
+                                                <button [ngClass]="stepClass(4)"><span>4</span></button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
-                             <div class="row btns-action-grid"  *ngIf="!resto_inactif">
-                                <div class="col-auto">
-                                    <a class="btn btn-primary btn-block w-100 text-white" (click)="prec()">{{button_prec_text}}</a>
-                                </div>
-                                <div class="col-auto ms-auto">
-                                    <a class="btn btn-primary btn-block w-100 text-white" (click)="next()">{{button_suiv_text}}</a>
-                                </div>
-                            </div>
+                        
 
                             <div class="card mt-3" *ngIf="resto_inactif">
                             Ce service est désactivé dans ce restaurant
@@ -56,7 +73,7 @@
                                 
                                 <div class="card-body">
                                     <div *ngIf="current_step==2">
-                                        <h4 class="card-title mb-0">Informations personnelles</h4>
+                                        
                                         <div class="col-sm-12 col-md-12">
                                             <div class="mb-3">
                                             <label class="form-label">Nom <span class="text-danger">*</span></label>
@@ -89,7 +106,7 @@
 
                                         <div class="col-md-12">
                                             <div class="mb-3">
-                                            <label class="form-label">Téléphone</label>
+                                            <label class="form-label">Téléphone <span class="text-danger">*</span></label>
                                             <input class="form-control" type="text" formControlName="telephone" placeholder="Téléphone">
                                             <div *ngIf="formData.get('telephone')?.touched && formData.get('telephone')?.invalid" class="text-danger">
                                                 Le téléphone est invalide
@@ -101,117 +118,133 @@
                                     
                                     <div *ngIf="current_step==1">
                                         <h4 class="card-title mb-0">Réservation</h4>
-                                        <div class="date-picker">
-                                            <div class="mb-3 row g-3">
-                                                
-                                                <!-- DATE -->
-                                                <label class="col-sm-3 col-form-label text-sm-start">
-                                                    Date de réservation <span class="text-danger">*</span>
-                                                </label>
-                                                <div class="col-xl-9 col-sm-9">
-                                                    <div class="input-group">
-                                                        <input
-                                                        class="form-control digits"
-                                                        placeholder="yyyy-mm-dd"
-                                                        formControlName="date_reservation"
-                                                        ngbDatepicker
-                                                        #d="ngbDatepicker"
-                                                        (click)="d.toggle()"
-                                                        [minDate]="minDate"
-                                                        [markDisabled]="isDateDisabled"
-                                                        />
+
+
+                                        <div class="mb-3 row g-3">
+
+                                            <div class="col-md-6">
+                                                <div class="mb-3">
+                                                    <label class="form-label">Nombre de personnes <span class="text-danger">*</span></label>
+                                                    <input class="form-control" type="number" formControlName="nombre_de_personnes" placeholder="nombre de personnes">
+                                                    <div *ngIf="formData.get('nombre_de_personnes')?.touched && formData.get('nombre_de_personnes')?.invalid" class="text-danger">
+                                                        Le nombre de personnes est invalide
                                                     </div>
-                                                    <div *ngIf="formData.get('date_reservation')?.touched && formData.get('date_reservation')?.invalid" class="text-danger">
-                                                        La date est invalide
+                                                    <div *ngIf="placeSupTableLimit && formData.touched" class="text-danger">
+                                                        Le nombre de personnes doit être inférieur au nombre de places de la table
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="mb-3">
+                                                    <label class="form-label">Nombre de couvert si différent </label>
+                                                    <input class="form-control" type="number" formControlName="nb_couverts" placeholder="nombre de couverts">
+                                                    <div *ngIf="formData.get('nb_couverts')?.touched && formData.get('nb_couverts')?.invalid" class="text-danger">
+                                                        Le nombre de couverts est invalide
+                                                    </div>
+                                                    <div *ngIf="couvertsInsuffisants && formData.touched" class="text-danger">
+                                                        Le nombre de couverts doit être supérieur ou égal au nombre de personnes
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="mb-3 row g-3">
+                                            <div class="col-md-6">
+                                                <div class="date-picker">
+                                                    <div class="mb-3 row g-3">
+
+                                                        <span class="group-form-title">Quand ? <span class="text-danger">*</span></span>
+                                                        
+                                                        <!-- DATE -->
+                                                        <label class="col-sm-3 col-form-label text-sm-start">
+                                                            Date <span class="text-danger">*</span>
+                                                        </label>
+                                                        <div class="col-xl-9 col-sm-9">
+                                                            <div class="input-group">
+                                                                <input
+                                                                class="form-control digits"
+                                                                placeholder="yyyy-mm-dd"
+                                                                formControlName="date_reservation"
+                                                                ngbDatepicker
+                                                                #d="ngbDatepicker"
+                                                                (click)="d.toggle()"
+                                                                [minDate]="minDate"
+                                                                [markDisabled]="isDateDisabled"
+                                                                />
+                                                            </div>
+                                                            <div *ngIf="formData.get('date_reservation')?.touched && formData.get('date_reservation')?.invalid" class="text-danger">
+                                                                La date est invalide
+                                                            </div>
+                                                        </div>
+
+
+                                                        <!-- TIME -->
+                                                    <label class="col-sm-3 col-form-label text-sm-start">
+                                                        Heure <span class="text-danger">*</span>
+                                                    </label>
+                                                    <div class="col-xl-9 col-sm-9">
+                                                        <div class="mb-3">
+                                                            
+                                                            <ng-select [items]="heures_possibles"  [multiple]="false" placeholder="choisir une heure"
+                                                                formControlName="heure_reservation" />
+                                                            <div *ngIf="formData.get('heure_reservation')?.touched && formData.get('heure_reservation')?.invalid" class="text-danger">
+                                                                L'heure est requise
+                                                            </div>
+                                                            <div *ngIf="pas_d_heures" class="text-danger">
+                                                                {{heures_msg}}
+                                                            </div>
+                                                            
+                                                        </div>
+                                                    </div>
                                                     </div>
                                                 </div>
 
-                              <!--
-
-                               <div class="col-sm-12 col-md-12">
-                                    <div class="mb-3">
-                                        <label class="form-label">Créneau <span class="text-danger">*</span></label>
-                                        <ng-select [items]="crenaux" bindLabel="fullName" bindValue="id" [multiple]="false" placeholder="choisir un créneau"
-                                            formControlName="creneau_id" />
-                                        <div *ngIf="formData.get('creneau_id')?.touched && formData.get('creneau_id')?.invalid" class="text-danger">
-                                            Le créneau est requis
-                                        </div>
-                                        <div *ngIf="heure_pas_dans_creneau" class="text-danger">
-                                            L'heure doit être entre comprise le début et 20 minutes avant la fin du créneau
-                                        </div>
-                                        
-                                    </div>
-                                </div>
-                                                
-                              -->
-                                               
-
-                                                <!-- TIME -->
-                                                <label class="col-sm-3 col-form-label text-sm-start">
-                                                    Heure <span class="text-danger">*</span>
-                                                </label>
-                                                <div class="col-md-3 col-sm-9">
-                                                    <div class="mb-3">
-                                                        
-                                                        <ng-select [items]="heures_possibles"  [multiple]="false" placeholder="choisir une heure"
-                                                            formControlName="heure_reservation" />
-                                                        <div *ngIf="formData.get('heure_reservation')?.touched && formData.get('heure_reservation')?.invalid" class="text-danger">
-                                                            L'heure est requise
-                                                        </div>
-                                                        <div *ngIf="pas_d_heures" class="text-danger">
-                                                            {{heures_msg}}
-                                                        </div>
-                                                        
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6 col-sm-9" *ngIf="horairesRestaurant">
-                                                    Horaires {{selectedRestaurant?.nom}}
-                                                    @for(horaire of horairesRestaurant; track horaire){
-                                                        <span>{{get_horaire_label(horaire)}} </span><br>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="mb-3 row g-3">
+                                                    <span class="group-form-title">Où ? <span class="text-danger">*</span></span>
+                                                    
+                                                    @for (table of tables; track table.id) {
+                                                        <label class="d-block">
+                                                            <input
+                                                                type="checkbox"
+                                                                [value]="table.id"
+                                                                (change)="onTableChange($event, table.id)"
+                                                                [checked]="isTableSelected(table.id)"
+                                                            >
+                                                            {{ table.fullName }}
+                                                        </label>
                                                     }
+
+                                                    <div
+                                                        *ngIf="formData.get('tables_id')?.touched && formData.get('tables_id')?.invalid"
+                                                        class="text-danger"
+                                                    >
+                                                        au moins une table requise
+                                                    </div>
+
+                                                    <div
+                                                        *ngIf="placeSupTableLimit && formData.touched"
+                                                        class="text-danger"
+                                                    >
+                                                        Le nombre de personnes doit être inférieur au nombre de places des tables
+                                                    </div>
+                                                    
+                                                       
+                                                        
+                                                    
                                                 </div>
-                                                
+
                                             </div>
+
+
                                         </div>
+
+
                                         
-                                        <div class="col-sm-12 col-md-12">
-                                            <div class="mb-3">
-                                                <label class="form-label">Tables <span class="text-danger">*</span></label>
-                                                <ng-select [items]="tables" bindLabel="fullName" bindValue="id" [multiple]="tables_multiple" placeholder="choisir une table"
-                                                    formControlName="tables_id" />
-                                                <div *ngIf="formData.get('tables_id')?.touched && formData.get('tables_id')?.invalid" class="text-danger">
-                                                    au moins une table requise
-                                                </div>
-                                                <div *ngIf="placeSupTableLimit && formData.touched" class="text-danger">
-                                                    Le nombre de personnes doit être inférieur au nombre de places des tables
-                                                </div>
-                                            </div>
-                                        </div>
                                         
-                                        <div class="col-md-12">
-                                            <div class="mb-3">
-                                                <label class="form-label">Nombre de personnes <span class="text-danger">*</span></label>
-                                                <input class="form-control" type="number" formControlName="nombre_de_personnes" placeholder="nombre de personnes">
-                                                <div *ngIf="formData.get('nombre_de_personnes')?.touched && formData.get('nombre_de_personnes')?.invalid" class="text-danger">
-                                                    Le nombre de personnes est invalide
-                                                </div>
-                                                 <div *ngIf="placeSupTableLimit && formData.touched" class="text-danger">
-                                                    Le nombre de personnes doit être inférieur au nombre de places de la table
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <div class="mb-3">
-                                                <label class="form-label">Nombre de couverts</label>
-                                                <input class="form-control" type="number" formControlName="nb_couverts" placeholder="nombre de couverts">
-                                                <div *ngIf="formData.get('nb_couverts')?.touched && formData.get('nb_couverts')?.invalid" class="text-danger">
-                                                    Le nombre de couverts est invalide
-                                                </div>
-                                                <div *ngIf="couvertsInsuffisants && formData.touched" class="text-danger">
-                                                    Le nombre de couverts doit être supérieur ou égal au nombre de personnes
-                                                </div>
-                                            </div>
-                                        </div>
+                                        
+                                       
 
                                         <div class="col-sm-12 col-md-12">
                                             <div class="mb-3">
@@ -305,10 +338,10 @@
 
                             <div class="row btns-action-grid"  *ngIf="!resto_inactif">
                                 <div class="col-auto">
-                                    <a class="btn btn-primary btn-block w-100 text-white" (click)="prec()">{{button_prec_text}}</a>
+                                    <a class="navigation btn btn-primary btn-block w-100 text-white" (click)="prec()" [innerHTML]="button_prec_text"></a>
                                 </div>
                                 <div class="col-auto ms-auto">
-                                    <a class="btn btn-primary btn-block w-100 text-white" (click)="next()">{{button_suiv_text}}</a>
+                                    <a class="navigation btn btn-primary btn-block w-100 text-white" (click)="next()" [innerHTML]="button_suiv_text"></a>
                                 </div>
                             </div>
                                 

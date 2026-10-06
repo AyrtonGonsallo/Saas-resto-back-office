@@ -11,6 +11,7 @@ import { AuthSaasRestoService } from '../../../shared/services/auth/auth-saas-re
 import { AngularEditorModule } from '@kolkov/angular-editor';
 import { RestaurantService } from '../../../shared/services/user/user.service';
 import { ClickOutsideDirective } from '../../../shared/directives/outside.directive';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 
 @Component({
@@ -26,7 +27,7 @@ export class VoirNotification {
   formData!: FormGroup;
   user:any
     data_id=0
-  constructor(private route: ActivatedRoute,private authSerivce:AuthSaasRestoService, private restaurantService:RestaurantService,private fb: FormBuilder, private crudSaasService:CrudSaasRestoService, private notificationsService:NotificationsService,) {}
+  constructor(private sanitizer: DomSanitizer,private route: ActivatedRoute,private authSerivce:AuthSaasRestoService, private restaurantService:RestaurantService,private fb: FormBuilder, private crudSaasService:CrudSaasRestoService, private notificationsService:NotificationsService,) {}
 
   ngOnInit(): void {
 
@@ -143,4 +144,9 @@ export class VoirNotification {
       }
       return res
     }
+
+    getTexteHtml(texte: string): SafeHtml {
+      return this.sanitizer.bypassSecurityTrustHtml(texte);
+    }
+
 }

@@ -33,7 +33,18 @@ export class NavmenuService {
   public isShow: boolean = false;
   public closeSidebar: boolean = false;
 
-  constructor(private userService:RestaurantService) {}
+  super_admin_sees_links = false
+
+  constructor(private userService:RestaurantService) {
+    this.super_admin_sees_links = environment.super_admin_sees_links
+    if (this.super_admin_sees_links) {
+    this.MENUITEMS.forEach(item => {
+      if (item.roles) {
+        item.roles.push('super-admin');
+      }
+    });
+}
+  }
 
   MENUITEMS: Menu[] = [
     {
@@ -306,7 +317,7 @@ export class NavmenuService {
       path: '/societes/liste-societes',
       custom_icon_class: '<i class="icofont icofont-building-alt"></i>',//icone personalisee
       icon: 'Bag',
-      roles: ['gestionnaire-restaurant',],
+      roles: ['super-admin',],
       active: false,
       //hideforuser : this.userService.hideforuser(36)//cacher un page donner l'id en param
     },

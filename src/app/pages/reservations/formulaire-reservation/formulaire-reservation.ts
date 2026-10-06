@@ -19,9 +19,9 @@ import Swal from 'sweetalert2';
 export class FormulaireReservation {
 
 formData!: FormGroup;
-button_suiv_text='Suivant'
-button_prec_text='Précédent'
-current_step=1
+button_suiv_text='Suivant <i class="icon-arrow-right"></i>'
+button_prec_text='<i class="icon-arrow-left"></i> Précédent'
+current_step=2
 societe_id=0
 progression=0
 restaurantID = 0
@@ -56,7 +56,7 @@ tables_multiple = false
       nom: ['', Validators.required], //etape 1
       prenom: ['', Validators.required], //etape 1
       email: ['', [Validators.required, Validators.email]], //etape 1
-      telephone: ['', [Validators.pattern(/^[0-9+\s\-()]{8,20}$/)]], //etape 1
+      telephone: ['', [Validators.required,Validators.pattern(/^[0-9+\s\-()]{8,20}$/)]], //etape 1
       date_reservation: [null, [Validators.required, ]], //etape 3
       heure_reservation: [null, [Validators.required, ]], //etape 3
       duree_reservation: ['', [, ]], //etape 3
@@ -231,10 +231,10 @@ tables_multiple = false
           table.restaurant_id === restaurant_id
         ).map(table => ({
           ...table,
-          fullName: 'Table '+table.nb_places + ' personnes - '+table.ZoneTable?.titre
+          fullName: this.capitalize(table.ZoneTable?.titre)+' - Table '+table.nb_places + ' personnes' 
         }));
 
-    
+   
         this.services=this.allServices.filter(service =>
           service.societe_id === this.societe_id &&
           service.restaurant_id === restaurant_id
@@ -270,13 +270,15 @@ tables_multiple = false
   // Vérification des couverts
   this.couvertsInsuffisants = nbCouverts < nbPersonnes;
 
+  console.log('tables_id', tables_id);
+
   // Vérification des places des tables
-  if (tables_id) {
+  if (tables_id.length>0) {
 
     let nbPlaces = 0;
 
     // Mode multi-tables
-    if (Array.isArray(tables_id)) {
+    if (Array.isArray(tables_id) ) {
 
       const selectedTables = this.allTables.filter((table: any) =>
         tables_id.includes(table.id)
@@ -573,14 +575,14 @@ tables_multiple = false
             table.societe_id === this.societe_id
           ).map((table:any) => ({
             ...table,
-            fullName: 'Table '+table.nb_places + ' personnes - '+table.ZoneTable?.titre 
+            fullName: this.capitalize(table.ZoneTable?.titre)+' - Table '+table.nb_places + ' personnes'  
           }));
 
           this.allTables=res.filter((table:any) =>
             table.societe_id === this.societe_id
           ).map((table:any) => ({
             ...table,
-            fullName: 'Table '+table.nb_places + ' personnes - '+table.ZoneTable?.titre  
+            fullName: this.capitalize(table.ZoneTable?.titre)+' - Table '+table.nb_places + ' personnes'   
           }));
 
           console.log("getTables",this.allTables)
@@ -919,6 +921,34 @@ get_tables_label(tables:any){
   return res;
   
 }
+
+
+onTableChange(event: Event, tableId: number): void {
+  console.log('tablechange',tableId)
+    const input = event.target as HTMLInputElement;
+
+    let selected: number[] = this.formData.get('tables_id')?.value || [];
+
+    if (input.checked) {
+        selected = [...selected, tableId];
+    } else {
+        selected = selected.filter(id => id !== tableId);
+    }
+
+    this.formData.get('tables_id')?.setValue(selected);
+    this.formData.get('tables_id')?.markAsTouched();
+    this.formData.get('tables_id')?.updateValueAndValidity();
+}
+
+isTableSelected(tableId: number): boolean {
+    const selected: number[] = this.formData.get('tables_id')?.value || [];
+    return selected.includes(tableId);
+}
+
+
+  capitalize(str:string) {
+      return str.charAt(0).toUpperCase() + str.slice(1);
+  }
 
 
 }

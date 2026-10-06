@@ -88,3 +88,13 @@ isolation
 D:\telechargement\Saas resto back office\src\app\pages\utilisateurs\modifier-utilisateur\modifier-utilisateur.ts
 D:\telechargement\Saas resto back office\src\app\pages\categories-produit\modifier-categorie-produit\modifier-categorie-produit.ts
 
+pour faire persister la popup 
+ <span class="example-popover mb-0 me-0" triggers="manual"
+                                #t="ngbTooltip"
+                                (mouseenter)="t.open()"
+                                placement="bottom" [ngbTooltip]="monTooltip">
+
+                               
+                                <i class="icon-info-alt"></i>
+                        
+                            </span>

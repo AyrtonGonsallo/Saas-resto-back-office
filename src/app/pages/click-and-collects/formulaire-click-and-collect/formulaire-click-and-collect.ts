@@ -23,9 +23,9 @@ export class FormulaireClickAndCollect {
   private modalService = inject(NgbModal);
     
   formData!: FormGroup;
-  button_suiv_text='Suivant'
-  button_prec_text='Précédent'
-  current_step=1
+  button_suiv_text='Suivant <i class="icon-arrow-right"></i>'
+  button_prec_text='<i class="icon-arrow-left"></i> Précédent'
+  current_step=2
   societe_id=0
   progression=0
   restaurantID = 0
@@ -109,7 +109,7 @@ export class FormulaireClickAndCollect {
         }
       }
       else if(this.current_step==4 && !this.paymentRestoActive){
-        this.progression+=25
+        this.progression+=33
         this.current_step++
         
 
@@ -135,7 +135,7 @@ export class FormulaireClickAndCollect {
           }
         });
       }else{
-        this.progression+=25
+        this.progression+=33
         this.current_step++
 
       }
@@ -173,7 +173,7 @@ export class FormulaireClickAndCollect {
 
   prec(){
     if(this.current_step>1){
-      this.progression-=25
+      this.progression-=33
       this.current_step--
     }
 
@@ -220,7 +220,7 @@ export class FormulaireClickAndCollect {
         }
         res=true;
         
-        this.progression+=25
+        this.progression+=33
         this.current_step++
       },
       error: (err) => {
@@ -246,7 +246,7 @@ export class FormulaireClickAndCollect {
         console.log('paiement',res)
         console.log('paiement',this.paymentRestoActive)
         result=true;
-        this.progression+=25
+        this.progression+=33
         this.current_step++
         console.log("paye",this.current_step)
         this.next()
@@ -354,7 +354,7 @@ export class FormulaireClickAndCollect {
     console.log("this.produits_groupes_par_cat",this.produits_groupes_par_cat)
     console.log("this.menus",this.menus)
 
-    this.next()
+  
 
     
 

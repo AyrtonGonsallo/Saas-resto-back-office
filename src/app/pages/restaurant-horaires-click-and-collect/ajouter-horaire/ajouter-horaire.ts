@@ -8,6 +8,7 @@ import { Router, } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { RestaurantService } from '../../../shared/services/user/user.service';
+import { AuthSaasRestoService } from '../../../shared/services/auth/auth-saas-resto.service';
 
 
 @Component({
@@ -21,7 +22,7 @@ export class AjouterHoraire {
   
   private router = inject(Router);
   formData!: FormGroup;
-  constructor(private fb: FormBuilder, private crudSaasService:CrudSaasRestoService, private restaurantService: RestaurantService, private notificationsService:NotificationsService,) {}
+  constructor(private fb: FormBuilder,private authSerivce:AuthSaasRestoService,  private crudSaasService:CrudSaasRestoService, private restaurantService: RestaurantService, private notificationsService:NotificationsService,) {}
 
   jours = [
     { valeur: 'Lundi',  },
@@ -32,12 +33,15 @@ export class AjouterHoraire {
     { valeur: 'Samedi',  },
     { valeur: 'Dimanche',  },
   ]
+  user:any
 
 
   ngOnInit(): void {
 
     this.get_all_societes()
     this.get_all_restaurants()
+
+    this.user = this.authSerivce.getUser();
     
     this.formData = this.fb.group({
       type: ['Click and collect', Validators.required],
@@ -46,8 +50,8 @@ export class AjouterHoraire {
       service_id: [0, Validators.required],
       heure_debut: ['', [Validators.required, ]],
       heure_fin: ['', [Validators.required, ]],
-      societe_id: [0, [Validators.required]],
-      restaurant_id: [0, Validators.required],
+      societe_id: [this.user.datas?.societe_id, ],
+      restaurant_id: [[this.restaurant_id], ],
       utilisateur_id: [0, Validators.required],
     });
 

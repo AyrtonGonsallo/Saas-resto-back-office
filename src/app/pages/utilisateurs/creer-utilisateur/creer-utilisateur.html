@@ -82,27 +82,31 @@
             </div>
 
 
-             <div class="col-sm-12 col-md-12">
-                <div class="mb-3">
-                <label class="form-label">Société</label>
-                <ng-select [items]="societes" bindLabel="titre" bindValue="id" [multiple]="false" placeholder="choisir une société"
-                    formControlName="societe_id" />
-                <div *ngIf="formData.get('societe_id')?.touched && formData.get('societe_id')?.invalid" class="text-danger">
-                    La société est requise
-                </div>
-                </div>
-            </div>
+            @if(user.datas.Role.priorite==1){
 
-             <div class="col-sm-12 col-md-12">
-                <div class="mb-3">
-                <label class="form-label">Restaurant</label>
-                <ng-select [items]="restaurants" bindLabel="nom" bindValue="id" [multiple]="true" placeholder="choisir un restaurant"
-                    formControlName="restaurant_id" />
-                <div *ngIf="formData.get('restaurant_id')?.touched && formData.get('restaurant_id')?.invalid" class="text-danger">
-                    Le restaurant est requis
+                <div class="col-sm-12 col-md-12">
+                    <div class="mb-3">
+                    <label class="form-label">Société</label>
+                    <ng-select [items]="societes" bindLabel="titre" bindValue="id" [multiple]="false" placeholder="choisir une société"
+                        formControlName="societe_id" />
+                    <div *ngIf="formData.get('societe_id')?.touched && formData.get('societe_id')?.invalid" class="text-danger">
+                        La société est requise
+                    </div>
+                    </div>
                 </div>
+
+                <div class="col-sm-12 col-md-12">
+                    <div class="mb-3">
+                    <label class="form-label">Restaurant</label>
+                    <ng-select [items]="restaurants" bindLabel="nom" bindValue="id" [multiple]="true" placeholder="choisir un restaurant"
+                        formControlName="restaurant_id" />
+                    <div *ngIf="formData.get('restaurant_id')?.touched && formData.get('restaurant_id')?.invalid" class="text-danger">
+                        Le restaurant est requis
+                    </div>
+                    </div>
                 </div>
-            </div>
+
+            }
 
         </div>
     </div>
