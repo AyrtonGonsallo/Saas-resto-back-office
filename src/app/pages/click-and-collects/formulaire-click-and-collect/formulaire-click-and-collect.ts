@@ -10,6 +10,8 @@ import { NotificationsService } from '../../../shared/services/notifications/not
 import Swal from 'sweetalert2';
 import { environment } from '../../../environment';
 import { PanierService } from '../../../shared/services/click-and-collect/panier.service';
+import Splide from '@splidejs/splide';
+
 
 @Component({
   selector: 'app-formulaire-click-and-collect',
@@ -42,13 +44,15 @@ export class FormulaireClickAndCollect {
   horairesRestaurant:any[]
   totalPanier: number = 0;
   jour_choisi = ''
-  
+
+
 
   constructor(private route: ActivatedRoute,private fb: FormBuilder, private crudSaasService:CrudSaasRestoService,private panierService:PanierService, private restaurantService: RestaurantService, private notificationsService:NotificationsService,) {}
   
 
     
   ngOnInit(): void {
+    
 
     const today = new Date();
 
@@ -85,6 +89,8 @@ export class FormulaireClickAndCollect {
       this.get_selected_day_and_horaire(date)
       
     });
+
+
 
  
     
@@ -141,6 +147,8 @@ export class FormulaireClickAndCollect {
       }
       
       console.log('this.current_step',this.current_step)
+
+      setTimeout(() => this.loadsplides(), 0);
     }else if (this.current_step == 6) {
       window.location.reload();
     }
@@ -178,9 +186,10 @@ export class FormulaireClickAndCollect {
     }
 
     if(this.current_step < 5){
-      this.button_suiv_text = 'Suivant'
+      this.button_suiv_text = 'Suivant <i class="icon-arrow-right"></i>'
     }
     console.log("this.current_step",this.current_step)
+    setTimeout(() => this.loadsplides(), 0);
   }
 
   see_panier=false
@@ -354,6 +363,11 @@ export class FormulaireClickAndCollect {
     console.log("this.produits_groupes_par_cat",this.produits_groupes_par_cat)
     console.log("this.menus",this.menus)
 
+    setTimeout(() => this.loadsplides(), 0);
+
+
+   
+
   
 
     
@@ -447,6 +461,50 @@ export class FormulaireClickAndCollect {
     
   }
 
+  add_one_to_cart(productId: number|null, menuId: number|null){
+    console.log('add_one_to_cart',productId??menuId);
+    let res
+    if (productId) {
+      res = this.panierService.add_one_produit(productId,null)
+    } 
+    else if (menuId) {
+      res = this.panierService.add_one_produit(null,menuId)
+    }
+
+
+    
+    
+    this.total_elements_panier=this.panierService.getTotalElements()
+    if(res){
+  
+      this.refreshPanier(); 
+      this.modalService.dismissAll()
+    }
+
+  }
+
+  remove_one_to_cart(productId: number|null, menuId: number|null){
+    console.log('add_one_to_cart',productId??menuId);
+    let res
+    if (productId) {
+      res = this.panierService.remove_one_produit(productId,null)
+    } 
+    else if (menuId) {
+      res = this.panierService.remove_one_produit(null,menuId)
+    }
+
+
+    
+    
+    this.total_elements_panier=this.panierService.getTotalElements()
+    if(res){
+  
+      this.refreshPanier(); 
+      this.modalService.dismissAll()
+    }
+
+  }
+
   ajouter_produit(){
     console.log('formProduit',this.formProduit.value);
     let res = this.panierService.ajouter_produit(this.produitActuel,this.formProduit.value)
@@ -462,6 +520,7 @@ export class FormulaireClickAndCollect {
       setTimeout(() => {
       }, 1000);
       */
+  
       this.refreshPanier(); 
       this.modalService.dismissAll()
     }
@@ -772,6 +831,8 @@ export class FormulaireClickAndCollect {
     // 3️⃣ Trier par ordre croissant
     result.sort((a, b) => (a.categorie.ordre || 0) - (b.categorie.ordre || 0));
 
+    
+
     return result;
   }
 
@@ -872,6 +933,32 @@ export class FormulaireClickAndCollect {
     this.panierItems = this.panierService.get_panier();
     this.totalPanier = this.getTotalPanier(this.panierItems);
     this.total_elements_panier = this.panierService.getTotalElements();
+    this.see_card()
+    console.log('see card appelle')
+  }
+
+  get_text_btn_action_globale_panier(){
+    let res = ''
+    switch (this.current_step) {
+      case 5:
+        res = 'Payer pour commander'
+        break;
+      case 2:
+        res = `Passer à la caisse - ${this.totalPanier} €`
+        break;
+      case 3:
+        res = 'Payer pour commander'
+        break;
+      case 4:
+        res = 'Payer pour commander'
+        break;
+    
+      default:
+        break;
+    }
+
+    return res
+
   }
 
   disabledDates: string[] =  []
@@ -1146,6 +1233,41 @@ private convertToMinutes(
   }
 }
 
+
+loadsplides(){
+
+  this.produits_groupes_par_cat.forEach((group:any) => {
+    let id_cat = group.categorie.id
+    const slide_id = ('#slide-' + id_cat);
+    console.log('chargement slide',slide_id)
+    var splide = new Splide( slide_id, {
+      
+      perPage: 2,
+      rewind: true,
+      gap:20
+    } );
+    splide.mount();
+    
+  });
+
+if(this.menus && this.menus.length){
+  var splide_menus = new Splide( "#slide-menus-offres", {
+      
+      perPage: 2,
+      rewind: true,
+      gap:50,
+    } );
+  splide_menus.mount();
+
+}
+  
+
+  
+  
+
+}
  
+
+img_text= "http://localhost:2026/api/v1/files/1776261171962-potato-and-egg-salad-with-mayonnaise.webp"
  
 }

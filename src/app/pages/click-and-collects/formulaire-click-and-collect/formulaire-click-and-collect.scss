@@ -1,14 +1,8 @@
 
-.steps button {
-    transform: translateY(-50%);
-    height: 60px;
-    width: 60px;
-    border-radius: 24px;
-    gap: 10px;
-    padding: 10px;
-    font-size: 32px;
-    outline: 10px solid #C3C3C3;
+p, h6, .h6, h5, .h5, h4, .h4, h3, .h3, h2, .h2, h1, .h1, .steps-labels span,.card-body,.login-card .login-main .theme-form p {
+    color: black;
 }
+
 
 .to-come{
     background-color: #FFFFFF !important;
@@ -27,16 +21,12 @@
 }
 
 
-.progress-wrapper {
-  position: relative;
-  height: 70px;
-}
+
 
 .progress {
   height: 6px;
   color: #000000;
   background-color: black;
-  top: 80px;
   position: relative;
 }
 
@@ -69,7 +59,6 @@
 }
 .steps-labels span{
     font-weight: 600;
-    font-size: 32px;
     line-height: 100%;
     letter-spacing: 0%;
     text-align: center;
@@ -81,13 +70,7 @@
     .login-main{
         width: 100%;
     }
-    .steps {
-        top: 1px;
-        flex-wrap: wrap;
-        gap: 15px;
-        align-content: center;
-        align-items: center;
-    }
+    
    
     .progress-container {
         display: flex;
@@ -126,10 +109,13 @@
     padding: 0px 8px;
 }
 .features-faq.card .card-body {
-    padding: 14px 0px;
+    padding: 0px 0px;
 }
 .restaurant-box{
     border: 1px solid #000000;
+    border-radius: 14px;
+    border-width: 2px;
+    padding: 5px;
 }
 input[type="number"]::-webkit-outer-spin-button,
 input[type="number"]::-webkit-inner-spin-button {
@@ -153,7 +139,6 @@ input[type="number"]::-webkit-inner-spin-button {
     justify-content: flex-end;
 }
 .btn {
-    font-size: 14px;
     font-weight: 500;
     padding: 6px 12px;
     letter-spacing: 0.3px;
@@ -170,26 +155,7 @@ input[type="number"]::-webkit-inner-spin-button {
        display: block;
     }
 }
-@media (max-width: 680px) {
-    .steps button span.mobile{
-       display: block;
-    }
-    .steps button span.desktop{
-       display: none;
-    }
-    .btns-action-grid{
-        gap: 15px;
-        width: fit-content;
-        margin-left: auto;
-        margin-right: auto;
-    }
-    .animated-badge .d-flex-end {
-        width: 90%;
-    }
-    .login-card .login-main {
-        padding: 0;
-    }
-}
+
 .product-image {
     width: 100%;
     height: 112px;
@@ -197,11 +163,12 @@ input[type="number"]::-webkit-inner-spin-button {
     background-size: cover;
     background-repeat: no-repeat;
     position: relative;
+    
 }
 .product-actions{
     position: absolute;
-    bottom: 15px;
-    right: 15px;
+    bottom: 10px;
+    right: 10px;
 }
  .see-more{
     color: #43B9B2 !important;
@@ -228,7 +195,6 @@ input[type="number"]::-webkit-inner-spin-button {
 }
 .cat-title{
     font-weight: 600;
-    font-size: 32px;
     line-height: 100%;
     letter-spacing: 0%;
     text-align: start;
@@ -246,6 +212,18 @@ input[type="number"]::-webkit-inner-spin-button {
 
 
 @media (min-width: 1430px)  {
+    .progress {
+        top: 80px;
+    }
+    .steps button {
+        transform: translateY(-50%);
+        height: 60px;
+        width: 60px;
+        border-radius: 24px;
+        gap: 10px;
+        padding: 10px;
+        outline: 10px solid #C3C3C3;
+    }
     .widget h2{
         font-size: 48px;
     }
@@ -255,12 +233,75 @@ input[type="number"]::-webkit-inner-spin-button {
     .login-main{
         width: 1221px;
     }
+     .btn {
+        font-size: 14px;
+    }
+    .steps-labels span{
+        font-size: 32px;
+    }
+    .steps button {
+        font-size: 32px;
+    }
+    .progress-wrapper {
+        position: relative;
+        height: 70px;
+    }
+    .restaurant-box{
+        min-height: 238px;
+        width: 216px;
 
+    }
+    .cat-title{
+        font-size: 32px;
+    }
+
+    
+    .product-title{
+        
+        font-size: 20px;
+
+    }
+    .product-price{
+        font-size: 20px;
+
+    }
+    .navigation{
+        font-size: 24px;
+    }
+    .card-item-text{
+        font-size: 20px;
+    }
+    .global-card-action{
+        font-size: 24px;
+    }
+
+    .card-element{
+        grid-template-columns: 1fr 3fr;
+    }
 }
 
 @media (min-width: 680px) and  (max-width: 1430px) {
+    .navigation{
+        font-size: 24px;
+    }
+    .progress {
+    top: 80px;
+    }
+     .cat-title{
+        font-size: 32px;
+    }
+
+    .steps button {
+        transform: translateY(-50%);
+        height: 60px;
+        width: 60px;
+        border-radius: 24px;
+        gap: 10px;
+        padding: 10px;
+        outline: 10px solid #C3C3C3;
+    }
     .widget h2{
-        font-size: 36px;
+        font-size: 48px;
     }
     .widget .subtitle{
         font-size: 24px;
@@ -268,17 +309,141 @@ input[type="number"]::-webkit-inner-spin-button {
     .login-main{
         width: 1000px;
     }
+    .btn {
+        font-size: 14px;
+    }
+    .steps-labels span{
+        font-size: 32px;
+    }
+    .steps button {
+        font-size: 32px;
+    }
+    .progress-wrapper {
+        position: relative;
+        height: 70px;
+    }
+    .restaurant-box{
+        min-height: 238px;
+        width: 216px;
+
+    }
+    .product-title{
+        
+        font-size: 20px;
+
+    }
+    .product-price{
+        font-size: 20px;
+
+    }
+    .card-item-text{
+        font-size: 20px;
+    }
+    .global-card-action{
+        font-size: 24px;
+    }
+    .card-element{
+        grid-template-columns: 1fr 3fr;
+    }
 
 }
 @media  (max-width: 680px) {
-    .widget h2{
-        font-size: 36px;
+    .navigation{
+        font-size: 20px;
     }
-    .widget .subtitle{
+    .product-title{
+        font-size: 14px;
+    }
+     .cat-title{
+        font-size:20px;
+    }
+
+    .product-price{
+        font-size: 14px;
+
+    }
+    .reverse-col-mobile{
+        flex-direction: column-reverse;
+    }
+    
+    .steps {
+        top: 46px;
+        flex-wrap: wrap;
+        gap: 15px;
+        align-content: center;
+        align-items: center;
+    }
+    .steps button span.mobile{
+       display: block;
+    }
+    .steps button span.desktop{
+       display: none;
+    }
+    .btns-action-grid{
+        gap: 15px;
+        width: fit-content;
+        margin-left: auto;
+        margin-right: auto;
+        padding-bottom: 40px;
+    }
+    .animated-badge .d-flex-end {
+        width: 90%;
+    }
+    .login-card .login-main {
+        padding: 60px 0px 0px 0px;
+    }
+      .progress {
+        top: 46px;
+    }
+    .bg-info,.bg-tertiary{
+        font-size: 12px;
+        padding: 5px 5px;
+    }
+    .steps button {
+        transform: translateY(-50%);
+        height: 37px;
+        width: 37px;
+        border-radius: 24px;
+        gap: 10px;
+        padding: 10px;
+        outline: 10px solid #C3C3C3;
+    }
+     .widget h2{
         font-size: 24px;
     }
+    .widget .subtitle{
+        font-size: 14px;
+    }
     .login-main{
-        width: 680px;
+        width: 420px;
+    }
+   
+  
+    .steps-labels span{
+        font-size: 14px;
+    }
+    .steps button {
+        font-size: 14px;
+    }
+    .progress-wrapper {
+        position: relative;
+        height: 46px;
+    }
+    .restaurant-box{
+        min-height: 157px;
+        width: 129px;
+    }
+    .card-item-text{
+        font-size: 15px;
+    }
+    .global-card-action{
+        font-size: 18px;
+    }
+    .card-element{
+        grid-template-columns: 0.5fr 3fr;
+    }
+    :host ::ng-deep .tooltip.bs-tooltip-bottom{
+        transform: translate3d(67.2px, 88.8px, 0px) !important;
     }
 
 }
@@ -296,9 +461,185 @@ input[type="number"]::-webkit-inner-spin-button {
 }
 .navigation{
     font-weight: 600;
-    font-size: 24px;
     line-height: 100%;
     letter-spacing: 0%;
     text-align: center;
+    border-radius: 14px;
+    gap: 10px;
+    display: flex;
+    justify-content: center;
+    padding-top: 10px;
+    padding-right: 20px;
+    padding-bottom: 10px;
+    padding-left: 20px;
+}
+.product-title{
+    
+    font-weight: 400;
+    line-height: 100%;
+    letter-spacing: 0%;
+    padding: 10px 0px 10px 0px;
 
+}
+.product-price{
+    font-weight: 400;
+    line-height: 100%;
+    letter-spacing: 0%;
+    padding: 10px 0px 10px 0px;
+
+}
+.product-desc{
+    display: none;
+}
+.btn-remove,.btn-add {
+    width: 28px;
+    height: 28px;
+    border-radius: 10px;
+    border-width: 1px;
+    padding: 5px;
+    background-color: #ffffff;
+    color: #000000;
+}
+.btn-remove i,.btn-add i,.splide__arrow i{
+    margin: 0;
+    font-weight: 800;
+}
+:host ::ng-deep .icon-arrow-right,:host ::ng-deep .icon-arrow-left{
+    margin: 0 ;
+    font-weight: 800;
+    font-size: 18px;
+    align-self: center;
+}
+:host ::ng-deep .icon-info-alt{
+    font-weight: 800;
+    font-size: 31px;
+    top: -39px;
+    position: absolute;
+}
+.example-popover{
+    position: relative;
+}
+.splide__arrow{
+    background: white;
+    opacity: 1;
+}
+
+.splide__arrow--prev {
+    left: 0;
+}
+.splide__arrow--next{
+    right: 0;
+}
+.arrows-container{
+    position: absolute;
+    right: 10px;
+    top: 20px;
+    display: flex;
+    gap: 16px;
+}
+.cat-title-arrow{
+    border-bottom: solid 2px black;
+    margin: 0px 0px 5px 0px;
+    padding: 0px 10px;
+}
+.arrow-slide,.splide__arrow{
+    position: relative
+}
+#card-content{
+    width: 100%;
+    border-radius: 24px;
+    border-width: 3px;
+    gap: 10px;
+    padding-top: 10px;
+    padding-right: 20px;
+    padding-bottom: 10px;
+    padding-left: 20px;
+    background: white;
+    flex-direction: column;
+    display: flex;
+    border: solid black 3px;
+
+}
+
+.card-list{
+    display: flex;
+    gap: 25px;
+    flex-direction: column;
+}
+.card-element{
+    display: grid;
+    gap: 6px 9px;
+    border-bottom: solid 1px black;
+}
+.card-product-action{
+    background: #6D6D6D;
+    position: absolute;
+    right: 0;
+    display: flex;
+    border-radius: 14px;
+    gap: 5px;
+    font-size: 20px;
+    padding-top: 2px;
+    padding-right: 10px;
+    padding-bottom: 2px;
+    padding-left: 10px;
+    color: white;
+}
+.card-product-action i{
+    color: white;
+}
+.card-product-action a{
+    align-self: center;
+}
+.card-product-action-container{
+    min-height: 36px;
+    position: relative;
+}
+.card-product-image{
+    width: 100%;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    position: relative;
+    height: 50px;
+
+}
+.global-card-action{
+    border-radius: 14px;
+    gap: 10px;
+    opacity: 1;
+    padding-top: 10px;
+    padding-right: 20px;
+    padding-bottom: 10px;
+    padding-left: 20px;
+    background-color: #00BCB4;
+    color: white;
+    font-weight: 600;
+    line-height: 100%;
+    letter-spacing: 0%;
+    text-align: center;
+    margin-top: 20px;
+
+}
+.card-item-text{
+    font-weight: 400;
+    line-height: 100%;
+    letter-spacing: 0%;
+
+}
+
+:host ::ng-deep .theme-form .form-control, :host ::ng-deep  .theme-form select{
+    border-radius: 14px;
+    font-size: 16px;
+}
+ :host ::ng-deep .ng-select .ng-select-container{
+    min-height: 50px;
+    border-radius: 14px;
+}
+[type=checkbox], [type=radio] {
+    width: 21px;
+    height: 21px;
+    accent-color: #C3C3C3;
+    border-radius: 5px;
+    border-width: 2px;
 }

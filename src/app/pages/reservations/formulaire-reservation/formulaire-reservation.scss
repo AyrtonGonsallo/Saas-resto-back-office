@@ -1,13 +1,7 @@
 
-.steps button {
-    transform: translateY(-50%);
-    height: 60px;
-    width: 60px;
-    border-radius: 24px;
-    gap: 10px;
-    padding: 10px;
-    font-size: 32px;
-    outline: 10px solid #C3C3C3;
+
+p, h6, .h6, h5, .h5, h4, .h4, h3, .h3, h2, .h2, h1, .h1, .steps-labels span,.card-body,.login-card .login-main .theme-form p {
+    color: black;
 }
 
 .to-come{
@@ -27,19 +21,13 @@
 }
 
 
-.progress-wrapper {
-  position: relative;
-  height: 70px;
-}
 
 .progress {
   height: 6px;
   color: #000000;
   background-color: black;
-  top: 80px;
   position: relative;
 }
-
 .steps {
     display: flex;
     justify-content: space-between;
@@ -58,7 +46,6 @@
 }
 .steps-labels span{
     font-weight: 600;
-    font-size: 32px;
     line-height: 100%;
     letter-spacing: 0%;
     text-align: center;
@@ -104,6 +91,9 @@
     .steps button span.desktop{
        display: block;
     }
+    .navigation{
+        font-size: 24px;
+    }
 }
 @media (max-width: 680px) {
     .steps button span.mobile{
@@ -117,9 +107,13 @@
         width: fit-content;
         margin-left: auto;
         margin-right: auto;
+        padding-bottom: 20px;
     }
     .login-card .login-main {
         padding: 0;
+    }
+    .navigation{
+        font-size: 20px;
     }
 }
 
@@ -145,7 +139,24 @@
     background-color: #C3C3C3;
 }
 
+
+
+
+
+
 @media (min-width: 1430px)  {
+    .progress {
+        top: 80px;
+    }
+    .steps button {
+        transform: translateY(-50%);
+        height: 60px;
+        width: 60px;
+        border-radius: 24px;
+        gap: 10px;
+        padding: 10px;
+        outline: 10px solid #C3C3C3;
+    }
     .widget h2{
         font-size: 48px;
     }
@@ -155,12 +166,63 @@
     .login-main{
         width: 1221px;
     }
+     .btn {
+        font-size: 14px;
+    }
+    .steps-labels span{
+        font-size: 32px;
+    }
+    .steps button {
+        font-size: 32px;
+    }
+    .progress-wrapper {
+        position: relative;
+        height: 70px;
+    }
+     :host ::ng-deep .theme-form .form-control, :host ::ng-deep  .theme-form select{
+        font-size: 16px;
+    }
+    :host ::ng-deep .ng-select .ng-select-container{
+        min-height: 50px;
+    }
 
+    .group-form-title{
+        font-size: 32px;
+    }
+    .login-card .login-main .theme-form label{
+        font-size: 24px;
+    }
+   .blocs-bas {
+        display: flex;
+        gap: 20px;
+    }
+
+
+    
 }
 
 @media (min-width: 680px) and  (max-width: 1430px) {
+    .navigation{
+        font-size: 24px;
+    }
+    .progress {
+    top: 80px;
+    }
+     .cat-title{
+        font-size: 32px;
+    }
+
+    .steps button {
+        transform: translateY(-50%);
+        height: 60px;
+        width: 60px;
+        border-radius: 24px;
+        gap: 10px;
+        padding: 10px;
+        outline: 10px solid #C3C3C3;
+    }
     .widget h2{
-        font-size: 36px;
+        font-size: 48px;
     }
     .widget .subtitle{
         font-size: 24px;
@@ -168,20 +230,145 @@
     .login-main{
         width: 1000px;
     }
+    .btn {
+        font-size: 14px;
+    }
+    .steps-labels span{
+        font-size: 32px;
+    }
+    .steps button {
+        font-size: 32px;
+    }
+    .progress-wrapper {
+        position: relative;
+        height: 70px;
+    }
+     :host ::ng-deep .theme-form .form-control, :host ::ng-deep  .theme-form select{
+        font-size: 16px;
+    }
+    :host ::ng-deep .ng-select .ng-select-container{
+        min-height: 50px;
+    }
+
+    .group-form-title{
+        font-size: 32px;
+    }
+    .login-card .login-main .theme-form label{
+        font-size: 24px;
+    }
+   
+    .blocs-bas {
+        display: flex;
+        gap: 20px;
+    }
 
 }
 @media  (max-width: 680px) {
-    .widget h2{
-        font-size: 36px;
+    .navigation{
+        font-size: 20px;
     }
-    .widget .subtitle{
+    .product-title{
+        font-size: 14px;
+    }
+     .cat-title{
+        font-size:20px;
+    }
+
+    .product-price{
+        font-size: 14px;
+
+    }
+    .reverse-col-mobile{
+        flex-direction: column-reverse;
+    }
+    
+    .steps {
+        top: 46px;
+        flex-wrap: wrap;
+        gap: 15px;
+        align-content: center;
+        align-items: center;
+    }
+    .steps button span.mobile{
+       display: block;
+    }
+    .steps button span.desktop{
+       display: none;
+    }
+    .btns-action-grid{
+        gap: 15px;
+        width: fit-content;
+        margin-left: auto;
+        margin-right: auto;
+        padding-bottom: 40px;
+    }
+    .animated-badge .d-flex-end {
+        width: 90%;
+    }
+    .login-card .login-main {
+        padding: 60px 0px 0px 0px;
+    }
+      .progress {
+        top: 46px;
+    }
+    .bg-info,.bg-tertiary{
+        font-size: 12px;
+        padding: 5px 5px;
+    }
+    .steps button {
+        transform: translateY(-50%);
+        height: 37px;
+        width: 37px;
+        border-radius: 24px;
+        gap: 10px;
+        padding: 10px;
+        outline: 10px solid #C3C3C3;
+    }
+     .widget h2{
         font-size: 24px;
     }
+    .widget .subtitle{
+        font-size: 14px;
+    }
     .login-main{
-        width: 680px;
+        width: 420px;
+    }
+   
+  
+    .steps-labels span{
+        font-size: 14px;
+    }
+    .steps button {
+        font-size: 14px;
+    }
+    .progress-wrapper {
+        position: relative;
+        height: 46px;
+    }
+
+    .login-card .login-main .theme-form label{
+        font-size: 16px;
+    }
+    .blocs-bas {
+        display: flex;
+        gap: 20px;
+        flex-direction: column;
+    }
+
+    .group-form-title{
+        font-size: 24px;
+    }
+     :host ::ng-deep .tooltip.bs-tooltip-bottom{
+        transform: translate3d(67.2px, 88.8px, 0px) !important;
     }
 
 }
+
+
+
+
+
+
 
 :host ::ng-deep .tooltip .tooltip-inner {
     background-color: transparent ;
@@ -189,16 +376,99 @@
 }
 .login-card .login-main .theme-form label{
     font-weight: 600;
-    font-size: 24px;
     line-height: 100%;
     letter-spacing: 0%;
 
 }
 .navigation{
     font-weight: 600;
-    font-size: 24px;
     line-height: 100%;
     letter-spacing: 0%;
     text-align: center;
+    border-radius: 14px;
+    gap: 10px;
+    display: flex;
+    justify-content: center;
+    padding-top: 10px;
+    padding-right: 20px;
+    padding-bottom: 10px;
+    padding-left: 20px;
 
+}
+:host ::ng-deep .icon-arrow-right,:host ::ng-deep .icon-arrow-left{
+    margin: 0 ;
+    font-weight: 800;
+    font-size: 18px;
+    align-self: center;
+}
+:host ::ng-deep .icon-info-alt{
+    font-weight: 800;
+    font-size: 31px;
+    top: -39px;
+    position: absolute;
+}
+.example-popover{
+    position: relative;
+}
+.border-round{
+    border-radius: 24px;
+    border-width: 3px;
+    gap: 16px;
+    padding-top: 10px;
+    padding-right: 20px;
+    padding-bottom: 10px;
+    padding-left: 20px;
+    border: 3px solid #000000;
+
+}
+
+.border-round2{
+    border-radius: 24px;
+    border-width: 3px;
+    gap: 16px;
+    padding-top: 10px;
+    padding-right: 20px;
+    padding-bottom: 10px;
+    padding-left: 20px;
+    border: 3px solid #00000000;
+}
+
+.spec-grid{
+    display: grid;
+}
+
+.container-blocs {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    gap: 20px;
+}
+
+
+.bloc-2,
+.bloc-3 {
+    flex: 1;
+}
+
+:host ::ng-deep .theme-form .form-control, :host ::ng-deep  .theme-form select{
+    border-radius: 14px;
+}
+ :host ::ng-deep .ng-select .ng-select-container{
+    border-radius: 14px;
+}
+[type=checkbox], [type=radio] {
+    width: 21px;
+    height: 21px;
+    accent-color: #C3C3C3;
+    border-radius: 5px;
+    border-width: 2px;
+}
+
+.group-form-title{
+    font-weight: 600;
+    line-height: 100%;
+    letter-spacing: 0%;
+    text-align: start;
+    text-decoration: underline;
 }

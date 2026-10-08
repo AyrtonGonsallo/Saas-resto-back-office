@@ -26,7 +26,9 @@ export class PanierService {
             prix_ht: parseFloat(form.prix_ht),
             tva: parseFloat(form.tva),
             variations: [],
-            type:'produit'
+            type:'produit',
+            image:produit.image,
+            stock:produit.stock,
             });
         }
 
@@ -51,7 +53,9 @@ export class PanierService {
             quantite: form.quantite,
             prix_ht: parseFloat(form.prix_ht),
             tva: parseFloat(form.tva),
-            type:'menu'
+            type:'menu',
+            image:menu.image,
+            stock:menu.stock,
             });
         }
 
@@ -93,7 +97,9 @@ export class PanierService {
             prix_ht: parseFloat(form.prix_ht),
             tva: parseFloat(form.tva),
             variations,
-            type:'variation-produit'
+            type:'variation-produit',
+            image:produit.image,
+            stock:produit.stock,
         };
 
         // trouver index au lieu de find
@@ -215,6 +221,61 @@ export class PanierService {
     }
     get_panier(){
         return  this.panier;
+    }
+
+    add_one_produit(productId: number|null, menuId: number|null) {
+
+        if (productId) {
+            console.log('increment du produit', productId);
+
+            const p = this.panier.find(p => p.productId === productId);
+
+            if (p) {
+                p.quantite += 1;
+            }
+
+        } else if (menuId) {
+            console.log('increment du menu', menuId);
+
+            const p = this.panier.find(p => p.menuId === menuId);
+
+            if (p) {
+                p.quantite += 1;
+            }
+        }
+
+        this.savePanier();
+
+        return true;
+    }
+
+
+    remove_one_produit(productId: number | null, menuId: number | null) {
+
+        let index = -1;
+
+        if (productId != null) {
+            console.log('décrément du produit', productId);
+
+            index = this.panier.findIndex(p => p.productId === productId);
+
+        } else if (menuId != null) {
+            console.log('décrément du menu', menuId);
+
+            index = this.panier.findIndex(p => p.menuId === menuId);
+        }
+
+        if (index !== -1) {
+            if (this.panier[index].quantite > 1) {
+                this.panier[index].quantite -= 1;
+            } else {
+                this.panier.splice(index, 1);
+            }
+        }
+
+        this.savePanier();
+
+        return true;
     }
   
 }

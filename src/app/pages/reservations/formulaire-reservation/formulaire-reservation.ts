@@ -21,7 +21,7 @@ export class FormulaireReservation {
 formData!: FormGroup;
 button_suiv_text='Suivant <i class="icon-arrow-right"></i>'
 button_prec_text='<i class="icon-arrow-left"></i> Précédent'
-current_step=2
+current_step=1
 societe_id=0
 progression=0
 restaurantID = 0
