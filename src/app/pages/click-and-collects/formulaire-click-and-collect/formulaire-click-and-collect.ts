@@ -1242,9 +1242,20 @@ loadsplides(){
     console.log('chargement slide',slide_id)
     var splide = new Splide( slide_id, {
       
-      perPage: 2,
+      perPage: 3,
       rewind: true,
-      gap:20
+      gap:150,
+      pagination:false,
+      breakpoints: {
+        680: {
+          perPage: 3,
+          gap:60,
+        },
+        500: {
+          perPage: 2,
+          gap:10,
+        },
+      }
     } );
     splide.mount();
     
@@ -1253,9 +1264,20 @@ loadsplides(){
 if(this.menus && this.menus.length){
   var splide_menus = new Splide( "#slide-menus-offres", {
       
-      perPage: 2,
+      perPage: 3,
       rewind: true,
-      gap:50,
+      gap:150,
+      pagination:false,
+      breakpoints: {
+        680: {
+          perPage: 3,
+          gap:60,
+        },
+        500: {
+          perPage: 2,
+          gap:10,
+        },
+      }
     } );
   splide_menus.mount();
 

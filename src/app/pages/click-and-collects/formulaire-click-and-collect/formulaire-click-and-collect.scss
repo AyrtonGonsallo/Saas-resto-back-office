@@ -138,9 +138,9 @@ input[type="number"]::-webkit-inner-spin-button {
     display: flex !important;
     justify-content: flex-end;
 }
-.btn {
+.btn:not(.navigation) {
     font-weight: 500;
-    padding: 6px 12px;
+    padding: 12px 12px;
     letter-spacing: 0.3px;
 }
  .login-card {
@@ -158,12 +158,10 @@ input[type="number"]::-webkit-inner-spin-button {
 
 .product-image {
     width: 100%;
-    height: 112px;
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
     position: relative;
-    
 }
 .product-actions{
     position: absolute;
@@ -173,9 +171,7 @@ input[type="number"]::-webkit-inner-spin-button {
  .see-more{
     color: #43B9B2 !important;
 }
-.min-height-desc{
-    min-height: 120px;
-}
+
 
 .infos-resto{
     background-color: #707070;
@@ -212,6 +208,7 @@ input[type="number"]::-webkit-inner-spin-button {
 
 
 @media (min-width: 1430px)  {
+    
     .progress {
         top: 80px;
     }
@@ -233,7 +230,7 @@ input[type="number"]::-webkit-inner-spin-button {
     .login-main{
         width: 1221px;
     }
-     .btn {
+    .btn:not(.navigation) {
         font-size: 14px;
     }
     .steps-labels span{
@@ -257,12 +254,12 @@ input[type="number"]::-webkit-inner-spin-button {
 
     
     .product-title{
-        
         font-size: 20px;
-
+        padding: 10px 0px 10px 0px;
     }
     .product-price{
         font-size: 20px;
+        padding: 10px 0px 10px 0px;
 
     }
     .navigation{
@@ -278,9 +275,36 @@ input[type="number"]::-webkit-inner-spin-button {
     .card-element{
         grid-template-columns: 1fr 3fr;
     }
+    .product-image {
+        height: 112px;
+    }
+    .arrows-container{
+        right: 10px;
+        top: 20px;
+    }
+    
+    :host ::ng-deep .icon-info-alt{
+        font-size: 31px;
+        top: -39px;
+    }
+    .btn-remove,.btn-add {
+        width: 28px;
+        height: 28px;
+    }
+    :host ::ng-deep .icon-arrow-right,:host ::ng-deep .icon-arrow-left{
+        font-size: 18px;
+    }
+    .min-height-desc{
+        min-height: 120px;
+    }
+
+  
 }
 
 @media (min-width: 680px) and  (max-width: 1430px) {
+    :host ::ng-deep .tooltip.bs-tooltip-bottom{
+        transform: translate3d(667.2px, 88.8px, 0px) !important;
+    }
     .navigation{
         font-size: 24px;
     }
@@ -290,7 +314,10 @@ input[type="number"]::-webkit-inner-spin-button {
      .cat-title{
         font-size: 32px;
     }
-
+    .arrows-container{
+        right: 10px;
+        top: 20px;
+    }
     .steps button {
         transform: translateY(-50%);
         height: 60px;
@@ -309,7 +336,7 @@ input[type="number"]::-webkit-inner-spin-button {
     .login-main{
         width: 1000px;
     }
-    .btn {
+    .btn:not(.navigation) {
         font-size: 14px;
     }
     .steps-labels span{
@@ -328,12 +355,12 @@ input[type="number"]::-webkit-inner-spin-button {
 
     }
     .product-title{
-        
         font-size: 20px;
-
+        padding: 10px 0px 10px 0px;
     }
     .product-price{
         font-size: 20px;
+        padding: 10px 0px 10px 0px;
 
     }
     .card-item-text{
@@ -345,22 +372,38 @@ input[type="number"]::-webkit-inner-spin-button {
     .card-element{
         grid-template-columns: 1fr 3fr;
     }
+    .product-image {
+        height: 112px;
+    }
+    
+    :host ::ng-deep .icon-info-alt{
+        font-size: 31px;
+        top: -39px;
+    }
+    .btn-remove,.btn-add {
+        width: 28px;
+        height: 28px;
+    }
+    :host ::ng-deep .icon-arrow-right,:host ::ng-deep .icon-arrow-left{
+        font-size: 18px;
+    }
+     .min-height-desc{
+        min-height: 120px;
+    }
 
 }
 @media  (max-width: 680px) {
     .navigation{
         font-size: 20px;
     }
-    .product-title{
+    .product-title,.product-price{
         font-size: 14px;
+        margin-right: 0px !important;
+        margin-left: 0px !important;
+        padding: 0px 0px 0px 0px;
     }
      .cat-title{
         font-size:20px;
-    }
-
-    .product-price{
-        font-size: 14px;
-
     }
     .reverse-col-mobile{
         flex-direction: column-reverse;
@@ -432,6 +475,7 @@ input[type="number"]::-webkit-inner-spin-button {
     .restaurant-box{
         min-height: 157px;
         width: 129px;
+        max-height: 182px;
     }
     .card-item-text{
         font-size: 15px;
@@ -445,6 +489,88 @@ input[type="number"]::-webkit-inner-spin-button {
     :host ::ng-deep .tooltip.bs-tooltip-bottom{
         transform: translate3d(67.2px, 88.8px, 0px) !important;
     }
+    .product-image {
+        height: 69px;
+        border-radius: 12px;
+    }
+    .features-faq.card .card-body {
+        padding-left: 0px !important;
+        padding-right: 0px!important;
+    }
+    .product-price .ms-2{
+        margin-left: 0px !important;
+    }
+    .product-price .me-2{
+        margin-right: 0px !important;
+    }
+     .arrows-container{
+        right: 10px;
+        top: 11px;
+    }
+    
+    :host ::ng-deep .icon-info-alt{
+        font-size: 20px;
+        top: -29px;
+    }
+    .btn-remove,.btn-add {
+        width: 16px;
+        height: 16px;
+    }
+    :host ::ng-deep .icon-arrow-right,:host ::ng-deep .icon-arrow-left{
+        font-size: 14px;
+    }
+     .min-height-desc{
+        min-height: 79px;
+        display: flex;
+        flex-direction: column;
+        justify-content: start;
+        gap: 4px;
+    }
+
+}
+@media  (max-width: 500px) {
+    :host ::ng-deep .icon-arrow-right,:host ::ng-deep .icon-arrow-left{
+        font-size: 14px;
+    }
+    .btn-remove,.btn-add {
+        width: 16px;
+        height: 16px;
+    }
+    .splide__arrow {
+        width: 20px;
+        height: 20px;
+    }
+    
+     .arrows-container{
+        right: 10px;
+        top: 11px;
+    }
+
+    :host ::ng-deep .icon-info-alt{
+        font-size: 22px;
+        top: -23px;
+    }
+
+    .widget h2{
+        font-size: 18px;
+    }
+    .widget .subtitle{
+        font-size: 14px;
+    }
+    .login-main{
+        width: 350px;
+    }
+    :host ::ng-deep .tooltip.bs-tooltip-bottom{
+        transform: translate3d(30.2px, 88.8px, 0px) !important;
+    }
+     .navigation{
+        font-size: 16px;
+    }
+    .steps-labels span {
+        font-size: 10px;
+    }
+    
+
 
 }
 
@@ -478,27 +604,24 @@ input[type="number"]::-webkit-inner-spin-button {
     font-weight: 400;
     line-height: 100%;
     letter-spacing: 0%;
-    padding: 10px 0px 10px 0px;
 
 }
 .product-price{
     font-weight: 400;
     line-height: 100%;
     letter-spacing: 0%;
-    padding: 10px 0px 10px 0px;
 
 }
 .product-desc{
     display: none;
 }
 .btn-remove,.btn-add {
-    width: 28px;
-    height: 28px;
     border-radius: 10px;
     border-width: 1px;
     padding: 5px;
     background-color: #ffffff;
     color: #000000;
+    border: solid #000000 1px;
 }
 .btn-remove i,.btn-add i,.splide__arrow i{
     margin: 0;
@@ -507,13 +630,10 @@ input[type="number"]::-webkit-inner-spin-button {
 :host ::ng-deep .icon-arrow-right,:host ::ng-deep .icon-arrow-left{
     margin: 0 ;
     font-weight: 800;
-    font-size: 18px;
     align-self: center;
 }
 :host ::ng-deep .icon-info-alt{
     font-weight: 800;
-    font-size: 31px;
-    top: -39px;
     position: absolute;
 }
 .example-popover{
@@ -532,8 +652,6 @@ input[type="number"]::-webkit-inner-spin-button {
 }
 .arrows-container{
     position: absolute;
-    right: 10px;
-    top: 20px;
     display: flex;
     gap: 16px;
 }
@@ -642,4 +760,10 @@ input[type="number"]::-webkit-inner-spin-button {
     accent-color: #C3C3C3;
     border-radius: 5px;
     border-width: 2px;
+}
+
+ :host ::ng-deep .btn-check:checked + .btn,  :host ::ng-deep :not(.btn-check) + .btn:active,  :host ::ng-deep .btn:first-child:active,  :host ::ng-deep .btn.active,  :host ::ng-deep .btn.show {
+    background-color: #ffffff;
+    color: #000000;
+    border: solid #000000 1px;
 }

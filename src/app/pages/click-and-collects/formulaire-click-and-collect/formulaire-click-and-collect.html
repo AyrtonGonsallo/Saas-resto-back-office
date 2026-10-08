@@ -14,7 +14,7 @@
                      
                              <h2 class="text-center" *ngIf="selectedRestaurant">
                                 {{selectedRestaurant?.nom}}
-                                <span class="example-popover mb-0 me-0"   placement="bottom" [ngbTooltip]="monTooltip" >
+                                <span class="example-popover mb-0 me-0"  placement="bottom" [ngbTooltip]="monTooltip" >
                                     <i class="icon-info-alt"></i>
                                 </span>
                             </h2> 
@@ -273,7 +273,7 @@
                                                                                         
                                                                                     </div>
                                                                                     <div class="card-body product-element ps-2 pe-2 min-height-desc " id="menu_{{ menu.id}}" > 
-                                                                                        <div >
+                                                                                        
                                                                                     
                                                                                         <h5 class="text-start product-title ms-2 me-2">{{ menu.titre}}</h5>
                                                                                     
@@ -282,7 +282,7 @@
                                                                                                 
                                                                                                 <span class="ms-2 me-2" style="text-decoration: line-through;">
                                                                                                     {{ menu.prix_ht }} €
-                                                                                                </span>
+                                                                                                </span><br>
                                                                                                 <b>{{menu.prix_promo_ht}} €</b>
                                                                                             </div>
 
@@ -290,7 +290,7 @@
                                                                                             <div class="text-start ms-2 me-2 product-price" ><b>{{menu.prix_ht}} €</b></div>
 
                                                                                         }
-                                                                                    </div>
+                                                                                    
                                                                                         
                                                                                         <div *ngIf="menu.showMore" class="text-center ms-2 me-2 liste-plats-menu"  [innerHTML]="get_product_list(menu.produits)" ></div>
                                                                                         <div *ngIf="menu.showMore" [innerHTML]="cut_description(menu.description)" class="text-center ms-2 me-2"></div>

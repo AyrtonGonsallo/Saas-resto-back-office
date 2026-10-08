@@ -166,7 +166,7 @@ p, h6, .h6, h5, .h5, h4, .h4, h3, .h3, h2, .h2, h1, .h1, .steps-labels span,.car
     .login-main{
         width: 1221px;
     }
-     .btn {
+     .btn:not(.navigation) {
         font-size: 14px;
     }
     .steps-labels span{
@@ -230,7 +230,7 @@ p, h6, .h6, h5, .h5, h4, .h4, h3, .h3, h2, .h2, h1, .h1, .steps-labels span,.car
     .login-main{
         width: 1000px;
     }
-    .btn {
+    .btn:not(.navigation) {
         font-size: 14px;
     }
     .steps-labels span{
@@ -363,7 +363,33 @@ p, h6, .h6, h5, .h5, h4, .h4, h3, .h3, h2, .h2, h1, .h1, .steps-labels span,.car
     }
 
 }
+@media  (max-width: 500px) {
 
+    .widget h2{
+        font-size: 18px;
+    }
+    .widget .subtitle{
+        font-size: 14px;
+    }
+    .login-main{
+        width: 350px;
+    }
+    :host ::ng-deep .tooltip.bs-tooltip-bottom{
+        transform: translate3d(30.2px, 88.8px, 0px) !important;
+    }
+    .navigation{
+        font-size: 16px;
+    }
+    .steps-labels span {
+        font-size: 10px;
+    }
+    :host ::ng-deep .icon-info-alt{
+        font-size: 22px;
+        top: -23px;
+    }
+
+
+}
 
 
 
@@ -403,8 +429,6 @@ p, h6, .h6, h5, .h5, h4, .h4, h3, .h3, h2, .h2, h1, .h1, .steps-labels span,.car
 }
 :host ::ng-deep .icon-info-alt{
     font-weight: 800;
-    font-size: 31px;
-    top: -39px;
     position: absolute;
 }
 .example-popover{
