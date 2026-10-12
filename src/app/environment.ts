@@ -3,7 +3,7 @@
 export const environment = {
     cleanInterface:false,//enlever les liens inutiles du menu et du dashboard
     production: false,//enlever les liens inutiles du menu
-    super_admin_sees_links: true,//enlever les liens de la sidebar au super admin
+    super_admin_sees_links: true,//afficher les liens de la sidebar au super admin
 
     apiUrl: 'http://localhost:2026/api/v1', // URL de l'API locale
     //apiUrl: 'https://api.resto.orocom.io/api/v1', // URL de l'API sur le dev
@@ -18,7 +18,7 @@ export const environment = {
     url_de_retour:"https://resto.orocom.io/",
 
     //site_url:"https://resto.orocom.io/",
-    site_url:"http://localhost:4400/",
+    //site_url:"http://localhost:4400/",
 
     //reservation_url:"https://resto.orocom.io/reservations/formulaire-reservation/",
     reservation_url:"http://localhost:4400/reservations/formulaire-reservation/",

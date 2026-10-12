@@ -43,7 +43,7 @@
                              <div class="card mt-3" *ngIf="resto_inactif">
                             Ce service est désactivé dans ce restaurant
                             </div>
-                            <div class="card" *ngIf="!resto_inactif">
+                            <div class="card steps-box" *ngIf="!resto_inactif">
                                 
                                 <div class="card-body">
                                     <div class="position-relative mx-3 my-4 progress-number">
@@ -133,7 +133,7 @@
                                        
 
                                          <div class="row reverse-col-mobile">
-                                            <div class="col-xxl-8 col-md-8 box-col-8">
+                                            <div class="col-xxl-7 col-xl-7 col-md-7 box-col-8">
 
                                                 <link href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css" rel="stylesheet">
                                       
@@ -317,10 +317,14 @@
                                                 }
                                                 
                                             </div>
-                                            <div class="col-xxl-4 col-md-4 box-col-4">
+                                            <div class="col-xxl-5 col-xl-5  col-md-5 box-col-4">
                                                
 
                                                 <div id="card-content" *ngIf="total_elements_panier>0" >
+                                                    <h3 class=" card-title">Votre commande</h3>
+                                                    <span class="total-card">
+                                                    {{ elements_panier.length }} produit@if (elements_panier.length > 1) {s}
+                                                    </span>
                                                     <ul class="card-list" >
                                                         
                                                         
@@ -436,10 +440,10 @@
                                                         <div class="mb-3 row g-3">
                                                             
                                                             <!-- DATE -->
-                                                            <label class="col-sm-5 col-form-label text-sm-start">
+                                                            <label class="col-5 col-form-label text-sm-start">
                                                                 Date de retrait <span class="text-danger">*</span>
                                                             </label>
-                                                            <div class="col-xl-7 col-sm-7">
+                                                            <div class="col-7">
                                                                 <div class="input-group">
                                                                     <input
                                                                     class="form-control digits"
@@ -459,10 +463,10 @@
 
 
                                                             <!-- TIME -->
-                                                            <label class="col-sm-5 col-form-label text-sm-start">
+                                                            <label class="col-5 col-form-label text-sm-start">
                                                                 Heure <span class="text-danger">*</span>
                                                             </label>
-                                                            <div class="col-md-7 col-sm-7">
+                                                            <div class="col-7">
                                                             
                                                                 <div class="mb-3">
                                                                 
@@ -496,6 +500,10 @@
                                                
 
                                                 <div id="card-content" *ngIf="total_elements_panier>0" >
+                                                    <h3 class=" card-title">Votre commande</h3>
+                                                    <span class="total-card">
+                                                    {{ elements_panier.length }} produit@if (elements_panier.length > 1) {s}
+                                                    </span>
                                                     <ul class="card-list" >
                                                         
                                                         
@@ -661,7 +669,7 @@
 </div>
 
 <ng-template #ajouterProduitTemplate let-modal>
-    <div class="modal-content">
+    <div class="modal-content product-modal">
         <div class="modal-body">
             <div class="modal-toggle-wrapper">
 
@@ -681,11 +689,11 @@
 
                 <form [formGroup]="formProduit" (ngSubmit)="ajouter_produit()">
 
-                    <div class="row">
+                    <div class="row ">
                        
                         <!-- Quantité -->
                          <div class="col-4">
-                            <label class="form-label">Quantite</label>
+                            <label class="form-label">Quantité</label>
                         </div>
                         <div class="col-8">
                             <input
@@ -719,7 +727,7 @@
 
 
 <ng-template #ajouterMenuTemplate let-modal>
-    <div class="modal-content">
+    <div class="modal-content product-modal">
         <div class="modal-body">
             <div class="modal-toggle-wrapper">
 
@@ -760,7 +768,7 @@
                        
                         <!-- Quantité -->
                          <div class="col-4">
-                            <label class="form-label">Quantite</label>
+                            <label class="form-label">Quantité</label>
                         </div>
                         <div class="col-8">
                             <input
@@ -794,7 +802,7 @@
 
 
 <ng-template #variationsChoiceTemplate let-modal>
-    <div class="modal-content">
+    <div class="modal-content product-modal">
         <div class="modal-body">
             <div class="modal-toggle-wrapper">
                 <div class="card-body product-element">
@@ -865,7 +873,7 @@
 
                         <!-- Quantité -->
                          <div class="col-4">
-                            <label class="form-label">Quantite</label>
+                            <label class="form-label">Quantité</label>
                         </div>
                         <div class="col-8">
                             <input

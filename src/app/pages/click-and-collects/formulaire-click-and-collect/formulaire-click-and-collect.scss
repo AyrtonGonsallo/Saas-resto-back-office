@@ -208,6 +208,10 @@ input[type="number"]::-webkit-inner-spin-button {
 
 
 @media (min-width: 1430px)  {
+    .card-product-action{
+        
+        font-size: 20px;
+    }
     
     .progress {
         top: 80px;
@@ -250,6 +254,14 @@ input[type="number"]::-webkit-inner-spin-button {
     }
     .cat-title{
         font-size: 32px;
+    }
+
+      .card-title{
+        font-size: 36px;
+    }
+
+    .total-card{
+        font-size: 20px;
     }
 
     
@@ -297,11 +309,34 @@ input[type="number"]::-webkit-inner-spin-button {
     .min-height-desc{
         min-height: 120px;
     }
-
+    .product-modal form{
+        padding: 16px;
+    }
+    .product-modal h4{
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+    .product-modal p,.product-modal label{
+        font-size: 20px;
+    }
+    .login-card .login-main .theme-form label{
+        font-size: 24px;
+    }
   
 }
 
 @media (min-width: 680px) and  (max-width: 1430px) {
+    .card-title{
+        font-size: 36px;
+    }
+
+    .total-card{
+        font-size: 20px;
+    }
+    .card-product-action{
+        
+        font-size: 20px;
+    }
     :host ::ng-deep .tooltip.bs-tooltip-bottom{
         transform: translate3d(667.2px, 88.8px, 0px) !important;
     }
@@ -358,6 +393,9 @@ input[type="number"]::-webkit-inner-spin-button {
         font-size: 20px;
         padding: 10px 0px 10px 0px;
     }
+    .product-modal p,.product-modal label{
+        font-size: 20px;
+    }
     .product-price{
         font-size: 20px;
         padding: 10px 0px 10px 0px;
@@ -390,9 +428,43 @@ input[type="number"]::-webkit-inner-spin-button {
      .min-height-desc{
         min-height: 120px;
     }
+    .product-modal form{
+        padding: 16px;
+    }
+    .product-modal h4{
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+     .login-card .login-main .theme-form label{
+        font-size: 24px;
+    }
 
 }
 @media  (max-width: 680px) {
+    .card-title{
+        font-size: 28x;
+    }
+
+    .total-card{
+        font-size: 15px;
+    }
+    .product-modal form{
+        padding: 16px;
+    }
+    .product-modal h4{
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+    .product-modal p,.product-modal label{
+        font-size: 15px;
+    }
+    .product-element .flex-space {
+        justify-content: space-between;
+    }
+   
+    .card-product-action{
+        font-size: 15px;
+    }
     .navigation{
         font-size: 20px;
     }
@@ -407,6 +479,10 @@ input[type="number"]::-webkit-inner-spin-button {
     }
     .reverse-col-mobile{
         flex-direction: column-reverse;
+        gap: 20px;
+    }
+     .login-card .login-main .theme-form label{
+        font-size: 15px;
     }
     
     .steps {
@@ -443,13 +519,18 @@ input[type="number"]::-webkit-inner-spin-button {
         padding: 5px 5px;
     }
     .steps button {
-        transform: translateY(-50%);
-        height: 37px;
-        width: 37px;
+        transform: translateY(-60%);
+        height: 28px;
+        width: 28px;
         border-radius: 24px;
-        gap: 10px;
-        padding: 10px;
-        outline: 10px solid #C3C3C3;
+        padding: 5px;
+        outline: 5px solid #C3C3C3;
+    }
+    .steps-box{
+        margin-bottom: 0px !important;
+    }
+    .steps-box .card-body{
+        padding-bottom: 0px !important;
     }
      .widget h2{
         font-size: 24px;
@@ -470,7 +551,7 @@ input[type="number"]::-webkit-inner-spin-button {
     }
     .progress-wrapper {
         position: relative;
-        height: 46px;
+        height: 31px;
     }
     .restaurant-box{
         min-height: 157px;
@@ -546,16 +627,17 @@ input[type="number"]::-webkit-inner-spin-button {
         top: 11px;
     }
 
-    :host ::ng-deep .icon-info-alt{
-        font-size: 22px;
-        top: -23px;
+     :host ::ng-deep .icon-info-alt{
+        font-size: 19px;
+        top: -27px;
+        right: -17px;
     }
 
     .widget h2{
-        font-size: 18px;
+        font-size: 20px;
     }
     .widget .subtitle{
-        font-size: 14px;
+        font-size: 16px;
     }
     .login-main{
         width: 350px;
@@ -567,7 +649,7 @@ input[type="number"]::-webkit-inner-spin-button {
         font-size: 16px;
     }
     .steps-labels span {
-        font-size: 10px;
+        font-size: 12px;
     }
     
 
@@ -580,7 +662,6 @@ input[type="number"]::-webkit-inner-spin-button {
 }
 .login-card .login-main .theme-form label{
     font-weight: 600;
-    font-size: 24px;
     line-height: 100%;
     letter-spacing: 0%;
 
@@ -696,7 +777,6 @@ input[type="number"]::-webkit-inner-spin-button {
     display: flex;
     border-radius: 14px;
     gap: 5px;
-    font-size: 20px;
     padding-top: 2px;
     padding-right: 10px;
     padding-bottom: 2px;
@@ -754,16 +834,38 @@ input[type="number"]::-webkit-inner-spin-button {
     min-height: 50px;
     border-radius: 14px;
 }
-[type=checkbox], [type=radio] {
-    width: 21px;
-    height: 21px;
-    accent-color: #C3C3C3;
-    border-radius: 5px;
-    border-width: 2px;
-}
 
  :host ::ng-deep .btn-check:checked + .btn,  :host ::ng-deep :not(.btn-check) + .btn:active,  :host ::ng-deep .btn:first-child:active,  :host ::ng-deep .btn.active,  :host ::ng-deep .btn.show {
     background-color: #ffffff;
     color: #000000;
-    border: solid #000000 1px;
+    border: solid #e6e5e5 1px;
+}
+
+ :host ::ng-deep ng-select .ng-value {
+    background: #C3C3C3;
+    font-size: 16px;
+    padding: 3px 5px;
+}
+.modal-content{
+    color: black;
+}
+ .product-modal .tab-img{
+    border-radius: 12px;
+}
+.product-modal input{
+    border-radius: 14px;
+}
+
+ .card-title{
+    font-weight: 600;
+    line-height: 100%;
+    letter-spacing: 0%;
+    text-align: center;
+}
+
+.total-card{
+    font-weight: 600;
+    line-height: 100%;
+    letter-spacing: 0%;
+    color:#737373;
 }

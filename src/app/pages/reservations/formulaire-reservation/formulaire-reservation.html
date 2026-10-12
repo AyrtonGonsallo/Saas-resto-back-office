@@ -36,7 +36,7 @@
                             <p class="text-center subtitle">Réserver une table</p>
 
 
-                            <div class="card"  *ngIf="!resto_inactif">
+                            <div class="card steps-box"  *ngIf="!resto_inactif">
                                 
                                 <div class="card-body">
                                     <div class="position-relative mx-3 my-4 progress-number">
@@ -123,7 +123,7 @@
                                             <div class="bloc-1 border-round">
                                                 <div class="mb-4 row g-3  d-flex justify-content-between">
 
-                                                    <div class="col-md-5">
+                                                    <div class="col-md-6">
                                                         <div class="mb-3">
                                                             <label class="form-label">Nombre de personnes <span class="text-danger">*</span></label>
                                                             <input class="form-control" type="number" formControlName="nombre_de_personnes" placeholder="nombre de personnes">
@@ -135,7 +135,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="col-md-5">
+                                                    <div class="col-md-6">
                                                         <div class="mb-3">
                                                             <label class="form-label">Nombre de couvert si différent </label>
                                                             <input class="form-control" type="number" formControlName="nb_couverts" placeholder="nombre de couverts">
@@ -160,10 +160,10 @@
                                                                     <span class="group-form-title">Quand ? <span class="text-danger">*</span></span>
                                                                     
                                                                     <!-- DATE -->
-                                                                    <label class="col-sm-3 col-form-label text-sm-start">
+                                                                    <label class="col-3 col-form-label text-sm-start">
                                                                         Date <span class="text-danger">*</span>
                                                                     </label>
-                                                                    <div class="col-xl-8 col-sm-8">
+                                                                    <div class="col-9">
                                                                         <div class="input-group">
                                                                             <input
                                                                             class="form-control digits"
@@ -183,10 +183,10 @@
 
 
                                                                     <!-- TIME -->
-                                                                    <label class="col-sm-3 col-form-label text-sm-start">
+                                                                    <label class="col-3 col-form-label text-sm-start">
                                                                         Heure <span class="text-danger">*</span>
                                                                     </label>
-                                                                    <div class="col-xl-8 col-sm-8">
+                                                                    <div class="col-9">
                                                                         <div class="mb-3">
                                                                             
                                                                             <ng-select [items]="heures_possibles"  [multiple]="false" placeholder="choisir une heure"
